@@ -14,12 +14,15 @@ use Illuminate\Support\Facades\DB;
 
 class EntreprisesController extends Controller
 {
+    /**
+     * index
+     *
+     * Display table with all companies
+     *
+     * @return view entreprises/entreprise
+     */
     public function index()
     {
-        EntreprisesController::getCompanies();
-    }
-
-    public function getCompanies(){
         $user = Environment::currentUser();
 
         $companies = DB::table('companies')
@@ -29,8 +32,32 @@ class EntreprisesController extends Controller
 
         return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user]);
     }
-    public function entreprises(Request $request){
 
+
+
+    /**
+     * newEval
+     *
+     * This method register a new company
+     * 1. Get the company name
+     * 2. Save it into database
+     * 3. Get the last insert id
+     *
+     * @param Request $request
+     *
+     * @return redirect entreprise/$id
+     */
+    public function add(Request $request){
+
+        $id = DB::table('locations')->insertGetId(['address1'=>null]);
+
+        $id = DB::table('companies')->insertGetId(
+            ['companyName' => $request->nameE, 'contracts_id' => 3,'location_id'=>$id]
+        );
+
+
+        return redirect('entreprise/'.$id);
     }
+
 
 }
