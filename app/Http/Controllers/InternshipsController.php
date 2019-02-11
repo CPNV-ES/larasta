@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Contractstates;
 use App\Internships;
+use App\Lifecycles;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -224,7 +225,19 @@ class InternshipsController extends Controller
             ->where('internships.id', '=', $iid)
             ->first();
 
-        return view('internships/internshipview')->with('iship', $iship);
+        $remarks = DB::table('remarks')
+            ->select(
+                'remarkDate',
+                'author',
+                'remarkText')
+            ->where('remarkType', '=', 5)
+            ->where('remarkOn_id', '=', $iid)
+            ->orderby('remarkDate', 'desc')
+            ->get();
+
+        return view('internships/internshipview')
+            ->with('iship', $iship)
+            ->with('remarks', $remarks);
     }
 
     public function edit($iid)
@@ -269,16 +282,36 @@ class InternshipsController extends Controller
             ->where('role', '=', 2)
             ->where('company_id', '=', $iship->compid);
 
+        $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $iship->contractstate_id);
+
+        $lcycles = [$iship->contractstate_id];
+        foreach($lifecycles->get()->toArray() as $value)
+        {
+            array_push($lcycles, $value->to_id);
+        }
+
         $states = DB::table('contractstates')
             ->select(
                 'id',
                 'stateDescription as state')
-            ->where('details', '!=', "(obsolet)");
+            ->where('details', '!=', "(obsolet)")
+            ->whereIn('id', $lcycles);
+
+        $remarks = DB::table('remarks')
+            ->select(
+                'remarkDate',
+                'author',
+                'remarkText')
+            ->where('remarkType', '=', 5)
+            ->where('remarkOn_id', '=', $iid)
+            ->orderby('remarkDate', 'desc')
+            ->get();
 
         return view('internships/internshipedit')
             ->with('iship', $iship)
             ->with('resp', $resp)
-            ->with('states', $states);
+            ->with('states', $states)
+            ->with('remarks', $remarks);
     }
 
     public function update($iid)
@@ -294,6 +327,13 @@ class InternshipsController extends Controller
                 'contractstate_id' => $_GET['stateDescription'],
                 'grossSalary' => $_GET['grossSalary']]
             );
+
+        if (isset($_GET['remarkDate']))
+        {
+            DB::table('remarks')
+                ->insertGetId(
+                    ['remarkType' => 5, 'remarkOn_id' => $iid, 'remarkDate' => $_GET['remarkDate'], 'author' => $_GET['remarkAuthor'], 'remarkText' => $_GET['remark']]);
+        }
 
         return redirect()->action(
             'InternshipsController@view', ['iid' => $iid]

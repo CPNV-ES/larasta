@@ -5,19 +5,19 @@
     <form action="/internships/{{$iship->id}}/update" method="get">
     <table class="table text-left larastable">
         <tr>
-            <td class="col-md-2">Du</td>
+            <td class="col-md-2" colspan="2">Du</td>
             <td>
-                <input type="date" name="beginDate" value="{{ strftime("%G-%m-%d", strtotime($iship->beginDate)) }}"/>
+                <input type="date" name="beginDate" value="{{ strftime("%G-%m-%d", strtotime($iship->beginDate)) }}" required/>
             </td>
         </tr>
         <tr>
-            <td class="col-md-2">Au</td>
+            <td class="col-md-2" colspan="2">Au</td>
             <td>
-                <input type="date" name="endDate" value="{{ strftime("%G-%m-%d", strtotime($iship->endDate)) }}"/>
+                <input type="date" name="endDate" value="{{ strftime("%G-%m-%d", strtotime($iship->endDate)) }}" required/>
             </td>
         </tr>
         <tr>
-            <td class="col-md-2">Description</td>
+            <td class="col-md-2" colspan="2">Description</td>
             <td>
                 <div id="description">{!! $iship->internshipDescription !!}</div>
                 <script>
@@ -34,7 +34,7 @@
             </td>
         </tr>
         <tr>
-            <td class="col-md-2">Responsable administratif</td>
+            <td class="col-md-2" colspan="2">Responsable administratif</td>
             <td>
                 <select name="aresp">
                     @foreach($resp->get()->toArray() as $value)
@@ -44,7 +44,7 @@
             </td>
         </tr>
         <tr>
-            <td class="col-md-2">Responsable</td>
+            <td class="col-md-2" colspan="2">Responsable</td>
             <td>
                 <select name="intresp">
                     @foreach($resp->get()->toArray() as $value)
@@ -54,11 +54,11 @@
             </td>
         </tr>
         <tr>
-            <td class="col-md-2">Maître de classe</td>
+            <td class="col-md-2" colspan="2">Maître de classe</td>
             <td>{{ $iship->initials }}</td>
         </tr>
         <tr>
-            <td class="col-md-2">Etat</td>
+            <td class="col-md-2" colspan="2">Etat</td>
             <td>
                 <select name="stateDescription">
                     @foreach($states->get()->toArray() as $value)
@@ -68,12 +68,46 @@
             </td>
         </tr>
         <tr>
-            <td class="col-md-2">Salaire</td>
+            <td class="col-md-2" colspan="2">Salaire</td>
             <td><input type="number" name="grossSalary" value="{{$iship->grossSalary}}"/></td>
         </tr>
+        @if (isset($remarks))
+            <tr>
+                <th colspan="3">Remarques</th>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>Auteur</td>
+                <td>Remarque</td>
+            </tr>
+            <tr id="addRemark">
+                <td colspan="3">
+                    <button class="btn btn-primary" type="button" onclick="remarks();">Ajouter une remarque</button>
+                    <script type="text/javascript">
+                        function remarks(){
+                            var tr = document.getElementById("addRemark");
+                            tr.innerHTML = "<td><input name='remarkDate' type='date' value='{{ date("Y-m-d") }}' required/></td><td><input name='remarkAuthor' type='text' required/></td><td><textarea name='remark'></textarea></td>";
+                        }
+                    </script>
+                </td>
+            </tr>
+            @foreach ($remarks->toArray() as $value)
+                <tr>
+                    <td>
+                        {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
+                    </td>
+                    <td>
+                        {{ $value->author }}
+                    </td>
+                    <td>
+                        {{ $value->remarkText }}
+                    </td>
+                </tr>
+            @endforeach
+        @endif
         @if (isset($iship->previous_id))
             <tr>
-                <td class="col-md-2"><a href="/internships/{{ $iship->previous_id }}/edit">Stage précédent</a></td>
+                <td class="col-md-2" colspan="3"><a href="/internships/{{ $iship->previous_id }}/edit">Stage précédent</a></td>
             </tr>
         @endif
     </table>
