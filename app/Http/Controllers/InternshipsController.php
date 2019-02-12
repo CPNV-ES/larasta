@@ -328,11 +328,14 @@ class InternshipsController extends Controller
                 'grossSalary' => $_GET['grossSalary']]
             );
 
-        if (isset($_GET['remarkDate']))
+        if (isset($_GET['remarkDate']) && isset($_GET['remarkAuthor']) && isset($_GET['remark']))
         {
-            DB::table('remarks')
-                ->insertGetId(
-                    ['remarkType' => 5, 'remarkOn_id' => $iid, 'remarkDate' => $_GET['remarkDate'], 'author' => $_GET['remarkAuthor'], 'remarkText' => $_GET['remark']]);
+            if (($_GET['remarkDate'] != NULL) && ($_GET['remarkAuthor'] != NULL) && ($_GET['remark'] != NULL))
+            {
+                DB::table('remarks')
+                    ->insertGetId(
+                        ['remarkType' => 5, 'remarkOn_id' => $iid, 'remarkDate' => $_GET['remarkDate'], 'author' => $_GET['remarkAuthor'], 'remarkText' => $_GET['remark']]);
+            }
         }
 
         return redirect()->action(

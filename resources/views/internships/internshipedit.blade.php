@@ -86,7 +86,7 @@
                     <script type="text/javascript">
                         function remarks(){
                             var tr = document.getElementById("addRemark");
-                            tr.innerHTML = "<td><input name='remarkDate' type='date' value='{{ date("Y-m-d") }}' required/></td><td><input name='remarkAuthor' type='text' required/></td><td><textarea name='remark'></textarea></td>";
+                            tr.innerHTML = "<td><input name='remarkDate' type='date' value='{{ date("Y-m-d") }}' readonly required/></td><td><input name='remarkAuthor' type='text' value='{{ env("MAIL_USERNAME") }}' readonly required/></td><td><textarea name='remark' required></textarea></td>";
                         }
                     </script>
                 </td>
