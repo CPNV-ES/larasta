@@ -37,29 +37,6 @@
             <td class="col-md-2" colspan="2">Salaire</td>
             <td>{{ $iship->grossSalary }}</td>
         </tr>
-        @if (isset($remarks))
-            <tr>
-                <th colspan="3">Remarques</th>
-            </tr>
-            <tr>
-                <td>Date</td>
-                <td>Auteur</td>
-                <td>Remarque</td>
-            </tr>
-            @foreach ($remarks->toArray() as $value)
-            <tr>
-                <td>
-                    {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
-                </td>
-                <td>
-                    {{ $value->author }}
-                </td>
-                <td>
-                    {{ $value->remarkText }}
-                </td>
-            </tr>
-            @endforeach
-        @endif
         @if (isset($iship->previous_id))
             <tr>
                 <td class="col-md-2" colspan="3"><a href="/internships/{{ $iship->previous_id }}/view">Stage précédent</a></td>
@@ -77,7 +54,69 @@
             <button class="btn btn-danger">Réinitialiser</button>
         </a>
     @endif
-    <a href="/internships/{{$iship->id}}/edit">
-        <button class="btn btn-warning">Modifier</button>
-    </a>
+    @if (env('USER_ROLE') == 1)
+        <a href="/internships/{{$iship->id}}/edit">
+            <button class="btn btn-warning">Modifier</button>
+        </a>
+    @endif
+    @if (isset($visits)) @if (count($visits) > 0)
+        <hr/>
+        <table class="table text-left larastable">
+            <tr>
+                <th colspan="4">Visites</th>
+            </tr>
+            <tr>
+                <td>Date et heure</td>
+                <td>Etat</td>
+                <td>N°</td>
+                <td>Note</td>
+            </tr>
+            @foreach ($visits->toArray() as $value)
+                <tr>
+                    <td>
+                        {{ strftime("%e %b %g %R", strtotime($value->moment)) }}
+                    </td>
+                    <td>
+                        @if ($value->confirmed)
+                            {{ "Confirmé" }}
+                        @else
+                            {{ "Non-confirmé" }}
+                        @endif
+                    </td>
+                    <td>
+                        {{ $value->number }}
+                    </td>
+                    <td>
+                        {{ $value->grade == "" ? "Pas de note" : $value->grade }}
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    @endif @endif
+    @if (isset($remarks)) @if (count($remarks) > 0)
+        <hr/>
+        <table class="table text-left larastable">
+            <tr>
+                <th colspan="3">Remarques</th>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>Auteur</td>
+                <td>Remarque</td>
+            </tr>
+            @foreach ($remarks->toArray() as $value)
+                <tr>
+                    <td>
+                        {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
+                    </td>
+                    <td>
+                        {{ $value->author }}
+                    </td>
+                    <td>
+                        {{ $value->remarkText }}
+                    </td>
+                </tr>
+        @endforeach
+        </table>
+    @endif @endif
 @stop

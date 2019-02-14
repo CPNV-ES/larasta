@@ -21,6 +21,12 @@ Route::get('/internships/{iid}/edit','InternshipsController@edit');
 
 Route::get('/internships/{iid}/update','InternshipsController@update');
 
+Route::get('/internships/{iid}/addVisit','InternshipsController@addVisit');
+
+Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit');
+
+Route::get('/internships/{iid}/addRemark','InternshipsController@addRemark');
+
 Route::get('/admin', 'AdminController@index');
 
 Route::get('/about', function () {
