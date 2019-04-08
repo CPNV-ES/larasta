@@ -254,7 +254,7 @@ class InternshipsController extends Controller
     public function edit($iid)
     {
         date_default_timezone_set('Europe/Zurich');
-        if (env('USER_ROLE') == 1) {
+        if (env('USER_LEVEL') >= 1) {
             $iship = DB::table('internships')
                 ->join('companies', 'companies_id', '=', 'companies.id')
                 ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
@@ -344,7 +344,7 @@ class InternshipsController extends Controller
 
     public function update($iid)
     {
-        if (env('USER_ROLE') == 1)
+        if (env('USER_LEVEL') >= 1)
         {
             DB::table('internships')
                 ->where('id', '=', $iid)
@@ -370,7 +370,7 @@ class InternshipsController extends Controller
 
     public function addVisit($iid)
     {
-        if (env('USER_ROLE') == 1)
+        if (env('USER_LEVEL') >= 1)
         {
             if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade']))
             {
@@ -394,7 +394,7 @@ class InternshipsController extends Controller
 
     public function updateVisit($iid)
     {
-        if (env('USER_ROLE') == 1)
+        if (env('USER_LEVEL') >= 1)
         {
             for ($i = 0; ; $i++)
             {
@@ -440,7 +440,7 @@ class InternshipsController extends Controller
 
     public function addRemark($iid)
     {
-        if (env('USER_ROLE') == 1)
+        if (env('USER_LEVEL') >= 1)
         {
             if (isset($_GET['remarkDate']) && isset($_GET['remarkAuthor']) && isset($_GET['remark']))
             {

@@ -54,7 +54,7 @@
             <button class="btn btn-danger">Réinitialiser</button>
         </a>
     @endif
-    @if (env('USER_ROLE') == 1)
+    @if (env('USER_LEVEL') >= 1)
         <a href="/internships/{{$iship->id}}/edit">
             <button class="btn btn-warning">Modifier</button>
         </a>
