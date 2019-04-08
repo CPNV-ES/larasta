@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Contractstates;
 use App\Internships;
+use App\Lifecycles;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -194,6 +195,7 @@ class InternshipsController extends Controller
 
     public function view($iid)
     {
+        date_default_timezone_set('Europe/Zurich');
         $iship = DB::table('internships')
             ->join('companies', 'companies_id', '=', 'companies.id')
             ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
@@ -224,79 +226,239 @@ class InternshipsController extends Controller
             ->where('internships.id', '=', $iid)
             ->first();
 
-        return view('internships/internshipview')->with('iship', $iship);
+        $visits = DB::table('visits')
+            ->select(
+                'moment',
+                'confirmed',
+                'number',
+                'grade')
+            ->where('internships_id', '=', $iid)
+            ->get();
+
+        $remarks = DB::table('remarks')
+            ->select(
+                'remarkDate',
+                'author',
+                'remarkText')
+            ->where('remarkType', '=', 5)
+            ->where('remarkOn_id', '=', $iid)
+            ->orderby('remarkDate', 'desc')
+            ->get();
+
+        return view('internships/internshipview')
+            ->with('iship', $iship)
+            ->with('visits', $visits)
+            ->with('remarks', $remarks);
     }
 
     public function edit($iid)
     {
-        $iship = DB::table('internships')
-            ->join('companies', 'companies_id', '=', 'companies.id')
-            ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-            ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-            ->join('persons as student', 'intern_id', '=', 'student.id')
-            ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-            ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-            ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
-            ->select(
-                'internships.id',
-                'beginDate',
-                'endDate',
-                'companies_id as compid',
-                'companyName',
-                'grossSalary',
-                'mc.initials',
-                'previous_id',
-                'internshipDescription',
-                'admresp.firstname as arespfirstname',
-                'admresp.lastname as aresplastname',
-                'admresp.id as arespid',
-                'intresp.firstname as irespfirstname',
-                'intresp.lastname as iresplastname',
-                'intresp.id as intrespid',
-                'student.firstname as studentfirstname',
-                'student.lastname as studentlastname',
-                'contractstate_id',
-                'contractGenerated',
-                'stateDescription')
-            ->where('internships.id', '=', $iid)
-            ->first();
+        date_default_timezone_set('Europe/Zurich');
+        if (env('USER_LEVEL') >= 1) {
+            $iship = DB::table('internships')
+                ->join('companies', 'companies_id', '=', 'companies.id')
+                ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
+                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+                ->join('persons as student', 'intern_id', '=', 'student.id')
+                ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
+                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+                ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
+                ->select(
+                    'internships.id',
+                    'beginDate',
+                    'endDate',
+                    'companies_id as compid',
+                    'companyName',
+                    'grossSalary',
+                    'mc.initials',
+                    'previous_id',
+                    'internshipDescription',
+                    'admresp.firstname as arespfirstname',
+                    'admresp.lastname as aresplastname',
+                    'admresp.id as arespid',
+                    'intresp.firstname as irespfirstname',
+                    'intresp.lastname as iresplastname',
+                    'intresp.id as intrespid',
+                    'student.firstname as studentfirstname',
+                    'student.lastname as studentlastname',
+                    'contractstate_id',
+                    'contractGenerated',
+                    'stateDescription')
+                ->where('internships.id', '=', $iid)
+                ->first();
 
-        $resp = DB::table('persons')
-            ->select(
-                'id',
-                'firstname',
-                'lastname')
-            ->where('role', '=', 2)
-            ->where('company_id', '=', $iship->compid);
+            $resp = DB::table('persons')
+                ->select(
+                    'id',
+                    'firstname',
+                    'lastname')
+                ->where('role', '=', 2)
+                ->where('company_id', '=', $iship->compid);
 
-        $states = DB::table('contractstates')
-            ->select(
-                'id',
-                'stateDescription as state')
-            ->where('details', '!=', "(obsolet)");
+            $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $iship->contractstate_id);
 
-        return view('internships/internshipedit')
-            ->with('iship', $iship)
-            ->with('resp', $resp)
-            ->with('states', $states);
+            $lcycles = [$iship->contractstate_id];
+            foreach ($lifecycles->get()->toArray() as $value) {
+                array_push($lcycles, $value->to_id);
+            }
+
+            $states = DB::table('contractstates')
+                ->select(
+                    'id',
+                    'stateDescription as state')
+                ->where('details', '!=', "(obsolet)")
+                ->whereIn('id', $lcycles);
+
+            $visits = DB::table('visits')
+                ->select(
+                    'id',
+                    'moment',
+                    'confirmed',
+                    'number',
+                    'grade')
+                ->where('internships_id', '=', $iid)
+                ->get();
+
+            $remarks = DB::table('remarks')
+                ->select(
+                    'remarkDate',
+                    'author',
+                    'remarkText')
+                ->where('remarkType', '=', 5)
+                ->where('remarkOn_id', '=', $iid)
+                ->orderby('remarkDate', 'desc')
+                ->get();
+
+            return view('internships/internshipedit')
+                ->with('iship', $iship)
+                ->with('resp', $resp)
+                ->with('states', $states)
+                ->with('visits', $visits)
+                ->with('remarks', $remarks);
+        }
+        else
+        {
+            abort(404);
+        }
     }
 
     public function update($iid)
     {
-        DB::table('internships')
-            ->where('id', '=', $iid)
-            ->update(
-                ['beginDate' => $_GET['beginDate'],
-                'endDate' => $_GET['endDate'],
-                'internshipDescription' => $_GET['description'],
-                'admin_id' => $_GET['aresp'],
-                'responsible_id' => $_GET['intresp'],
-                'contractstate_id' => $_GET['stateDescription'],
-                'grossSalary' => $_GET['grossSalary']]
-            );
+        if (env('USER_LEVEL') >= 1)
+        {
+            DB::table('internships')
+                ->where('id', '=', $iid)
+                ->update(
+                    ['beginDate' => $_GET['beginDate'],
+                        'endDate' => $_GET['endDate'],
+                        'internshipDescription' => $_GET['description'],
+                        'admin_id' => $_GET['aresp'],
+                        'responsible_id' => $_GET['intresp'],
+                        'contractstate_id' => $_GET['stateDescription'],
+                        'grossSalary' => $_GET['grossSalary']]
+                );
 
-        return redirect()->action(
-            'InternshipsController@view', ['iid' => $iid]
-        );
+            return redirect()->action(
+                'InternshipsController@view', ['iid' => $iid]
+            );
+        }
+        else
+        {
+            abort(404);
+        }
+    }
+
+    public function addVisit($iid)
+    {
+        if (env('USER_LEVEL') >= 1)
+        {
+            if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade']))
+            {
+                if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL))
+                {
+                    DB::table('visits')
+                        ->insertGetId(
+                            ['moment' => $_GET['visitDate']." ".$_GET['visitTime'].":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
+                }
+            }
+
+            return redirect()->action(
+                'InternshipsController@edit', ['iid' => $iid]
+            );
+        }
+        else
+        {
+            abort(404);
+        }
+    }
+
+    public function updateVisit($iid)
+    {
+        if (env('USER_LEVEL') >= 1)
+        {
+            for ($i = 0; ; $i++)
+            {
+                if (isset($_GET['visitID'.$i]))
+                {
+                    if (($_GET['visitDate'.$i] != NULL) && ($_GET['visitTime'.$i] != NULL) && ($_GET['visitState'.$i] != NULL) && ($_GET['visitNumber'.$i] != NULL))
+                    {
+                        DB::table('visits')
+                            ->where("id", "=", $_GET['visitID'.$i])
+                            ->update(
+                                ['moment' => $_GET['visitDate'.$i]." ".$_GET['visitTime'.$i].":00",
+                                    'confirmed' => $_GET['visitState'.$i],
+                                    'number' => $_GET['visitNumber'.$i],
+                                    'internships_id' => $iid,
+                                    'grade' => $_GET['grade'.$i] ? $_GET['grade'.$i] : NULL]);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade']))
+            {
+                if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL))
+                {
+                    DB::table('visits')
+                        ->insertGetId(
+                            ['moment' => $_GET['visitDate']." ".$_GET['visitTime'].":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
+                }
+            }
+
+            return redirect()->action(
+                'InternshipsController@view', ['iid' => $iid]
+            );
+        }
+        else
+        {
+            abort(404);
+        }
+    }
+
+    public function addRemark($iid)
+    {
+        if (env('USER_LEVEL') >= 1)
+        {
+            if (isset($_GET['remarkDate']) && isset($_GET['remarkAuthor']) && isset($_GET['remark']))
+            {
+                if (($_GET['remarkDate'] != NULL) && ($_GET['remarkAuthor'] != NULL) && ($_GET['remark'] != NULL))
+                {
+                    DB::table('remarks')
+                        ->insertGetId(
+                            ['remarkType' => 5, 'remarkOn_id' => $iid, 'remarkDate' => $_GET['remarkDate'], 'author' => $_GET['remarkAuthor'], 'remarkText' => $_GET['remark']]);
+                }
+            }
+
+            return redirect()->action(
+                'InternshipsController@edit', ['iid' => $iid]
+            );
+        }
+        else
+        {
+            abort(404);
+        }
     }
 }
