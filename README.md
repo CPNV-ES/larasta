@@ -14,7 +14,7 @@ Clone your fork of larasta on your local machine.
 git clone https://github.com/USERNAME/larasta.git FLODER
 ```
 
-### 3. Set up homestead
+### 3. Set up homestead (optional)
 Follow the installation steps for homestead [here](https://laravel.com/docs/5.5/homestead).
 
 Once homestead are installed, you must add to your homestead configuration the path to your fresh clone of larasta.
@@ -64,7 +64,21 @@ php artisan key:generate
 - Synchronize (i.e: create) schema using `database/Stages v2.mwb` with Workbench
 - Execute script `database/testdata.sql`
 
-### 7. Simulate intranet login
+### 7. Fix some file system details
+
+Laravel accesses a storage directory through a link. You must create it from the app's directory with
+
+```
+php artisan storage:link
+```
+
+After cloning, some files/folders have bad access attributes. let's take the blunt approach and
+
+```
+chmod -R 777 *
+```
+
+### 8. Simulate intranet login
 
 For your tests, you will want to try working as different users with different privilege levels
 
@@ -78,7 +92,7 @@ USER_LEVEL=1
 
 Then use the static method `Environment::currentUser()` in your code
 
-### 8. Add the Intranet API key (optional)
+### 9. Add the Intranet API key (optional)
 If you plan on synchronising your local database with the Intranet (persons), you need the application key and the secret.
 Add 2 environment variables in the ``.env`` file of the project:
 
@@ -87,14 +101,15 @@ API_KEY=...
 API_SECRET=...
 ```
 
-### 9. Add the GoogleMap API key (optional)
+### 10. GoogleMap API key (optional - suspended)
 If you plan on using the distance matrix function, you must provide the GoogleMap API key:
 
 ```
 API_GOOGLE_MAP=AIzaSyBRFbQtojevcenB9g0knU6W_9kL0eWu4Vo
 ```
 
-**WARNING**: We have a quota on the requests and it goes for the whole school. The application can be pretty greedy, so use this feature with care and consideration for other users.
+**WARNING**: Google has change the API access policy some time in 2018. This code is no longer functional as is, it must be adapted to the new API.
+
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 
