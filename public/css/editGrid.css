@@ -1,1 +1,49 @@
-.sectionName{float:left}.errorMsg{color:red}.errorMsg,.fRight{float:right}.fLeft{float:left}.resizeDel{width:1px}.addCriteria{display:block;margin:auto}.tbodyLeft{text-align:left}.newSectionName{width:100%}input{width:70%}textarea{width:80%}
+/**------------------------------------------------------------
+-- Author: Julien Richoz
+-- Created: 17.01.2018
+-- Modified: 24.01.2018
+-- Contact: julien.richoz@cpnv.ch
+//------------------------------------------------------------**/
+
+.sectionName {
+  float: left;
+}
+
+.errorMsg {
+  float: right;
+  color: red;
+}
+
+.fRight {
+  float: right;
+}
+
+.fLeft {
+  float: left;
+}
+
+.resizeDel {
+  width: 1px;
+}
+
+.addCriteria {
+  display: block;
+  margin: auto;
+}
+
+.tbodyLeft {
+  text-align: left;
+}
+
+.newSectionName {
+  width: 100%;
+}
+
+input {
+  width: 70%;
+}
+
+textarea {
+  width: 80%;
+}
+

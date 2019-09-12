@@ -1,1 +1,16 @@
-.arrow{color:#fff!important}.tick{color:green!important}.cross{color:red!important}.underline-none{text-decoration:none!important}
+.arrow {
+  color: white !important;
+}
+
+.tick {
+  color: green !important;
+}
+
+.cross {
+  color: red !important;
+}
+
+.underline-none {
+  text-decoration: none !important;
+}
+

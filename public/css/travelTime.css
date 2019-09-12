@@ -1,1 +1,26 @@
-.backForm{text-align:right}.color1{background-color:#73ea7e}.color2{background-color:#8bdd68}.color3{background-color:#adc846}.color4{background-color:#c9b82c}.color5{background-color:#f69d01}
+/* Author : Kevin Jordil 2018 */
+
+.backForm {
+  text-align: right;
+}
+
+.color1 {
+  background-color: #73EA7E;
+}
+
+.color2 {
+  background-color: #8BDD68;
+}
+
+.color3 {
+  background-color: #ADC846;
+}
+
+.color4 {
+  background-color: #C9B82C;
+}
+
+.color5 {
+  background-color: #F69D01;
+}
+

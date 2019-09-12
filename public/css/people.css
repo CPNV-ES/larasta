@@ -1,1 +1,130 @@
-#people_table{border:3px solid #d3d3d3}#people_header{width:100%;padding:10px;border-width:1px;border:1px solid #d3d3d3;border-radius:5px}#people_header,#people_header h3,td{text-align:left}#people_content{width:100%;font-family:inherit;text-align:left}#people_container{width:100%}#people_container table th{width:50%}#people_container td:first-child:hover{cursor:pointer}.row{margin:0;padding:0}#btn-return{color:#000}#btn-return:hover{color:#fff}.divider{height:1px;background:#d3d3d3}.bar30{height:30px;background:#1e4f67;color:#fff;line-height:30px;margin:0;padding:0;padding-left:10px}.modal-row{padding:5px}#people_Info span:first-child{margin-right:10px}#people_Name span:first-child{font-size:18px;line-height:18px;margin-right:10px}.people-btn_desactive{font-size:9px;height:20px;padding:5px;padding-top:3px;margin-top:-4px}#people-desactivate-Title{position:absolute;right:50px;margin-top:2px;padding:0}#peopleModal .modal-body{padding-bottom:20px}#peopleModal .page-header{margin:0;margin-bottom:20px;margin-top:10px;font-weight:700}.modal-row div:first-child{padding-top:7px}
+/* Header*/
+
+#people_table {
+  border-style: solid;
+  border-width: 3px;
+  border-color: lightgrey;
+}
+
+#people_header {
+  width: 100%;
+  padding: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-width: 1px;
+  border-color: lightgray;
+  border-radius: 5px;
+}
+
+#people_header,
+td {
+  text-align: left;
+}
+
+#people_header h3 {
+  text-align: left;
+}
+
+/* Table People*/
+
+#people_content {
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+}
+
+#people_container {
+  width: 100%;
+}
+
+#people_container table th {
+  width: 50%;
+}
+
+#people_container td:first-child:hover {
+  cursor: pointer;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+#btn-return {
+  color: black;
+}
+
+#btn-return:hover {
+  color: white;
+}
+
+/* Personale elements */
+
+.divider {
+  height: 1px;
+  background: lightgray;
+}
+
+.bar30 {
+  height: 30px;
+  background: #1E4F67;
+  color: white;
+  line-height: 30px;
+  margin: 0;
+  padding: 0;
+  padding-left: 10px;
+}
+
+.modal-row {
+  padding: 5px;
+}
+
+/* People Info */
+
+#people_Info span:first-child {
+  margin-right: 10px;
+}
+
+/* Edit People*/
+
+#people_Name span:first-child {
+  font-size: 18px;
+  line-height: 18px;
+  margin-right: 10px;
+}
+
+.people-btn_desactive {
+  font-size: 9px;
+}
+
+.people-btn_desactive {
+  height: 20px;
+  padding: 5px;
+  padding-top: 3px;
+  margin-top: -4px;
+}
+
+#people-desactivate-Title {
+  position: absolute;
+  right: 50px;
+  margin-top: 2px;
+  padding: 0px;
+}
+
+/* Modal */
+
+#peopleModal .modal-body {
+  padding-bottom: 20px;
+}
+
+#peopleModal .page-header {
+  margin: 0px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.modal-row div:first-child {
+  padding-top: 7px;
+}
+

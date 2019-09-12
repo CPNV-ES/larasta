@@ -1,1 +1,14 @@
-.tile{border:1px solid #fab;width:150px;overflow:hidden;background-color:#aaa;text-align:center;cursor:pointer}.invisiblecell{border:none;background-color:transparent}
+.tile {
+  border: solid 1px #fab;
+  width: 150px;
+  overflow: hidden;
+  background-color: #aaa;
+  text-align: center;
+  cursor: pointer;
+}
+
+.invisiblecell {
+  border: none;
+  background-color: transparent;
+}
+

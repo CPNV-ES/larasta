@@ -1,1 +1,8 @@
-.postulationRequest{background-color:#0ff}.postulationDone{background-color:#2c75ff}
+.postulationRequest {
+  background-color: #00FFFF;
+}
+
+.postulationDone {
+  background-color: #2C75FF;
+}
+
