@@ -1,4 +1,4 @@
-html {font-size: 100%;} 
+html {font-size: 100%;}
 
 body {
 	line-height:1.4;
@@ -12,7 +12,7 @@ body {
 input {
 	font-family: verdana,geneva,freesans,clean,sans-serif;
 	font-size: 11px;
-}  
+}
 
 /* Added by XCL for AppInternship -------------------- */
 
@@ -161,16 +161,16 @@ a.resource span {
 }
 
 div.progress-container {
-  border: 1px solid #ccc; 
-  width: 300px; 
-  padding: 1px; 
+  border: 1px solid #ccc;
+  width: 300px;
+  padding: 1px;
   background: white;
   margin-left: auto;
   margin-right: auto;
 }
 
 div.progress-container > div {
-  background-color: #57ce3c; 
+  background-color: #57ce3c;
   height: 20px
 }
 
@@ -205,7 +205,7 @@ div.progress-container > div {
 	padding-left: 35px; /* barre_gauche.width */
   border-right: 1px solid #757575;
   margin-right: 64px;
-	
+
 	background: url(/images/layout/layout.png) no-repeat left -229px;
 }
 #intranet_breadcrumb .intranet-inner {
@@ -219,7 +219,7 @@ div.progress-container > div {
 	padding-left: 35px; /* barre_gauche.width */
   border-right: 1px solid #757575;
   margin-right: 64px;
-	
+
 	background: url(/images/layout/barre_gauche_1px.png) repeat-y left top;
 }
 #intranet_middle .intranet-inner {
@@ -276,7 +276,7 @@ div.progress-container > div {
   margin-left: 29px;
   margin-right: 64px;
 	height: 37px;
-	
+
 	font-size: 0.91em;
 	color: white;
 }
@@ -406,6 +406,10 @@ div.progress-container > div {
 }
 .content-with-sidebar {
 	padding-right: 254px;
+}
+.content-besides-sidebar {
+	margin-left: 260px;
+	width: 80%;
 }
 
 #sidemenu {
@@ -569,10 +573,10 @@ ul.medium-menu li a.selected {
 
 /* submit button */
 
-/* REQUIRED BUTTON STYLES: */		
-button { 
+/* REQUIRED BUTTON STYLES: */
+button {
 	position: relative;
-	border: 0; 
+	border: 0;
 	padding: 0;
 	cursor: pointer;
 	overflow: visible; /* removes extra side padding in IE */
@@ -582,10 +586,10 @@ button::-moz-focus-inner {
 	border: none;  /* overrides extra padding in Firefox */
 }
 
-button span { 
+button span {
 	position: relative;
-	display: block; 
-	white-space: nowrap;	
+	display: block;
+	white-space: nowrap;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
@@ -605,12 +609,12 @@ button {
   background-color: #f0f0f0;
 }
 
-/* Button styles with images */ 
-button.submit.green, button.submit.orange, button.submit.blue, a.button { 
+/* Button styles with images */
+button.submit.green, button.submit.orange, button.submit.blue, a.button {
   /* reset default button style */
   border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px;
   border: none;
-  
+
   margin-left: 10px;
   margin-right: 5px;
   padding: 0 20px 0 0;
@@ -646,7 +650,7 @@ button.submit.grey span,     a.button.grey span     { background: transparent ur
 a.button {
   display: inline-block;
   padding: 0 20px 0 0;
-  /*padding: 3px 20px 5px 0;*/  
+  /*padding: 3px 20px 5px 0;*/
   color: black;
   text-decoration: none;
 }
@@ -721,7 +725,7 @@ button.submit.blue {
 #intranet_quick_pin {
   width: 16px;
   height: 16px;
-  background-image: url(/images/pin.png);  
+  background-image: url(/images/pin.png);
 }
 #intranet_quick_refresh {
   width: 16px;
@@ -980,7 +984,7 @@ span.opened {
 
 #service-apps-list {
   list-style: none;
-  padding-left: 0;	
+  padding-left: 0;
 }
 
 #service-apps-list li {
@@ -1003,7 +1007,7 @@ span.opened {
 
 #search-results {
   list-style: none;
-  padding-left: 0;	
+  padding-left: 0;
 }
 
 #search-results li {
@@ -1217,11 +1221,11 @@ table#changelogs {
   color: #fff;
 
   margin-bottom: 0.5em;
-  overflow: hidden;  
+  overflow: hidden;
 }
 #sidebar_app-quickclass div.event a {
   color: #fff;
-  white-space: nowrap;  
+  white-space: nowrap;
   margin: 0 0.2em;
 }
 
@@ -1230,7 +1234,7 @@ table#changelogs {
   padding: 0 2px;
   font-size: 100%;
   font-weight: normal;
-  
+
   background-color: #36c;
 }
 #sidebar_app-quickclass div.event h1 span {
@@ -1280,10 +1284,10 @@ table#changelogs {
 	z-index: 99999999;
 
   margin-top: 18px;
-	
+
   border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;
   box-shadow: 0px 0px 2em #444444; -moz-box-shadow: 0px 0px 2em #444444; -webkit-box-shadow: 0px 0px 2em #444444;
-  
+
   text-indent: 0;
 }
 #picker-out button {
