@@ -10,7 +10,7 @@
 
 @section ('content')
     <div id="collapsedfilters" class="simple-box-collapsed filters"><h4>Filtre...</h4></div>
-    <div id="expandedfilters" class="simple-box filters hidden">
+    <div id="expandedfilters" class="simple-box filters d-none">
         <h4 id="collapsefilters">Afficher les stages dans l'état</h4>
         <form name="filterInternships" method="post">
             {{ csrf_field() }}
