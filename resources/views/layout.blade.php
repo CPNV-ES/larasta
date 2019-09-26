@@ -7,16 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
-
-
     <title>Larasta</title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/minimal.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="/js/my.js"></script>
-    <script src="/node_modules/@ckeditor/ckeditor5-build-balloon/build/ckeditor.js"></script>
+    <script src="js/ckeditor.js"></script>
 
     @yield('page_specific_css')
 </head>
@@ -30,7 +27,7 @@
         {{ session('status') }}
     </div>
 @endif
-<div id="side-menu" class="simple-box container-fluid col-md-2 text-center">
+<div id="sidemenu" class="simple-box container-fluid text-center">
     <table class="table table-striped text-left larastable">
         <tr>
             <td><a href="/listPeople"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
@@ -64,13 +61,13 @@
     @endif
     <div class="version">v{{ config('app.version') }}</div>
 </div>
-<div class="container-fluid text-center col-md-10">
+<div class="simple-box container-fluid text-center content-besides-sidebar">
     @yield ('content')
 </div>
 </body>
-<script src="/node_modules/jquery/dist/jquery.js"></script>
-<script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script src="/node_modules/datatables/media/js/jquery.dataTables.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/jquery.dataTables.js"></script>
 <script src="/js/appjs.js"></script>
 @yield('page_specific_js')
 </html>

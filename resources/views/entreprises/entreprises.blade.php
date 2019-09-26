@@ -76,6 +76,5 @@
 @stop
 
 @section('page_specific_js')
-    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/js/entreprises.js"></script>
 @stop
