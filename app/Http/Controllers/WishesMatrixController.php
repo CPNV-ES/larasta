@@ -25,7 +25,7 @@ class WishesMatrixController extends Controller
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // Get the flock id
-        $currentUserFlockId = $this->getCurrentUser($currentUser->getId());
+        $currentUserFlockId = $this->getCurrentUser($currentUser->getId())/*->flock_id*/;
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
         // Get list person in same flock id
