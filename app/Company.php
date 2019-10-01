@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Companies extends Model
+class Company extends Model
 {
     public $timestamps = false;
 
     /**
-     * Relation to the internship of the student
+     * Relation with the internships model
      */
     public function internships()
     {

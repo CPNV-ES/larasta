@@ -15,12 +15,12 @@ class Internship extends Model
 
 
     /**
-     * Eloquent will automaticaly convert this colums of the model in Carbon dates
+     * Eloquent will automatically convert this column of the model in Carbon dates
      */
     protected $dates = ['beginDate', 'endDate'];
 
     /**
-     * Relation with the vilit model
+     * Relation with the visit model
      */
     public function visit()
     {
@@ -28,15 +28,15 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrive the companies
+     * Relation to retrieve the companies
      */
     public function companie()
     {
-        return $this->belongsTo('App\Companies', 'companies_id');
+        return $this->belongsTo('App\Company', 'companies_id');
     }
 
     /**
-     * Relation to retrive the student
+     * Relation to retrieve the student
      */
     public function student()
     {
@@ -44,7 +44,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrive the internship master
+     * Relation to retrieve the internship master
      */
     public function responsible()
     {
@@ -52,7 +52,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrive the internship admin
+     * Relation to retrieve the internship admin
      */
     public function admin()
     {

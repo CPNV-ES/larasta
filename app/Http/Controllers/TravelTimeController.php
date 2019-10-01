@@ -47,7 +47,7 @@ class TravelTimeController extends Controller
                 $maxPIndex = min(($pBlock+1)*$this->limitElementGoogle-1,$persons->count()-1);
                 $maxCIndex = min(($cBlock+1)*$this->limitElementGoogle-1,$companies->count()-1);
                 error_log("Persons ".($pBlock*$this->limitElementGoogle)." to $maxPIndex");
-                error_log("Companies ".($cBlock*$this->limitElementGoogle)." to $maxCIndex");
+                error_log("Company ".($cBlock*$this->limitElementGoogle)." to $maxCIndex");
             }
         return "calculé";
 

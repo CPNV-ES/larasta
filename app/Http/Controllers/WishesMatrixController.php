@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Companies;
+use App\Company;
 use SebastianBergmann\Environment\Console;
 use function GuzzleHttp\json_encode;
 use CPNVEnvironment\Environment;
