@@ -30,7 +30,7 @@ class Internship extends Model
     /**
      * Relation to retrieve the companies
      */
-    public function companie()
+    public function companies()
     {
         return $this->belongsTo('App\Company', 'companies_id');
     }
@@ -64,6 +64,6 @@ class Internship extends Model
      */
     public function contractstate()
     {
-        return $this->belongsTo('App\Contractstates', 'contractstate_id');
+        return $this->belongsTo('App\Contractstate');
     }
 }

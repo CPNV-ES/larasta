@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Faker\Provider\DateTime;
-use App\Contractstates;
+use App\Contractstate;
 use App\Internship;
 use Carbon\Carbon;
 use App\Params;
@@ -30,7 +30,7 @@ class ReconStagesController extends Controller
 
     /* Get the contract */
     public function getContract($value) {
-        $contractStates = Contractstates::all();
+        $contractStates = Contractstate::all();
         foreach ($contractStates as $contract) {
             if ($contract->openForRenewal === $value) {
                 $states[] = $contract->id;
