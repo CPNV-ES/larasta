@@ -20,6 +20,11 @@ Remplacement des requêtes SQL, afin d'utiliser Eloquent.
 
 # Plan d'intervention
 
+- Création des classes manquantes pour les tables de la base de données
+- Ajout des relations manquantes dans les classes de la base de données
+- Utilisation des classes plutôt des fonctions de la page de souhaits
+- Suppression des fonctions désormais inutiles
+
 (Terminé, le ...)
 
 # Tests
