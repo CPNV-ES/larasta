@@ -13,6 +13,6 @@ class Company extends Model
      */
     public function internships()
     {
-        return $this->hasMany('App\Internship');
+        return $this->hasMany('App\Internship', 'companies_id');
     }
 }

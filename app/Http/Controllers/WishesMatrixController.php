@@ -83,7 +83,10 @@ class WishesMatrixController extends Controller
     }
 
     private function getCompaniesWithInternships()
-    {
+
+        // TODO : utilization
+        $companies = Company::with('internships', 'internships.contractstate')->get();
+
         // Get all the companies with state 'Reconduit' or 'Confirmé'
         $companies = DB::table('companies')
             ->join('internships', 'internships.companies_id', '=', 'companies.id')
