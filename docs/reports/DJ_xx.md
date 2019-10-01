@@ -1,4 +1,4 @@
-Prise en charge le ..., par ...
+Prise en charge le 25.09.2019, par DJ
 
 # Analyse du problème
 
