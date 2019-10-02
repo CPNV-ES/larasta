@@ -84,12 +84,17 @@ class WishesMatrixController extends Controller
 
     private function getCompaniesWithInternships()
     {
-        // TODO : remove
-        $companies = Company::with('internships', 'internships.contractstate')->get();
-        //$companies = Company::all
-
         // Get all the companies with state 'Reconduit' or 'Confirmé'
+        $companies = Company::whereHas('internships', function ($query) {
+            $query->whereYear('beginDate', '=', date('Y'));
+        }) ->wherehas('contractstates', function($query) {
+            $query->where('stateDescription','Confirmé')
+                ->orWhere('stateDescription','Reconduit');
+        })->get();
 
+
+
+        /*
         $companies = DB::table('companies')
             ->join('internships', 'internships.companies_id', '=', 'companies.id')
             ->join('contractstates', 'internships.contractstate_id', '=', 'contractstates.id')
@@ -99,6 +104,7 @@ class WishesMatrixController extends Controller
             ->whereYear('internships.beginDate', '=', date('Y'))
             ->select('companies.id','companies.companyName')
             ->get();
+        */
         return $companies;
     }
 
