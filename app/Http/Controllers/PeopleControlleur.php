@@ -161,7 +161,7 @@ class PeopleControlleur extends Controller
             ->select('id','contactTypeDescription')
             ->get();
 
-        // Read Companies from DB
+        // Read Company from DB
         $companies = DB::table('companies')
             ->select('id','companyName')
             ->get();
