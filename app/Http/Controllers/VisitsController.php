@@ -68,8 +68,17 @@ class VisitsController extends Controller
             }
             foreach($students as $student){
                 if(!isset($internships)){
-                    $date= date('m-d-Y ').'0:0:0';
-                    $internships=$student->internships->where('beginDate',$date)->where('endDate',$date);
+                    $date= date('Y-m-d');
+                    //.'00:00:00';
+                    //2019-02-01 00:00:00
+                    //2019-10-03 00:00:00
+                    $internships= $student->internships;
+                    foreach($internships as $internship){
+                        if(!isset($internshipsOrder)){
+                            $internshipsOrder=
+                        }
+                    }
+                    //$internships= $interships->whereBetween(now(),['beginDate', 'endDate']);
                 }
                 else{
                     $internships=$internships->merge($student->internships);
