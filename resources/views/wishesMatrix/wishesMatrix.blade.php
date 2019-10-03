@@ -31,9 +31,9 @@
                     @endif
                 @endforeach
             </tr>
-            @foreach ($companies as $companie)
+            @foreach ($companies as $company)
                 <tr>
-                    <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
+                    <td value="{{ $company->id }}">{{ $company->companyName }}</td>
                     <!-- Create the clickable case for each person -->
                     @foreach ($persons as $person)
                         @if ($person->initials!="")
@@ -46,7 +46,7 @@
                             <!-- Add for each persons in the table her wish -->
                                 @foreach ($wishes[$person->id] as $wish)
                                     <!-- if wish company is equal to the current company display the rank -->
-                                    @if($wish->internship->company->id == $companie->id)
+                                    @if($wish->internship->company->id == $company->id)
                                         {{ $wish->rank }}
                                     @endif
                                 @endforeach
