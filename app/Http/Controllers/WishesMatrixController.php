@@ -27,71 +27,64 @@ class WishesMatrixController extends Controller
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // Get the flock id
-        $currentUserFlockId = $this->getCurrentUser($currentUser->getId());
+        $currentUserFlockId = Person::find($currentUser->getId());
+        //dd($currentUserFlockId);
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
         // Get list person in same flock id
         $persons = $this->getPersonsFromFlock($currentUserFlockId);
         $wishes = null;
-        $dateEndWishes =  null;
-        
+        $dateEndWishes = null;
+
         // Get all wishes per person
-        foreach ($persons as $person)
-        {
+        foreach ($persons as $person) {
             $wishes[$person->id] = $this->getWishesByPerson($person->id);
         }
 
         // Get info for teacher
         // Test if current user is a teacher
-        if($currentUser->getLevel() >= 1)
-        {
+        if ($currentUser->getLevel() >= 1) {
             $param = Params::getParamByName('dateEndWishes');
-            if($param != null)
-            {
+            if ($param != null) {
                 // Convert the date/time to date only
-                $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));   
+                $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
             }
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes, 'currentUserFlockId' => $currentUserFlockId]);
+        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes, 'currentUserFlockId' => $currentUserFlockId]);
     }
 
     public function save(Request $request)
     {
         // Do only if not student
         // !!!!!!!!!!!!!! Value Test !!!!!!!!!!!!!!!!!!!
-        if(Environment::currentUser()->getLevel() > 0)
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (Environment::currentUser()->getLevel() > 0) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
             // Save the date
-            if($request->input('date') != null)
-            {
+            if ($request->input('date') != null) {
                 $param = Params::getParamByName('dateEndWishes');
                 // Test if param exists
-                if ($param != null)
-                {
+                if ($param != null) {
                     // Update the date
                     $param->paramValueDate = $request->input('date');
-                }
-                else
-                {
+                } else {
                     // Insert param
                     $param = new Params();
                     $param->paramName = 'dateEndWishes';
                     $param->paramValueDate = $request->input('date');
                 }
-                $param->save(); 
+                $param->save();
             }
         }
     }
-    
+
     private function getCompaniesWithInternships()
     {
         // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
         $companies = Company::whereHas('internships', function ($query) {
             $query->whereYear('beginDate', '=', date('Y'));
-        }) ->wherehas('contractstates', function($query) {
-            $query->where('stateDescription','Confirmé')
-                ->orWhere('stateDescription','Reconduit');
+        })->wherehas('contractstates', function ($query) {
+            $query->where('stateDescription', 'Confirmé')
+                ->orWhere('stateDescription', 'Reconduit');
         })->get();
         return $companies;
     }
@@ -111,16 +104,5 @@ class WishesMatrixController extends Controller
             ->where('wishes.rank', '>', 0)
             ->get();
         return $wishes;
-    }
-
-    // Get current user by id person
-    private function getCurrentUser($idPerson)
-    {
-        $persons = DB::table('persons')
-            ->where('persons.id', $idPerson)
-            ->whereNotNull('persons.initials')
-            ->select('persons.id','persons.initials', 'persons.flock_id', 'persons.role')
-            ->first();
-        return $persons;
     }
 }
