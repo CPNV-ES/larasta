@@ -76,7 +76,7 @@ class WishesMatrixController extends Controller
             }
         }
     }
-    
+
     private function getCompaniesWithInternships()
     {
         // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
