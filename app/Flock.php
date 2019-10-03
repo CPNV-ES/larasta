@@ -12,7 +12,7 @@ class Flock extends Model
      */
     public function students ()
     {
-        return $this->hasMany('App\Persons', 'flock_id');
+        return $this->hasMany('App\Person', 'flock_id');
     }
 
     /**
@@ -20,6 +20,6 @@ class Flock extends Model
      */
     public function classMaster ()
     {
-        return $this->belongsTo('App\Persons', 'classMaster_id');
+        return $this->belongsTo('App\Person', 'classMaster_id');
     }
 }

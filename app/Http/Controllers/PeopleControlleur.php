@@ -17,7 +17,7 @@ namespace App\Http\Controllers;
 
 use App\Contactinfos;
 use Illuminate\Http\Request;
-use App\Persons;
+use App\Person;
 use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +33,7 @@ class PeopleControlleur extends Controller
         // Get the user right
         $user = Environment::currentUser();
 
-        $persons = Persons::where('obsolete', 0)
+        $persons = Person::where('obsolete', 0)
             ->orderBy('firstname', 'asc')
             ->get();
         // return all value to view
@@ -67,7 +67,7 @@ class PeopleControlleur extends Controller
         $user = Environment::currentUser();
 
         // Apply scope form Model Persons and get data
-        $persons = Persons::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
+        $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
 
         // return all value to view with the value of filters
         return view('listPeople/people')->with(
@@ -119,7 +119,7 @@ class PeopleControlleur extends Controller
     {
         $personid = $request->input('peopleid');
         $newcompany = $request->input('dpdCompany');
-        $person = Persons::find($personid);
+        $person = Person::find($personid);
         $person->company_id = $newcompany;
         $person->save();
         return $this->info($personid);

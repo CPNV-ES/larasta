@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Company;
+use App\Person;
 use SebastianBergmann\Environment\Console;
 use function GuzzleHttp\json_encode;
 use CPNVEnvironment\Environment;
@@ -29,7 +30,7 @@ class WishesMatrixController extends Controller
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
         // Get list person in same flock id
-        $persons = $this->getPersons($currentUserFlockId);
+        $persons = $this->getPersonsFromFlock($currentUserFlockId);
         $wishes = null;
         $dateEndWishes =  null;
         
@@ -81,40 +82,23 @@ class WishesMatrixController extends Controller
             }
         }
     }
-
+    
     private function getCompaniesWithInternships()
     {
-        // Get all the companies with state 'Reconduit' or 'Confirmé'
+        // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
         $companies = Company::whereHas('internships', function ($query) {
             $query->whereYear('beginDate', '=', date('Y'));
         }) ->wherehas('contractstates', function($query) {
             $query->where('stateDescription','Confirmé')
                 ->orWhere('stateDescription','Reconduit');
         })->get();
-
-
-
-        /*
-        $companies = DB::table('companies')
-            ->join('internships', 'internships.companies_id', '=', 'companies.id')
-            ->join('contractstates', 'internships.contractstate_id', '=', 'contractstates.id')
-            ->where('companies.mptOK', 1)
-            ->where('contractstates.stateDescription','Confirmé')
-            ->orWhere('contractstates.stateDescription','Reconduit')
-            ->whereYear('internships.beginDate', '=', date('Y'))
-            ->select('companies.id','companies.companyName')
-            ->get();
-        */
         return $companies;
     }
 
-    // Get persons by class id
-    private function getPersons($flock_id)
+    private function getPersonsFromFlock($flock_id)
     {
-        $persons = DB::table('persons')
-            ->where('persons.flock_id', $flock_id)
-            ->whereNotNull('persons.initials')
-            ->select('persons.id','persons.initials')
+        $persons = Person::where('flock_id', $flock_id)
+            ->whereNotNull('initials')
             ->get();
         return $persons;
     }

@@ -40,7 +40,7 @@ class Internship extends Model
      */
     public function student()
     {
-        return $this->belongsTo('App\Persons', 'intern_id');
+        return $this->belongsTo('App\Person', 'intern_id');
     }
 
     /**
@@ -48,7 +48,7 @@ class Internship extends Model
      */
     public function responsible()
     {
-        return $this->belongsTo('App\Persons', 'responsible_id');
+        return $this->belongsTo('App\Person', 'responsible_id');
     }
 
     /**
@@ -56,7 +56,7 @@ class Internship extends Model
      */
     public function admin()
     {
-        return $this->belongsTo('App\Persons', 'admin_id');
+        return $this->belongsTo('App\Person', 'admin_id');
     }
 
     /**

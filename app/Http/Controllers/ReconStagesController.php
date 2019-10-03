@@ -15,7 +15,7 @@ use App\Contractstate;
 use App\Internship;
 use Carbon\Carbon;
 use App\Params;
-use App\Persons;
+use App\Person;
 
 class ReconStagesController extends Controller
 {
