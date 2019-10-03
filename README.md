@@ -103,6 +103,9 @@ API_GOOGLE_MAP=AIzaSyBRFbQtojevcenB9g0knU6W_9kL0eWu4Vo
 
 **WARNING**: Google has change the API access policy some time in 2018. This code is no longer functional as is, it must be adapted to the new API.
 
+### 10. PHP version
+There are some issues between the version of Laravel used in this project and the most recents PHP versions. The PHP version used with the project should be PHP 7.2.
+
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 
