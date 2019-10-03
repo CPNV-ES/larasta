@@ -30,6 +30,11 @@ class Person extends Model
         return $this->hasMany('App\Internship');
     }
 
+    public function wishes()
+    {
+        return $this->hasMany('App\Wish', 'persons_id');
+    }
+
     /**
      * Relation to the flock of the student
      */

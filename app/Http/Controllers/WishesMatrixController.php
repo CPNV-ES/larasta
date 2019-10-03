@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Wish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Company;
@@ -106,12 +107,8 @@ class WishesMatrixController extends Controller
     // Get wishes by id persons
     private function getWishesByPerson($idPerson)
     {
-        $wishes = DB::table('wishes')
-            ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-            ->join('companies', 'internships.companies_id', '=', 'companies.id')
-            ->where('wishes.persons_id', $idPerson)
+        $wishes = Wish::where('persons_id', $idPerson)
             ->where('wishes.rank', '>', 0)
-            ->select('wishes.rank', 'wishes.internships_id', 'companies.companyName', 'companies.id')
             ->get();
         return $wishes;
     }
