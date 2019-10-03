@@ -28,7 +28,7 @@ class WishesMatrixController extends Controller
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // Get the flock id
         $currentUserFlockId = Person::find($currentUser->getId());
-        //dd($currentUserFlockId);
+
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
         // Get list person in same flock id
@@ -50,7 +50,7 @@ class WishesMatrixController extends Controller
                 $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
             }
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes, 'currentUserFlockId' => $currentUserFlockId]);
+        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes, 'currentUserFlockId' => $currentUserFlockId]);
     }
 
     public function save(Request $request)

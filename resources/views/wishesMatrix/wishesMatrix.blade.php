@@ -44,7 +44,7 @@
                                 <td class="clickableCase">
                             @endif
                             <!-- Add for each persons in the table her wish -->
-                                @foreach ($person->wishes as $wish)
+                                @foreach ($wishes[$person->id] as $wish)
                                     <!-- if wish company is equal to the current company display the rank -->
                                     @if($wish->internship->company->id == $companie->id)
                                         {{ $wish->rank }}
