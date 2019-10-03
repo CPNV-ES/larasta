@@ -28,4 +28,12 @@ class Visit extends Model
     {
         return $this->belongsTo('App\Internship', 'internships_id');
     }
+
+    /**
+     * Relation with the visitsstate model
+     */
+    public function visitsstate()
+    {
+        return $this->HasMany('App\Visitsstate');
+    }
 }

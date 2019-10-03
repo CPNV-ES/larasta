@@ -25,7 +25,7 @@ class Persons extends Model
      */
     public function internships()
     {
-        return $this->hasMany('App\Internship');
+        return $this->hasMany('App\Internship','responsible_id');
     }
 
     /**
@@ -35,7 +35,13 @@ class Persons extends Model
     {
         return $this->belongsTo('App\Flock', 'flock_id');
     }
-
+    /**
+     * Relation to the flock of the teacher
+     */
+    public function mcof()
+    {
+        return $this->hasMany('App\Flock','classMaster_id');
+    }
     /**
      * Computed property to get role name
      * Created by Davide Carboni
