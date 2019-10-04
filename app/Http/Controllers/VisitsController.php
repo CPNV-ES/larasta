@@ -51,69 +51,38 @@ class VisitsController extends Controller
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = Environment::currentUser()->getId();
-        $cuser = Persons::find($id);
-        $visits =[];
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
-            //dd(now());
-            //Eloquent query to gets all visit from teacher ID
-            foreach($cuser->mcof as $flock) {
-                if(!isset($students)){
-                    $students=$flock->students;
-                }    
-                else{
-                    $students= $students->merge($flock->students);
-                }           
-            }
-            foreach($students as $student){
-                if(!isset($internships)){
-                    $date= date('Y-m-d');
-                    //.'00:00:00';
-                    //2019-02-01 00:00:00
-                    //2019-10-03 00:00:00
-                    $internships= $student->internships;
-                    foreach($internships as $internship){
-                        if(!isset($internshipsOrder)){
-                            $internshipsOrder=
-                        }
-                    }
-                    //$internships= $interships->whereBetween(now(),['beginDate', 'endDate']);
-                }
-                else{
-                    $internships=$internships->merge($student->internships);
-                }
-            }
-            dd($internships);
-            $internships = Internship::where('classMaster_id', $id)
-                                        //->orderBy('visits.id', 'DESC')
-                                        ->get();
-            dd($internships);
-
-            // OLD Query gets all visits from teacher ID.
-            // Good     $internships = Internship::join('companies', 'companies_id', '=', 'companies.id')
-            // Good     ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-            // Good     ->join('persons as student', 'intern_id', '=', 'student.id')
-            // Good     ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-            // Good     ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
-            // Good     ->join('visits', 'internships.id', '=', 'visits.internships_id')
-            // Good     ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
-            //      ->select('beginDate',
-            //        'endDate',
-            //        'companyName',
-            //        'intresp.firstname as irespfirstname',
-            //        'intresp.lastname as iresplastname',
-            //        'student.firstname as studentfirstname',
-            //        'student.lastname as studentlastname',
-            //        'mc.intranetUserId as mcid',
-            //        'mc.initials as mcini',
-            //        'visitsstates.stateName as state',
-            //        'visits.mailstate',
-            //        'visits.id as id')
-            //      ->where('classMaster_id', $id)
-            //      ->orderBy('visits.id', 'DESC')
-            //      ->get(); */
-
+      
+            $visits=Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id);
+            })->get();
+            //OLD Query gets all visits from teacher ID.
+            /*     $internships = Internship::join('companies', 'companies_id', '=', 'companies.id')
+                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+                ->join('persons as student', 'intern_id', '=', 'student.id')
+                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+                ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
+                ->join('visits', 'internships.id', '=', 'visits.internships_id')
+                ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
+                 ->select('beginDate',
+                   'endDate',
+                   'companyName',
+                   'intresp.firstname as irespfirstname',
+                   'intresp.lastname as iresplastname',
+                   'student.firstname as studentfirstname',
+                   'student.lastname as studentlastname',
+                   'mc.intranetUserId as mcid',
+                   'mc.initials as mcini',
+                   'visitsstates.stateName as state',
+                   'visits.mailstate',
+                   'visits.id as id')
+                 ->where('classMaster_id', $id)
+                 ->orderBy('visits.id', 'DESC')
+                 ->get();
+                 dd($internships);
+                */
             /*
             $state = DB::table('visitsstates')
                 ->get();
@@ -122,7 +91,8 @@ class VisitsController extends Controller
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [
-                    'internships' => $internships,
+                    'visits' => $visits,
+                    //'internships' => $internships,
                     //'state' => $state,
                     'message' => $this->message
                 ]

@@ -1,3 +1,4 @@
+
 @extends ('layout')
 @section ('page_specific_css')
     <link rel="stylesheet" href="/css/visits.css">
@@ -23,14 +24,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($internships as $iship)
-                    <tr class="clickable-row text-left" data-href="/visits/{{$iship->id}}/manage">
-                        <td class="col-md-2">{{ $iship->studentfirstname }}</td>
-                        <td class="col-md-2">{{ $iship->studentlastname }}</td>
-                        <td class="col-md-3">{!! $iship->companyName !!}</td>
-                        <td class="col-md-1 text-center">{{ (new DateTime($iship->beginDate))->format('d M Y') }}</td>
-                        <td class="col-md-1 text-center">{{ (new DateTime($iship->endDate))->format('d M Y') }}</td>
-                        <td class="col-md-1">{{ $iship->state }}</td>
+                
+                {{-- @foreach($internships as $iship) --}}
+                @foreach($visits as $iship)
+                <?php
+                dd($iship);
+                ?>
+                    <tr class="clickable-row text-left" data-href="/visits/{{$iship->internship->id}}/manage">
+                        <td class="col-md-2">{{ $iship->internship->student->firstname }}</td>
+                        <td class="col-md-2">{{ $iship->internship->student->lastname }}</td>
+                        <td class="col-md-3">{!! $iship->internship->company->companyName !!}</td>
+                        <td class="col-md-1 text-center">{{ (new DateTime($iship->internship->beginDate))->format('d M Y') }}</td>
+                        <td class="col-md-1 text-center">{{ (new DateTime($iship->internship->endDate))->format('d M Y') }}</td>
+                        <td class="col-md-1">{{ $iship->visitsstates_id }}</td>
                         <td class="col-md-1 text-center">
                             @if($iship->mailstate == 1)
                                 <span class="ok glyphicon glyphicon-ok tick"></span>
