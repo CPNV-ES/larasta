@@ -56,7 +56,6 @@ class VisitsController extends Controller
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
-            //dd(now());
             //Eloquent query to gets all visit from teacher ID
             foreach($cuser->mcof as $flock) {
                 if(!isset($students)){
@@ -66,29 +65,29 @@ class VisitsController extends Controller
                     $students= $students->merge($flock->students);
                 }           
             }
-            foreach($students as $student){
+            
+            foreach($students as $student){;
                 if(!isset($internships)){
-                    $date= date('Y-m-d');
-                    //.'00:00:00';
-                    //2019-02-01 00:00:00
-                    //2019-10-03 00:00:00
                     $internships= $student->internships;
-                    foreach($internships as $internship){
-                        if(!isset($internshipsOrder)){
-                            $internshipsOrder=
-                        }
-                    }
-                    //$internships= $interships->whereBetween(now(),['beginDate', 'endDate']);
-                }
+                }    
                 else{
-                    $internships=$internships->merge($student->internships);
+                    $internships= $internships->merge($student->internships);
+                } 
+                
+                    
+            }
+            $internshipsOrder=collect();
+            foreach($internships as $internship){
+                if($internship->beginDate<=now() && $internship->endDate>now()){
+                    $internshipsOrder= $internshipsOrder->push($internship);                       
                 }
             }
-            dd($internships);
+            
+            dd($internshipsOrder);
             $internships = Internship::where('classMaster_id', $id)
                                         //->orderBy('visits.id', 'DESC')
                                         ->get();
-            dd($internships);
+            //dd($internshipsO);
 
             // OLD Query gets all visits from teacher ID.
             // Good     $internships = Internship::join('companies', 'companies_id', '=', 'companies.id')
