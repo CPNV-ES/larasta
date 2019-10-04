@@ -10,7 +10,7 @@
     <form method="post" action="/visits/{{$internship->id}}/update" class="text-left">
         {{ csrf_field() }}
         <input type="hidden" name="email" value="{{$mail->value}}">
-        <input type="hidden" name="visit" value="{{$visits->internships->id}}">
+        <input type="hidden" name="visit" value="{{$internship->id}}">
         {{-- {{$internship->id}} --}}
         <input type="hidden" name="firstn" value="{{$internship->firstname}}">
         <input type="hidden" name="lastn" value="{{$internship->lastname}}">

@@ -28,9 +28,9 @@
                 {{-- @foreach($internships as $iship) --}}
                 @foreach($visits as $iship)
                 <?php
-                dd($iship);
+                //dd($iship);
                 ?>
-                    <tr class="clickable-row text-left" data-href="/visits/{{$iship->internship->id}}/manage">
+                    <tr class="clickable-row text-left" data-href="/visits/{{$iship->id}}/manage">
                         <td class="col-md-2">{{ $iship->internship->student->firstname }}</td>
                         <td class="col-md-2">{{ $iship->internship->student->lastname }}</td>
                         <td class="col-md-3">{!! $iship->internship->company->companyName !!}</td>
