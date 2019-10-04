@@ -82,7 +82,7 @@ class WishesMatrixController extends Controller
         // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
         $companies = Company::whereHas('internships', function ($query) {
             $query->whereYear('beginDate', '=', date('Y'));
-        })->wherehas('contractstates', function ($query) {
+        })->whereHas('contractstates', function ($query) {
             $query->where('stateDescription', 'Confirmé')
                 ->orWhere('stateDescription', 'Reconduit');
         })->get();
