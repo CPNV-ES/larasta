@@ -147,7 +147,7 @@ class EvalController extends Controller
         }
 
         // check if the grid exists and is editable
-        if ($evaluation = Evaluation::with('visit.internship.companie')->find($gridID)){
+        if ($evaluation = Evaluation::with('visit.internship.company')->find($gridID)){
             // The grid exists
             // If the user want to edit the grid
             if ($mode == 'edit') {

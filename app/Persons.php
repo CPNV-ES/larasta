@@ -27,6 +27,27 @@ class Persons extends Model
     {
         return $this->hasMany('App\Internship');
     }
+    /**
+     * Relation to the internship of the student
+     */
+    public function internshipsStudent()
+    {
+        return $this->hasMany('App\Internship',"intern_id");
+    }
+    /**
+     * Relation to the internship of the student
+     */
+    public function internshipsResponsible()
+    {
+        return $this->hasMany('App\Internship',"responsible_id");
+    }
+    /**
+     * Relation to the internship of the student
+     */
+    public function internshipsAdmin()
+    {
+        return $this->hasMany('App\Internship',"admin_id");
+    }
 
     /**
      * Relation to the flock of the student

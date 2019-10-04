@@ -12,6 +12,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Companies;
+use App\Contract;
+use App\Persons;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +25,7 @@ class ContractController extends Controller
 {
     /**
      * Used to pass data to contractGenerate view, which will decide if we can generate the contract
-     *
+     *ddrt
      * @param $iid id of the current internship
      * @return $this contains the date when the contract has been generated
      */
@@ -141,34 +144,50 @@ class ContractController extends Controller
      * @param $iid
      * @return array
      */
-    public  function getContract($iid)
+    public  function getContract($id)
     {
         $contract = DB::table('contracts')
             ->join('companies', 'contracts_id', '=', 'contracts.id')
             ->join('internships', 'companies_id', '=', 'companies.id')
             ->select('contractText', 'grossSalary','internships.beginDate', 'internships.endDate')
-            ->where('internships.id', $iid)
+            ->where('internships.id', $id)
             ->first();
+
+        $contract = Contract::whereHas('companies.Internships',function ($query){
+            $query->where('internships.id', $id);
+        })->first();
 
         $intern = DB::table('persons')
             ->join('internships', 'intern_id', '=', 'persons.id')
             ->join('locations', 'location_id', '=', 'locations.id')
-            ->where('internships.id', $iid)
+            ->where('internships.id', $id)
             ->select('firstname', 'lastname', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
             ->first();
+
+        $intern = Persons::whereHas("internshipsStudent",function ($query){
+            $query->where('internships.id', $id);
+        })->first();
 
         $company = DB::table('companies')
             ->join('internships', 'companies_id', '=', 'companies.id')
             ->join('locations', 'location_id', '=', 'locations.id')
-            ->where('internships.id', $iid)
+            ->where('internships.id', $id)
             ->select('companyName', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
             ->first();
 
+        $company = Companies::whereHas("Internship",function ($query){
+            $query->where('internships.id', $id);
+        })->first();
+
         $responsible = DB::table('persons')
             ->join('internships', 'responsible_id', '=', 'persons.id')
-            ->where('internships.id', $iid)
+            ->where('internships.id', $id)
             ->select('firstName', 'lastName')
             ->first();
+
+        $responsible = Persons::whereHas("internshipsResponsible",function ($query){
+            $query->where('internships.id', $id);
+        })->first();
 
         return array($contract, $intern, $company, $responsible);
     }
