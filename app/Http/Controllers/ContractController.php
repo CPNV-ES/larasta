@@ -48,6 +48,7 @@ class ContractController extends Controller
      */
     public function visualizeContract($iid, Request $request)
     {
+
         $contract = $this->getContract($iid);
 
         /*
@@ -56,6 +57,7 @@ class ContractController extends Controller
          *      1 => Replacing string, male
          *      2 => Only contains female replacing string
          */
+
         preg_match_all("/{{1,2}([^{}|]+)\s*(?:\|\s*([^{}]+))?}{1,2}/", $contract[0]->contractText, $out);
 
         // Tracks on which regex match we're working with
@@ -152,8 +154,8 @@ class ContractController extends Controller
             ->select('contractText', 'grossSalary','internships.beginDate', 'internships.endDate')
             ->where('internships.id', $id)
             ->first();
-
-        $contract = Contract::whereHas('companies.Internships',function ($query){
+        //
+        $contract = Contract::whereHas('companies.Internships',function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
 
@@ -164,7 +166,7 @@ class ContractController extends Controller
             ->select('firstname', 'lastname', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
             ->first();
 
-        $intern = Persons::whereHas("internshipsStudent",function ($query){
+        $intern = Persons::whereHas("student",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
 
@@ -175,7 +177,7 @@ class ContractController extends Controller
             ->select('companyName', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
             ->first();
 
-        $company = Companies::whereHas("Internship",function ($query){
+        $company = Companies::whereHas("Internships",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
 
@@ -185,7 +187,7 @@ class ContractController extends Controller
             ->select('firstName', 'lastName')
             ->first();
 
-        $responsible = Persons::whereHas("internshipsResponsible",function ($query){
+        $responsible = Persons::whereHas("responsible",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
 

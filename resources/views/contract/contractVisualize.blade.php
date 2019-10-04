@@ -19,10 +19,10 @@
                 height: "600"
             });
         </script>
-
+        {{$contract[1]->location}}
         <form id="contractEditor" method="post" action="/contract/{{$iid}}/save">
             {{ csrf_field() }}
-            <textarea name="contractText">{{$contract[0]->contractText}}</textarea><br>
+            <textarea name="contractText"><?php echo e($contract[0]->contractText); ?></textarea><br>
             <button>Valider</button> <button name="pdf" value="pdf">Générer pdf</button>
         </form>
     </div>
