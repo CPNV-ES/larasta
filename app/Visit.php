@@ -34,6 +34,6 @@ class Visit extends Model
      */
     public function visitsstate()
     {
-        return $this->HasMany('App\Visitsstate');
+        return $this->belongsTo('App\Visitsstate','visitsstates_id');
     }
 }

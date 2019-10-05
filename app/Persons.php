@@ -42,6 +42,16 @@ class Persons extends Model
     {
         return $this->hasMany('App\Flock','classMaster_id');
     }
+
+    /**
+     * Relation to the contactinfos of the teacher/students
+     */
+    public function contactinfo()
+    {
+        return $this->hasMany('App\Contactinfos');
+    }
+
+    
     /**
      * Computed property to get role name
      * Created by Davide Carboni

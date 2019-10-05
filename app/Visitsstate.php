@@ -10,7 +10,7 @@ class Visitsstate extends Model
 
     public function visit()
     {
-        return $this->belongsTo('App\Visit'.'visits_id');
+        return $this->hasMany('App\Visit');
     }
     //
 }
