@@ -71,6 +71,7 @@ Laravel puisse le savoir.
 - Donc pour montrer qu'un contrat appartient à plusieurs entreprises, nous allons sur le model
   `Contract` (larasta/app/Contract.php) et ajoutons la méthode suivante:
 
+    ```php
          /**
          * @description A contract has many companies
          * @return All companies with our contract
@@ -79,6 +80,7 @@ Laravel puisse le savoir.
         {
             return $this->hasMany("App\Company","contracts_id");
         }
+    ```
 
     Ici j'ai le nom `companies` a été défini au pluriel pour nous montrer que nous attendons comme
     retour plusieurs compagnies.
@@ -92,6 +94,7 @@ Laravel puisse le savoir.
 - Maintenant nous allons faire l'autre liaison. Une entreprise possède un seul et unique contrat.
   Pour ce faire, nous allons sur le model `Company` (larasta/app/Company.php) et ajoutons la méthode suivante:
 
+    ```php
         /**
          * @description A contract belong to company
          * @return the contract of company
@@ -100,17 +103,18 @@ Laravel puisse le savoir.
         {
             return $this->belongsTo('App\Contract');
         }
+    ```
 
     Explication du `belongsTo()`:
      - Il sert à faire la liaison `n-1`, comme illustré plus tôt "une entreprise possède un seul et unique contrat".
      - Le premier paramètre est la classe qui pointe sur notre table `contracts` donc on met `App\Contract`
      - Le deuxième paramètre correspond au nom de l'id, à mettre dès que le nom de l'id de la table est différent du mot `id`
 
-
 - Maintenant ajoutons la lisaison entre la table `companies` et `internships`.
   Une entreprise à un ou plusieurs stages, ce qui signifie que nous allons avoir une liaison `HasMany()` dans le
   model `company`.
 
+    ```php
         /**
          * @description A company has many internships
          * @return All internships of our company
@@ -119,10 +123,12 @@ Laravel puisse le savoir.
         {
             return $this->hasMany('App\Internship');
         }
+    ```
 
 - Il nous reste une dernière liaison entre la table `internships` et `companies`, celle `n-1`
   "Un stage appartient à une entreprise" ce qui nous donne une requête `belongsTo()`.
 
+    ```php
         /**
          * @description An internships belongs to a company
          * @return data of internship
@@ -131,6 +137,7 @@ Laravel puisse le savoir.
         {
             return $this->belongsTo('App\Companies', 'companies_id');
         }
+    ```
 
  Maintenant nous avons toutes nos relations entre le code et la base de données!
 ```
@@ -148,27 +155,34 @@ Imaginons les requêtes suivantes:
  - Je souhaites avoir le contrat de stage de l'entreprise avec l'id 5:
    Nous identifier ce que nous souhaitons avoir, pour notre cas c'est un contrat.
    donc nous débutons la requête avec le nom de notre model qui pointe sur la table contrat
-        `Contract`
+
+    `Contract`
 
    Ensuite, nous voulons savoir le stage au quel appartient notre contrat, pour ce faire nous allons utiliser
    une méthode statique de Laravel, WhereHas() nous permet de récupérer directement les informations de notre entreprise.
    Pour ce faire, dans les paramètres nous devons mettre le parcours à éffectuer depuis `contracts` pour atteindre
    la table `internships`.
    Pour notre cas il faut passer par la table companies pour atteindre internships. cequi nous donne:
-        `Contract::WhereHas('companies.internships',`
+
+    `Contract::WhereHas('companies.internships',`
 
    Enfin, il nous faut mettre le deuxième paramètre, pour nous c'est une fonction qui doit récupérer les données
    de l'entreprise.
    Il faut donc faire une fonction qui garde notre requête et qui utilise notre id fournis plus tôt.
 
+    ```php
         //Get contract of specific internships
         $contract = Contract::whereHas('companies.internships',function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
+    ```
 
    la méthode first récupère que la première ligne reçue et la transforme en une collection.
 
  - Je souhaite savoir le nombre d'entreprises utilisant un certain contrat.
    Il nous suffit d'utiliser notre méthode créée précédemment, `hasMany()` qui se se situe dans la méthode `companies`.
    ensuite il nous suffit d'utiliser la méthode where qui va récupérer toutes les entreprises ayant le contrat X.
-        `contract->companies->where("contracts.id",$id)`
+
+    ```php
+        $value = contract->companies->where("contracts.id",$id)
+    ```
