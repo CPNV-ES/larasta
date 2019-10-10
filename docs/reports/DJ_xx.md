@@ -50,9 +50,10 @@ Remplacement des requêtes SQL, afin d'utiliser Eloquent.
 - Vue wishesMatrix :
     - affichage des données en utilisant Eloquent
 - Eloquent :
-    - Travail de recherche sur la fonction whereHas
-    - transmission du savoir avec Diogo et Killian
-    - Détection et documentation d'un bug faisant que la fonction whereHas ne fonctionne pas avec une version trop récente de PHP
+    - travail de recherche sur la fonction whereHas
+    - transmission du savoir auprès de Diogo et Killian
+    - Détection et documentation d'un bug faisant que la fonction whereHas ne fonctionne pas 
+    avec une version trop récente de PHP
 
 # Tests
 
@@ -71,5 +72,8 @@ https://github.com/CPNV-ES/larasta/commit/d596283f84187a57eded8a8b2e569d0a1fbaba
 (Effectuée, le ...)
 
 # Documentation
+
+Important : La dernière version 7.3 de PHP n'est pas supportée par la version installée de Laravel (5.5.32).
+En particulier, la méthode whereHas d'Eloquent ne fonctionne pas avec php7.3.
 
 (Mise à jour, le ...)
