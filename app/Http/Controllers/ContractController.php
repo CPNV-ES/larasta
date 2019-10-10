@@ -148,47 +148,20 @@ class ContractController extends Controller
      */
     public  function getContract($id)
     {
-        $contract = DB::table('contracts')
-            ->join('companies', 'contracts_id', '=', 'contracts.id')
-            ->join('internships', 'companies_id', '=', 'companies.id')
-            ->select('contractText', 'grossSalary','internships.beginDate', 'internships.endDate')
-            ->where('internships.id', $id)
-            ->first();
 
         //Get contract of specific internships
         $contract = Contract::whereHas('companies.Internships',function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
-        dd($contract);
-        $intern = DB::table('persons')
-            ->join('internships', 'intern_id', '=', 'persons.id')
-            ->join('locations', 'location_id', '=', 'locations.id')
-            ->where('internships.id', $id)
-            ->select('firstname', 'lastname', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
-            ->first();
 
         //Get data of student on internship
         $intern = Persons::whereHas("student",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
-
-        $company = DB::table('companies')
-            ->join('internships', 'companies_id', '=', 'companies.id')
-            ->join('locations', 'location_id', '=', 'locations.id')
-            ->where('internships.id', $id)
-            ->select('companyName', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
-            ->first();
-
         //Get company where student work
         $company = Companies::whereHas("Internships",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
-
-        $responsible = DB::table('persons')
-            ->join('internships', 'responsible_id', '=', 'persons.id')
-            ->where('internships.id', $id)
-            ->select('firstName', 'lastName')
-            ->first();
 
         //Who is the reponsible of student
         $responsible = Persons::whereHas("responsible",function ($query)use ($id){
