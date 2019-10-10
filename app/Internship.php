@@ -28,7 +28,8 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrive the companies
+     * @description An internships belongs to a company
+     * @return data of internship
      */
     public function company()
     {
