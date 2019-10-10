@@ -12,9 +12,9 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-balloon": "^11.2.0",
         "@ckeditor/ckeditor5-build-classic": "^11.2.0",
-        "bootstrap": "^3.4.0",
+        "bootstrap": "^3.4.1",
         "datatables": "^1.10.18",
-        "jquery": "^3.3.1",
+        "jquery": "^3.4.1",
         "jquery-ui": "^1.12",
         "tinymce": "^4.9.3"
     },
