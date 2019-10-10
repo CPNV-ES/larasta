@@ -77,9 +77,9 @@ class WishesMatrixController extends Controller
         }
     }
 
+    // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
     private function getCompaniesWithInternships()
     {
-        // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
         $companies = Company::whereHas('internships', function ($query) {
             $query->whereYear('beginDate', '=', date('Y'));
         })->whereHas('contractstates', function ($query) {
@@ -89,7 +89,8 @@ class WishesMatrixController extends Controller
         return $companies;
     }
 
-    // Get all the persons from a flock, identified by its id
+    // Get all the persons from a flock identified by its id,
+    // if their initials are not null
     private function getPersonsFromFlock($flock_id)
     {
         // Get persons whose initials are not null
@@ -99,7 +100,8 @@ class WishesMatrixController extends Controller
         return $persons;
     }
 
-    // Get wishes of a person, identified by their id
+    // Get wishes of a person identified by their id,
+    // if the rank of the wish is > 0
     private function getWishesByPerson($idPerson)
     {
         $wishes = Wish::where('persons_id', $idPerson)

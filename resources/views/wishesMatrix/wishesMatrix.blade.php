@@ -1,9 +1,9 @@
 <!-- ///////////////////////////////////              -->
 <!-- Benjamin Delacombaz                              -->
 <!-- Wishes Matrix layout                             -->
-<!-- Version 0.7                                      -->
+<!-- Version 0.8                                      -->
 <!-- Created 18.12.2017                               -->
-<!-- Last edit 23.01.2017 by Benjamin Delacombaz      -->
+<!-- Last edit 10.01.2019 by Damien Jakob             -->
 
 
 @extends ('layout')
@@ -43,9 +43,9 @@
                             @else
                                 <td class="clickableCase">
                             @endif
-                            <!-- Add for each persons in the table her wish -->
+                            <!-- Add for each person in the table their wishes -->
                                 @foreach ($wishes[$person->id] as $wish)
-                                    <!-- if wish company is equal to the current company display the rank -->
+                                    <!-- if wish company is equal to the current company, display the rank -->
                                     @if($wish->internship->company->id == $company->id)
                                         {{ $wish->rank }}
                                     @endif

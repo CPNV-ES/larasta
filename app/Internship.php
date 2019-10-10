@@ -20,7 +20,7 @@ class Internship extends Model
     protected $dates = ['beginDate', 'endDate'];
 
     /**
-     * Relation with the visit model
+     * Relation with the Visit model
      */
     public function visit()
     {
@@ -28,7 +28,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrieve the companies
+     * Relation with the Companies model
      */
     public function companies()
     {
@@ -36,7 +36,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrieve the student
+     * Relation with the Person model : student
      */
     public function student()
     {
@@ -44,7 +44,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrieve the internship master
+     * Relation with the Person model : internship master
      */
     public function responsible()
     {
@@ -52,7 +52,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrieve the internship admin
+     * Relation with the Person model : internship admin
      */
     public function admin()
     {
@@ -60,7 +60,7 @@ class Internship extends Model
     }
 
     /**
-     * Relation with the contractstates model
+     * Relation with the Contractstates model
      */
     public function contractstate()
     {

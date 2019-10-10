@@ -16,6 +16,9 @@ class Company extends Model
         return $this->hasMany('App\Internship', 'companies_id');
     }
 
+    /**
+     * Relation with the contractstate model
+     */
     public function contractstates()
     {
         return $this->belongsToMany('App\Contractstate', 'internships',
