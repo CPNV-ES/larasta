@@ -25,4 +25,12 @@ class Companies extends Model
     {
         return $this->belongsTo('App\Contract');
     }
+    /**
+     * @description A Location belong to Company
+     * @return the location of company
+     */
+    public function location()
+    {
+        return $this->belongsTo('App\Location');
+    }
 }

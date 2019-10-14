@@ -20,9 +20,13 @@ class Persons extends Model
         'role'
     ];
 
+    /**
+     * @description A Location belong to person
+     * @return the location of person
+     */
     public function location()
     {
-        return $this->belongsTo('App\Locations', "location_id");
+        return $this->belongsTo('App\Location');
     }
     /**
      * Relation to the internship of the student

@@ -60,13 +60,13 @@ Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
 
 
 // Quentin N - Contract generation
-Route::get('/contract/{iid}', 'ContractController@generateContract');
+Route::get('/contract/{id}', 'ContractController@generateContract');
 
-Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
+Route::post('/contract/{id}/view', 'ContractController@visualizeContract');
 
-Route::post('/contract/{iid}/save', 'ContractController@saveContract');
+Route::post('/contract/{id}/save', 'ContractController@saveContract');
 
-Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
+Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
 // Steven
 

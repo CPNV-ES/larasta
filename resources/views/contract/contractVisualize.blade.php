@@ -2,7 +2,7 @@
 /**
  * Author :         Quentin Neves
  * Created :        12.12.2017
- * Updated :        24.01.2018
+ * Updated :        14.10.2019 by Diogo Vieira Ferreira
  * Description :    Displays the generated contract in a rich text editor
  */
 ?>
@@ -19,9 +19,9 @@
                 height: "600"
             });
         </script>
-        <form id="contractEditor" method="post" action="/contract/{{$iid}}/save">
+        <form id="contractEditor" method="post" action="/contract/{{$id}}/save">
             {{ csrf_field() }}
-            <textarea name="contractText"><?php echo e($contract[0]->contractText); ?></textarea><br>
+            <textarea name="contractText"><?php echo e($contract->contractText); ?></textarea><br>
             <button>Valider</button> <button name="pdf" value="pdf">Générer pdf</button>
         </form>
     </div>

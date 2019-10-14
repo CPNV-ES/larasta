@@ -3,8 +3,11 @@
 /**
  * Author :         Quentin Neves
  * Created :        12.12.2017
- * Updated :        24.01.2018
- * Version :        1.0
+ * Updated :        14.10.2019 by Diogo Vieira Ferreira
+ * Updates informations:    14.10.2019 :    All request use Eloquent system, delete one intermediate method  and change all iid by id...
+ *                                          Now visualizeContract method generate a contract with correctly data.
+ *                                          SaveContract method, update the date of contractGenerated field on internship table.
+ * Version :        1.1
  * Description :    This controller is used for generating internship contract using intern informations and gender
  *                  and display it
  */
@@ -14,6 +17,7 @@ namespace App\Http\Controllers;
 
 use App\Companies;
 use App\Contract;
+use App\Internship;
 use App\Persons;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -24,136 +28,33 @@ use PDF;
 class ContractController extends Controller
 {
     /**
-     * Used to pass data to contractGenerate view, which will decide if we can generate the contract
-     *ddrt
-     * @param $iid id of the current internship
-     * @return $this contains the date when the contract has been generated
+     * Send the generate date of our contract and depending on values, the view contractGenerate show differents informations
+     *
+     * @param $id id of the current internship
+     * @return date of generated contract and id of internship
      */
-    public function generateContract($iid)
+    public function generateContract($id)
     {
-        $iDate = DB::table('internships')
-            ->select('contractGenerated')
-            ->where('id', $iid)
-            ->first();
-
-        return view('contract/contractGenerate')->with(['iDate' => $iDate, 'iid' => $iid]);
+        $internship = Internship::where("id",$id)->first();
+        return view('contract/contractGenerate')->with(['contractGenerated' => $internship->contractGenerated, 'id' => $id]);
     }
 
     /**
-     * Replace markups from contract template with corresponding data
+     * Search specific contract and replace all markups
+     * by specific data get in database
      *
-     * @param $iid
+     * @param $id
      * @param Request $request get data in post request
-     * @return $this contains generated contract
+     * @return contract data and id of internship
      */
-    public function visualizeContract($iid, Request $request)
+    public function visualizeContract($id, Request $request)
     {
-
-        $contract = $this->getContract($iid);
-
-        /*
-         *  Search for anything between { } and trim them by groups so $out[] contains :
-         *      0 => Markups to replace
-         *      1 => Replacing string, male
-         *      2 => Only contains female replacing string
-         */
-
-        preg_match_all("/{{1,2}([^{}|]+)\s*(?:\|\s*([^{}]+))?}{1,2}/", $contract[0]->contractText, $out);
-
-        // Tracks on which regex match we're working with
-        $i = 0;
-
-        foreach ($out[0] as $markup) // For each markup found
-        {
-            if (substr($markup,0,2) === '{{') // If we must accord the gender
-            {
-                if ($request->gender === 'male')
-                {
-                    $contract[0]->contractText = str_replace($markup, $out[1][$i], $contract[0]->contractText);
-                }
-                else
-                {
-                    $contract[0]->contractText = str_replace($markup, $out[2][$i], $contract[0]->contractText);
-                }
-
-            }
-            else // else we must insert data
-            {
-                switch ($out[0][$i]){
-                    case '{train_PrenomPersonne}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->firstname, $contract[0]->contractText);
-                        break;
-                    case '{train_NomPersonne}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->lastname, $contract[0]->contractText);
-                        break;
-                    case '{train_Adresse1}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address1, $contract[0]->contractText);
-                        break;
-                    case '{train_Adresse2}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address2, $contract[0]->contractText);
-                        break;
-                    case '{train_NPA}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->postalCode, $contract[0]->contractText);
-                        break;
-                    case '{train_Localite}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->city, $contract[0]->contractText);
-                        break;
-                    case '{corp_NomEntreprise}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[2]->companyName, $contract[0]->contractText);
-                        break;
-                    case '{corp_Adresse1}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address1, $contract[0]->contractText);
-                        break;
-                    case '{corp_Adresse2}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address2, $contract[0]->contractText);
-                        break;
-                    case '{corp_NPA}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->postalCode, $contract[0]->contractText);
-                        break;
-                    case '{corp_Localite}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->city, $contract[0]->contractText);
-                        break;
-                    case '{Debut}':
-                        $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($contract[0]->beginDate)), $contract[0]->contractText);
-                        break;
-                    case '{Fin}':
-                        $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($contract[0]->endDate)), $contract[0]->contractText);
-                        break;
-                    case '{resp_PrenomPersonne}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[3]->firstName, $contract[0]->contractText);
-                        break;
-                    case '{resp_NomPersonne}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[3]->lastName, $contract[0]->contractText);
-                        break;
-                    case '{SalaireBrut}':
-                        $contract[0]->contractText = str_replace($out[0][$i], $contract[0]->grossSalary, $contract[0]->contractText);
-                        break;
-                    case '{date}':
-                        $date = Carbon::now();
-                        $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($date)), $contract[0]->contractText);
-                        break;
-                }
-            }
-            $i++;
-        }
-
-        return view('contract/contractVisualize')->with(['iid' => $iid, 'contract' => $contract, 'out' => $out, 'request' => $request]);
-    }
-
-    /**
-     * Queries to retrive all contract related datas needed to generate it
-     *
-     * @param $iid
-     * @return array
-     */
-    public  function getContract($id)
-    {
-
+        //Get informations of internship
+        $internship = Internship::find($id)->first();
         //Get contract of specific internships
         $contract = Contract::whereHas('companies.Internships',function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
-
         //Get data of student on internship
         $intern = Persons::whereHas("student",function ($query)use ($id){
             $query->where('internships.id', $id);
@@ -162,54 +63,134 @@ class ContractController extends Controller
         $company = Companies::whereHas("Internships",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
-
         //Who is the reponsible of student
         $responsible = Persons::whereHas("responsible",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
 
-        return array($contract, $intern, $company, $responsible);
+
+        /*
+         *  Search for anything between { } and trim them by groups so $out[] contains :
+         *      0 => Universal pronoun
+         *      1 => Male pronoun
+         *      2 => Female pronoun
+         */
+        preg_match_all("/{{1,2}([^{}|]+)\s*(?:\|\s*([^{}]+))?}{1,2}/", $contract->contractText, $out);
+        $markups=$out[0];
+        $markupsMale=$out[1];
+        $markupsFemale=$out[2];
+
+        //Search on our contract all data we have to modify values
+        foreach ($markups as $index => $markup)//each markup has an index
+        {
+            //when we have to choice between female or male pronoun, our markup starts with {{
+            if (substr($markup,0,2) === '{{')
+            {
+                if ($request->gender === 'male')
+                {
+                    $contract->contractText = str_replace($markup, $markupsMale[$index], $contract->contractText);
+                }
+                else
+                {
+                    $contract->contractText = str_replace($markup, $markupsFemale[$index], $contract->contractText);
+                }
+
+            }
+            else //use current markup when we don't have to choose between the different pronoun
+            {
+                switch ($markup){
+                    case '{train_PrenomPersonne}':
+                        $contract->contractText = str_replace($markup, $intern->firstname, $contract->contractText);
+                        break;
+                    case '{train_NomPersonne}':
+                        $contract->contractText = str_replace($markup, $intern->lastname, $contract->contractText);
+                        break;
+                    case '{train_Adresse1}':
+                        $contract->contractText = str_replace($markup, $intern->location->address1, $contract->contractText);
+                        break;
+                    case '{train_Adresse2}':
+                        $contract->contractText = str_replace($markup, $intern->location->address2, $contract->contractText);
+                        break;
+                    case '{train_NPA}':
+                        $contract->contractText = str_replace($markup, $intern->location->postalCode, $contract->contractText);
+                        break;
+                    case '{train_Localite}':
+                        $contract->contractText = str_replace($markup, $intern->location->city, $contract->contractText);
+                        break;
+                    case '{corp_NomEntreprise}':
+                        $contract->contractText = str_replace($markup, $company->companyName, $contract->contractText);
+                        break;
+                    case '{corp_Adresse1}':
+                        $contract->contractText = str_replace($markup, $company->location->address1, $contract->contractText);
+                        break;
+                    case '{corp_Adresse2}':
+                        $contract->contractText = str_replace($markup, $company->location->address2, $contract->contractText);
+                        break;
+                    case '{corp_NPA}':
+                        $contract->contractText = str_replace($markup, $company->location->postalCode, $contract->contractText);
+                        break;
+                    case '{corp_Localite}':
+                        $contract->contractText = str_replace($markup, $company->location->city, $contract->contractText);
+                        break;
+                    case '{Debut}':
+                        $contract->contractText = str_replace($markup, date('d F Y', strtotime($contract->beginDate)), $contract->contractText);
+                        break;
+                    case '{Fin}':
+                        $contract->contractText = str_replace($markup, date('d F Y', strtotime($contract->endDate)), $contract->contractText);
+                        break;
+                    case '{resp_PrenomPersonne}':
+                        $contract->contractText = str_replace($markup, $responsible->firstname, $contract->contractText);
+                        break;
+                    case '{resp_NomPersonne}':
+                        $contract->contractText = str_replace($markup, $responsible->lastname, $contract->contractText);
+                        break;
+                    case '{SalaireBrut}':
+                        $contract->contractText = str_replace($markup, $internship->grossSalary, $contract->contractText);
+                        break;
+                    case '{date}':
+                        $date = Carbon::now();
+                        $contract->contractText = str_replace($markup, date('d F Y', strtotime($date)), $contract->contractText);
+                        break;
+                }
+            }
+        }
+
+        return view('contract/contractVisualize')->with(['id' => $id, 'contract' => $contract]);
     }
 
     /**
      * Updates the data where the contract has been generated or create the pdf file
      *
-     * @param $iid
-     * @param Request $request contains the generated contract text
-     * @return $pdf->stream() displays the contract in a view form which you can print it or download it
-     * @return ContractController
+     * @param $id of specific internship
+     * @param Request $request contain post value, if we want make PDF or no
+     * @return show the page of contract on format PDF or return to standart view of contract
      */
-    public function saveContract($iid, Request $request)
+    public function saveContract($id, Request $request)
     {
-        $date = Carbon::now();
-
-        DB::table('internships')
-            ->where('id', $iid)
-            ->update(['contractGenerated' => $date]);
-
+        $date=date('Y-m-d H:i:s', strtotime(Carbon::now()));
+        //update the contractGenerated field of Internship
+        Internship::where("id",$id)->update(['contractGenerated' => $date ]);
         if ($request->pdf == 'pdf')
         {
             $pdf = App::make('dompdf.wrapper');             // Creates an "empty" pdf file
             $pdf->loadHTML($request->contractText);         // Inserts text into the file and converts markups into style
-            return $pdf->stream('Contract-'.$iid.'.pdf');   // Finalize pdf file, name it and send to download
+            return $pdf->stream("Contract-$id.pdf");   // Finalize pdf file, name it and send to download
         }
-        return $this->generateContract($iid);
+        return $this->generateContract($id);
     }
 
     /**
      * Deletes the date where the contract has been generated
      *
-     * @param $iid
-     * @return $this
+     * @param $id of internship
+     * @return return to the page to update internship
      */
-    public function cancelContract($iid)
+    public function cancelContract($id)
     {
-        DB::table('internships')
-            ->where('id', $iid)
-            ->update(['contractGenerated' => null]);
-
+        //update the contractGenerated field of Internship
+        Internship::find($id)->update(['contractGenerated' => null]);
         // Instantiate the internship controller to get back to the internship view
         $internshipController = new InternshipsController();
-        return $internshipController->edit($iid);
+        return $internshipController->edit($id);
     }
 }
