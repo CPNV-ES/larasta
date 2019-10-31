@@ -38,6 +38,9 @@ permettant de sélectionner l'année.
 
 # Exécution
 
+- Base de données :
+    - Ajout d'une entité contenant l'année sélectionnée
+
 # Tests
 
 (Terminés, le ...)

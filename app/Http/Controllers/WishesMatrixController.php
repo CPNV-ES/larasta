@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Flock;
 use App\Wish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,12 +28,24 @@ class WishesMatrixController extends Controller
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // Get the flock id
+        // TODO : delete, once year is selected
         $currentUserFlockId = Person::find($currentUser->getId());
 
+        // TODO : update function to work with other years
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
+
+        // TODO : get all classes from year selected
         // Get list person in same flock id
         $persons = $this->getPersonsFromFlock($currentUserFlockId);
+        // Get the selected year, and all classes from that year
+        $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
+        $flocks = null;
+        if ($selectedFlockYear != null) {
+            $selectedFlockYear = $selectedFlockYear->paramValueInt;
+            $flocks = $this->getFlocksWithYear($selectedFlockYear);
+        }
+
         $wishes = null;
         $dateEndWishes = null;
 
@@ -50,9 +63,21 @@ class WishesMatrixController extends Controller
                 $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
             }
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes, 'currentUserFlockId' => $currentUserFlockId]);
+
+        return view('wishesMatrix/wishesMatrix')
+            ->with([
+                'companies' => $companies,
+                'persons' => $persons,
+                'wishes' => $wishes,
+                'currentUser' => $currentUser,
+                'dateEndWishes' => $dateEndWishes,
+                'currentUserFlockId' => $currentUserFlockId,
+                'selectedYear' => $selectedFlockYear,
+                'flocks' => $flocks
+            ]);
     }
 
+    // TODO : save selected flock year
     public function save(Request $request)
     {
         // Do only if not student
@@ -108,5 +133,21 @@ class WishesMatrixController extends Controller
             ->where('wishes.rank', '>', 0)
             ->get();
         return $wishes;
+    }
+
+    // Get all distinct start years of flocks
+    private function getFlockYears()
+    {
+        $flockYears = Flock::distinct()
+            ->get(['startYear']);
+        return $flockYears;
+    }
+
+    // Get all flocks that started on a specific year
+    private function getFlocksWithYear($year)
+    {
+        $flocks = Flock::where('startYear', '=', $year)
+            ->get();
+        return $flocks;
     }
 }
