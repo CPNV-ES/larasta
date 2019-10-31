@@ -1,32 +1,16 @@
-```
-__________________________________________________________________________________________________
-
-      ______  .______    _______       ___      .___________.  __    ______   .__   __.
-     /      | |   _  \  |   ____|     /   \     |           | |  |  /  __  \  |  \ |  |
-    |  ,----' |  |_)  | |  |__       /  ^  \    `---|  |----` |  | |  |  |  | |   \|  |
-    |  |      |      /  |   __|     /  /_\  \       |  |      |  | |  |  |  | |  . `  |
-    |  `----. |  |\  \  |  |____   /  _____  \      |  |      |  | |  `--'  | |  |\   |
-     \______| | _| `._| |_______| /__/     \__\     |__|      |__|  \______/  |__| \__|
-
-__________________________________________________________________________________________________
-```
+# Creation
 
 Pour commencer avec éloquent, il nous faut premièrement identifier les tables afin de créer des models de celles-ci, puis faire la liaison entre le code et la base de données et enfin faire les requêtes.
 
-```
-  _____           _       _
- |_   _|   __ _  | |__   | |   ___   ___
-   | |    / _` | | '_ \  | |  / _ \ / __|
-   | |   | (_| | | |_) | | | |  __/ \__ \
-   |_|    \__,_| |_.__/  |_|  \___| |___/
-__________________________________________
-```
+# Tables
 
 Nous avons les tables suivantes:
 
     Contracts, Un contrat appartient à une ou plusieurs entreprises
     Companies, Une entreprise possède 1 seul contrat et appartient à un ou plusieurs stages
     Internships, Un stage se passe dans une seule entreprise
+    
+## schéma
 ```
      _____________________________             _____________________________             _____________________________
     |                             |           |                             |           |                             |
@@ -35,14 +19,8 @@ Nous avons les tables suivantes:
 ```
 Pour commencer nos requêtes Eloquente, il va nous falloir créer les différents models liées à nos tables
 
-```
-  __  __               _          _
- |  \/  |   ___     __| |   ___  | |  ___
- | |\/| |  / _ \   / _` |  / _ \ | | / __|
- | |  | | | (_) | | (_| | |  __/ | | \__ \
- |_|  |_|  \___/   \__,_|  \___| |_| |___/
-______________________________________________
-```
+# Models
+
 Tout d'abord, nous allons commencer par créer le model de la table `Contracts`.
 Depuis un terminal, il faut aller sur votre projet et écrire la commande suivante:
     php artisan make:model Contract
@@ -51,14 +29,9 @@ Ensuite, on refait la même étape pour Compagnies et Internship.
 Je rappel que les models sont au singulier, maintenant que nous avons créé nos différents models,
 c'est à dire `Contract`, `Company` et `Internship` à la racine de `larasta/app/`,
 nous pouvons commencer nos requêtes
-```
-  ____           _           _     _                                              _                   _       ____    ____
- |  _ \    ___  | |   __ _  | |_  (_)   ___    _ __    ___      ___    ___     __| |   ___      ___  | |_    |  _ \  | __ )
- | |_) |  / _ \ | |  / _` | | __| | |  / _ \  | '_ \  / __|    / __|  / _ \   / _` |  / _ \    / _ \ | __|   | | | | |  _ \
- |  _ <  |  __/ | | | (_| | | |_  | | | (_) | | | | | \__ \   | (__  | (_) | | (_| | |  __/   |  __/ | |_    | |_| | | |_) |
- |_| \_\  \___| |_|  \__,_|  \__| |_|  \___/  |_| |_| |___/    \___|  \___/   \__,_|  \___|    \___|  \__|   |____/  |____/
-_____________________________________________________________________________________________________________________________
-```
+
+# Realtions entre le code et la DB
+
 Pour faire une requête sur larasta il faut identifier la façon dont nous allons contacter la DB.
 
 Prenons l'exemple pour la table contrat, nous voulons avoir le contrat d'une entreprise, pour
@@ -140,14 +113,9 @@ Laravel puisse le savoir.
     ```
 
  Maintenant nous avons toutes nos relations entre le code et la base de données!
-```
-  ____                                  _
- |  _ \    ___    __ _   _   _    ___  | |_    ___   ___
- | |_) |  / _ \  / _` | | | | |  / _ \ | __|  / _ \ / __|
- |  _ <  |  __/ | (_| | | |_| | |  __/ | |_  |  __/ \__ \
- |_| \_\  \___|  \__, |  \__,_|  \___|  \__|  \___| |___/
-____________________|_|___________________________________
-```
+
+# Requêtes
+
 Pour faire nos requêtes, après avoir créé nos relations, nous avons plusieurs manières de le faire...
 
 Imaginons les requêtes suivantes:
