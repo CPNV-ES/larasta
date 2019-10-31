@@ -120,6 +120,7 @@
                 <h3>Stages</h3>
                 <div class="table-responsive">
                     @include ('internships.internshipslist',['iships' => $iships])
+                    <a href="stageform.blade.php"><button type="button" class="">Créer un nouveau stage</button></a>
                 </div>
             </div>
         </div>
