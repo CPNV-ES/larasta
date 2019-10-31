@@ -28,16 +28,17 @@ class WishesMatrixController extends Controller
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // Get the flock id
-        // TODO : delete, once year is selected
+        // TODO : delete, once year is used
         $currentUserFlockId = Person::find($currentUser->getId());
 
         // TODO : update function to work with other years
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
 
-        // TODO : get all classes from year selected
+        // TODO : delete, once year is used
         // Get list person in same flock id
         $persons = $this->getPersonsFromFlock($currentUserFlockId);
+
         // Get the selected year, and all classes from that year
         $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
         $flocks = null;

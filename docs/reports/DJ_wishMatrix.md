@@ -40,6 +40,8 @@ permettant de sélectionner l'année.
 
 - Base de données :
     - Ajout d'une entité contenant l'année sélectionnée
+- Controleur WishesMatrixController :
+    - Ajout de fonctions pour interagir avec la base de données
 
 # Tests
 
