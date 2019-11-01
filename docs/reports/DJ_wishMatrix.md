@@ -42,6 +42,10 @@ permettant de sélectionner l'année.
     - Ajout d'une entité contenant l'année sélectionnée
 - Controleur WishesMatrixController :
     - Ajout de fonctions pour interagir avec la base de données
+    - Envoi à la vue des années affichables, de l'année sélectionnée, et des classes à afficher
+- Vue wishesMatrix :
+    - Affichage des classes de l'année sélectionnée
+    - Ajout du menu déroulant pour sélectionner 
 
 # Tests
 

@@ -96,8 +96,21 @@
     <!-- Check if current user is not a student -->
     @if ($currentUser->getLevel() != 0)
         <a href="/traveltime/{{$currentUserFlockId}}/load" class="col-md-3">Travel time</a>
-        <label>Modifiable jusqu'au</label> <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date"
-                                                  name="editDate" value="{{ $dateEndWishes }}"/>
+        <label>Modifiable jusqu'au</label>
+        <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
+
+        <!-- year selection -->
+        <label>Année à afficher</label>
+        <select name="flockYear" id="flockYear">
+            <!-- default selected year is the displayed year -->
+            @foreach($flockYears as $year)
+                <option value="{{ $year }}"
+                        @if($year == $selectedYear)
+                            selected
+                        @endif
+                >{{ $year }}</option>
+            @endforeach
+        </select>
     @endif
     <button id="save">Enregistrer</button>
 @stop

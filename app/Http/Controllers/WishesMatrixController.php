@@ -47,6 +47,9 @@ class WishesMatrixController extends Controller
             $flocks = $this->getFlocksWithYear($selectedFlockYear);
         }
 
+        // Get the start available years to display
+        $flockYears = $this->getFlockYears();
+
         $wishes = null;
         $dateEndWishes = null;
 
@@ -74,17 +77,21 @@ class WishesMatrixController extends Controller
                 'dateEndWishes' => $dateEndWishes,
                 'currentUserFlockId' => $currentUserFlockId,
                 'selectedYear' => $selectedFlockYear,
-                'flocks' => $flocks
+                'flocks' => $flocks,
+                'flockYears' => $flockYears
             ]);
     }
 
     // TODO : save selected flock year
     public function save(Request $request)
     {
+        var_dump($request);
+
         // Do only if not student
         // !!!!!!!!!!!!!! Value Test !!!!!!!!!!!!!!!!!!!
         if (Environment::currentUser()->getLevel() > 0) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
+
             // Save the date
             if ($request->input('date') != null) {
                 $param = Params::getParamByName('dateEndWishes');
@@ -98,6 +105,21 @@ class WishesMatrixController extends Controller
                     $param->paramName = 'dateEndWishes';
                     $param->paramValueDate = $request->input('date');
                 }
+                $param->save();
+            }
+
+            // Save the display year
+            if ($request->input('displayYear') != null) {
+
+                // Create param if it does not exist
+                $param = Params::getParamByName('wishesSelectedYear');
+                if (is_nul($param)) {
+                    $param = new Params();
+                    $param->paramName = 'wishesSelectedYear';
+                }
+
+                // update value
+                $param->paramValueInt = $request->input('displayYear');
                 $param->save();
             }
         }
@@ -139,8 +161,15 @@ class WishesMatrixController extends Controller
     // Get all distinct start years of flocks
     private function getFlockYears()
     {
-        $flockYears = Flock::distinct()
+        $flocks = Flock::distinct()
             ->get(['startYear']);
+
+        // put all years in an array
+        $flockYears = array();
+        foreach ($flocks as $flock) {
+            $flockYears[] = $flock->startYear;
+        }
+
         return $flockYears;
     }
 

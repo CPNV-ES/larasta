@@ -157,10 +157,14 @@ $(document).ready(function(){
         }
     });
 
+    // TODO debug, perseError of data
     // Event when click on save button
     $('#save').click(function(){
         // Construct object to send
-        var data = {date: $('#dateEndChoices').val()}
+        var data = {
+            date: $('#dateEndChoices').val(),
+            displayYear: $('#flockYear').val()
+        };
         console.log(data);
         $.ajax({
             url: '/wishesMatrix',
