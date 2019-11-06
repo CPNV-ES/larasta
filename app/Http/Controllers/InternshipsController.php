@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Contractstates;
 use App\Internships;
 use App\Lifecycles;
+use App\Company;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -460,5 +461,15 @@ class InternshipsController extends Controller
         {
             abort(404);
         }
+    }
+    
+    public function createInternship($iid)
+    {
+        $Internshipcompany=Company::find($iid);
+        return view('internships/internshipcreate')->with('company', $Internshipcompany);
+    }
+    public function addInternship()
+    {
+
     }
 }

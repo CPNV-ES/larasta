@@ -25,7 +25,7 @@ class EntrepriseController extends Controller
         $company = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->join('contracts', 'contracts_id','=', 'contracts.id')
-            ->select('companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
+            ->select('companies.id','companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
             ->where('companies.id',$id)
             ->get();
 

@@ -122,6 +122,13 @@
                     @include ('internships.internshipslist',['iships' => $iships])
                 </div>
             </div>
+            <div class="col-lg-8 col-lg-offset-2 ">
+            @foreach ($company as $companies)
+                <a href="/internships/{{$companies->id}}/new" class="underline-none">
+                    <button class="btn-success small text-white mt-3">Créer une visite</button>
+                </a>
+            @endforeach
+            </div>
         </div>
         <div class="row content-box">
             <div class="col-lg-8 col-lg-offset-2">
