@@ -9,6 +9,11 @@
 @stop
 
 @section ('content')
+@if(session('error'))
+    <div class="alert alert-danger">
+      {{session('error')}}
+    </div>
+@endif
     <div id="collapsedfilters" class="simple-box-collapsed filters"><h4>Filtre...</h4></div>
     <div id="expandedfilters" class="simple-box filters d-none">
         <h4 id="collapsefilters">Afficher les stages dans l'état</h4>

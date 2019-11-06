@@ -27,8 +27,7 @@ Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit')
 
 Route::get('/internships/{iid}/addRemark','InternshipsController@addRemark');
 
-Route::get('/admin', function () {
-})->middleware('admin');
+Route::get('/admin','AdminController@index')->middleware('admin');
 
 Route::get('/about', function () {
     return view('about');

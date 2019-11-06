@@ -18,10 +18,11 @@ class AuthAdmin
     public function handle($request, Closure $next)
     {
         if (Environment::currentUser()->getLevel() >= 2){
-            return response(view('admin/menu'));
+            //continue and use the controller
+            return $next($request);
         }else{
-            return redirect('/');
+            //redirect and initialize a flash session data
+            return redirect('/')->with('error','You don\'t have admin access');;
         }
-        return $next($request);
     }
 }
