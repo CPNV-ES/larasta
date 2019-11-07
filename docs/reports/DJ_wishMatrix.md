@@ -43,11 +43,13 @@ permettant de sélectionner l'année.
 - Controleur WishesMatrixController :
     - Ajout de fonctions pour interagir avec la base de données
     - Envoi à la vue des années affichables, de l'année sélectionnée, et des classes à afficher
-- Vue wishesMatrix :
+- Vue wishesMatrix
     - Affichage des classes de l'année sélectionnée
-    - Ajout du menu déroulant pour sélectionner
+    - Ajout du menu déroulant pour sélectionner l'année, avec comme valeur par défaut l'année actuellement sélectionnée
 - Script js wishesMatrix
-    - modification de la requête POST pour envoyer l'année sélectionée
+    - Modification de la requête POST pour envoyer l'année sélectionée
+- Classe Flock :
+    - Modification de l'attribut students afin de retourner les élèves par ordre alphabétique des initiales
 
 Remarques 
     - La requête POST envoyée avec le script js retourne une erreur. Le problème était déjà présent initialement.

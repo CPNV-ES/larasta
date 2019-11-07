@@ -19,20 +19,9 @@
         <table id="WishesMatrixTable" class="table-bordered col-md-11">
             <tr>
                 <th></th>
-                <!-- Add each persons where initials is ok -->
-            @foreach ($persons as $person)
-                @if ($person->initials!="")
-                    <!-- Add access class for authoized to edit a col -->
-                        @if ($person->initials == $currentUser->getInitials())
-                            <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
-                        @else
-                            <th value="{{ $person->id }}">{{ $person->initials }}</th>
-                        @endif
-                    @endif
-                @endforeach
 
-            <!-- Add each flock -->
-                @foreach ($flocks as $flock)
+                <!-- Add each flock -->
+            @foreach ($flocks as $flock)
                 <!-- Add each persons where initials is ok -->
                     @foreach($flock->students as $person)
                         @if ($person->initials!="")
@@ -50,41 +39,27 @@
                 <tr>
                     <td value="{{ $company->id }}">{{ $company->companyName }}</td>
                     <!-- Create the clickable case for each person -->
-                @foreach ($persons as $person)
-                    @if ($person->initials!="")
-                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                            @if ($currentUser->getLevel() != 0)
-                                <td class="clickableCase locked teacher">
-                            @else
-                                <td class="clickableCase">
-                                @endif
-                                <!-- Add for each person in the table their wishes -->
-                                @foreach ($wishes[$person->id] as $wish)
-                                    <!-- if wish company is equal to the current company, display the rank -->
-                                        @if($wish->internship->company->id == $company->id)
-                                            {{ $wish->rank }}
-                                        @endif
-                                    @endforeach
-                                </td>
-                            @endif
-                            @endforeach
 
-                            @foreach ($flocks as $flock)
-                                @foreach ($flock->students as $person)
-                                    @if ($person->initials!="")
-                                    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                                        @if ($currentUser->getLevel() != 0)
-                                            <td class="clickableCase locked teacher">
-                                        @else
-                                            <td class="clickableCase">
+                @foreach ($flocks as $flock)
+                    @foreach ($flock->students as $person)
+                        @if ($person->initials!="")
+                            <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
+                                @if ($currentUser->getLevel() != 0)
+                                    <td class="clickableCase locked teacher">
+                                @else
+                                    <td class="clickableCase">
+                                    @endif
+                                    <!-- Add for each person in the table their wishes -->
+                                        <!-- TODO verify if it workss -->
+                                        @foreach($person->wishes as $wish)
+                                            @if($wish->internship->company->id == $company->id)
+                                                {{ $wish->rank }}
                                             @endif
-                                            <!-- Add for each person in the table their wishes -->
-                                                <!-- TODO add if wish or not -->
-
-                                            </td>
-                                        @endif
                                         @endforeach
-                                        @endforeach
+                                    </td>
+                                @endif
+                                @endforeach
+                                @endforeach
 
                 </tr>
             @endforeach
@@ -95,7 +70,6 @@
     </div>
     <!-- Check if current user is not a student -->
     @if ($currentUser->getLevel() != 0)
-        <a href="/traveltime/{{$currentUserFlockId}}/load" class="col-md-3">Travel time</a>
         <label>Modifiable jusqu'au</label>
         <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
 
@@ -106,9 +80,10 @@
             @foreach($flockYears as $year)
                 <option value="{{ $year }}"
                         @if($year == $selectedYear)
-                            selected
+                        selected
                         @endif
-                >{{ $year }}</option>
+                >{{ $year }}
+                </option>
             @endforeach
         </select>
     @endif

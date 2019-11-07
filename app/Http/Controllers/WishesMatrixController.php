@@ -27,12 +27,6 @@ class WishesMatrixController extends Controller
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
-        // TODO : delete, once year is used
-        // Get the flock id
-        $currentUserFlockId = Person::find($currentUser->getId());
-        // Get list person in same flock id
-        $persons = $this->getPersonsFromFlock($currentUserFlockId);
 
         // TODO : update function to work with other years ???
         // Get companies to display
@@ -49,13 +43,7 @@ class WishesMatrixController extends Controller
         // Get the start available years to display
         $flockYears = $this->getFlockYears();
 
-        $wishes = null;
         $dateEndWishes = null;
-
-        // Get all wishes per person
-        foreach ($persons as $person) {
-            $wishes[$person->id] = $this->getWishesByPerson($person->id);
-        }
 
         // Get info for teacher
         // Test if current user is a teacher
@@ -72,11 +60,8 @@ class WishesMatrixController extends Controller
         return view('wishesMatrix/wishesMatrix')
             ->with([
                 'companies' => $companies,
-                'persons' => $persons,
-                'wishes' => $wishes,
                 'currentUser' => $currentUser,
                 'dateEndWishes' => $dateEndWishes,
-                'currentUserFlockId' => $currentUserFlockId,
                 'selectedYear' => $selectedFlockYear,
                 'flocks' => $flocks,
                 'flockYears' => $flockYears
