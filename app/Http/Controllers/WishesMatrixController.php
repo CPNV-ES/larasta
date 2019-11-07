@@ -61,11 +61,13 @@ class WishesMatrixController extends Controller
         // Get info for teacher
         // Test if current user is a teacher
         if ($currentUser->getLevel() >= 1) {
+            // get date end wishes
             $param = Params::getParamByName('dateEndWishes');
             if ($param != null) {
                 // Convert the date/time to date only
                 $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
             }
+
         }
 
         return view('wishesMatrix/wishesMatrix')
@@ -82,16 +84,13 @@ class WishesMatrixController extends Controller
             ]);
     }
 
-    // TODO : save selected flock year
+
     public function save(Request $request)
     {
-        var_dump($request);
-
         // Do only if not student
         // !!!!!!!!!!!!!! Value Test !!!!!!!!!!!!!!!!!!!
         if (Environment::currentUser()->getLevel() > 0) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
-
             // Save the date
             if ($request->input('date') != null) {
                 $param = Params::getParamByName('dateEndWishes');
@@ -110,10 +109,9 @@ class WishesMatrixController extends Controller
 
             // Save the display year
             if ($request->input('displayYear') != null) {
-
                 // Create param if it does not exist
                 $param = Params::getParamByName('wishesSelectedYear');
-                if (is_nul($param)) {
+                if (is_null($param)) {
                     $param = new Params();
                     $param->paramName = 'wishesSelectedYear';
                 }

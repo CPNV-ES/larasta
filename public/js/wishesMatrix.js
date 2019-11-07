@@ -157,7 +157,6 @@ $(document).ready(function(){
         }
     });
 
-    // TODO debug, perseError of data
     // Event when click on save button
     $('#save').click(function(){
         // Construct object to send
@@ -173,12 +172,12 @@ $(document).ready(function(){
             dataType: 'json',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             success : function(code_html, statut){ // code_html contient le HTML renvoyé
-                alert('La modification a été effectuée avec succès')
+                alert('La modification a été effectuée avec succès');
             },
             error : function(result, statut, error){
-                console.log(result)
-                console.log(statut)
-                console.log(error)
+                console.log("erreur 01: ", result);
+                console.log("erreur 02: ",statut);
+                console.log("erreur 03: ",error);
             }
         });
     });
