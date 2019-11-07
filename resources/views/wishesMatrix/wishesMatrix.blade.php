@@ -3,7 +3,7 @@
 <!-- Wishes Matrix layout                             -->
 <!-- Version 0.8                                      -->
 <!-- Created 18.12.2017                               -->
-<!-- Last edit 10.01.2019 by Damien Jakob             -->
+<!-- Last edit 07.11.2019 by Damien Jakob             -->
 
 
 @extends ('layout')
@@ -50,7 +50,6 @@
                                     <td class="clickableCase">
                                     @endif
                                     <!-- Add for each person in the table their wishes -->
-                                        <!-- TODO verify if it workss -->
                                         @foreach($person->wishes as $wish)
                                             @if($wish->internship->company->id == $company->id)
                                                 {{ $wish->rank }}

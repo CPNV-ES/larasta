@@ -46,13 +46,22 @@ permettant de sélectionner l'année.
 - Vue wishesMatrix
     - Affichage des classes de l'année sélectionnée
     - Ajout du menu déroulant pour sélectionner l'année, avec comme valeur par défaut l'année actuellement sélectionnée
+    - Affichage des classes
 - Script js wishesMatrix
     - Modification de la requête POST pour envoyer l'année sélectionée
 - Classe Flock :
     - Modification de l'attribut students afin de retourner les élèves par ordre alphabétique des initiales
+- Classe Internship :
+    - Renommé la relation 'companies' en 'company'
 
 Remarques 
     - La requête POST envoyée avec le script js retourne une erreur. Le problème était déjà présent initialement.
+    - Pour l'instant, modifier l'année à afficher ne rafraichit pas automatiquement la page
+
+Modifications potentielles
+ - N'afficher que les élèves de la classe au lieu de toutes les personnes de la classe
+ - Distinguer visuellement les différentes classes
+ - Rafraichir automatiquement la page une fois l'année à afficher modifiée
 
 # Tests
 
