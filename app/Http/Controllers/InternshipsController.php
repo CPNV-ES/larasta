@@ -469,6 +469,7 @@ class InternshipsController extends Controller
     {
         $Internshipcompany=Company::find($iid);
         $companyPersons=Persons::all()->where('company_id',$iid);
+        $lastInternship=Internship::where('companies_id',$iid)->orderBy('endDate', 'desc')->first();
         Carbon::now();
         $datebeginInternship = date('Y').'-09-01';
         $dateplusyear=date('Y', strtotime('+1 years'));
@@ -493,7 +494,8 @@ class InternshipsController extends Controller
                 'dateend'  => $dateendInternship,
                 'datebegin' => $datebeginInternship,
                 'company'=> $Internshipcompany,
-                'persons' => $companyPersons
+                'persons' => $companyPersons,
+                'interships' => $lastInternship
             ]
         );
     }
@@ -505,7 +507,18 @@ class InternshipsController extends Controller
             'endDate' => 'required|date',
             'responsible' => 'required|int',
             'admin' => 'required|int',
+        ],
+        [
+            'beginDate.required' => 'La date de début est requis',
+            'beginDate.date' => 'La date de début doit être une date est non une autre valeur',
+            'endDate.required' => 'La date de fin est requis',
+            'beginDate.date' => 'La date de fin doit être une date est non une autre valeur',
+            'responsible.required' => 'Le responsable est requis',
+            'responsible.int' => 'La responsable doit être un chiffre est non une autre valeur',
+            'admin.required' => 'Le admin est requis',
+            'admin.int' => 'Le responsable admin doit être un chiffre est non une autre valeur',
         ]);
+        
         $newInternship = new Internship();
         $newInternship->companies_id= $iid;
         $newInternship->beginDate= $request->input('beginDate');

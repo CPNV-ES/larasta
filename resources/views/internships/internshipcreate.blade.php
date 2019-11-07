@@ -34,7 +34,12 @@
                 <label>Responsable</label>
                 <select name="responsible">
                         @foreach ($persons as $person)
-                            <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            @if ($person->id == $interships->responsible_id)
+                                <option value="{{$person->id}}" selected>{{$person->firstname}} {{$person->lastname}}</option>
+                            @else          
+                                <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            @endif
+                            
                         @endforeach
                 </select>
         </div>
@@ -42,7 +47,11 @@
                 <label>Responsable Admin</label>
                 <select name="admin">
                         @foreach ($persons as $person)
-                            <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            @if ($person->id == $interships->admin_id)
+                                <option value="{{$person->id}}" selected>{{$person->firstname}} {{$person->lastname}}</option>
+                            @else          
+                                <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            @endif
                         @endforeach
                 </select>
         </div>
