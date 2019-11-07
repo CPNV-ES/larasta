@@ -470,29 +470,39 @@ class InternshipsController extends Controller
         $Internshipcompany=Company::find($iid);
         $companyPersons=Persons::all()->where('company_id',$iid);
         $lastInternship=Internship::where('companies_id',$iid)->orderBy('endDate', 'desc')->first();
-        Carbon::now();
-        $datebeginInternship = date('Y').'-09-01';
-        $dateplusyear=date('Y', strtotime('+1 years'));
-        if(now() > $datebeginInternship){
-            if(now() < $dateplusyear){
-                $datebeginInternship=$dateplusyear.'-02-01';
-                $dateendInternship=$dateplusyear.'-08-31';
+        //date variable
+        $todaydate=Carbon::now();
+        //actual year
+        $year=now()->year;
+        $nextyear= Carbon::create($year,0,0)->addYear();
+        //Date for the stage of the first part of the year
+        $firstdateInternship = Carbon::create($year, 2, 1);
+        $firstenddateInternship = Carbon::create($year, 8, 31);
+        //Date for the stage of the seconde part of the year
+        $secondedateInternship = Carbon::create($year, 9, 1);
+        $secondeenddateInternship = Carbon::create($year, 1, 31);
+
+        if($todaydate->gt($secondedateInternship)){
+            if($todaydate->isSameYear($nextyear)){
+                $begindate = $firstdateInternship->addYear();
+                $endate = $firstenddateInternship->addYear();
             }
             else   
             {
-                $datebeginInternship= date('Y').'-02-01';
-                $dateendInternship=date('Y').'-08-31';
+                $begindate = $firstdateInternship;
+                $endate = $firstenddateInternship;
             }
-            
-        }else
-        {
-            $datebeginInternship=date('Y').'-09-01';
-            $dateendInternship=$dateplusyear.'-01-31';
         }
+        else
+        {
+            $begindate=$secondedateInternship;
+            $endate=$secondeenddateInternship->addYear();
+        }
+        
         return view('internships/internshipcreate')->with(
             [
-                'dateend'  => $dateendInternship,
-                'datebegin' => $datebeginInternship,
+                'dateend'  => $endate->toDateString(),
+                'datebegin' => $begindate->toDateString(),
                 'company'=> $Internshipcompany,
                 'persons' => $companyPersons,
                 'interships' => $lastInternship
