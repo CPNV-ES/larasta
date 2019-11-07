@@ -29,6 +29,8 @@ Route::get('/internships/{iid}/addRemark','InternshipsController@addRemark');
 
 Route::get('/internships/{iid}/new','InternshipsController@createInternship');
 
+Route::post('/internships/{iid}/create','InternshipsController@addInternship');
+
 Route::get('/admin','AdminController@index')->middleware('admin');
 
 Route::get('/about', function () {

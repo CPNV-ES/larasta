@@ -7,6 +7,8 @@ use App\Contractstates;
 use App\Internships;
 use App\Lifecycles;
 use App\Company;
+use App\Internship;
+use App\Persons;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -466,10 +468,51 @@ class InternshipsController extends Controller
     public function createInternship($iid)
     {
         $Internshipcompany=Company::find($iid);
-        return view('internships/internshipcreate')->with('company', $Internshipcompany);
+        $companyPersons=Persons::all()->where('company_id',$iid);
+        Carbon::now();
+        $datebeginInternship = date('Y').'-09-01';
+        $dateplusyear=date('Y', strtotime('+1 years'));
+        if(now() > $datebeginInternship){
+            if(now() < $dateplusyear){
+                $datebeginInternship=$dateplusyear.'-02-01';
+                $dateendInternship=$dateplusyear.'-08-31';
+            }
+            else   
+            {
+                $datebeginInternship= date('Y').'-02-01';
+                $dateendInternship=date('Y').'-08-31';
+            }
+            
+        }else
+        {
+            $datebeginInternship=date('Y').'-09-01';
+            $dateendInternship=$dateplusyear.'-01-31';
+        }
+        return view('internships/internshipcreate')->with(
+            [
+                'dateend'  => $dateendInternship,
+                'datebegin' => $datebeginInternship,
+                'company'=> $Internshipcompany,
+                'persons' => $companyPersons
+            ]
+        );
     }
-    public function addInternship()
+    public function addInternship(Request $request, $iid)
     {
 
+        $validatedData = $request->validate([
+            'beginDate' => 'required|date',
+            'endDate' => 'required|date',
+            'responsible' => 'required|int',
+            'admin' => 'required|int',
+        ]);
+        $newInternship = new Internship();
+        $newInternship->companies_id= $iid;
+        $newInternship->beginDate= $request->input('beginDate');
+        $newInternship->endDate=$request->input('endDate');
+        $newInternship->responsible_id=$request->input('responsible');
+        $newInternship->admin_id=$request->input('admin');
+        $newInternship->save();
+        return redirect('entreprise/'.$iid.'')->with('message','Creation Réussie');
     }
 }
