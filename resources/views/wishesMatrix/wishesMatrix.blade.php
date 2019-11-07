@@ -31,7 +31,7 @@
                     @endif
                 @endforeach
 
-            <!-- Add each class -->
+            <!-- Add each flock -->
                 @foreach ($flocks as $flock)
                 <!-- Add each persons where initials is ok -->
                     @foreach($flock->students as $person)

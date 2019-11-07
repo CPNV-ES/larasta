@@ -46,8 +46,11 @@ permettant de sélectionner l'année.
 - Vue wishesMatrix :
     - Affichage des classes de l'année sélectionnée
     - Ajout du menu déroulant pour sélectionner
-- script js wishesMatrix
+- Script js wishesMatrix
     - modification de la requête POST pour envoyer l'année sélectionée
+
+Remarques 
+    - La requête POST envoyée avec le script js retourne une erreur. Le problème était déjà présent initialement.
 
 # Tests
 
