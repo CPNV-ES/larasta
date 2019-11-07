@@ -11,6 +11,7 @@ class InternshipsSeeder extends Seeder
      */
     public function run()
     {
-        $intership=factory(App\Internship::class,3)->create();
+        //create 10 internships
+        $internship=factory(App\Internship::class,10)->create();
     }
 }
