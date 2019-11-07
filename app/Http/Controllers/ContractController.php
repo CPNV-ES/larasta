@@ -154,11 +154,12 @@ class ContractController extends Controller
             ->select('contractText', 'grossSalary','internships.beginDate', 'internships.endDate')
             ->where('internships.id', $id)
             ->first();
-        //
+
+        //Get contract of specific internships
         $contract = Contract::whereHas('companies.Internships',function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
-
+        dd($contract);
         $intern = DB::table('persons')
             ->join('internships', 'intern_id', '=', 'persons.id')
             ->join('locations', 'location_id', '=', 'locations.id')
@@ -166,6 +167,7 @@ class ContractController extends Controller
             ->select('firstname', 'lastname', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
             ->first();
 
+        //Get data of student on internship
         $intern = Persons::whereHas("student",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
@@ -177,6 +179,7 @@ class ContractController extends Controller
             ->select('companyName', 'locations.address1', 'locations.address2', 'locations.postalCode', 'locations.city')
             ->first();
 
+        //Get company where student work
         $company = Companies::whereHas("Internships",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
@@ -187,6 +190,7 @@ class ContractController extends Controller
             ->select('firstName', 'lastName')
             ->first();
 
+        //Who is the reponsible of student
         $responsible = Persons::whereHas("responsible",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();

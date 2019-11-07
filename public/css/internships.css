@@ -1,23 +1,11 @@
-.filters {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
+.internshipsFilterText {
+  text-align: center;
   width: 100%;
 }
 
-.onefilter {
-  display: inline-block;
-  width: 170px;
-  text-align: left;
-  padding-right: 20px;
+.larastable {
+  margin-top: 10px;
+  width: 100%;
 }
 
+/*# sourceMappingURL=internships.css.map */

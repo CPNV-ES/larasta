@@ -1,9 +1,10 @@
 /* Header*/
-
 #people_table {
   border-style: solid;
   border-width: 3px;
   border-color: lightgrey;
+  margin-top: 10px;
+  width: 100%;
 }
 
 #people_header {
@@ -16,8 +17,7 @@
   border-radius: 5px;
 }
 
-#people_header,
-td {
+#people_header, td {
   text-align: left;
 }
 
@@ -25,8 +25,22 @@ td {
   text-align: left;
 }
 
-/* Table People*/
+#people_form {
+  width: 100%;
+  text-align: center;
+}
 
+.nameInputGroup {
+  width: 100%;
+  text-align: center;
+}
+
+#people_inputName {
+  max-width: 400px;
+  display: inline-block;
+}
+
+/* Table People*/
 #people_content {
   width: 100%;
   font-family: inherit;
@@ -59,7 +73,6 @@ td {
 }
 
 /* Personale elements */
-
 .divider {
   height: 1px;
   background: lightgray;
@@ -80,13 +93,11 @@ td {
 }
 
 /* People Info */
-
 #people_Info span:first-child {
   margin-right: 10px;
 }
 
 /* Edit People*/
-
 #people_Name span:first-child {
   font-size: 18px;
   line-height: 18px;
@@ -112,7 +123,6 @@ td {
 }
 
 /* Modal */
-
 #peopleModal .modal-body {
   padding-bottom: 20px;
 }
@@ -128,3 +138,4 @@ td {
   padding-top: 7px;
 }
 
+/*# sourceMappingURL=people.css.map */

@@ -75,24 +75,19 @@ module.exports = __webpack_require__(14);
 
 /***/ 14:
 /***/ (function(module, exports) {
-
-// Internships.js: for main internships page
-// Author: X. Carrel
-// Date: Dec 2018
-
-$(document).ready(function () {
-    // Manage filter box collapse/expand
-    $('#collapsedfilters').click(function () {
-        $(this).addClass('d-none');
-        $('#expandedfilters').removeClass('d-none');
-    });
-    $('#collapsefilters').click(function () {
+//Reimplementation without jQuery
+    /*document.addEventListener("DOMContentLoaded", function(){
+        // Manage filter box collapse/expand
+        collapsedfilters.addEventListener("click", function(ev){
+            collapsedfilters.classList.add("d-none");
+            expandedfilters.classList.remove("d-none");
+        });
         // when we click on the title (not anywhere in the form)
-        $('#expandedfilters').addClass('d-none');
-        $('#collapsedfilters').removeClass('d-none');
-    });
+        collapsefilters.addEventListener("click", function(ev){
+            collapsedfilters.classList.remove("d-none");
+            expandedfilters.classList.add("d-none");
+        });
+    });*/ 
+})
+
 });
-
-/***/ })
-
-/******/ });

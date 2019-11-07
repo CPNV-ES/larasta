@@ -15,4 +15,9 @@ class Companies extends Model
     {
         return $this->hasMany('App\Internship');
     }
+
+    public function contract()
+    {
+        return $this->hasMany('App\Contract');
+    }
 }
