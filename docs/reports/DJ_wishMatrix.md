@@ -57,13 +57,22 @@ permettant de sélectionner l'année.
 Remarques 
     - La requête POST envoyée avec le script js retourne une erreur. Le problème était déjà présent initialement.
     - Pour l'instant, modifier l'année à afficher ne rafraichit pas automatiquement la page
+    - La sélection des entreprises à afficher est peut-être incorecte
 
 Modifications potentielles
  - N'afficher que les élèves de la classe au lieu de toutes les personnes de la classe
  - Distinguer visuellement les différentes classes
  - Rafraichir automatiquement la page une fois l'année à afficher modifiée
+ - Modifier la sélection des entreprises à afficher, à voir avec le Client
 
 # Tests
+
+Création de nouvelles classes avec des étudiants dans une nouvelle année.
+- La nouvelle année apparait dans le menu déroulant
+- Les élèves sont affichés triés par classe et par ordre alphabétique
+
+Création de nouveaux souhaits
+- Les souhaits sont affichés, s'ils sont associés à une entreprise affichée
 
 (Terminés, le ...)
 

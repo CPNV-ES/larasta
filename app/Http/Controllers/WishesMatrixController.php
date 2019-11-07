@@ -57,6 +57,7 @@ class WishesMatrixController extends Controller
 
         }
 
+
         return view('wishesMatrix/wishesMatrix')
             ->with([
                 'companies' => $companies,
@@ -105,6 +106,12 @@ class WishesMatrixController extends Controller
                 $param->save();
             }
         }
+
+
+        // TODO : find way to redirect
+        // does not work, because POST ?
+        return redirect('/');
+        return redirect('/wishesMatrix');
     }
 
     // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year

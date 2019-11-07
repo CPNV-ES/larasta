@@ -5,7 +5,6 @@
 <!-- Created 18.12.2017                               -->
 <!-- Last edit 07.11.2019 by Damien Jakob             -->
 
-
 @extends ('layout')
 @section ('page_specific_css')
     <link rel="stylesheet" href="/css/wishesMatrix.css"/>
