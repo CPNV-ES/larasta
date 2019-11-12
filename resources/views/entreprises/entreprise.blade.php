@@ -117,10 +117,10 @@
         </div>
         <div class="row content-box">
             <div class="col-lg-8 col-lg-offset-2">
-                <h3>Stages testeuh</h3>
+                <h3>Stages</h3>
                 <div class="table-responsive">
-                    @include ('internships.internshipslist',['iships' => $iships])
-                    <a href="stageform.blade.php"><button type="button" class="">Créer un nouveau stage</button></a>
+                    @include ('internships.internshipslist',['iships' => $iships]) <br />
+                    <a href="/newinternship/{{ $company[0]->id }}"><button type="button" class="">Créer un nouveau stage</button></a>
                 </div>
             </div>
         </div>
