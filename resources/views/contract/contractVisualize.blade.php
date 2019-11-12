@@ -19,7 +19,7 @@
                 height: "600"
             });
         </script>
-        <form id="contractEditor" method="post" action="/contract/{{$id}}/save">
+        <form id="contractEditor" method="post" action="{{route('saveContract',['id' => $id])}}">
             {{ csrf_field() }}
             <textarea name="contractText"><?php echo e($contract->contractText); ?></textarea><br>
             <button>Valider</button> <button name="pdf" value="pdf">Générer pdf</button>

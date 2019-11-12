@@ -17,7 +17,7 @@ Route::post('/', 'InternshipsController@changeFilter');
 
 Route::get('/internships/{iid}/view','InternshipsController@view');
 
-Route::get('/internships/{iid}/edit','InternshipsController@edit');
+Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
 Route::get('/internships/{iid}/update','InternshipsController@update');
 
@@ -62,9 +62,9 @@ Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
 // Quentin N - Contract generation
 Route::get('/contract/{id}', 'ContractController@generateContract');
 
-Route::post('/contract/{id}/view', 'ContractController@visualizeContract');
+Route::post('/contract/{id}/view', 'ContractController@visualizeContract')->name("viewContract");
 
-Route::post('/contract/{id}/save', 'ContractController@saveContract');
+Route::post('/contract/{id}/save', 'ContractController@saveContract')->name("saveContract");
 
 Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
