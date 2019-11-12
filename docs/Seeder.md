@@ -4,7 +4,7 @@ Un seeder est un moyen dans le framework laravel de rentrer des données de test
 
 # Fichiers
 
-Les fichiers concernant un seeder se trouve dans les dossier `seeds` et `factories` qui ceux-ci se trouve dans le dossier `database`.
+Les fichiers concernant un seeder se trouve dans les dossier `seeds` et `factories` qui eux-même se trouve dans le dossier `database`.
 ```
 database/
 ├── seeds/
@@ -67,9 +67,9 @@ $factory->define(App\Visit::class, function (Faker $faker) {
     ];
 });
 ```
->Le fichier Factory utilise la librairie Faker pour permettre de générer des données aléatoire 
+>Le fichier Factory utilise la librairie Faker pour permettre de générer des données aléatoires 
 >
->La factory se definit par la model de la table où les données vont être ajoutées et une fonction qui retourne toutes les données générées pour chaque champs.
+>La factory se definit par le model de la table où les données vont être ajoutées et une fonction qui retourne toutes les données générées pour chaque champs.
 >
 >On passe Faker à la fonction pour permettre de l'utilisé. Dans le return de la fonction tout les champs de la table sont définit. Chaque champs utilise une méthode différente de Faker pour pouvoir générer les bonnes données par rapport à celui-ci.
 
@@ -100,7 +100,7 @@ Pour appeler tout les seeders présent dans le fichier `DatabaseSeeder.php` et g
 ```
 php artisan db:seed
 ```
-Pour appeler un seeder spécifique préciser après la commande la class à utiliser :
+Pour appeler un seeder spécifique précisez après la commande la class à utiliser :
 ```
 php artisan db:seed --class=VisitsSeeder
 ```
