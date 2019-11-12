@@ -258,7 +258,7 @@ CREATE TABLE `internships` (
   `previous_id` int(11) DEFAULT NULL COMMENT 'The internship before this one in this company',
   `internshipDescription` text DEFAULT NULL,
   `grossSalary` int(11) DEFAULT 1230 COMMENT 'Dès 2017, tarifs « état de Vaud »:\n1er stage 1230.- , 2ème stage 1625.-',
-  `contractGenerated` tinyint(1) /*NOT NULL*/ DEFAULT 0 COMMENT 'Indicates that the contract has been generated and accepted by the user\n', -- changement en null étant donné que nous acceptons des 0000-00-00 00:00:00:00, ainsi nous pouvons créer plusieurs utilisateurs sans contrat
+  `contractGenerated` tinyint(1) NOT NULL DEFAULT '0000-00-00 00:00:00:00' COMMENT 'Indicates that the contract has been generated and accepted by the user\n', 
   PRIMARY KEY (`id`),
   KEY `FKChez_idx` (`companies_id`),
   KEY `FKResp_idx` (`responsible_id`),
