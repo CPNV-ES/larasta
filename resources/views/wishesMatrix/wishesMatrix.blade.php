@@ -38,6 +38,8 @@
                             @else
                                 <th value="{{ $person->id }}">{{ $person->initials }}</th>
                             @endif
+                        @else
+                            <th value="{{ $person->id }}">???</th>
                         @endif
                     @endforeach
                 @endforeach
@@ -50,21 +52,19 @@
 
                 @foreach ($flocks as $flock)
                     @foreach ($flock->students as $person)
-                        @if ($person->initials!="")
-                            <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                                @if ($currentUser->getLevel() != 0)
-                                    <td class="clickableCase locked teacher">
-                                @else
-                                    <td class="clickableCase">
-                                    @endif
-                                    <!-- Add for each person in the table their wishes -->
-                                        @foreach($person->wishes as $wish)
-                                            @if($wish->internship->company->id == $company->id)
-                                                {{ $wish->rank }}
-                                            @endif
-                                        @endforeach
-                                    </td>
+                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
+                            @if ($currentUser->getLevel() != 0)
+                                <td class="clickableCase locked teacher">
+                            @else
+                                <td class="clickableCase">
                                 @endif
+                                <!-- Add for each person in the table their wishes -->
+                                    @foreach($person->wishes as $wish)
+                                        @if($wish->internship->company->id == $company->id)
+                                            {{ $wish->rank }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 @endforeach
                                 @endforeach
 
