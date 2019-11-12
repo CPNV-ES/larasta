@@ -16,10 +16,19 @@
     <h1>Matrice des souhaits</h1>
     <div class="col-md-9">
         <table id="WishesMatrixTable" class="table-bordered col-md-11">
+
             <tr>
                 <th></th>
+                <!-- Display flocks -->
+            @foreach ($flocks as $flock)
+                <!-- Add each persons where initials is ok -->
+                    <th class="" colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
+                @endforeach
+            </tr>
 
-                <!-- Add each flock -->
+            <tr>
+                <th></th>
+                <!-- Display students from flocks -->
             @foreach ($flocks as $flock)
                 <!-- Add each persons where initials is ok -->
                     @foreach($flock->students as $person)
@@ -90,7 +99,7 @@
                     </option>
                 @endforeach
             </select>
-            <button type="submit" >Enregistrer</button>
+            <button type="submit">Enregistrer</button>
         </form>
     @endif
 

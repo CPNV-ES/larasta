@@ -57,10 +57,10 @@ permettant de sélectionner l'année.
     - Renommé la relation 'companies' en 'company'
 
 Remarques 
-    - La sélection des entreprises à afficher est peut-être à revoir
+ - La sélection des entreprises à afficher est peut-être à revoir
 
 Améliorations
- - Distinguer visuellement les différentes classes
+ - Meilleure distinction entre les deux classes
 
 
 # Tests

@@ -138,10 +138,12 @@ class WishesMatrixController extends Controller
         return $flockYears;
     }
 
-    // Get all flocks that started on a specific year
+    // Get all flocks that started on a specific year,
+    // ordered alphabetically
     private function getFlocksWithYear($year)
     {
         $flocks = Flock::where('startYear', '=', $year)
+            ->orderBy('flockName')
             ->get();
         return $flocks;
     }
