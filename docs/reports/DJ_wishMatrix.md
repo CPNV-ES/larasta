@@ -43,36 +43,39 @@ permettant de sélectionner l'année.
 - Controleur WishesMatrixController :
     - Ajout de fonctions pour interagir avec la base de données
     - Envoi à la vue des années affichables, de l'année sélectionnée, et des classes à afficher
+    - Redirection après réception des données vers la page de souhaits
 - Vue wishesMatrix
     - Affichage des classes de l'année sélectionnée
     - Ajout du menu déroulant pour sélectionner l'année, avec comme valeur par défaut l'année actuellement sélectionnée
     - Affichage des classes
+    - Ajout d'un formulaire pour envoyer les données entrées par POST
 - Script js wishesMatrix
-    - Modification de la requête POST pour envoyer l'année sélectionée
+    - Suppression de la fonction ajax de POST
 - Classe Flock :
     - Modification de l'attribut students afin de retourner les élèves par ordre alphabétique des initiales
 - Classe Internship :
     - Renommé la relation 'companies' en 'company'
 
 Remarques 
-    - La requête POST envoyée avec le script js retourne une erreur. Le problème était déjà présent initialement.
-    - Pour l'instant, modifier l'année à afficher ne rafraichit pas automatiquement la page
-    - La sélection des entreprises à afficher est peut-être incorecte
+    - La sélection des entreprises à afficher est peut-être à revoir
 
-Modifications potentielles
+Améliorations
  - N'afficher que les élèves de la classe au lieu de toutes les personnes de la classe
  - Distinguer visuellement les différentes classes
- - Rafraichir automatiquement la page une fois l'année à afficher modifiée
- - Modifier la sélection des entreprises à afficher, à voir avec le Client
+
 
 # Tests
-
 Création de nouvelles classes avec des étudiants dans une nouvelle année.
 - La nouvelle année apparait dans le menu déroulant
 - Les élèves sont affichés triés par classe et par ordre alphabétique
 
 Création de nouveaux souhaits
 - Les souhaits sont affichés, s'ils sont associés à une entreprise affichée
+
+Modification des données du formulaire
+- Les nouvelles données sont soumises
+- La page est rafraichie
+- L'affichage est modifié en conséquence
 
 (Terminés, le ...)
 

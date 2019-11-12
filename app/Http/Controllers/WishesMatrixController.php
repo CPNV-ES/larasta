@@ -57,7 +57,6 @@ class WishesMatrixController extends Controller
 
         }
 
-
         return view('wishesMatrix/wishesMatrix')
             ->with([
                 'companies' => $companies,
@@ -72,45 +71,43 @@ class WishesMatrixController extends Controller
 
     public function save(Request $request)
     {
+
         // Do only if not student
         // !!!!!!!!!!!!!! Value Test !!!!!!!!!!!!!!!!!!!
         if (Environment::currentUser()->getLevel() > 0) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
             // Save the date
-            if ($request->input('date') != null) {
+            if ($request->input('dateEndWishes') != null) {
                 $param = Params::getParamByName('dateEndWishes');
                 // Test if param exists
                 if ($param != null) {
                     // Update the date
-                    $param->paramValueDate = $request->input('date');
+                    $param->paramValueDate = $request->input('dateEndWishes');
                 } else {
                     // Insert param
                     $param = new Params();
                     $param->paramName = 'dateEndWishes';
-                    $param->paramValueDate = $request->input('date');
+                    $param->paramValueDate = $request->input('dateEndWishes');
                 }
                 $param->save();
             }
 
             // Save the display year
-            if ($request->input('displayYear') != null) {
+            if ($request->input('flockYear') != null) {
                 // Create param if it does not exist
                 $param = Params::getParamByName('wishesSelectedYear');
                 if (is_null($param)) {
                     $param = new Params();
                     $param->paramName = 'wishesSelectedYear';
                 }
-
                 // update value
-                $param->paramValueInt = $request->input('displayYear');
+                $param->paramValueInt = $request->input('flockYear');
                 $param->save();
             }
         }
 
 
-        // TODO : find way to redirect
-        // does not work, because POST ?
-        return redirect('/');
+        // return to the wishMatrix view
         return redirect('/wishesMatrix');
     }
 
@@ -147,10 +144,11 @@ class WishesMatrixController extends Controller
         return $wishes;
     }
 
-    // Get all distinct start years of flocks
+    // Get all distinct start years of flocks, starting by the latest
     private function getFlockYears()
     {
         $flocks = Flock::distinct()
+            ->orderBy('startYear', 'desc')
             ->get(['startYear']);
 
         // put all years in an array

@@ -157,31 +157,6 @@ $(document).ready(function(){
         }
     });
 
-    // Event when click on save button
-    $('#save').click(function(){
-        // Construct object to send
-        var data = {
-            date: $('#dateEndChoices').val(),
-            displayYear: $('#flockYear').val()
-        };
-        console.log(data);
-        $.ajax({
-            url: '/wishesMatrix',
-            method: 'post',
-            data: data,
-            dataType: 'json',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            success : function(code_html, statut){ // code_html contient le HTML renvoyé
-                alert('La modification a été effectuée avec succès');
-            },
-            error : function(result, statut, error){
-                console.log("erreur 01: ", result);
-                console.log("erreur 02: ",statut);
-                console.log("erreur 03: ",error);
-            }
-        });
-    });
-
     // Clean message box
     function cleanMessage()
     {

@@ -66,26 +66,34 @@
             <img id="lockTable" src="/images/padlock_32x32.png"/>
         @endif
     </div>
+
+    <!-- Parameters modification, for teachers only -->
     <!-- Check if current user is not a student -->
     @if ($currentUser->getLevel() != 0)
-        <label>Modifiable jusqu'au</label>
-        <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
+        <form action="/wishesMatrix" method="post">
+            <!-- Necessary in order to validate the POST-->
+            {{ csrf_field() }}
+            <label>Modifiable jusqu'au</label>
+            <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="dateEndWishes"
+                   value="{{ $dateEndWishes }}"/>
 
-        <!-- year selection -->
-        <label>Année à afficher</label>
-        <select name="flockYear" id="flockYear">
-            <!-- default selected year is the displayed year -->
-            @foreach($flockYears as $year)
-                <option value="{{ $year }}"
-                        @if($year == $selectedYear)
-                        selected
-                        @endif
-                >{{ $year }}
-                </option>
-            @endforeach
-        </select>
+            <!-- year selection -->
+            <label>Année à afficher</label>
+            <select name="flockYear" id="flockYear">
+                <!-- default selected year is the displayed year -->
+                @foreach($flockYears as $year)
+                    <option value="{{ $year }}"
+                            @if($year == $selectedYear)
+                            selected
+                            @endif
+                    >{{ $year }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" >Enregistrer</button>
+        </form>
     @endif
-    <button id="save">Enregistrer</button>
+
 @stop
 
 @section ('page_specific_js')
