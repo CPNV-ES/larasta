@@ -106,7 +106,6 @@ class WishesMatrixController extends Controller
             }
         }
 
-
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
     }
@@ -121,27 +120,6 @@ class WishesMatrixController extends Controller
                 ->orWhere('stateDescription', 'Reconduit');
         })->get();
         return $companies;
-    }
-
-    // Get all the persons from a flock identified by its id,
-    // if their initials are not null
-    private function getPersonsFromFlock($flock_id)
-    {
-        // Get persons whose initials are not null
-        $persons = Person::where('flock_id', $flock_id)
-            ->whereNotNull('initials')
-            ->get();
-        return $persons;
-    }
-
-    // Get wishes of a person identified by their id,
-    // if the rank of the wish is > 0
-    private function getWishesByPerson($idPerson)
-    {
-        $wishes = Wish::where('persons_id', $idPerson)
-            ->where('wishes.rank', '>', 0)
-            ->get();
-        return $wishes;
     }
 
     // Get all distinct start years of flocks, starting by the latest

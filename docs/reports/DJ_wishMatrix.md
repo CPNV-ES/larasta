@@ -60,7 +60,6 @@ Remarques
     - La sélection des entreprises à afficher est peut-être à revoir
 
 Améliorations
- - N'afficher que les élèves de la classe au lieu de toutes les personnes de la classe
  - Distinguer visuellement les différentes classes
 
 
