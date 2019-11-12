@@ -59,8 +59,12 @@ permettant de sélectionner l'année.
 Remarques 
  - La sélection des entreprises à afficher est peut-être à revoir
 
-Améliorations
- - Meilleure distinction entre les deux classes
+Améliorations à faire dans de nouvelles tâches
+-  Afficher les stages plutôt que les entreprises (toujour afficher le nom de l'entreprise)
+       - regrouper les stages identiques, en indiquant le nombre de places
+       - une entreprise peut avoir 2 stages identiques et un différent
+ - Meilleure distinction visuelle entre les deux classes
+
 
 
 # Tests
