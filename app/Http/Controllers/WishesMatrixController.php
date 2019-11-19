@@ -11,15 +11,15 @@ namespace App\Http\Controllers;
 
 use App\Flock;
 use App\Internship;
-use App\Wish;
+use App\Params;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Company;
-use App\Person;
-use SebastianBergmann\Environment\Console;
+
 use function GuzzleHttp\json_encode;
+
 use CPNVEnvironment\Environment;
-use App\Params;
+
 
 class WishesMatrixController extends Controller
 {
@@ -28,10 +28,6 @@ class WishesMatrixController extends Controller
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        // TODO delete once update finished
-        // Get companies to display
-        $companies = $this->getCompaniesWithInternships();
 
         // Get internships to display
         // ??? Update function to work with other years ???
@@ -63,7 +59,6 @@ class WishesMatrixController extends Controller
 
         return view('wishesMatrix/wishesMatrix')
             ->with([
-                'companies' => $companies, // TODO delete once update finished
                 'internships' => $internships,
                 'currentUser' => $currentUser,
                 'dateEndWishes' => $dateEndWishes,
@@ -113,19 +108,6 @@ class WishesMatrixController extends Controller
 
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
-    }
-
-    // TODO delete once update finished
-    // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
-    private function getCompaniesWithInternships()
-    {
-        $companies = Company::whereHas('internships', function ($query) {
-            $query->whereYear('beginDate', '=', date('Y'));
-        })->whereHas('contractstates', function ($query) {
-            $query->where('stateDescription', 'Confirmé')
-                ->orWhere('stateDescription', 'Reconduit');
-        })->get();
-        return $companies;
     }
 
     /*

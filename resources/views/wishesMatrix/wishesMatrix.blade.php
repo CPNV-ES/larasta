@@ -47,7 +47,18 @@
 
             @foreach ($internships as $internship)
                 <tr>
-                    <td value="{{ $internship->id }}">{{ $internship->company->companyName }}</td>
+                    <td>
+                        <!-- Give link to previous internship -->
+                        <!-- Current internship fail to display because the internship page needs
+                        the student of the internship to be defined -->
+                        @if (!is_null($internship->previous_id))
+                            <a href="/internships/{{ $internship->previous_id }}/view">
+                                {{ $internship->company->companyName }}
+                            </a>
+                        @else
+                            {{ $internship->company->companyName }}
+                        @endif
+                    </td>
 
                     <!-- Create the clickable case for each person -->
                 @foreach ($flocks as $flock)
