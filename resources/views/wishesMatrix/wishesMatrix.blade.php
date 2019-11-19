@@ -45,11 +45,11 @@
                 @endforeach
             </tr>
 
-            @foreach ($companies as $company)
+            @foreach ($internships as $internship)
                 <tr>
-                    <td value="{{ $company->id }}">{{ $company->companyName }}</td>
-                    <!-- Create the clickable case for each person -->
+                    <td value="{{ $internship->id }}">{{ $internship->company->companyName }}</td>
 
+                    <!-- Create the clickable case for each person -->
                 @foreach ($flocks as $flock)
                     @foreach ($flock->students as $person)
                         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
@@ -60,7 +60,7 @@
                                 @endif
                                 <!-- Add for each person in the table their wishes -->
                                     @foreach($person->wishes as $wish)
-                                        @if($wish->internship->company->id == $company->id)
+                                        @if($wish->internship->id == $internship->id)
                                             {{ $wish->rank }}
                                         @endif
                                     @endforeach

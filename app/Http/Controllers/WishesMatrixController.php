@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use App\Flock;
+use App\Internship;
 use App\Wish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,9 +29,13 @@ class WishesMatrixController extends Controller
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        // TODO : update function to work with other years ???
+        // TODO delete once update finished
         // Get companies to display
         $companies = $this->getCompaniesWithInternships();
+
+        // Get internships to display
+        // ??? Update function to work with other years ???
+        $internships = $this->getInternships();
 
         // Get the selected year, and all classes from that year
         $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
@@ -54,12 +59,12 @@ class WishesMatrixController extends Controller
                 // Convert the date/time to date only
                 $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
             }
-
         }
 
         return view('wishesMatrix/wishesMatrix')
             ->with([
-                'companies' => $companies,
+                'companies' => $companies, // TODO delete once update finished
+                'internships' => $internships,
                 'currentUser' => $currentUser,
                 'dateEndWishes' => $dateEndWishes,
                 'selectedYear' => $selectedFlockYear,
@@ -110,6 +115,7 @@ class WishesMatrixController extends Controller
         return redirect('/wishesMatrix');
     }
 
+    // TODO delete once update finished
     // Get all the companies with state 'Reconduit' or 'Confirmé' in the current year
     private function getCompaniesWithInternships()
     {
@@ -120,6 +126,25 @@ class WishesMatrixController extends Controller
                 ->orWhere('stateDescription', 'Reconduit');
         })->get();
         return $companies;
+    }
+
+    /*
+     * Get all the companies with state 'Reconduit' or 'Confirmé' in the current year,
+     * ordered by the name of the company
+     */
+    private function getInternships()
+    {
+        $internships = Internship::whereYear('beginDate', '=', date('Y'))
+            ->whereHas('contractstate', function ($query) {
+                $query->where('stateDescription', 'Confirmé')
+                    ->orWhere('stateDescription', 'Reconduit');
+            })
+            ->get()
+            ->sortBy(function($internship) {
+                return $internship->company->companyName;
+            });
+
+        return $internships;
     }
 
     // Get all distinct start years of flocks, starting by the latest
