@@ -80,7 +80,7 @@ Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-Route::post('/visits', 'VisitsController@Search');
+Route::post('/visits','VisitsController@filter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
 Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
