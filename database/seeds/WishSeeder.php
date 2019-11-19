@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Wish;
-use App\Person;
 
-class WishesSeeder extends Seeder
+class WishSeeder extends Seeder
 {
     /**
      * Create 50 wishes.
