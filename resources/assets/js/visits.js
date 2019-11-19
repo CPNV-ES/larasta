@@ -1,7 +1,10 @@
-// visits.js: for main internships page
+// visits.js: for main visit page
 // Author: K. Viquerat
 // Date: Nov 2019
-console.log("visit.js loaded")
+
+//Fonction permettant d'enlever et rajouter la classe d-none à l'id past 
+
 showpastbtn.addEventListener("click",function(event){
-    past.classlist.toggle("d-none")
+    console.log(past)
+    past.classList.toggle("d-none")
 })

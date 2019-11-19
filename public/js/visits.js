@@ -60,37 +60,31 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 13:
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(16);
 
 
 /***/ }),
 
-/***/ 14:
+/***/ 16:
 /***/ (function(module, exports) {
 
-// Internships.js: for main internships page
-// Author: X. Carrel
-// Date: Dec 2018
+// visits.js: for main visit page
+// Author: K. Viquerat
+// Date: Nov 2019
 
-$(document).ready(function () {
-    // Manage filter box collapse/expand
-    $('#collapsedfilters').click(function () {
-        $(this).addClass('hidden');
-        $('#expandedfilters').removeClass('hidden');
-    });
-    $('#collapsefilters').click(function () {
-        // when we click on the title (not anywhere in the form)
-        $('#expandedfilters').addClass('hidden');
-        $('#collapsedfilters').removeClass('hidden');
-    });
+//Fonction permettant d'enlever et rajouter la classe d-none à l'id past 
+
+showpastbtn.addEventListener("click", function (event) {
+    console.log(past);
+    past.classList.toggle("d-none");
 });
 
 /***/ })
