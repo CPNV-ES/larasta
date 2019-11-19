@@ -51,10 +51,13 @@ class InternshipsController extends Controller
         foreach ($filter as $state)
         {
             $state->checked = false;
-            foreach ($request->all() as $fname => $fval)
-                if (substr($fname, 0, 5) == 'state')
-                    if ($state->id == intval(substr($fname, 5)))
+            foreach ($request->all() as $fname => $fval){
+                if (substr($fname, 0, 5) == 'state'){
+                    if ($state->id == intval(substr($fname, 5))){
                         $state->checked = ($fval == 'on');
+                    }
+                }
+            }
             $list[] = $state;
         }
         $ifilter->setStateFilter($list);
@@ -76,12 +79,16 @@ class InternshipsController extends Controller
     private function filteredInternships(InternshipFilter $ifilter)
     {
         $states = $ifilter->getStateFilter();
+        $isOneFilterActive = false; //contains if at least one filter is active
         // build list of ids to select by internship state
-        foreach ($states as $state)
-            if ($state->checked)
+        foreach ($states as $state){
+            if ($state->checked){
                 $idlist[] = $state->id;
+                $isOneFilterActive = true;
+            }
+        }
 
-        if (isset($idlist))
+        if (isset($idlist)){
             $iships = DB::table('internships')
                 ->join('companies', 'companies_id', '=', 'companies.id')
                 ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
@@ -108,8 +115,9 @@ class InternshipsController extends Controller
                     'stateDescription')
                 ->whereIn('contractstate_id', $idlist)
                 ->get();
-        else
-            $iships = array();
+            }else{
+                $iships = array();
+            }
 
         switch ($ifilter->getMine() * 2 + $ifilter->getInProgress())
         {
@@ -132,7 +140,7 @@ class InternshipsController extends Controller
         } else
             $finallist = $iships;
 
-        return view('internships/internships')->with('iships', $finallist)->with('filter', $ifilter);
+        return view('internships/internships')->with('iships', $finallist)->with('filter', $ifilter)->with('isOneFilterActive', $isOneFilterActive);
     }
 
     /**

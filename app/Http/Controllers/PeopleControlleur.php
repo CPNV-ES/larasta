@@ -59,7 +59,7 @@ class PeopleControlleur extends Controller
         $filtersCategory = $request->input('filterCategory');
         $filterName = $request->input('filterName');
         $filterObsolete = $request->input('filterObsolete');
-
+        
         // Verify if all checkboks are not selected
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 

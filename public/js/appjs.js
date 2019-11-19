@@ -14,4 +14,14 @@ $(document).ready(function () {
         form = $(this).parents('form:first');
         document.forms[form.attr('name')].submit();
     });
+
+    //filters toggler (author: nicolas maitre)
+    if(window.filtersBoxButton && window.expandedfilters){
+        filtersBoxButton.addEventListener("click", function(ev){
+            expandedfilters.classList.toggle("d-none");
+            //toggle arrow
+            filtersBoxButton.getElementsByTagName("i")[0].classList.toggle("down");
+            filtersBoxButton.getElementsByTagName("i")[0].classList.toggle("up");
+        });
+    }
 });

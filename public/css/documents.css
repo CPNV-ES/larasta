@@ -3,7 +3,6 @@
 // SI-T1a
 // Documents.css
 //------------------------------------------------------------**/
-
 #documents {
   text-align: left;
 }
@@ -22,8 +21,7 @@
   width: 100%;
 }
 
-.checkBox,
-#reconduire {
+.checkBox, #reconduire {
   display: inline-block;
 }
 
@@ -41,3 +39,4 @@
   float: right;
 }
 
+/*# sourceMappingURL=documents.css.map */
