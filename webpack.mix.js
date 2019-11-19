@@ -13,6 +13,7 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/my.js', 'public/js')
     .js('resources/assets/js/internships.js', 'public/js')
+    .js('resources/assets/js/internshipsEdit.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/documents.scss', 'public/css')
     .sass('resources/assets/sass/editGrid.scss', 'public/css')

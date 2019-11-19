@@ -409,8 +409,7 @@ div.progress-container > div {
 }
 .content-besides-sidebar {
 	margin-left: 260px;
-	/*width: 80%; wasn't responsive at all*/
-  width: calc(100% - 260px);
+	width: 80%;
 }
 
 #sidemenu {

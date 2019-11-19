@@ -12,10 +12,11 @@ Au moment de sauvegarder les données, le back-end met à jour les différents c
 
 ## Description du problème
 - Après la modification d'un champ, aucune remarque est générée `exemple: modification des dates du stage (12.11.2019 - 31.12.2020)`
-- L'utilisateur doit créer manuellement une remarque s'il souhaite en ajouter une
+- L'utilisateur doit créer manuellement une remarque s'il souhaite en ajouter une.
 
 ## Description de la solution
-
+- Créer au changement d'une donnée une nouvelle colonne avec un nouvel input
+- À la modification de ce champs, on sauvegarde le champs dans la base de données 
 (Terminé, le ...)
 
 # Plan d'intervention

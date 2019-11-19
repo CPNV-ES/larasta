@@ -1,5 +1,9 @@
 @extends ('layout')
 
+@section ('page_specific_js')
+    <script src="/js/internshipsEdit.js"></script>
+@stop
+
 @section ('content')
     <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
     <form action="/internships/{{$iship->id}}/update" method="get">

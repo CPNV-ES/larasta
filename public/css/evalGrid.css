@@ -3,7 +3,9 @@
 *
 * Bastien Nicoud
 */
+
 /* Hide elements on print */
+
 @media print {
   #side-menu {
     display: none !important;
@@ -13,16 +15,20 @@
     display: none !important;
   }
 }
+
 /* global margin */
+
 #evaluation-grid {
   margin: 40px auto;
 }
 
 /* inputs layouts */
+
 .evalgrid {
   border: none;
   background-color: #faf9f8;
   font-size: 16px;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 
@@ -49,6 +55,7 @@
 }
 
 /* html tables layout */
+
 .gridform.w12 {
   width: 12.5%;
 }
@@ -77,4 +84,3 @@
   width: 50%;
 }
 
-/*# sourceMappingURL=evalgrid.css.map */

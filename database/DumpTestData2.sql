@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `app_internships2` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `app_internships2`;
 -- MariaDB dump 10.17  Distrib 10.4.7-MariaDB, for Win64 (AMD64)
 --
 -- Host: 127.0.0.1    Database: app_internships2
@@ -258,7 +260,7 @@ CREATE TABLE `internships` (
   `previous_id` int(11) DEFAULT NULL COMMENT 'The internship before this one in this company',
   `internshipDescription` text DEFAULT NULL,
   `grossSalary` int(11) DEFAULT 1230 COMMENT 'Dès 2017, tarifs « état de Vaud »:\n1er stage 1230.- , 2ème stage 1625.-',
-  `contractGenerated` tinyint(1) NOT NULL DEFAULT '0000-00-00 00:00:00:00' COMMENT 'Indicates that the contract has been generated and accepted by the user\n', 
+  `contractGenerated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00:00' COMMENT 'Indicates that the contract has been generated and accepted by the user\n', 
   PRIMARY KEY (`id`),
   KEY `FKChez_idx` (`companies_id`),
   KEY `FKResp_idx` (`responsible_id`),

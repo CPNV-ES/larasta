@@ -4,6 +4,7 @@
 -- Modified: 24.01.2018
 -- Contact: julien.richoz@cpnv.ch
 //------------------------------------------------------------**/
+
 .sectionName {
   float: left;
 }
@@ -46,4 +47,3 @@ textarea {
   width: 80%;
 }
 
-/*# sourceMappingURL=editGrid.css.map */

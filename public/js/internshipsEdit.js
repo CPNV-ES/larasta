@@ -60,109 +60,48 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(1);
-__webpack_require__(2);
-__webpack_require__(3);
-__webpack_require__(4);
-__webpack_require__(5);
-__webpack_require__(6);
-__webpack_require__(7);
-__webpack_require__(8);
-__webpack_require__(9);
-__webpack_require__(10);
-__webpack_require__(11);
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(16);
 
 
 /***/ }),
-/* 1 */
+
+/***/ 16:
 /***/ (function(module, exports) {
 
-// my global js (if any)
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
-//adds and include an element into another
-Element.prototype.addElement = function (type) {
-    var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+document.addEventListener("DOMContentLoaded", function () {
+    //get the first table in form
+    var table = document.querySelector("form table");
 
-    var newElement = document.createElement(type); //create
-    this.appendChild(newElement); //append to parent
-    newElement.setAttribute('class', className); //set class name
-    return newElement;
-};
+    //get all inputs, selects in our table
+    var inputs = [].concat(_toConsumableArray(table.getElementsByTagName("input")), _toConsumableArray(table.getElementsByTagName("select")));
 
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
+    //when we change value on inputs we add input remark
+    inputs.forEach(function (elem) {
+        var alreadyRemark = false;
+        elem.addEventListener("change", function (ev) {
+            if (alreadyRemark) {
+                return;
+            }
+            alreadyRemark = true;
+            var td = elem.parentElement.parentNode.addElement("td");
+            var inputRemark = td.addElement("input");
+            inputRemark.type = "text";
+            inputRemark.name = "remark_" + elem.name;
+            inputRemark.placeholder = "Pourquoi?";
+        });
+    });
+});
 
 /***/ })
-/******/ ]);
+
+/******/ });

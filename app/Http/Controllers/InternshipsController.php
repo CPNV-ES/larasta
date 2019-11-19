@@ -469,4 +469,17 @@ class InternshipsController extends Controller
             abort(404);
         }
     }
+
+    /**
+     * Function called by entreprise.js in ajax
+     * Create a new remark with the text passed by the user
+     * @param Request $request (id, remark)
+     */
+    public function addRemarks($id, $remark)
+    {
+        $type = 1; // Type 1 = company remark
+        $on = $request->id;
+        $text = $request->remark;
+        RemarksController::addRemark($type,$on,$text);
+    }
 }

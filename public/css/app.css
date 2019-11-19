@@ -11,7 +11,8 @@
   border: 2px solid darkgrey;
 }
 
-.larastable td, .larastable th {
+.larastable td,
+.larastable th {
   padding-right: 5px;
   padding-left: 5px;
   text-align: left;
@@ -59,6 +60,7 @@
 
 /*arrows
 found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
+
 .arrow {
   border: solid black;
   border-width: 0 3px 3px 0;
@@ -67,32 +69,46 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 }
 
 .arrow.right {
-  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
 }
 
 .arrow.left {
-  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
 }
 
 .arrow.up {
-  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+          transform: rotate(-135deg);
 }
 
 .arrow.down {
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
 }
 
 .filters {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
   display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: start;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
   width: 100%;
 }
 
 #filtersBoxButton {
   border: 2px solid #ccc;
   background-color: white;
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
   padding: 3px 10px 3px 10px;
   margin-right: 15px;
@@ -112,11 +128,13 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 }
 
 #expandedfilters {
-  box-shadow: 0 0 5px #bbb;
+  -webkit-box-shadow: 0 0 5px #bbb;
+          box-shadow: 0 0 5px #bbb;
   margin-top: 10px;
 }
 
 /*checkbox filters*/
+
 .onefilter {
   display: inline-block;
   width: 170px;
@@ -163,4 +181,3 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   border-top-width: 3px;
 }
 
-/*# sourceMappingURL=app.css.map */
