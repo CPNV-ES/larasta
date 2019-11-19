@@ -7,14 +7,12 @@ use App\Person;
 class WishesSeeder extends Seeder
 {
     /**
-     * Run the wishes seeds.
+     * Create 50 wishes.
      *
      * @return void
      */
     public function run()
     {
-
-
-        factory(Wish::class, 2)->create();
+        factory(Wish::class, 50)->create();
     }
 }
