@@ -47,6 +47,8 @@ Les souhaits sont visibles dans la vue des souhaits.
 
 # Commit / Merge
 
+https://github.com/CPNV-ES/larasta/commit/96dd7f2c03254361524eaad290b1edf0c8b9a9d7
+
 (Fait, le ...)
 
 # Revue de code
