@@ -87,13 +87,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //when we change value on inputs we add input remark
     inputs.forEach(function (elem) {
-        var alreadyRemark = false;
+        var td = false;
+        var initialValue = elem.value;
         elem.addEventListener("change", function (ev) {
-            if (alreadyRemark) {
+            if (elem.value === initialValue && td) {
+                //no modif
+                td.remove();
+                td = false;
                 return;
             }
-            alreadyRemark = true;
-            var td = elem.parentElement.parentNode.addElement("td");
+            if (td) {
+                //already displayed
+                return;
+            }
+            td = elem.parentElement.parentNode.addElement("td");
             var inputRemark = td.addElement("input");
             inputRemark.type = "text";
             inputRemark.name = "remark_" + elem.name;
