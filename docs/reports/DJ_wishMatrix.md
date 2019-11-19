@@ -46,8 +46,9 @@ permettant de sélectionner l'année.
     - Redirection après réception des données vers la page de souhaits
 - Vue wishesMatrix
     - Affichage des classes de l'année sélectionnée
+    - Affichage des élèves sans initiales, représentés par '???'
+    - Distinction entre plusieurs classes
     - Ajout du menu déroulant pour sélectionner l'année, avec comme valeur par défaut l'année actuellement sélectionnée
-    - Affichage des classes
     - Ajout d'un formulaire pour envoyer les données entrées par POST
 - Script js wishesMatrix
     - Suppression de la fonction ajax de POST
