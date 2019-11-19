@@ -467,6 +467,7 @@ class InternshipsController extends Controller
     
     public function createInternship($iid)
     {
+        //Eloquent request 
         $Internshipcompany=Company::find($iid);
         $companyPersons=Persons::all()->where('company_id',$iid);
         $lastInternship=Internship::where('companies_id',$iid)->orderBy('endDate', 'desc')->first();
@@ -498,7 +499,7 @@ class InternshipsController extends Controller
             $begindate=$secondedateInternship;
             $endate=$secondeenddateInternship->addYear();
         }
-        
+
         return view('internships/internshipcreate')->with(
             [
                 'dateend'  => $endate->toDateString(),
@@ -512,7 +513,7 @@ class InternshipsController extends Controller
     public function addInternship(Request $request, $iid)
     {
 
-        $validatedData = $request->validate([
+        $request->validate([
             'beginDate' => 'required',
             'endDate' => 'required',
             'responsible' => 'required|integer',

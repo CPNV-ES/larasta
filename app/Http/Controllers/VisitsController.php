@@ -49,6 +49,7 @@ class VisitsController extends Controller
      * */
     public function index()
     {
+
         /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = Environment::currentUser()->getId();
 
@@ -56,14 +57,17 @@ class VisitsController extends Controller
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
 
+            $visits=Visit::all();
+            $person=Persons::all()->where('role',2);
             //Eloquent query gets all the visits for the current internships  from teacher ID 
-            $visits=Visit::whereHas('internship.student.flock',function($query) use ($id){
+            /* $visits=Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('beginDate','<=',now())->where('endDate','>',now());
-            })->get();
+            })->get(); */
 
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [
+                    'persons' => $person,
                     'visits' => $visits,
                     'message' => $this->message
                 ]
@@ -75,6 +79,11 @@ class VisitsController extends Controller
         {
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
+    }
+
+    public function search(Request $request){
+
+
     }
 
     /*

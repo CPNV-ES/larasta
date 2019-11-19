@@ -6,9 +6,24 @@
 @section ('content')
     <div class="container">
         <h1>Visits list</h1>
-        <a href="/visits/#" class="underline-none">
-            <button class="btn-success small text-white" disabled>Créer une visite</button>
-        </a>
+        <div class="row">
+            <div class="col-6">
+                    <a href="/visits/#" class="underline-none">
+                        <button class="btn-success small text-white" disabled>Créer une visite</button>
+                    </a>
+            </div>
+            <div class="col-6">
+            <form action="/visits">
+                <select name="teacher">
+                    @foreach ($persons as $person)          
+                            <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                    @endforeach
+            </select>
+            </form>
+            </div>
+        </div>
+        
+        
         <br>
         <br>
         <table class="larastable table table-striped">
