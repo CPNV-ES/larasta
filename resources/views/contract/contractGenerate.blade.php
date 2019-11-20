@@ -18,7 +18,7 @@
         @if ($contractGenerated == "0000-00-00 00:00:00" || $contractGenerated == null)
             <h1>Génération de contrat</h1><br>
             Rédiger le contrat au : <br>
-            <form method="post" action=action="{{route('viewContract',['id' => $id])}}">
+            <form method="post" action="{{route('viewContract',['id' => $id])}}">
                 {{ csrf_field() }}
                 <input type="radio" name="gender" value="male" checked>Masculin<br>
                 <input type="radio" name="gender" value="female">Féminin<br><br>
