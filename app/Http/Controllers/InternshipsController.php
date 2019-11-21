@@ -350,24 +350,69 @@ class InternshipsController extends Controller
         }
     }
 
-    public function update($iid)
+    public function update(Request $request,$id)
     {
+
         if (env('USER_LEVEL') >= 1)
         {
             DB::table('internships')
-                ->where('id', '=', $iid)
+                ->where('id', $id)
                 ->update(
-                    ['beginDate' => $_GET['beginDate'],
-                        'endDate' => $_GET['endDate'],
-                        'internshipDescription' => $_GET['description'],
-                        'admin_id' => $_GET['aresp'],
-                        'responsible_id' => $_GET['intresp'],
-                        'contractstate_id' => $_GET['stateDescription'],
-                        'grossSalary' => $_GET['grossSalary']]
+                    ['beginDate' => $request->beginDate,
+                        'endDate' => $request->endDate,
+                        'internshipDescription' => $request->description,
+                        'admin_id' => $request->aresp,
+                        'responsible_id' =>$request->intresp,
+                        'contractstate_id' => $request->stateDescription,
+                        'grossSalary' => $request->grossSalary]
                 );
 
+
+            if(isset($request->remark_beginDate))
+            {
+
+                $request->remark="La date de début de stage a été modifiée. ";
+                $request->remark.="Raison: $request->remark_beginDate";
+                self::addRemarks($request);
+            }
+            if(isset($request->remark_endDate))
+            {
+                $request->remark="La date de fin de stage a été modifiée. ";
+                $request->remark.="Raison: $request->remark_endDate";
+                self::addRemarks( $request);
+            }
+            if(isset($request->remark_description))
+            {
+                $request->remark="La description du stage a été modifiée.  ";
+                $request->remark.="Raison: $request->remark_description";
+                self::addRemarks($request);
+            }
+            if(isset($request->remark_aresp))
+            {
+                $request->remark="Le Responsable administratif du stage a été modifié. ";
+                $request->remark.="Raison: $request->remark_aresp";
+                self::addRemarks($request);
+            }
+            if(isset($request->remark_intresp))
+            {
+                $request->remark="Le responsable du stage a été modifié. ";
+                $request->remark.="Raison: $request->remark_intresp";
+                self::addRemarks($request);
+            }
+            if(isset($request->remark_stateDescription))
+            {
+                $request->remark="L'état du stage a été modifié. ";
+                $request->remark.="Raison: $request->remark_stateDescription";
+                self::addRemarks($request);
+            }
+            if(isset($request->remark_grossSalary))
+            {
+                $request->remark="Le salaire du stage a été modifié. ";
+                $request->remark.="Raison: $request->remark_grossSalary";
+                self::addRemarks($request);
+            }
             return redirect()->action(
-                'InternshipsController@view', ['iid' => $iid]
+                'InternshipsController@edit', ['iid' => $request->id]
             );
         }
         else
@@ -400,7 +445,7 @@ class InternshipsController extends Controller
         }
     }
 
-    public function updateVisit($iid)
+    public function updateVisit( $iid)
     {
         if (env('USER_LEVEL') >= 1)
         {
@@ -446,38 +491,15 @@ class InternshipsController extends Controller
         }
     }
 
-    public function addRemark($iid)
-    {
-        if (env('USER_LEVEL') >= 1)
-        {
-            if (isset($_GET['remarkDate']) && isset($_GET['remarkAuthor']) && isset($_GET['remark']))
-            {
-                if (($_GET['remarkDate'] != NULL) && ($_GET['remarkAuthor'] != NULL) && ($_GET['remark'] != NULL))
-                {
-                    DB::table('remarks')
-                        ->insertGetId(
-                            ['remarkType' => 5, 'remarkOn_id' => $iid, 'remarkDate' => $_GET['remarkDate'], 'author' => $_GET['remarkAuthor'], 'remarkText' => $_GET['remark']]);
-                }
-            }
-
-            return redirect()->action(
-                'InternshipsController@edit', ['iid' => $iid]
-            );
-        }
-        else
-        {
-            abort(404);
-        }
-    }
 
     /**
      * Function called by entreprise.js in ajax
      * Create a new remark with the text passed by the user
      * @param Request $request (id, remark)
      */
-    public function addRemarks($id, $remark)
+    public function addRemarks(Request $request)
     {
-        $type = 1; // Type 1 = company remark
+        $type = 5; // Type 5 = internships remark
         $on = $request->id;
         $text = $request->remark;
         RemarksController::addRemark($type,$on,$text);

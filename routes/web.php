@@ -19,13 +19,13 @@ Route::get('/internships/{iid}/view','InternshipsController@view');
 
 Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
-Route::get('/internships/{iid}/update','InternshipsController@update');
+Route::get('/internships/{iid}/update','InternshipsController@update')->name("updateInternships");
 
 Route::get('/internships/{iid}/addVisit','InternshipsController@addVisit');
 
 Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit');
 
-Route::get('/internships/{iid}/addRemark','InternshipsController@addRemark');
+Route::get('/internships/{iid}/addRemark','InternshipsController@addRemarks');
 
 Route::get('/admin', 'AdminController@index');
 
