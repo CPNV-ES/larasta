@@ -367,49 +367,38 @@ class InternshipsController extends Controller
                         'grossSalary' => $request->grossSalary]
                 );
 
+            $textRegex="([A-Za-z0-9]+)";
+            foreach ($request->request as $key=>$data)
+            {
+                //TODO Comment!
+                if(preg_match ("#^remark_$textRegex$#",$key))
+                {
+                    switch ($key)
+                    {
+                        case "remark_beginDate":
+                            $request->remark="La date de début de stage a été modifiée. ";
+                            break;
+                        case "remark_endDate":
+                            $request->remark="La date de fin de stage a été modifiée. ";
+                            break;
+                        case "remark_aresp":
+                            $request->remark="Le Responsable administratif du stage a été modifié. ";
+                            break;
+                        case "remark_intresp":
+                            $request->remark="Le responsable du stage a été modifié. ";
+                            break;
+                        case "remark_stateDescription":
+                            $request->remark="L'état du stage a été modifiée.  ";
+                            break;
+                        case "remark_grossSalary":
+                            $request->remark="Le salaire du stage a été modifié. ";
+                            break;
+                    }
+                    if($data==null || isset($data))
+                        $request->remark.="Raison: $data";
 
-            if(isset($request->remark_beginDate))
-            {
-
-                $request->remark="La date de début de stage a été modifiée. ";
-                $request->remark.="Raison: $request->remark_beginDate";
-                self::addRemarks($request);
-            }
-            if(isset($request->remark_endDate))
-            {
-                $request->remark="La date de fin de stage a été modifiée. ";
-                $request->remark.="Raison: $request->remark_endDate";
-                self::addRemarks( $request);
-            }
-            if(isset($request->remark_description))
-            {
-                $request->remark="La description du stage a été modifiée.  ";
-                $request->remark.="Raison: $request->remark_description";
-                self::addRemarks($request);
-            }
-            if(isset($request->remark_aresp))
-            {
-                $request->remark="Le Responsable administratif du stage a été modifié. ";
-                $request->remark.="Raison: $request->remark_aresp";
-                self::addRemarks($request);
-            }
-            if(isset($request->remark_intresp))
-            {
-                $request->remark="Le responsable du stage a été modifié. ";
-                $request->remark.="Raison: $request->remark_intresp";
-                self::addRemarks($request);
-            }
-            if(isset($request->remark_stateDescription))
-            {
-                $request->remark="L'état du stage a été modifié. ";
-                $request->remark.="Raison: $request->remark_stateDescription";
-                self::addRemarks($request);
-            }
-            if(isset($request->remark_grossSalary))
-            {
-                $request->remark="Le salaire du stage a été modifié. ";
-                $request->remark.="Raison: $request->remark_grossSalary";
-                self::addRemarks($request);
+                    self::addRemarks($request);
+                }
             }
             return redirect()->action(
                 'InternshipsController@edit', ['iid' => $request->id]
@@ -492,6 +481,14 @@ class InternshipsController extends Controller
     }
 
 
+    public function newRemark(Request $request)
+    {
+        self::addRemarks($request);
+
+        return redirect()->action(
+            'InternshipsController@edit', ['iid' => $request->id]
+        );
+    }
     /**
      * Function called by entreprise.js in ajax
      * Create a new remark with the text passed by the user
