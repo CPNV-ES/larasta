@@ -51,6 +51,9 @@ Cela permet, de manière certes très peu pratique, d'identifier les stages iden
 
 # Commit / Merge
 
+[commit](https://github.com/CPNV-ES/larasta/commit/8f5d7a13ee967a26e7684e9dece0808d95084ff3) sur git, 
+branche Damien-Jakob
+
 (Fait, le ...)
 
 # Revue de code
