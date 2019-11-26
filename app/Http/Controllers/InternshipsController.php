@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Contractstates;
+use App\Internship;
 use App\Internships;
 use App\Lifecycles;
 use Carbon\Carbon;
@@ -350,29 +351,37 @@ class InternshipsController extends Controller
         }
     }
 
+    /**
+     * update specific internships with GET data
+     *
+     * @param Request $request GET data received by internshipsEdit
+     * @param $id of interships
+     * @return redirect to good page
+     */
     public function update(Request $request,$id)
     {
 
         if (env('USER_LEVEL') >= 1)
         {
-            DB::table('internships')
-                ->where('id', $id)
-                ->update(
-                    ['beginDate' => $request->beginDate,
-                        'endDate' => $request->endDate,
-                        'internshipDescription' => $request->description,
-                        'admin_id' => $request->aresp,
-                        'responsible_id' =>$request->intresp,
-                        'contractstate_id' => $request->stateDescription,
-                        'grossSalary' => $request->grossSalary]
-                );
+            //update insternship by id
+            $internships= Internship::find($id);
+            $internships->beginDate=$request->beginDate;
+            $internships->endDate=$request->endDate;
+            $internships->internshipDescription=$request->description;
+            $internships->admin_id=$request->aresp;
+            $internships->responsible_id=$request->intresp;
+            $internships->contractstate_id=$request->stateDescription;
+            $internships->grossSalary=$request->grossSalary;
+            $internships->save();
 
             $textRegex="([A-Za-z0-9]+)";
+            //search all keys on request (exemple: "id" is $key and 5664 is $data)
             foreach ($request->request as $key=>$data)
             {
-                //TODO Comment!
+                //check if the name of request begin by "remark_"
                 if(preg_match ("#^remark_$textRegex$#",$key))
                 {
+                    //customized remarks
                     switch ($key)
                     {
                         case "remark_beginDate":
@@ -393,8 +402,12 @@ class InternshipsController extends Controller
                         case "remark_grossSalary":
                             $request->remark="Le salaire du stage a été modifié. ";
                             break;
+                        default:
+                            //show which field has been changed
+                            $request->remark="Les données du champ ".substr($key, strpos($key, "_") + 1)." ont été modifiées. ";
+                            break;
                     }
-                    if($data==null || isset($data))
+                    if(isset($data))
                         $request->remark.="Raison: $data";
 
                     self::addRemarks($request);
@@ -480,7 +493,11 @@ class InternshipsController extends Controller
         }
     }
 
-
+    /**
+     * add manually a new remark on InternshipsEdit page
+     * @param Request $request GET informations
+     * @return redirect to InternshipsEdit page
+     */
     public function newRemark(Request $request)
     {
         self::addRemarks($request);
