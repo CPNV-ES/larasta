@@ -111,7 +111,7 @@ class WishesMatrixController extends Controller
     }
 
     /*
-     * Get all the companies with state 'Reconduit' or 'Confirmé' in the current year,
+     * Get all the internships with state 'Reconduit' or 'Confirmé' in the current year,
      * ordered by the name of the company
      */
     private function getInternships()
@@ -135,8 +135,6 @@ class WishesMatrixController extends Controller
         $flockYears = Flock::distinct()
             ->orderBy('startYear', 'desc')
             ->pluck('startYear');
-
-        //return $flockYears;
         return $flockYears;
     }
 
