@@ -93,6 +93,10 @@ commit 251dd32950b846c22bafa38557f6676c62ec2596, branche Damien
 
 (Fait, le ...)
 
+Modification : commit e511bde07a924c9de4d2193f69c8913fb36c3f3c, branche Damien
+
+(Fait, le 26.11.2019)
+
 # Revue de code
 
 (Effectuée, le ...)
