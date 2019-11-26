@@ -1,37 +1,45 @@
-//------------------------------------------------------------
-// Benjamin Delacombaz
-// version 0.6
-// WishesMatrixController
-// Created 18.12.2017
-// Last edit 23.01.2017 by Benjamin Delacombaz
-//------------------------------------------------------------
-
 $(document).ready(function(){
+    // save if the table is locked or not
     var lockTable = true;
+    
+    /**
+     * Click functionality of the lockTable button
+     * - If table is locked : unlock table
+     * - If table is unlocked : unlock table
+     */
     $('#lockTable').click(function(){
-        // Test
+
         var col = $(this).parent().children().index($(this)) + 1;
 
         if(lockTable)
         {
+            // Change icon of button
             $(this).attr('src',"/images/open-padlock-silhouette_32x32.png");
-            lockTable = false;
+
+            // Lock every case of the table
             $('tr td:nth-child(' + col + ')').each( function(){
                 $('.clickableCase').removeClass('locked');
-                ;       
             });
+
+            lockTable = false;
         }
         else
         {
+            // Change icon of button
             $(this).attr('src',"/images/padlock_32x32.png");
-            lockTable = true;
+
+            // Unlock every case of the table
             $('tr td:nth-child(' + col + ')').each( function(){
                 $('.clickableCase').addClass('locked');
-                ;       
             });
+
+            lockTable = true;
         }
     });
 
+    /**
+     * Click functionality of the clickable cases
+     */
     $('.clickableCase').click(function(){
         // Test if table is locked
         if(!$(this).hasClass('locked'))
@@ -104,13 +112,17 @@ $(document).ready(function(){
         else
         {
             // View The toast message
-            $('.alert-info').text("Le tableau est bloquer en édition.");
+            $('.alert-info').text("Le tableau est bloqué en édition.");
             $('.alert-info').removeClass('hidden');
             cleanMessage();
         }
     });
 
-    // Recalculate rank
+    /**
+     * Recalculate the rank in a column, when a wish has been removed
+     * @param col column whose ranks must be recalculated
+     * @param nbRemove rank removed
+     */
     function recalculateRank(col, nbRemove)
     {
         // Do that for each row in col
@@ -144,20 +156,10 @@ $(document).ready(function(){
             }     
          });
     }
-    // Event when change on date picker
-    $('#dateEndChoices').change(function(){
-        var dateNow = new Date();
-        var dateWritted = new Date($('#dateEndChoices').val());
-        if(dateWritted <= dateNow)
-        {
-            // View The toast message
-            $('.alert-info').text("La date se trouve dans le passé.");
-            $('.alert-info').removeClass('hidden');
-            cleanMessage();
-        }
-    });
 
-    // Clean message box
+    /**
+     * Remove the alert-info
+     */
     function cleanMessage()
     {
         $(".alert-info").fadeTo(2000, 500).slideUp(500, function(){

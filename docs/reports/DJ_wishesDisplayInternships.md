@@ -66,10 +66,14 @@ branche Damien-Jakob
 C'est pour cela que le lien pointe vers le stage précédent plutôt que le stage actuel. 
 Une modification de la page de stage serait utile afin de consulter les informations du stage.
 * Le regroupement de stages selon le stage précédent est plus compliqué qu'anticipé. 
-Ajouter simplement un 'group by' ne marche pas, il faudrait aussi ajouter un 'select' ne prenant que les caractéristiques du stage que l'on s'attend à retrouver de manière identique.
+Ajouter simplement un 'group by' ne marche pas, 
+il faudrait aussi ajouter un 'select' ne prenant que 
+les caractéristiques du stage que l'on s'attend à retrouver de manière identique.
 Et si accidentellement deux stages que l'on souhaite regrouper diffèrent dans ces caractéristiques, la requête échouera.
-La meilleure solution serait de séparer les stages en deux tables : une page d'instance de stage et une page de description de stage. 
+La meilleure solution serait de séparer les stages en deux tables : 
+une page d'instance de stage et une page de description de stage. 
 Cependant, le travail nécessaire pour adapter l'application est conséquent et n'en vaut peut-être pas la peine. 
-Pour cette raison, le regroupement des stages est pour l'instant abandonné en attendant de pouvoir aborder le sujet avec monsieur Carrel.
+Pour cette raison, le regroupement des stages est pour l'instant abandonné 
+en attendant de pouvoir aborder le sujet avec monsieur Carrel.
 
 (Mise à jour, le ...)
