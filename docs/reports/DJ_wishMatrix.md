@@ -57,6 +57,10 @@ permettant de sélectionner l'année.
 - Classe Internship :
     - Renommé la relation 'companies' en 'company'
 
+Modification :
+- Controleur WishesMatrixController :
+    - Modification de la méthode getFlockYears afin de récupérer ses données de manière plus propre
+
 Remarques 
  - La sélection des entreprises à afficher est peut-être à revoir
 

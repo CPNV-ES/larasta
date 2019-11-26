@@ -122,7 +122,7 @@ class WishesMatrixController extends Controller
                     ->orWhere('stateDescription', 'Reconduit');
             })
             ->get()
-            ->sortBy(function($internship) {
+            ->sortBy(function ($internship) {
                 return $internship->company->companyName;
             });
 
@@ -132,16 +132,11 @@ class WishesMatrixController extends Controller
     // Get all distinct start years of flocks, starting by the latest
     private function getFlockYears()
     {
-        $flocks = Flock::distinct()
+        $flockYears = Flock::distinct()
             ->orderBy('startYear', 'desc')
-            ->get(['startYear']);
+            ->pluck('startYear');
 
-        // put all years in an array
-        $flockYears = array();
-        foreach ($flocks as $flock) {
-            $flockYears[] = $flock->startYear;
-        }
-
+        //return $flockYears;
         return $flockYears;
     }
 
