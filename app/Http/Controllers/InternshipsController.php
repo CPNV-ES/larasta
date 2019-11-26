@@ -397,7 +397,7 @@ class InternshipsController extends Controller
                             $request->remark="Le responsable du stage a été modifié. ";
                             break;
                         case "remark_stateDescription":
-                            $request->remark="L'état du stage a été modifiée.  ";
+                            $request->remark="L'état du stage a été modifié.  ";
                             break;
                         case "remark_grossSalary":
                             $request->remark="Le salaire du stage a été modifié. ";
