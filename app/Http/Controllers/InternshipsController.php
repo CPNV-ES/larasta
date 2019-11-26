@@ -228,7 +228,6 @@ class InternshipsController extends Controller
                 'stateDescription')
             ->where('internships.id', '=', $iid)
             ->first();
-
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -247,7 +246,7 @@ class InternshipsController extends Controller
             ->where('remarkOn_id', '=', $iid)
             ->orderby('remarkDate', 'desc')
             ->get();
-
+            
         return view('internships/internshipview')
             ->with('iship', $iship)
             ->with('visits', $visits)

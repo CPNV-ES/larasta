@@ -152,3 +152,6 @@ Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
 Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
 Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
 Route::post('/editGrid/addSection', 'EditGridController@addSection');
+
+//Life cicle
+Route::get('/editlifecycle','LifeCycleController@index');

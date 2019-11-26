@@ -69,7 +69,6 @@ class EntrepriseController extends Controller
                 'stateDescription')
             ->where('companies_id', $id)
             ->get();
-
         $remarks = DB::table('remarks')
             ->select('id','remarkDate','author','remarkText')
             ->where('remarkType',1)

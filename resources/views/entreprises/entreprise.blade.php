@@ -130,7 +130,7 @@
             <br>
             @foreach ($company as $companies)
                 <a href="/internships/{{$companies->id}}/new" class="underline-none">
-                    <button class="btn-success small text-white">Créer un stage</button>
+                    <button class="btn-success small text-white" onclick="this.disabled=true">Créer une stage</button>
                 </a>
             @endforeach
             </div>
