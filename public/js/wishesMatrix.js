@@ -1,7 +1,7 @@
 $(document).ready(function(){
     // save if the table is locked or not
     var lockTable = true;
-    
+
     /**
      * Click functionality of the lockTable button
      * - If table is locked : unlock table

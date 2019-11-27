@@ -10,48 +10,54 @@
     <link rel="stylesheet" href="/css/wishesMatrix.css"/>
 @stop
 @section ('content')
-    <div class="alert-info hidden">
-        <!-- Info if user doesn't have the good right -->
-    </div>
+    <!-- Display messages if the user doesn't have the correct rights -->
+    <div class="alert-info hidden"></div>
+
     <h1>Matrice des souhaits</h1>
     <div class="col-md-9">
         <table id="WishesMatrixTable" class="table-bordered col-md-11">
-
             <tr>
                 <th></th>
                 <!-- Display flocks -->
             @foreach ($flocks as $flock)
-                <!-- Add each persons where initials is ok -->
+                <!-- The colspan of a flock is the number of students of the flock -->
                     <th class="" colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
                 @endforeach
             </tr>
 
             <tr>
                 <th></th>
-                <!-- Display students from flocks -->
+
+                <!-- Display the students from the flocks -->
             @foreach ($flocks as $flock)
-                <!-- Add each persons where initials is ok -->
-                    @foreach($flock->students as $person)
-                        @if ($person->initials!="")
-                            @if ($person->initials == $currentUser->getInitials())
-                                <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
-                            @else
-                                <th value="{{ $person->id }}">{{ $person->initials }}</th>
-                            @endif
-                        @else
+                @foreach($flock->students as $person)
+                    <!-- Display the initials of the student -->
+                    @if ($person->initials!="")
+                        <!-- Add the class access to cases of belonging to the user -->
+                            <th
+                                    @if ($person->initials == $currentUser->getInitials())
+                                    class="access"
+                                    @endif
+                                    value="{{ $person->id }}">
+                                {{ $person->initials }}
+                            </th>
+                    @else
+                        <!-- Default initials : ??? -->
                             <th value="{{ $person->id }}">???</th>
                         @endif
                     @endforeach
                 @endforeach
             </tr>
 
+            <!-- Display the internships and their wishes -->
             @foreach ($internships as $internship)
                 <tr>
                     <td>
-                        <!-- Give link to previous internship -->
-                        <!-- Current internship fail to display because the internship page needs
-                        the student of the internship to be defined -->
-                        @if (!is_null($internship->previous_id))
+                        <!-- Display the company of the internship -->
+                    @if (!is_null($internship->previous_id))
+                        <!-- Link to previous internship -->
+                            <!-- Current internship fail to display
+                            because the internship page needs the student of the internship to be defined -->
                             <a href="/internships/{{ $internship->previous_id }}/view">
                                 {{ $internship->company->companyName }}
                             </a>
@@ -63,13 +69,14 @@
                     <!-- Create the clickable case for each person -->
                 @foreach ($flocks as $flock)
                     @foreach ($flock->students as $person)
-                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                            @if ($currentUser->getLevel() != 0)
+                        @if ($currentUser->getLevel() != 0)
+                            <!-- Give extra classes to teacher -->
                                 <td class="clickableCase locked teacher">
                             @else
                                 <td class="clickableCase">
                                 @endif
-                                <!-- Add for each person in the table their wishes -->
+
+                                <!-- If student person has a wish for this internship, display the rank -->
                                     @foreach($person->wishes as $wish)
                                         @if($wish->internship->id == $internship->id)
                                             {{ $wish->rank }}
@@ -82,6 +89,8 @@
                 </tr>
             @endforeach
         </table>
+
+        <!-- Lock table button -->
         @if ($currentUser->getLevel() != 0)
             <img id="lockTable" src="/images/padlock_32x32.png"/>
         @endif
@@ -92,16 +101,18 @@
     @if ($currentUser->getLevel() != 0)
         <form action="/wishesMatrix" method="post">
             <!-- Necessary in order to validate the POST-->
-            {{ csrf_field() }}
+        {{ csrf_field() }}
+
+        <!-- Limit date for modifications -->
             <label>Modifiable jusqu'au</label>
             <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="dateEndWishes"
                    value="{{ $dateEndWishes }}"/>
 
-            <!-- year selection -->
+            <!-- Year selection -->
             <label>Année à afficher</label>
             <select name="flockYear" id="flockYear">
+            @foreach($flockYears as $year)
                 <!-- default selected year is the displayed year -->
-                @foreach($flockYears as $year)
                     <option value="{{ $year }}"
                             @if($year == $selectedYear)
                             selected
@@ -110,6 +121,8 @@
                     </option>
                 @endforeach
             </select>
+
+            <!-- Submit button -->
             <button type="submit">Enregistrer</button>
         </form>
     @endif

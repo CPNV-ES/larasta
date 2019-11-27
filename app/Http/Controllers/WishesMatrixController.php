@@ -23,6 +23,11 @@ use CPNVEnvironment\Environment;
 
 class WishesMatrixController extends Controller
 {
+    /**
+     * Display the wish page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View : wish page
+     */
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -41,12 +46,9 @@ class WishesMatrixController extends Controller
             $flocks = $this->getFlocksWithYear($selectedFlockYear);
         }
 
-        // Get the start available years to display
-        $flockYears = $this->getFlockYears();
-
+        // Get info for teacher : available start years, and date of end for wishes
+        $flockYears = null;
         $dateEndWishes = null;
-
-        // Get info for teacher
         // Test if current user is a teacher
         if ($currentUser->getLevel() >= 1) {
             // get date end wishes
@@ -55,6 +57,9 @@ class WishesMatrixController extends Controller
                 // Convert the date/time to date only
                 $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
             }
+
+            // get flock years
+            $flockYears = $this->getFlockYears();
         }
 
         return view('wishesMatrix/wishesMatrix')
@@ -69,38 +74,44 @@ class WishesMatrixController extends Controller
     }
 
 
+    /**
+     * Save the display modifications of hte wishMatrix page
+     *
+     * @param Request $request : POST request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector : redirect to the wish page
+     */
     public function save(Request $request)
     {
-
-        // Do only if not student
-        // !!!!!!!!!!!!!! Value Test !!!!!!!!!!!!!!!!!!!
-        if (Environment::currentUser()->getLevel() > 0) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        {
+        // Do only if user is not student
+        if (Environment::currentUser()->getLevel() > 0) {
             // Save the date
             if ($request->input('dateEndWishes') != null) {
+                // get the date saved in the database
                 $param = Params::getParamByName('dateEndWishes');
-                // Test if param exists
-                if ($param != null) {
-                    // Update the date
-                    $param->paramValueDate = $request->input('dateEndWishes');
-                } else {
-                    // Insert param
+
+                // Create param if it does not exist
+                if (is_null($param)) {
                     $param = new Params();
                     $param->paramName = 'dateEndWishes';
-                    $param->paramValueDate = $request->input('dateEndWishes');
                 }
+
+                // Update the date
+                $param->paramValueDate = $request->input('dateEndWishes');
                 $param->save();
             }
 
-            // Save the display year
+            // Save the year to display
             if ($request->input('flockYear') != null) {
-                // Create param if it does not exist
+                // get the year saved in the database
                 $param = Params::getParamByName('wishesSelectedYear');
+
+                // Create param if it does not exist
                 if (is_null($param)) {
                     $param = new Params();
                     $param->paramName = 'wishesSelectedYear';
                 }
-                // update value
+
+                // update the year
                 $param->paramValueInt = $request->input('flockYear');
                 $param->save();
             }
@@ -110,9 +121,11 @@ class WishesMatrixController extends Controller
         return redirect('/wishesMatrix');
     }
 
-    /*
+    /**
      * Get all the internships with state 'Reconduit' or 'Confirmé' in the current year,
      * ordered by the name of the company
+     *
+     * @return mixed : list of internships
      */
     private function getInternships()
     {
@@ -125,11 +138,14 @@ class WishesMatrixController extends Controller
             ->sortBy(function ($internship) {
                 return $internship->company->companyName;
             });
-
         return $internships;
     }
 
-    // Get all distinct start years of flocks, starting by the latest
+    /**
+     * Get all distinct start years of flocks, starting by the latest
+     *
+     * @return array : starting years of flocks
+     */
     private function getFlockYears()
     {
         $flockYears = Flock::distinct()
@@ -138,8 +154,12 @@ class WishesMatrixController extends Controller
         return $flockYears;
     }
 
-    // Get all flocks that started on a specific year,
-    // ordered alphabetically
+    /**
+     * Get all flocks that started on a specific year, ordered alphabetically
+     *
+     * @param $year : starting year of the flocks
+     * @return mixed : list of flocks
+     */
     private function getFlocksWithYear($year)
     {
         $flocks = Flock::where('startYear', '=', $year)
