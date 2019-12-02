@@ -46,7 +46,7 @@ Au moment de sauvegarder les données, le back-end met à jour les différents c
 (Terminés, le 26.11.2019
 
 # Commit / Merge
-- Avant dernier commit e10613dbfa8f4848d71c8d2ef42bcea9f6fb0f2d
+- dernier (commit)[https://github.com/CPNV-ES/larasta/commit/1201cebfc2ce1f1baf671947feccb00eb4459977]
 (Fait, le 25.11.19)
 
 # Revue de code
