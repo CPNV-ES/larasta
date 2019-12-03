@@ -40,6 +40,16 @@ class WishesMatrixController extends Controller
 
         // Get the selected year, and all classes from that year
         $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
+
+        // Create param if it does not exist
+        if (is_null($selectedFlockYear)) {
+            $param = new Params();
+            $param->paramName = 'wishesSelectedYear';
+            $param->paramValueInt = -1;
+            $param->save();
+            $selectedFlockYear = $param;
+        }
+
         $flocks = null;
         if ($selectedFlockYear != null) {
             $selectedFlockYear = $selectedFlockYear->paramValueInt;
