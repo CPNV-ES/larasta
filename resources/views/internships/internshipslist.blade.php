@@ -16,13 +16,13 @@
         <tbody>
         @foreach($iships as $iship)
             <tr class="clickable-row" data-href="/internships/{{ $iship->id }}/view">
-                <td>{{ $iship->companyName }}</td>
+                <td>{{ $iship->company->companyName}}</td>
                 <td>{{ strftime("%b %g", strtotime($iship->beginDate)) }}</td>
-                <td>{{ $iship->arespfirstname }} {{ $iship->aresplastname }}</td>
-                <td>{{ $iship->irespfirstname }} {{ $iship->iresplastname }}</td>
-                <td>{{ $iship->studentfirstname }} {{ $iship->studentlastname }}</td>
-                <td>{{ $iship->mcini }}</td>
-                <td>{{ $iship->stateDescription }}</td>
+                <td>{{ $iship->admin->firstname ?? ''}} {{ $iship->admin->lastname ?? ''}}</td> 
+                <td>{{ $iship->responsible->firstname ?? '' }} {{ $iship->iresplastname ?? '' }}</td>
+                <td>{{ $iship->student->firstname ?? ''}} {{ $iship->student->lastname ?? '' }}</td>
+                <td>{{ $iship->student->flock->classMaster->initials ?? ''}}</td>
+                <td>{{ $iship->contractstate->stateDescription}}</td>
             </tr>
         @endforeach
         </tbody>
