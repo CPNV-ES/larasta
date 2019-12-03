@@ -36,12 +36,16 @@ Controleur WishesMatrixController
 * Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
 * Supression de l'ancienne méthode récupérant les entreprises
 
-Controleur WishMatrixController
-* ...
+Controleur InternshipsController
+* Remplacement d'une longue requete SQL par une requete Eloquent
 
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
-* Ajout d'un lien vers le stage précédent s'il existe
+* Ajout d'un lien vers le stage
+
+Vue internshipview
+* Utilisation d'Eloquent pour afficher les stages
+* Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
 A faire :
 * Vue d'un stage : fonctionner avec les stages non attribués
