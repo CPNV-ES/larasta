@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Contractstates;
+use App\Internship;
 use App\Internships;
 use App\Lifecycles;
 use Carbon\Carbon;
@@ -51,10 +52,13 @@ class InternshipsController extends Controller
         foreach ($filter as $state)
         {
             $state->checked = false;
-            foreach ($request->all() as $fname => $fval)
-                if (substr($fname, 0, 5) == 'state')
-                    if ($state->id == intval(substr($fname, 5)))
+            foreach ($request->all() as $fname => $fval){
+                if (substr($fname, 0, 5) == 'state'){
+                    if ($state->id == intval(substr($fname, 5))){
                         $state->checked = ($fval == 'on');
+                    }
+                }
+            }
             $list[] = $state;
         }
         $ifilter->setStateFilter($list);
@@ -76,12 +80,16 @@ class InternshipsController extends Controller
     private function filteredInternships(InternshipFilter $ifilter)
     {
         $states = $ifilter->getStateFilter();
+        $isOneFilterActive = false; //contains if at least one filter is active
         // build list of ids to select by internship state
-        foreach ($states as $state)
-            if ($state->checked)
+        foreach ($states as $state){
+            if ($state->checked){
                 $idlist[] = $state->id;
+                $isOneFilterActive = true;
+            }
+        }
 
-        if (isset($idlist))
+        if (isset($idlist)){
             $iships = DB::table('internships')
                 ->join('companies', 'companies_id', '=', 'companies.id')
                 ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
@@ -108,8 +116,9 @@ class InternshipsController extends Controller
                     'stateDescription')
                 ->whereIn('contractstate_id', $idlist)
                 ->get();
-        else
-            $iships = array();
+            }else{
+                $iships = array();
+            }
 
         switch ($ifilter->getMine() * 2 + $ifilter->getInProgress())
         {
@@ -132,7 +141,7 @@ class InternshipsController extends Controller
         } else
             $finallist = $iships;
 
-        return view('internships/internships')->with('iships', $finallist)->with('filter', $ifilter);
+        return view('internships/internships')->with('iships', $finallist)->with('filter', $ifilter)->with('isOneFilterActive', $isOneFilterActive);
     }
 
     /**
@@ -342,24 +351,70 @@ class InternshipsController extends Controller
         }
     }
 
-    public function update($iid)
+    /**
+     * update specific internships with GET data
+     *
+     * @param Request $request GET data received by internshipsEdit
+     * @param $id of interships
+     * @return redirect to good page
+     */
+    public function update(Request $request,$id)
     {
+
         if (env('USER_LEVEL') >= 1)
         {
-            DB::table('internships')
-                ->where('id', '=', $iid)
-                ->update(
-                    ['beginDate' => $_GET['beginDate'],
-                        'endDate' => $_GET['endDate'],
-                        'internshipDescription' => $_GET['description'],
-                        'admin_id' => $_GET['aresp'],
-                        'responsible_id' => $_GET['intresp'],
-                        'contractstate_id' => $_GET['stateDescription'],
-                        'grossSalary' => $_GET['grossSalary']]
-                );
+            //update insternship by id
+            $internships= Internship::find($id);
+            $internships->beginDate=$request->beginDate;
+            $internships->endDate=$request->endDate;
+            $internships->internshipDescription=$request->description;
+            $internships->admin_id=$request->aresp;
+            $internships->responsible_id=$request->intresp;
+            $internships->contractstate_id=$request->stateDescription;
+            $internships->grossSalary=$request->grossSalary;
+            $internships->save();
 
+            $textRegex="([A-Za-z0-9]+)";
+            //search all keys on request (exemple: "id" is $key and 5664 is $data)
+            foreach ($request->request as $key=>$data)
+            {
+                //check if the name of request begin by "remark_"
+                if(preg_match ("#^remark_$textRegex$#",$key))
+                {
+                    //customized remarks
+                    switch ($key)
+                    {
+                        case "remark_beginDate":
+                            $request->remark="La date de début de stage a été modifiée. ";
+                            break;
+                        case "remark_endDate":
+                            $request->remark="La date de fin de stage a été modifiée. ";
+                            break;
+                        case "remark_aresp":
+                            $request->remark="Le Responsable administratif du stage a été modifié. ";
+                            break;
+                        case "remark_intresp":
+                            $request->remark="Le responsable du stage a été modifié. ";
+                            break;
+                        case "remark_stateDescription":
+                            $request->remark="L'état du stage a été modifié.  ";
+                            break;
+                        case "remark_grossSalary":
+                            $request->remark="Le salaire du stage a été modifié. ";
+                            break;
+                        default:
+                            //show which field has been changed
+                            $request->remark="Les données du champ ".substr($key, strpos($key, "_") + 1)." ont été modifiées. ";
+                            break;
+                    }
+                    if(isset($data))
+                        $request->remark.="Raison: $data";
+
+                    self::addRemarks($request);
+                }
+            }
             return redirect()->action(
-                'InternshipsController@view', ['iid' => $iid]
+                'InternshipsController@edit', ['iid' => $request->id]
             );
         }
         else
@@ -392,7 +447,7 @@ class InternshipsController extends Controller
         }
     }
 
-    public function updateVisit($iid)
+    public function updateVisit( $iid)
     {
         if (env('USER_LEVEL') >= 1)
         {
@@ -438,27 +493,29 @@ class InternshipsController extends Controller
         }
     }
 
-    public function addRemark($iid)
+    /**
+     * add manually a new remark on InternshipsEdit page
+     * @param Request $request GET informations
+     * @return redirect to InternshipsEdit page
+     */
+    public function newRemark(Request $request)
     {
-        if (env('USER_LEVEL') >= 1)
-        {
-            if (isset($_GET['remarkDate']) && isset($_GET['remarkAuthor']) && isset($_GET['remark']))
-            {
-                if (($_GET['remarkDate'] != NULL) && ($_GET['remarkAuthor'] != NULL) && ($_GET['remark'] != NULL))
-                {
-                    DB::table('remarks')
-                        ->insertGetId(
-                            ['remarkType' => 5, 'remarkOn_id' => $iid, 'remarkDate' => $_GET['remarkDate'], 'author' => $_GET['remarkAuthor'], 'remarkText' => $_GET['remark']]);
-                }
-            }
+        self::addRemarks($request);
 
-            return redirect()->action(
-                'InternshipsController@edit', ['iid' => $iid]
-            );
-        }
-        else
-        {
-            abort(404);
-        }
+        return redirect()->action(
+            'InternshipsController@edit', ['iid' => $request->id]
+        );
+    }
+    /**
+     * Function called by entreprise.js in ajax
+     * Create a new remark with the text passed by the user
+     * @param Request $request (id, remark)
+     */
+    public function addRemarks(Request $request)
+    {
+        $type = 5; // Type 5 = internships remark
+        $on = $request->id;
+        $text = $request->remark;
+        RemarksController::addRemark($type,$on,$text);
     }
 }

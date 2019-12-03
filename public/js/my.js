@@ -87,6 +87,17 @@ module.exports = __webpack_require__(12);
 
 // my global js (if any)
 
+HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
+//adds and include an element into another
+Element.prototype.addElement = function (type) {
+    var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+
+    var newElement = document.createElement(type); //create
+    this.appendChild(newElement); //append to parent
+    newElement.setAttribute('class', className); //set class name
+    return newElement;
+};
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {

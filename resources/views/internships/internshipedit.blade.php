@@ -1,8 +1,13 @@
 @extends ('layout')
 
+@section ('page_specific_js')
+    <script src="/js/internshipsEdit.js"></script>
+@stop
+
 @section ('content')
     <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
-    <form action="/internships/{{$iship->id}}/update" method="get">
+    <form action="{{route('updateInternships',$iship->id)}}" method="get">
+    <input type="hidden" name="id" value="{{ $iship->id }}">
     <table class="table text-left larastable">
         <tr>
             <td class="col-md-2">Du</td>
@@ -156,6 +161,7 @@
                 <td>Date</td>
                 <td>Auteur</td>
                 <td colspan="2">Remarque</td>
+                <input type="hidden" name="id" value="{{ $iship->id }}">
             </tr>
             <tr id="addRemark">
                 <td colspan="4">

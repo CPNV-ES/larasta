@@ -83,13 +83,13 @@ module.exports = __webpack_require__(14);
 $(document).ready(function () {
     // Manage filter box collapse/expand
     $('#collapsedfilters').click(function () {
-        $(this).addClass('d-none');
-        $('#expandedfilters').removeClass('d-none');
+        $(this).addClass('hidden');
+        $('#expandedfilters').removeClass('hidden');
     });
     $('#collapsefilters').click(function () {
         // when we click on the title (not anywhere in the form)
-        $('#expandedfilters').addClass('d-none');
-        $('#collapsedfilters').removeClass('d-none');
+        $('#expandedfilters').addClass('hidden');
+        $('#collapsedfilters').removeClass('hidden');
     });
 });
 

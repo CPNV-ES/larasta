@@ -19,13 +19,42 @@ class Persons extends Model
         'lastname',
         'role'
     ];
-    
+
+    /**
+     * @description A Location belong to person
+     * @return the location of person
+     */
+    public function location()
+    {
+        return $this->belongsTo('App\Location');
+    }
     /**
      * Relation to the internship of the student
      */
     public function internships()
     {
         return $this->hasMany('App\Internship');
+    }
+    /**
+     * Relation to the internship of the student
+     */
+    public function student()
+    {
+        return $this->hasMany('App\Internship',"intern_id");
+    }
+    /**
+     * Relation to the internship of the responsible
+     */
+    public function responsible()
+    {
+        return $this->hasMany('App\Internship',"responsible_id");
+    }
+    /**
+     * Relation to the internship of the admin
+     */
+    public function admin()
+    {
+        return $this->hasMany('App\Internship',"admin_id");
     }
 
     /**
@@ -35,6 +64,7 @@ class Persons extends Model
     {
         return $this->belongsTo('App\Flock', 'flock_id');
     }
+
 
     /**
      * Computed property to get role name
