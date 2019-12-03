@@ -232,10 +232,14 @@ class InternshipsController extends Controller
             ->with('internship', $internship);
     }
 
-    public function edit($iid)
+    public function edit($internshipId)
     {
         date_default_timezone_set('Europe/Zurich');
         if (env('USER_LEVEL') >= 1) {
+
+            $internship = Internship::find($internshipId);
+
+            // TODO remove once replaced
             $iship = DB::table('internships')
                 ->join('companies', 'companies_id', '=', 'companies.id')
                 ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
@@ -265,7 +269,7 @@ class InternshipsController extends Controller
                     'contractstate_id',
                     'contractGenerated',
                     'stateDescription')
-                ->where('internships.id', '=', $iid)
+                ->where('internships.id', '=', $internshipId)
                 ->first();
 
             $resp = DB::table('persons')
@@ -274,11 +278,11 @@ class InternshipsController extends Controller
                     'firstname',
                     'lastname')
                 ->where('role', '=', 2)
-                ->where('company_id', '=', $iship->compid);
+                ->where('company_id', '=', $internship->company->id);
 
-            $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $iship->contractstate_id);
+            $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
 
-            $lcycles = [$iship->contractstate_id];
+            $lcycles = [$internship->contractstate->id];
             foreach ($lifecycles->get()->toArray() as $value) {
                 array_push($lcycles, $value->to_id);
             }
@@ -297,7 +301,7 @@ class InternshipsController extends Controller
                     'confirmed',
                     'number',
                     'grade')
-                ->where('internships_id', '=', $iid)
+                ->where('internships_id', '=', $internshipId)
                 ->get();
 
             $remarks = DB::table('remarks')
@@ -306,7 +310,7 @@ class InternshipsController extends Controller
                     'author',
                     'remarkText')
                 ->where('remarkType', '=', 5)
-                ->where('remarkOn_id', '=', $iid)
+                ->where('remarkOn_id', '=', $internshipId)
                 ->orderby('remarkDate', 'desc')
                 ->get();
 
@@ -315,7 +319,8 @@ class InternshipsController extends Controller
                 ->with('resp', $resp)
                 ->with('states', $states)
                 ->with('visits', $visits)
-                ->with('remarks', $remarks);
+                ->with('remarks', $remarks)
+                ->with('internship', $internship);
         } else {
             abort(404);
         }
