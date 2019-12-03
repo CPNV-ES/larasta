@@ -18,9 +18,14 @@ USE `app_internships2`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+--	create database
+--
+CREATE SCHEMA IF NOT EXISTS `laravel`;
+USE `laravel`;
+
+--
 -- Table structure for table `activitytypes`
 --
-
 DROP TABLE IF EXISTS `activitytypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
