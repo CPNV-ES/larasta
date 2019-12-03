@@ -53,17 +53,11 @@
             @foreach ($internships as $internship)
                 <tr>
                     <td>
-                        <!-- Display the company of the internship -->
-                    @if (!is_null($internship->previous_id))
-                        <!-- Link to previous internship -->
-                            <!-- Current internship fail to display
-                            because the internship page needs the student of the internship to be defined -->
-                            <a href="/internships/{{ $internship->previous_id }}/view">
-                                {{ $internship->company->companyName }}
-                            </a>
-                        @else
+                    {{-- Display the company of the internship, with a link to the internship --}}
+                    <!-- Link to previous internship -->
+                        <a href="/internships/{{ $internship->id }}/view">
                             {{ $internship->company->companyName }}
-                        @endif
+                        </a>
                     </td>
 
                     <!-- Create the clickable case for each person -->

@@ -36,9 +36,36 @@ Controleur WishesMatrixController
 * Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
 * Supression de l'ancienne méthode récupérant les entreprises
 
+Controleur InternshipsController
+* Remplacement de quelques dbquerries par des requetes Eloquent
+
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
-* Ajout d'un lien vers le stage précédent s'il existe
+* Ajout d'un lien vers le stage
+
+Vue internshipview
+* Utilisation d'Eloquent pour afficher les stages
+* Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
+
+Vue internshipedit
+* Utilisation d'Eloquent pour afficher les stages
+* Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
+
+A faire
+* Vue des stages : 
+    * ATTENDRE : Fonctionnement correct des filtres
+    * afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
+* BD :
+    * ATTENDRE : MAJ BD
+    * séparer internship en internship+internshipFamily
+    * Mettre company_id, description, salary, begin_date, end_date in the internshipFamily
+    * Remarque : une famille ne regroupe que les stages ayant lieu en même temps (un stage reconduit appartient à une nouvelle famille)
+* Matrice de souhaits : regrouper les stages de la même famille (afficher les familles ayant au moins un stage actuel)
+* Modification de stage :
+    * Possibilité de modifier la famille
+* Création de stage :
+    * Créer nouvelle famille par défaut
+    * Possibilité de sélectionner une famille existante
 
 # Tests
 
@@ -61,19 +88,5 @@ branche Damien-Jakob
 (Effectuée, le ...)
 
 # Documentation
-
-* La page d'affichage d'un souhait ne fonctionne pas avec des stages dont l'élève est null. 
-C'est pour cela que le lien pointe vers le stage précédent plutôt que le stage actuel. 
-Une modification de la page de stage serait utile afin de consulter les informations du stage.
-* Le regroupement de stages selon le stage précédent est plus compliqué qu'anticipé. 
-Ajouter simplement un 'group by' ne marche pas, 
-il faudrait aussi ajouter un 'select' ne prenant que 
-les caractéristiques du stage que l'on s'attend à retrouver de manière identique.
-Et si accidentellement deux stages que l'on souhaite regrouper diffèrent dans ces caractéristiques, la requête échouera.
-La meilleure solution serait de séparer les stages en deux tables : 
-une page d'instance de stage et une page de description de stage. 
-Cependant, le travail nécessaire pour adapter l'application est conséquent et n'en vaut peut-être pas la peine. 
-Pour cette raison, le regroupement des stages est pour l'instant abandonné 
-en attendant de pouvoir aborder le sujet avec monsieur Carrel.
 
 (Mise à jour, le ...)
