@@ -43,10 +43,11 @@ class WishesMatrixController extends Controller
 
         // Create param if it does not exist
         if (is_null($selectedFlockYear)) {
-            $selectedFlockYear = new Params();
-            $selectedFlockYear->paramName = 'dateEndWishes';
-            $selectedFlockYear->paramValueInt = -1;
-            $selectedFlockYear->save();
+            $param = new Params();
+            $param->paramName = 'wishesSelectedYear';
+            $param->paramValueInt = -1;
+            $param->save();
+            $selectedFlockYear = $param;
         }
 
         $flocks = null;
