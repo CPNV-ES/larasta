@@ -3,8 +3,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contractstate;
-use App\Internships;
+use App\Contractstates;
 use App\Lifecycles;
 use App\Company;
 use App\Internship;
@@ -92,36 +91,12 @@ class InternshipsController extends Controller
         }
 
         if (isset($idlist)){
-            $iships = DB::table('internships')
-                ->join('companies', 'companies_id', '=', 'companies.id')
-                ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-                ->join('persons as student', 'intern_id', '=', 'student.id')
-                ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-                ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
-                ->select(
-                    'internships.id',
-                    'beginDate',
-                    'endDate',
-                    'companyName',
-                    'admresp.firstname as arespfirstname',
-                    'admresp.lastname as aresplastname',
-                    'admresp.id as respid',
-                    'intresp.firstname as irespfirstname',
-                    'intresp.lastname as iresplastname',
-                    'student.firstname as studentfirstname',
-                    'student.lastname as studentlastname',
-                    'mc.intranetUserId as mcid',
-                    'mc.initials as mcini',
-                    'contractstate_id',
-                    'stateDescription')
-                ->whereIn('contractstate_id', $idlist)
-                ->get();
-            }else{
-                $iships = array();
-            }
 
+            $iships = Internship::whereIn('contractstate_id', $idlist)->get();
+        }
+        else{
+            $iships = Internship::all();
+        }
         switch ($ifilter->getMine() * 2 + $ifilter->getInProgress())
         {
             case 1:
@@ -133,7 +108,6 @@ class InternshipsController extends Controller
             case 3:
                 $keepOnly = self::getMyCurrentInternships();
         }
-
         if (isset($keepOnly))
         {
             $finallist = array();

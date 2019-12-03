@@ -79,17 +79,16 @@ module.exports = __webpack_require__(14);
 // Internships.js: for main internships page
 // Author: X. Carrel
 // Date: Dec 2018
-
 $(document).ready(function () {
     // Manage filter box collapse/expand
     $('#collapsedfilters').click(function () {
-        $(this).addClass('hidden');
-        $('#expandedfilters').removeClass('hidden');
+        $(this).addClass('d-none');
+        $('#expandedfilters').removeClass('d-none');
     });
     $('#collapsefilters').click(function () {
         // when we click on the title (not anywhere in the form)
-        $('#expandedfilters').addClass('hidden');
-        $('#collapsedfilters').removeClass('hidden');
+        $('#expandedfilters').addClass('d-none');
+        $('#collapsedfilters').removeClass('d-none');
     });
 });
 
