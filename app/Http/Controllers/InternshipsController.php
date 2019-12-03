@@ -208,35 +208,6 @@ class InternshipsController extends Controller
         $internship = Internship::find($internshipId);
 
         // TODO remove once all removed from view
-        $iship = DB::table('internships')
-            ->join('companies', 'companies_id', '=', 'companies.id')
-            ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-            ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-            ->join('persons as student', 'intern_id', '=', 'student.id')
-            ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-            ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-            ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
-            ->select(
-                'internships.id',
-                'beginDate',
-                'endDate',
-                'companyName',
-                'grossSalary',
-                'mc.initials',
-                'previous_id',
-                'internshipDescription',
-                'admresp.firstname as arespfirstname',
-                'admresp.lastname as aresplastname',
-                'admresp.id as arespid',
-                'intresp.firstname as irespfirstname',
-                'intresp.lastname as iresplastname',
-                'intresp.id as intrespid',
-                'student.firstname as studentfirstname',
-                'student.lastname as studentlastname',
-                'contractGenerated',
-                'stateDescription')
-            ->where('internships.id', '=', $internshipId)
-            ->first();
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -257,7 +228,7 @@ class InternshipsController extends Controller
             ->get();
 
         return view('internships/internshipview')
-            ->with('iship', $iship)
+            //->with('iship', $iship)
             ->with('visits', $visits)
             ->with('remarks', $remarks)
             ->with('internship', $internship);
