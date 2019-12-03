@@ -7,7 +7,7 @@ use App\Contractstates;
 use App\Lifecycles;
 use App\Company;
 use App\Internship;
-use App\Persons;
+use App\Person;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -498,7 +498,7 @@ class InternshipsController extends Controller
     {
         //Eloquent request 
         $Internshipcompany=Company::find($iid);
-        $companyPersons=Persons::all()->where('company_id',$iid);
+        $companyPersons=Person::all()->where('company_id',$iid);
         $lastInternship=Internship::where('companies_id',$iid)->orderBy('endDate', 'desc')->first();
         //date variable
         $todaydate=Carbon::now();
