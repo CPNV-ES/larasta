@@ -240,53 +240,12 @@ class InternshipsController extends Controller
             $internship = Internship::find($internshipId);
             $contractStates = Contractstate::all();
 
-            // TODO remove once replaced
-            $iship = DB::table('internships')
-                ->join('companies', 'companies_id', '=', 'companies.id')
-                ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-                ->join('persons as student', 'intern_id', '=', 'student.id')
-                ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-                ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
-                ->select(
-                    'internships.id',
-                    'beginDate',
-                    'endDate',
-                    'companies_id as compid',
-                    'companyName',
-                    'grossSalary',
-                    'mc.initials',
-                    'previous_id',
-                    'internshipDescription',
-                    'admresp.firstname as arespfirstname',
-                    'admresp.lastname as aresplastname',
-                    'admresp.id as arespid',
-                    'intresp.firstname as irespfirstname',
-                    'intresp.lastname as iresplastname',
-                    'intresp.id as intrespid',
-                    'student.firstname as studentfirstname',
-                    'student.lastname as studentlastname',
-                    'contractstate_id',
-                    'contractGenerated',
-                    'stateDescription')
-                ->where('internships.id', '=', $internshipId)
-                ->first();
-
             $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
 
             $lcycles = [$internship->contractstate->id];
             foreach ($lifecycles->get()->toArray() as $value) {
                 array_push($lcycles, $value->to_id);
             }
-
-            // TODO remove once used
-            $states = DB::table('contractstates')
-                ->select(
-                    'id',
-                    'stateDescription as state')
-                ->where('details', '!=', "(obsolet)")
-                ->whereIn('id', $lcycles);
 
             $responsibles = DB::table('persons')
                 ->select(
@@ -317,9 +276,7 @@ class InternshipsController extends Controller
                 ->get();
 
             return view('internships/internshipedit')
-                ->with('iship', $iship)
                 ->with('responsibles', $responsibles)
-                ->with('states', $states)
                 ->with('visits', $visits)
                 ->with('remarks', $remarks)
                 ->with('internship', $internship)
