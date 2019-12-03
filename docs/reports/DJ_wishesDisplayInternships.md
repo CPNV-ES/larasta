@@ -51,9 +51,12 @@ Vue internshipedit
 * Utilisation d'Eloquent pour afficher les stages
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
-A faire :
-* Vue des stages : afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
-* BD : 
+A faire
+* Vue des stages : 
+    * ATTENDRE : Fonctionnement correct des filtres
+    * afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
+* BD :
+    * ATTENDRE : MAJ BD
     * séparer internship en internship+internshipFamily
     * Mettre company_id, description, salary, begin_date, end_date in the internshipFamily
     * Remarque : une famille ne regroupe que les stages ayant lieu en même temps (un stage reconduit appartient à une nouvelle famille)
