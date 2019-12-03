@@ -40,6 +40,14 @@ Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
 * Ajout d'un lien vers le stage précédent s'il existe
 
+A faire :
+* Vue des stages : afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
+* Vue d'un stage : fonctionner avec les stages non attribués
+* Matrice de souhait : lien vers stage actuel
+* Implémenter regroupement de stage 
+(nouvelle table : intershipFamily, possibilité de rejoindre une internshipFamily à la création d'un stage 
+(ou rejoint automatiquement celle du stage précédent ), puis regrouper stage dans la matrice selon la famille)
+
 # Tests
 
 Affichage de la page de souhaits.
