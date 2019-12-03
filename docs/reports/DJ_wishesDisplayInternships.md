@@ -36,13 +36,16 @@ Controleur WishesMatrixController
 * Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
 * Supression de l'ancienne méthode récupérant les entreprises
 
+Controleur WishMatrixController
+* ...
+
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
 * Ajout d'un lien vers le stage précédent s'il existe
 
 A faire :
-* Vue des stages : afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
 * Vue d'un stage : fonctionner avec les stages non attribués
+* Vue des stages : afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
 * Matrice de souhait : lien vers stage actuel
 * Implémenter regroupement de stage 
 (nouvelle table : intershipFamily, possibilité de rejoindre une internshipFamily à la création d'un stage 
