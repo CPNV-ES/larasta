@@ -48,12 +48,18 @@ Vue internshipview
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
 A faire :
-* Vue d'un stage : fonctionner avec les stages non attribués
+* Modification de stage : accepter les stages non attribués
 * Vue des stages : afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
-* Matrice de souhait : lien vers stage actuel
-* Implémenter regroupement de stage 
-(nouvelle table : intershipFamily, possibilité de rejoindre une internshipFamily à la création d'un stage 
-(ou rejoint automatiquement celle du stage précédent ), puis regrouper stage dans la matrice selon la famille)
+* Matrice de souhaits : regrouper les stages de la même famille (afficher les familles ayant au moins un stage actuel)
+* BD : 
+    * séparer internship en internship+internshipFamily
+    * Mettre company_id, description?, salary? in the internshipFamily
+* Modification de stage :
+    * Possibilité de modifier la famille
+* Création de stage :
+    * Créer nouvelle famille par défaut
+    * hériter famille du stage précédent
+    * Possibilité de sélectionner une famille existante
 
 # Tests
 
@@ -80,15 +86,5 @@ branche Damien-Jakob
 * La page d'affichage d'un souhait ne fonctionne pas avec des stages dont l'élève est null. 
 C'est pour cela que le lien pointe vers le stage précédent plutôt que le stage actuel. 
 Une modification de la page de stage serait utile afin de consulter les informations du stage.
-* Le regroupement de stages selon le stage précédent est plus compliqué qu'anticipé. 
-Ajouter simplement un 'group by' ne marche pas, 
-il faudrait aussi ajouter un 'select' ne prenant que 
-les caractéristiques du stage que l'on s'attend à retrouver de manière identique.
-Et si accidentellement deux stages que l'on souhaite regrouper diffèrent dans ces caractéristiques, la requête échouera.
-La meilleure solution serait de séparer les stages en deux tables : 
-une page d'instance de stage et une page de description de stage. 
-Cependant, le travail nécessaire pour adapter l'application est conséquent et n'en vaut peut-être pas la peine. 
-Pour cette raison, le regroupement des stages est pour l'instant abandonné 
-en attendant de pouvoir aborder le sujet avec monsieur Carrel.
 
 (Mise à jour, le ...)
