@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contractstates;
+use App\Contractstate;
 use App\Lifecycles;
 use App\Company;
 use App\Internship;
