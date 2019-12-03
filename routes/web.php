@@ -86,7 +86,7 @@ Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
-Route::get('/wishesMatrix', 'WishesMatrixController@index');
+Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');
 // Add by Benjamin Delacombaz 21.01.2018
 Route::post('/wishesMatrix', 'WishesMatrixController@save');
 

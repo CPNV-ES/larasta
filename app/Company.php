@@ -33,4 +33,13 @@ class Company extends Model
     {
         return $this->belongsTo('App\Location');
     }
+
+    /**
+     * Relation with the contractstate model
+     */
+    public function contractstates()
+    {
+        return $this->belongsToMany('App\Contractstate', 'internships',
+            'companies_id', 'contractstate_id');
+    }
 }

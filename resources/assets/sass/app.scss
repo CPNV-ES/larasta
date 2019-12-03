@@ -1,3 +1,110 @@
+// text
+$font-family: "Raleway", sans-serif;
+
+// buttons
+$button-padding-horizontal: 30pt;
+
+// colors
+$green: #19AB20;
+$blue: #009CDE;
+$blue_hover: #007BB1;
+$purple: #BA1079;
+$red: #E70101;
+$dark: #1E262C;
+$greyDark: #484B4D;
+$greyMediumHigh: #6F7274;
+$greyMediumLow: #C1C5C7;
+$greyLight: #D1D5D8;
+
+// Text
+body{
+  font-family: $font-family;
+  color: $greyDark;
+}
+%title {
+  color: $dark;
+}
+h1 {
+  @extend %title;
+  font-size: 30px;
+}
+h2 {
+  font-size: 24px;
+}
+h3 {
+  @extend %title;
+  font-size: 18px;
+}
+h4 {
+  @extend %title;
+  font-size: 14px;
+}
+h5 {
+  @extend %title;
+  font-size: 12px;
+}
+h6 {
+  @extend %title;
+  font-size: 12px;
+}
+p {
+  font-size: 14px;
+}
+.lead-text {
+  font-size: 30px;
+  color: $greyMediumHigh;
+}
+.description-text {
+  font-size: 14px;
+  color: $dark;
+}
+
+// buttons
+// default small button, primary
+button {
+  height: 30px;
+  min-width: 120px;
+  font-size: 14pt;
+  padding-left: $button-padding-horizontal;
+  padding-right: $button-padding-horizontal;
+
+  background-color: $blue;
+  color: white;
+
+  &:hover {
+    background-color: rgba(black, 0.2);
+  }
+
+  &:active {
+    background-color: #1E262C;
+  }
+
+  &:disabled {
+    background-color: $greyLight;
+    color: $greyLight;
+  }
+}
+.primaryCall {
+  background-color: $green;
+}
+.secondary {
+  color: $dark;
+  background-color: white;
+  outline-color: $greyMediumLow;
+
+  &:hover {
+    background-color: rgba(black, 0.1);
+  }
+
+  &:active {
+    color: white;
+  }
+}
+.large-button {
+  height: 40px;
+  font-size: 16pt;
+}
+
 .version {
   font-size: 10px;
   color: #cccccc;

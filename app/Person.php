@@ -9,10 +9,12 @@ use CPNVEnvironment\Environment;
  * Add the SoftDeletes to the model.
  */
 
-class Persons extends Model
+class Person extends Model
 {
 
     public $timestamps = false;
+
+    protected $table = 'persons';
     
     protected $fillable = [
         'firstname',
@@ -55,6 +57,11 @@ class Persons extends Model
     public function admin()
     {
         return $this->hasMany('App\Internship',"admin_id");
+    }
+
+    public function wishes()
+    {
+        return $this->hasMany('App\Wish', 'persons_id');
     }
 
     /**

@@ -9,10 +9,12 @@ class Flock extends Model
     public $timestamps = false;   
     /**
      * Relation with the students
+     * Return students by alphababetical order of initials
      */
     public function students ()
     {
-        return $this->hasMany('App\Persons', 'flock_id');
+        return $this->hasMany('App\Person', 'flock_id')
+            ->orderBy('initials');
     }
 
     /**
@@ -20,6 +22,6 @@ class Flock extends Model
      */
     public function classMaster ()
     {
-        return $this->belongsTo('App\Persons', 'classMaster_id');
+        return $this->belongsTo('App\Person', 'classMaster_id');
     }
 }
