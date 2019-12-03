@@ -96,7 +96,7 @@ class InternshipsController extends Controller
         else{
             $iships = Internship::all();
         }
-        switch ($ifilter->getMine() * 2 + $ifilter->getInProgress())
+        switch ($internshipFilter->getMine() * 2 + $internshipFilter->getInProgress())
         {
             case 1:
                 $keepOnly = self::getCurrentInternships();
