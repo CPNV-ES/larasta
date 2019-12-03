@@ -105,8 +105,9 @@
             </tr>
             @if (isset($internship->previous_id))
                 <tr>
-                    <td class="col-md-2" colspan="3"><a href="/internships/{{ $internship->previous_id }}/edit">Stage
-                            précédent</a></td>
+                    <td class="col-md-2" colspan="3">
+                        <a href="/internships/{{ $internship->previous_id }}/edit">Stage précédent</a>
+                    </td>
                 </tr>
             @endif
         </table>
@@ -153,7 +154,7 @@
                 <script type="text/javascript">
                     function addVisits() {
                         var form = document.getElementById("visitsForm");
-                        form.setAttribute("action", "/internships/{{$iship->id}}/addVisit");
+                        form.setAttribute("action", "/internships/{{$internship->id}}/addVisit");
                     }
                 </script>
                 @foreach ($visits->toArray() as $row=>$value)
@@ -186,7 +187,7 @@
     @endif
     @if (isset($remarks))
         <hr/>
-        <form action="/internships/{{$iship->id}}/addRemark" method="get">
+        <form action="/internships/{{$internship->id}}/addRemark" method="get">
             <table class="table text-left larastable">
                 <tr>
                     <th colspan="4">Remarques</th>
@@ -195,7 +196,7 @@
                     <td>Date</td>
                     <td>Auteur</td>
                     <td colspan="2">Remarque</td>
-                    <input type="hidden" name="id" value="{{ $iship->id }}">
+                    <input type="hidden" name="id" value="{{ $internship->id }}">
                 </tr>
                 <tr id="addRemark">
                     <td colspan="4">
