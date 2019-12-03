@@ -73,9 +73,7 @@ Route::post('/contract/{id}/save', 'ContractController@saveContract')->name("sav
 Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
 // Steven
-
 Route::get('/synchro', 'SynchroController@index');
-
 Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
@@ -96,6 +94,8 @@ Route::post('/wishesMatrix', 'WishesMatrixController@save');
 Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
 Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
+// Logbook
+Route::get('/internships/{iid}/logbook', 'LogbookController@show');
 
 /**
  * Bastien - Evaluation grid
@@ -140,8 +140,6 @@ Route::post('/listPeople/update/{id}','PeopleControlleur@update');
 Route::post('/contact/delete','PeopleControlleur@deleteContact');
 Route::post('/contact/add','PeopleControlleur@addContact');
 Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
-
-//
 
 
 //Julien - Grille d'évaluation - Modélisation
