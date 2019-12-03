@@ -1,7 +1,7 @@
 @extends ('layout')
 
 @section ('content')
-    <!-- Display the name of the student, if the internship is attributed-->
+    {{-- Display the name of the student, if the internship is attributed --}}
     <h2 class="text-left">Stage
         @if (isset($internship->student))
             de {{ $internship->student->firstname }} {{ $internship->student->lastname }}
@@ -11,7 +11,7 @@
         chez {{ $internship->company->companyName }}
     </h2>
 
-    <!-- Internship information-->
+    {{-- Internship information --}}
     <table class="table text-left larastable">
         <tr>
             <td class="col-md-2" colspan="2">Du</td>
@@ -38,7 +38,7 @@
         <tr>
             <td class="col-md-2" colspan="2">Maître de classe</td>
             <td>
-                <!-- Display the teacher, if the internship is attributed-->
+                {{-- Display the teacher, if the internship is attributed --}}
                 @if (isset($internship->student))
                     {{ $internship->student->flock->classMaster->initials }}
                 @endif
@@ -64,21 +64,29 @@
     </table>
 
     {{-- Action buttons --}}
-    @if(substr($iship->contractGenerated,0,4) == "0000" || $iship->contractGenerated == null)
-        <a href="/contract/{{ $iship->id }}">
-            <button class="btn btn-primary">Générer le contrat</button>
-        </a>
+    {{-- Generate contract button --}}
+    @if(substr($internship->contractGenerated,0,4) == "0000" || $internship->contractGenerated == null)
+        {{-- We can only generate the contract if there is an attibuted student --}}
+        @if (isset($internship->student))
+            <a href="/contract/{{ $internship->id }}">
+                <button class="btn btn-primary">Générer le contrat</button>
+            </a>
+        @endif
     @else
-        <br> Contrat généré le : {{$iship->contractGenerated}}<br>
-        <a href="/contract/{{$iship->id}}/cancel">
+        {{-- Reset contract button --}}
+        <br> Contrat généré le : {{$internship->contractGenerated}}<br>
+        <a href="/contract/{{$internship->id}}/cancel">
             <button class="btn btn-danger">Réinitialiser</button>
         </a>
     @endif
+    {{-- Modify button --}}
     @if (env('USER_LEVEL') >= 1)
-        <a href="/internships/{{$iship->id}}/edit">
+        <a href="/internships/{{$internship->id}}/edit">
             <button class="btn btn-warning">Modifier</button>
         </a>
     @endif
+
+    {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>
         <table class="table text-left larastable">
@@ -113,6 +121,8 @@
             @endforeach
         </table>
     @endif @endif
+
+    {{-- Remarks --}}
     @if (isset($remarks)) @if (count($remarks) > 0)
         <hr/>
         <table class="table text-left larastable">
