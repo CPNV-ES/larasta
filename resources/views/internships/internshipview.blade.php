@@ -1,6 +1,7 @@
 @extends ('layout')
 
 @section ('content')
+    {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
     <h2 class="text-left">Stage
         @if (isset($internship->student))
