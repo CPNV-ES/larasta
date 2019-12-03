@@ -1,6 +1,6 @@
 <?php
 
-use App\Companies;
+use App\Company;
 use App\Internship;
 use App\Persons;
 use App\Contractstates;
@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Internship::class, function (Faker $faker) {
     return [
-        "companies_id" => Companies::all()->random()->id,
+        "companies_id" => Company::all()->random()->id,
         "beginDate" => $faker->dateTimeBetween('now', '+1 month'),
         "endDate" => $faker->dateTimeBetween('+1 month', '+2 month'),
         "responsible_id" => Persons::all()->random()->id,

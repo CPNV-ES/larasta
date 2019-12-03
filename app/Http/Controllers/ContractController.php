@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Companies;
+use App\Company;
 use App\Contract;
 use App\Internship;
 use App\Persons;
@@ -60,7 +60,7 @@ class ContractController extends Controller
             $query->where('internships.id', $id);
         })->first();
         //Get company where student work
-        $company = Companies::whereHas("Internships",function ($query)use ($id){
+        $company = Company::whereHas("Internships",function ($query)use ($id){
             $query->where('internships.id', $id);
         })->first();
         //Who is the reponsible of student

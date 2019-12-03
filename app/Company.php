@@ -12,7 +12,7 @@ class Company extends Model
      * @description A company has many internships
      * @return All internships of our company
      */
-    public function internships()
+    public function internship()
     {
         return $this->hasMany('App\Internship');
     }
