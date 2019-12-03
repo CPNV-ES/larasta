@@ -7,6 +7,9 @@ use App\Contractstates;
 use App\Internship;
 use App\Internships;
 use App\Lifecycles;
+use App\Company;
+use App\Internship;
+use App\Persons;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -234,7 +237,6 @@ class InternshipsController extends Controller
                 'stateDescription')
             ->where('internships.id', '=', $iid)
             ->first();
-
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -253,7 +255,7 @@ class InternshipsController extends Controller
             ->where('remarkOn_id', '=', $iid)
             ->orderby('remarkDate', 'desc')
             ->get();
-
+            
         return view('internships/internshipview')
             ->with('iship', $iship)
             ->with('visits', $visits)
@@ -517,5 +519,78 @@ class InternshipsController extends Controller
         $on = $request->id;
         $text = $request->remark;
         RemarksController::addRemark($type,$on,$text);
+    }
+    
+    public function createInternship($iid)
+    {
+        //Eloquent request 
+        $Internshipcompany=Company::find($iid);
+        $companyPersons=Persons::all()->where('company_id',$iid);
+        $lastInternship=Internship::where('companies_id',$iid)->orderBy('endDate', 'desc')->first();
+        //date variable
+        $todaydate=Carbon::now();
+        //actual year
+        $year=now()->year;
+        $nextyear= Carbon::create($year,0,0)->addYear();
+        //Date for the stage of the first part of the year
+        $firstdateInternship = Carbon::create($year, 2, 1);
+        $firstenddateInternship = Carbon::create($year, 8, 31);
+        //Date for the stage of the seconde part of the year
+        $secondedateInternship = Carbon::create($year, 9, 1);
+        $secondeenddateInternship = Carbon::create($year, 1, 31);
+
+        if($todaydate->gt($secondedateInternship)){
+            if($todaydate->isSameYear($nextyear)){
+                $begindate = $firstdateInternship->addYear();
+                $endate = $firstenddateInternship->addYear();
+            }
+            else   
+            {
+                $begindate = $firstdateInternship;
+                $endate = $firstenddateInternship;
+            }
+        }
+        else
+        {
+            $begindate=$secondedateInternship;
+            $endate=$secondeenddateInternship->addYear();
+        }
+
+        return view('internships/internshipcreate')->with(
+            [
+                'dateend'  => $endate->toDateString(),
+                'datebegin' => $begindate->toDateString(),
+                'company'=> $Internshipcompany,
+                'persons' => $companyPersons,
+                'interships' => $lastInternship
+            ]
+        );
+    }
+    public function addInternship(Request $request, $iid)
+    {
+
+        $request->validate([
+            'beginDate' => 'required',
+            'endDate' => 'required',
+            'responsible' => 'required|integer',
+            'admin' => 'required|integer',
+        ],
+        [
+            'beginDate.required' => 'La date de début est requis',
+            'endDate.required' => 'La date de fin est requis',
+            'responsible.required' => 'Le responsable est requis',
+            'responsible.integer' => 'La responsable doit être un chiffre est non une autre valeur',
+            'admin.required' => 'Le admin est requis',
+            'admin.integer' => 'Le responsable admin doit être un chiffre est non une autre valeur',
+        ]);
+
+        $newInternship = new Internship();
+        $newInternship->companies_id= $iid;
+        $newInternship->beginDate= $request->input('beginDate');
+        $newInternship->endDate=$request->input('endDate');
+        $newInternship->responsible_id=$request->input('responsible');
+        $newInternship->admin_id=$request->input('admin');
+        $newInternship->save();
+        return redirect('entreprise/'.$iid.'')->with('message','Creation Réussie');
     }
 }

@@ -9,19 +9,14 @@
 @stop
 
 @section ('content')
-    <div id="filtersBoxButton">
-        Filtres <i class="arrow 
-        @if($isOneFilterActive)
-            up 
-        @else
-            down
-        @endif
-        "></i>
+@if(session('error'))
+    <div class="alert alert-danger">
+      {{session('error')}}
     </div>
-    <div id="expandedfilters" class="simple-box filters
-        @if(!$isOneFilterActive) d-none  @endif
-    ">
-        <h4 class="internshipsFilterText">Afficher les stages dans l'état </h4>
+@endif
+    <div id="collapsedfilters" class="simple-box-collapsed filters"><h4>Filtre...</h4></div>
+    <div id="expandedfilters" class="simple-box filters d-none">
+        <h4 id="collapsefilters">Afficher les stages dans l'état</h4>
         <form name="filterInternships" method="post">
             {{ csrf_field() }}
                 @foreach ($filter->getStateFilter() as $state)

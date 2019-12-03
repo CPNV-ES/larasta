@@ -27,7 +27,11 @@ Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit')
 
 Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
 
-Route::get('/admin', 'AdminController@index');
+Route::get('/internships/{iid}/new','InternshipsController@createInternship');
+
+Route::post('/internships/{iid}/create','InternshipsController@addInternship');
+
+Route::get('/admin','AdminController@index')->middleware('admin');
 
 Route::get('/about', function () {
     return view('about');
@@ -76,7 +80,7 @@ Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-Route::post('/visits', 'VisitsController@changeFilter');
+Route::post('/visits','VisitsController@filter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
 Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
@@ -148,3 +152,6 @@ Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
 Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
 Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
 Route::post('/editGrid/addSection', 'EditGridController@addSection');
+
+//Life cicle
+Route::get('/editlifecycle','LifeCycleController@index');

@@ -33,7 +33,7 @@ class Internship extends Model
      */
     public function company()
     {
-        return $this->belongsTo('App\Companies', 'companies_id');
+        return $this->belongsTo('App\Company', 'companies_id');
     }
 
     /**

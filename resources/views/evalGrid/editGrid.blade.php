@@ -64,7 +64,7 @@ $level
                     <td colspan="2">{{ $evaluationContext->visit->internship->student->flock->classMaster->full_name }}</td>
                 </tr>
                 <tr>
-                    <td>Nom de la company</td>
+                    <td>Nom de la companie</td>
                     <td>{{ $evaluationContext->visit->internship->company->companyName }}</td>
                     <td colspan="2">Nom du responsable de suivi du stagiaire (externe)</td>
                     <td colspan="2">{{ $evaluationContext->visit->internship->responsible->full_name }}</td>

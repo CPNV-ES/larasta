@@ -18,6 +18,9 @@
         <a href="/editGrid">
             <button class="btn btn-default btn-tile">Editer la grille d'évaluation</button>
         </a>
+        <a href="/editlifecycle">
+            <button class="btn btn-default btn-tile">Editer le cycle de vie</button>
+        </a>
     </div>
 @stop
 
