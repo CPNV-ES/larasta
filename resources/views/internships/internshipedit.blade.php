@@ -16,27 +16,30 @@
         chez {{ $internship->company->companyName }}
     </h2>
 
-    <form action="{{route('updateInternships',$iship->id)}}" method="get">
-        <input type="hidden" name="id" value="{{ $iship->id }}">
+    {{-- Internship information --}}
+    <form action="{{route('updateInternships',$internship->id)}}" method="get">
+        <input type="hidden" name="id" value="{{ $internship->id }}">
         <table class="table text-left larastable">
             <tr>
                 <td class="col-md-2">Du</td>
                 <td>
-                    <input type="date" name="beginDate" value="{{ strftime("%G-%m-%d", strtotime($iship->beginDate)) }}"
+                    <input type="date" name="beginDate"
+                           value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
                            required/>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-2">Au</td>
                 <td>
-                    <input type="date" name="endDate" value="{{ strftime("%G-%m-%d", strtotime($iship->endDate)) }}"
+                    <input type="date" name="endDate"
+                           value="{{ strftime("%G-%m-%d", strtotime($internship->endDate)) }}"
                            required/>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-2">Description</td>
                 <td>
-                    <div id="description">{!! $iship->internshipDescription !!}</div>
+                    <div id="description">{!! $internship->internshipDescription !!}</div>
                     <script>
                         BalloonEditor
                             .create(document.querySelector('#description'))
@@ -54,9 +57,10 @@
                 <td class="col-md-2">Responsable administratif</td>
                 <td>
                     <select name="aresp">
-                        @foreach($resp->get()->toArray() as $value)
-                            <option value="{{ $value->id }}" @if ($iship->arespid == $value->id) selected @endif>
-                                {{$value->firstname}} {{$value->lastname}}</option>
+                        @foreach($responsibles->get()->toArray() as $admin)
+                            <option value="{{ $admin->id }}"
+                                    @if ($internship->admin->id == $admin->id) selected @endif>
+                                {{$admin->firstname}} {{$admin->lastname}}</option>
                         @endforeach
                     </select>
                 </td>
@@ -65,24 +69,31 @@
                 <td class="col-md-2">Responsable</td>
                 <td>
                     <select name="intresp">
-                        @foreach($resp->get()->toArray() as $value)
-                            <option value="{{ $value->id }}" @if ($iship->intrespid == $value->id) selected @endif>
-                                {{$value->firstname}} {{$value->lastname}}</option>
+                        @foreach($responsibles->get()->toArray() as $responsible)
+                            <option value="{{ $responsible->id }}"
+                                    @if ($internship->responsible->id == $responsible->id) selected @endif>
+                                {{$responsible->firstname}} {{$responsible->lastname}}</option>
                         @endforeach
                     </select>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-2">Maître de classe</td>
-                <td>{{ $iship->initials }}</td>
+                <td>
+                    {{-- Display the teacher, if the internship is attributed --}}
+                    @if (isset($internship->student))
+                        {{ $internship->student->flock->classMaster->initials }}
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td class="col-md-2">Etat</td>
                 <td>
                     <select name="stateDescription">
-                        @foreach($states->get()->toArray() as $value)
-                            <option value="{{ $value->id }}"
-                                    @if ($iship->contractstate_id == $value->id) selected @endif>{{ $value->state }}
+                        @foreach($contractStates as $state)
+                            <option value="{{ $state->id }}"
+                                    @if ($internship->contractstate_id == $state->id) selected @endif>
+                                {{ $state->stateDescription }}
                             </option>
                         @endforeach
                     </select>
@@ -90,17 +101,18 @@
             </tr>
             <tr>
                 <td class="col-md-2">Salaire</td>
-                <td><input type="number" name="grossSalary" value="{{$iship->grossSalary}}"/></td>
+                <td><input type="number" name="grossSalary" value="{{$internship->grossSalary}}"/></td>
             </tr>
-            @if (isset($iship->previous_id))
+            @if (isset($internship->previous_id))
                 <tr>
-                    <td class="col-md-2" colspan="3"><a href="/internships/{{ $iship->previous_id }}/edit">Stage
+                    <td class="col-md-2" colspan="3"><a href="/internships/{{ $internship->previous_id }}/edit">Stage
                             précédent</a></td>
                 </tr>
             @endif
         </table>
+
         {{-- Action buttons --}}
-        <a href="/internships/{{$iship->id}}/view">
+        <a href="/internships/{{$internship->id}}/view">
             <button class="btn btn-danger" type="button">Annuler les modifications</button>
         </a>
         <button class="formSend btn btn-warning" type="submit" onclick="transferDiv();">Valider les modifications
@@ -113,9 +125,10 @@
             }
         </script>
     </form>
+
     @if (isset($visits))
         <hr/>
-        <form id="visitsForm" action="/internships/{{$iship->id}}/updateVisit" method="get">
+        <form id="visitsForm" action="/internships/{{$internship->id}}/updateVisit" method="get">
             <table class="table text-left larastable">
                 <tr>
                     <th colspan="5">Visites</th>

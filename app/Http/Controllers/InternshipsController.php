@@ -214,6 +214,7 @@ class InternshipsController extends Controller
         if (env('USER_LEVEL') >= 1) {
 
             $internship = Internship::find($internshipId);
+            $contractStates = Contractstate::all();
 
             // TODO remove once replaced
             $iship = DB::table('internships')
@@ -248,14 +249,6 @@ class InternshipsController extends Controller
                 ->where('internships.id', '=', $internshipId)
                 ->first();
 
-            $resp = DB::table('persons')
-                ->select(
-                    'id',
-                    'firstname',
-                    'lastname')
-                ->where('role', '=', 2)
-                ->where('company_id', '=', $internship->company->id);
-
             $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
 
             $lcycles = [$internship->contractstate->id];
@@ -263,12 +256,21 @@ class InternshipsController extends Controller
                 array_push($lcycles, $value->to_id);
             }
 
+            // TODO remove once used
             $states = DB::table('contractstates')
                 ->select(
                     'id',
                     'stateDescription as state')
                 ->where('details', '!=', "(obsolet)")
                 ->whereIn('id', $lcycles);
+
+            $responsibles = DB::table('persons')
+                ->select(
+                    'id',
+                    'firstname',
+                    'lastname')
+                ->where('role', '=', 2)
+                ->where('company_id', '=', $internship->company->id);
 
             $visits = DB::table('visits')
                 ->select(
@@ -292,11 +294,12 @@ class InternshipsController extends Controller
 
             return view('internships/internshipedit')
                 ->with('iship', $iship)
-                ->with('resp', $resp)
+                ->with('responsibles', $responsibles)
                 ->with('states', $states)
                 ->with('visits', $visits)
                 ->with('remarks', $remarks)
-                ->with('internship', $internship);
+                ->with('internship', $internship)
+                ->with('contractStates', $contractStates);
         } else {
             abort(404);
         }
