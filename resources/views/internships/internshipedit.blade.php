@@ -127,6 +127,7 @@
         </script>
     </form>
 
+    {{-- Visits --}}
     @if (isset($visits))
         <hr/>
         <form id="visitsForm" action="/internships/{{$internship->id}}/updateVisit" method="get">
@@ -185,6 +186,8 @@
             <button class="btn btn-warning" type="submit">Valider toutes les visites</button>
         </form>
     @endif
+
+    {{-- Remarks --}}
     @if (isset($remarks))
         <hr/>
         <form action="/internships/{{$internship->id}}/addRemark" method="get">
