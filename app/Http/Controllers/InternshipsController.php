@@ -207,7 +207,6 @@ class InternshipsController extends Controller
 
         $internship = Internship::find($internshipId);
 
-        // TODO remove once all removed from view
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -228,7 +227,6 @@ class InternshipsController extends Controller
             ->get();
 
         return view('internships/internshipview')
-            //->with('iship', $iship)
             ->with('visits', $visits)
             ->with('remarks', $remarks)
             ->with('internship', $internship);
