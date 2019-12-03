@@ -19,7 +19,7 @@ use App\Visit;
 use App\Internship;
 use App\Remark;
 use App\Evaluation;
-use App\Persons;
+use App\Person;
 use App\Visitsstate;
 
 // Intranet env
@@ -64,7 +64,7 @@ class VisitsController extends Controller
             $visitPast=Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('moment','>=',now());})->get();
             //Eloquent query to gets all the teacher
-            $person=Persons::whereHas('mcof')->get();
+            $person=Person::whereHas('mcof')->get();
 
 
             // Returns all details to his/her in visits' main page
@@ -98,7 +98,7 @@ class VisitsController extends Controller
             $visitPast=Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('moment','>=',now());})->get();
             //Eloquent query to gets all the teacher
-            $person=Persons::whereHas('mcof')->get();
+            $person=Person::whereHas('mcof')->get();
 
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
