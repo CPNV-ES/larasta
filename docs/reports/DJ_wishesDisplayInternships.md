@@ -37,7 +37,7 @@ Controleur WishesMatrixController
 * Supression de l'ancienne méthode récupérant les entreprises
 
 Controleur InternshipsController
-* Remplacement d'une longue requete SQL par une requete Eloquent
+* Remplacement de quelques dbquerries par des requetes Eloquent
 
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
@@ -47,8 +47,11 @@ Vue internshipview
 * Utilisation d'Eloquent pour afficher les stages
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
+Vue internshipedit
+* Utilisation d'Eloquent pour afficher les stages
+* Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
+
 A faire :
-* Modification de stage : accepter les stages non attribués
 * Vue des stages : afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
 * Matrice de souhaits : regrouper les stages de la même famille (afficher les familles ayant au moins un stage actuel)
 * BD : 
