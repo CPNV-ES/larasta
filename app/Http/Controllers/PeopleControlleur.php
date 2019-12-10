@@ -16,7 +16,6 @@
 namespace App\Http\Controllers;
 
 use App\Contactinfos;
-use App\Internship;
 use Illuminate\Http\Request;
 use App\Person;
 use CPNVEnvironment\Environment;
@@ -25,7 +24,7 @@ use Illuminate\Support\Facades\DB;
 class PeopleControlleur extends Controller
 {
     /**
-     * /* Get all peoples and return in the view
+    /* Get all peoples and return in the view
      * Passing first filter for teacher (0->student, 1->teacher, 2->company)
      * Passing first filter for Obsolete (0->desactivate, 1->activate)
      */
@@ -42,7 +41,7 @@ class PeopleControlleur extends Controller
             [
                 'persons' => $persons,
                 'user' => $user,
-                'filterCategory' => ["0", "1", "2"],
+                'filterCategory'=> ["0","1","2"],
                 'filterObsolete' => null
             ]
         );
@@ -60,7 +59,7 @@ class PeopleControlleur extends Controller
         $filtersCategory = $request->input('filterCategory');
         $filterName = $request->input('filterName');
         $filterObsolete = $request->input('filterObsolete');
-
+        
         // Verify if all checkboks are not selected
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 
@@ -75,9 +74,9 @@ class PeopleControlleur extends Controller
             [
                 'persons' => $persons,
                 'user' => $user,
-                'filterCategory' => $filtersCategory,
-                'filterName' => $filterName,
-                'filterObsolete' => $filterObsolete
+                'filterCategory'=> $filtersCategory,
+                'filterName'=>$filterName,
+                'filterObsolete' =>$filterObsolete
             ]
         );
     }
@@ -138,53 +137,102 @@ class PeopleControlleur extends Controller
 
         // Read Person from DB
         $person = DB::table('persons')
-            ->select('persons.id', 'firstname', 'lastname', 'role', 'obsolete', 'persons.location_id', 'company_id', 'companyName')
-            ->leftJoin('companies', 'persons.company_id', '=', 'companies.id')
-            ->where('persons.id', '=', $id)
+            ->select('persons.id','firstname','lastname','role','obsolete','persons.location_id','company_id', 'companyName')
+            ->leftJoin('companies','persons.company_id', '=', 'companies.id')
+            ->where('persons.id','=',$id)
             ->get()->first();
 
         // Read Adresse from DB
         $adress = DB::table('persons')
             ->join('locations', 'persons.location_id', '=', 'locations.id')
-            ->select('address1', 'address2', 'postalCode', 'city', 'lat', 'lng')
-            ->where('persons.id', '=', $id)
+            ->select('address1','address2','postalCode','city','lat','lng')
+            ->where('persons.id','=',$id)
             ->get()->first();
 
         // Read Contact info from DB
         $contacts = DB::table('contactinfos')
             ->join('contacttypes', 'contacttypes.id', '=', 'contactinfos.contacttypes_id')
-            ->select('contactinfos.id', 'icon', 'value')
-            ->where('persons_id', '=', $id)
+            ->select('contactinfos.id','icon','value')
+            ->where('persons_id','=',$id)
             ->get();
 
         // Read Contact types from DB
         $contacttypes = DB::table('contacttypes')
-            ->select('id', 'contactTypeDescription')
+            ->select('id','contactTypeDescription')
             ->get();
 
         // Read Company from DB
         $companies = DB::table('companies')
-            ->select('id', 'companyName')
+            ->select('id','companyName')
             ->get();
 
         // select the internships in which the person was involved, based on role
-        switch ($person->role) {
+        switch ($person->role)
+        {
             case 0: // Student
-                $internships = Internship::where('intern_id', $id)
-                    ->get();
-                break;
+                $iship = DB::table('internships')
+                    ->join('companies', 'companies_id', '=', 'companies.id')
+                    ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
+                    ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+                    ->join('persons as student', 'intern_id', '=', 'student.id')
+                    ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
+                    ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+                    ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
+                    ->select(
+                        'internships.id',
+                        'beginDate',
+                        'endDate',
+                        'companyName',
+                        'grossSalary',
+                        'mc.initials as mcini',
+                        'previous_id',
+                        'internshipDescription',
+                        'admresp.firstname as arespfirstname',
+                        'admresp.lastname as aresplastname',
+                        'intresp.firstname as irespfirstname',
+                        'intresp.lastname as iresplastname',
+                        'student.firstname as studentfirstname',
+                        'student.lastname as studentlastname',
+                        'contractstate_id',
+                        'contractGenerated',
+                        'stateDescription')
+                    ->where('internships.intern_id','=', $id)
+                    ->get();                break;
             case 1: // teacher, TODO
                 break;
 
             case 2: // company
-                $internships = Internship::where('admin_id', $id)
-                    ->orWhere('responsible_id', '=', $id)
+                $iship = DB::table('internships')
+                    ->join('companies', 'companies_id', '=', 'companies.id')
+                    ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
+                    ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+                    ->join('persons as student', 'intern_id', '=', 'student.id')
+                    ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
+                    ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+                    ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
+                    ->select(
+                        'internships.id',
+                        'beginDate',
+                        'endDate',
+                        'companyName',
+                        'grossSalary',
+                        'mc.initials as mcini',
+                        'previous_id',
+                        'internshipDescription',
+                        'admresp.firstname as arespfirstname',
+                        'admresp.lastname as aresplastname',
+                        'intresp.firstname as irespfirstname',
+                        'intresp.lastname as iresplastname',
+                        'student.firstname as studentfirstname',
+                        'student.lastname as studentlastname',
+                        'contractstate_id',
+                        'contractGenerated',
+                        'stateDescription')
+                    ->where('admresp.id','=', $id)
+                    ->orWhere('admresp.id','=', $id)
                     ->get();
                 break;
         }
-
-        // used to display the list
-        //$internships = Internship::all();
 
         // return all values in view
         return view('listPeople/peopleEdit')->with(
@@ -192,7 +240,7 @@ class PeopleControlleur extends Controller
                 'person' => $person,
                 'adress' => $adress,
                 'contacts' => $contacts,
-                'internships' => $internships,
+                'iships' => $iship,
                 'user' => $user,
                 'contacttypes' => $contacttypes,
                 'companies' => $companies
@@ -224,7 +272,7 @@ class PeopleControlleur extends Controller
         ///////////////////////////////////////
 
         // Create the value to Obsolote to insert in the DB (0,1)
-        $Obsolete = ($request->input('obsolete') == null) ? 0 : 1;
+        $Obsolete = ($request->input('obsolete') ==  null) ? 0 : 1;
 
         ///////////////////////////////////////
         /// Adress
@@ -266,8 +314,8 @@ class PeopleControlleur extends Controller
                     'lng' => $long
                 ]);
 
-            // Step 1
-            // Delete this line and go to Step 2
+        // Step 1
+        // Delete this line and go to Step 2
         }
 
         ///////////////////////////////////////
@@ -281,7 +329,8 @@ class PeopleControlleur extends Controller
 
 
         // write all new mails in the DB
-        foreach ($Mails as $mail) {
+        foreach ($Mails as $mail)
+        {
             if ($mail != null)
                 DB::table('contactinfos')->insert(
                     ['value' => $mail, 'contacttypes_id' => 1, 'persons_id' => $id]
@@ -290,7 +339,8 @@ class PeopleControlleur extends Controller
         }
 
         // write all new fixe phone numbers in the DB
-        foreach ($FixePhones as $phoneFixe) {
+        foreach ($FixePhones as $phoneFixe)
+        {
             if ($phoneFixe != null)
                 DB::table('contactinfos')->insert(
                     ['value' => $phoneFixe, 'contacttypes_id' => 2, 'persons_id' => $id]
@@ -299,7 +349,8 @@ class PeopleControlleur extends Controller
         }
 
         // write all new phone mobile numbers in the DB
-        foreach ($MobilePhones as $mobilePhone) {
+        foreach ($MobilePhones as $mobilePhone)
+        {
             if ($mobilePhone != null)
                 DB::table('contactinfos')->insert(
                     ['value' => $mobilePhone, 'contacttypes_id' => 3, 'persons_id' => $id]
