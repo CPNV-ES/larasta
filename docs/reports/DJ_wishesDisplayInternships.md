@@ -131,10 +131,9 @@ il a été décidé simplement de rajouter un champ indiquant l'id du stage 'mai
 Bien que permettant la redondance de données, il été estimé que c'était la meilleure manière de résoudre le problème.
 
 Comportements anormaux détectés :
-* Générer le contrat (depuis la page stage) : erreur, ne trouve pas App\Companies
-* Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
 * Page personnes : n'affiche pas toutes les personnes (Ex Erik Tagirov)
 * Page personne : ne fonctionne pas avec les enseignants (cas non defini)
-* Filtres : bouton illisible
+* Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
+* Boutons illisibles (blanc sur fond gris)
 
 (Mise à jour, le ...)
