@@ -51,21 +51,21 @@ Vue internshipedit
 * Utilisation d'Eloquent pour afficher les stages
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
-## A FAIRE
-Ajout champ dans db
-    schema
-    script db
-    data
-
-Page de souhaits
-    Regrouper stages
-
-Modification de stage :
-    * Possibilité de modifier le stage root
-    
-Création de stage :
-    * Par défaut est son propre stage root
-    * Possibilité de sélectionner un autre stage racine
+A faire
+* Vue des stages : 
+    * ATTENDRE : Fonctionnement correct des filtres
+    * afficher tous les stages, y compris ceux qui n'ont pas de stagiaire attribué
+* BD :
+    * ATTENDRE : MAJ BD
+    * séparer internship en internship+internshipFamily
+    * Mettre company_id, description, salary, begin_date, end_date in the internshipFamily
+    * Remarque : une famille ne regroupe que les stages ayant lieu en même temps (un stage reconduit appartient à une nouvelle famille)
+* Matrice de souhaits : regrouper les stages de la même famille (afficher les familles ayant au moins un stage actuel)
+* Modification de stage :
+    * Possibilité de modifier la famille
+* Création de stage :
+    * Créer nouvelle famille par défaut
+    * Possibilité de sélectionner une famille existante
 
 # Tests
 
@@ -88,12 +88,5 @@ branche Damien-Jakob
 (Effectuée, le ...)
 
 # Documentation
-
-Comportements anormaux détectés :
-* Générer le contrat (depuis la page stage) : erreur, ne trouve pas App\Companies
-* Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
-* Page personnes : n'affiche pas toutes les personnes (Ex Erik Tagirov)
-* Page personne : ne fonctionne pas avec les enseignants (cas non defini)
-* Filtres : bouton illisible
 
 (Mise à jour, le ...)
