@@ -39,6 +39,10 @@ Controleur WishesMatrixController
 Controleur InternshipsController
 * Remplacement de quelques dbquerries par des requetes Eloquent
 
+Controleur PeopleControlleur
+* Correction d'un bug faisant que, pour un responsable, 
+seuls les stages dont il est responsable administratif sont affichés
+
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
 * Ajout d'un lien vers le stage
@@ -52,10 +56,6 @@ Vue internshipedit
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
 ## A FAIRE
-Controleur PeopleControlleur
-* Correction d'un bug faisant que, pour un responsable, 
-seuls les stages dont il est responsable administratif sont affichés
-
 Modification de stage :
     * Possibilité de modifier le stage root
     
@@ -123,9 +123,7 @@ Bien que permettant la redondance de données, il été estimé que c'était la 
 Comportements anormaux détectés :
 * Générer le contrat (depuis la page stage) : erreur, ne trouve pas App\Companies
 * Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
-* Page personnes : a une catégorie company (en anglais), servant à décrire des personnes
-* Page personne : n'affiche aucun stage pour les enseignants
-* Page personne : style à refaire
+* Page personne : ne marche pas avec les personnes ayant au moins un stage
 * Filtres : bouton illisible
 
 (Mise à jour, le ...)

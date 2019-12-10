@@ -229,7 +229,7 @@ class PeopleControlleur extends Controller
                         'contractGenerated',
                         'stateDescription')
                     ->where('admresp.id','=', $id)
-                    ->orWhere('admresp.id','=', $id)
+                    ->orWhere('intresp.id','=', $id)
                     ->get();
                 break;
         }
