@@ -18,7 +18,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Contract;
 use App\Internship;
-use App\Persons;
+use App\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -52,22 +52,13 @@ class ContractController extends Controller
         //Get informations of internship
         $internship = Internship::find($id)->first();
         //Get contract of specific internships
-        $contract = Contract::whereHas('companies.Internships',function ($query)use ($id){
-            $query->where('internships.id', $id);
-        })->first();
+        $contract =$internship->company->contract;
         //Get data of student on internship
-        $intern = Persons::whereHas("student",function ($query)use ($id){
-            $query->where('internships.id', $id);
-        })->first();
+        $intern = $internship->student;
         //Get company where student work
-        $company = Company::whereHas("Internships",function ($query)use ($id){
-            $query->where('internships.id', $id);
-        })->first();
-        //Who is the reponsible of student
-        $responsible = Persons::whereHas("responsible",function ($query)use ($id){
-            $query->where('internships.id', $id);
-        })->first();
-
+        $company = $internship->company;
+        //Who is the responsible of student
+        $responsible = $internship->responsible;
 
         /*
          *  Search for anything between { } and trim them by groups so $out[] contains :

@@ -23,7 +23,7 @@ class Company extends Model
      */
     public function contract()
     {
-        return $this->belongsTo('App\Contract');
+        return $this->belongsTo('App\Contract',"contracts_id");
     }
     /**
      * @description A Location belong to Company

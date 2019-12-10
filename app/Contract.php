@@ -14,7 +14,7 @@ class Contract extends Model
      */
     public function companies()
     {
-        return $this->hasMany("App\Companies","contracts_id");
+        return $this->hasMany("App\Company","contracts_id");
     }
 
 }

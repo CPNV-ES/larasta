@@ -89,15 +89,12 @@ class InternshipsController extends Controller
             }
         }
 
-        if (isset($idlist)){
-
+        if (isset($idlist)) {
             $iships = Internship::whereIn('contractstate_id', $idlist)->get();
-        }
-        else{
+        } else {
             $iships = Internship::all();
         }
-        switch ($internshipFilter->getMine() * 2 + $internshipFilter->getInProgress())
-        {
+        switch ($internshipFilter->getMine() * 2 + $internshipFilter->getInProgress()) {
             case 1:
                 $keepOnly = self::getCurrentInternships();
                 break;
@@ -116,7 +113,10 @@ class InternshipsController extends Controller
         } else
             $finallist = $iships;
 
-        return view('internships/internships')->with('iships', $finallist)->with('filter', $internshipFilter)->with('isOneFilterActive', $isOneFilterActive);
+        return view('internships/internships')
+            ->with('iships', $finallist)
+            ->with('filter', $internshipFilter)
+            ->with('isOneFilterActive', $isOneFilterActive);
     }
 
     /**

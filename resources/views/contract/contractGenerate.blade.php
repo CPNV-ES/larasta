@@ -15,7 +15,7 @@
             There is two conditions because when we manually assign a null value in the database it returns null
             and not '0000-00-00 00:00:00' anymore
         -->
-        @if ($contractGenerated == "0000-00-00 00:00:00" || $contractGenerated == null)
+        @if ($contractGenerated == "0000-01-01 00:00:00" || $contractGenerated == null)
             <h1>Génération de contrat</h1><br>
             Rédiger le contrat au : <br>
             <form method="post" action="{{route('viewContract',['id' => $id])}}">
