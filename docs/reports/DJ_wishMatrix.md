@@ -42,6 +42,7 @@ permettant de sélectionner l'année.
     - Ajout d'une entité contenant l'année sélectionnée
 - Controleur WishesMatrixController :
     - Ajout de fonctions pour interagir avec la base de données
+    - Validation des données
     - Envoi à la vue des années affichables, de l'année sélectionnée, et des classes à afficher
     - Redirection après réception des données vers la page de souhaits
 - Vue wishesMatrix
@@ -69,7 +70,6 @@ Améliorations à faire dans de nouvelles tâches
        - regrouper les stages identiques, en indiquant le nombre de places
        - une entreprise peut avoir 2 stages identiques et un différent
  - Meilleure distinction visuelle entre les deux classes
-
 
 
 # Tests
