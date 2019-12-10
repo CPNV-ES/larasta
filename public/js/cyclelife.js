@@ -60,30 +60,41 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
+/******/ 	return __webpack_require__(__webpack_require__.s = 19);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 17:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(18);
+module.exports = __webpack_require__(20);
 
 
 /***/ }),
 
-/***/ 18:
+/***/ 20:
 /***/ (function(module, exports) {
 
-// visits.js: for main visit page
-// Author: K. Viquerat
-// Date: Nov 2019
 
-//Fonction permettant d'enlever et rajouter la classe d-none à l'id past 
-
-showpastbtn.addEventListener("click", function (event) {
-    past.classList.toggle("d-none");
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
+document.getElementsByName("modifycycle").forEach(function (elem) {
+    elem.addEventListener("click", function (event) {
+        var list = elem.parentNode.previousElementSibling.firstElementChild;
+        console.log(list);
+        if (list.disabled == true) {
+            list.disabled = false;
+            elem.textContent = "Enregistrer";
+        } else {
+            list.disabled = true;
+            elem.textContent = "Modifier";
+        }
+    });
+});
+document.getElementsByName("suppresscycle").forEach(function (elem) {
+    elem.addEventListener("click", function (event) {
+        elem.parentElement.remove();
+    });
 });
 
 /***/ })
