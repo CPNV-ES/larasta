@@ -40,6 +40,8 @@ Controleur InternshipsController
 * Remplacement de quelques dbquerries par des requetes Eloquent
 
 Controleur PeopleControlleur
+* Remplacement d'une dbquerry par une requete Eloquent
+* Correction d'un bug empechant les personnes avec des stages d'etre affichées
 * Correction d'un bug faisant que, pour un responsable, 
 seuls les stages dont il est responsable administratif sont affichés
 
@@ -123,7 +125,7 @@ Bien que permettant la redondance de données, il été estimé que c'était la 
 Comportements anormaux détectés :
 * Générer le contrat (depuis la page stage) : erreur, ne trouve pas App\Companies
 * Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
-* Page personne : ne marche pas avec les personnes ayant au moins un stage
+* Page personnes : n'affiche pas toutes les personnes
 * Page personne : ne fonctionne pas avec les enseignants (cas non defini)
 * Filtres : bouton illisible
 
