@@ -108,7 +108,9 @@ Modèle InternshipFamily
 
 # Tests
 
-
+- Je vais dans la pages souhaits, année 2018, on y voit 'IMD (2)' et 'HEIG-VD (2)'
+- Je clique sur 'IMD' -> j'arrive sur le premier stage -> je l'édite et je lui assigne un élève -> je retourne dans les souhaits -> je ne vois plus que 'IMD' et les souhaits précédents sont toujours présents
+- Je vais dans les souhaits, je vois qu'il y a des souhaits posés pour HEIG-VD (2). Je passe par Entreprise>HEIG-VD>Stages pour assigner un stage à un élève. Quand je retourne dans wishlist, les autres souhaits sont toujours là
 (Terminés, le ...)
 
 # Commit / Merge
