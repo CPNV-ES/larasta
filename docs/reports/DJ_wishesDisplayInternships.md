@@ -124,6 +124,7 @@ Comportements anormaux détectés :
 * Générer le contrat (depuis la page stage) : erreur, ne trouve pas App\Companies
 * Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
 * Page personne : ne marche pas avec les personnes ayant au moins un stage
+* Page personne : ne fonctionne pas avec les enseignants (cas non defini)
 * Filtres : bouton illisible
 
 (Mise à jour, le ...)
