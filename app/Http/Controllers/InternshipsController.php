@@ -412,9 +412,9 @@ class InternshipsController extends Controller
 
     public function createInternship($iid)
     {
-        //Eloquent request 
+        //Eloquent request
         $Internshipcompany = Company::find($iid);
-        $companyPersons = Persons::all()->where('company_id', $iid);
+        $companyPersons = Person::all()->where('company_id', $iid);
         $lastInternship = Internship::where('companies_id', $iid)->orderBy('endDate', 'desc')->first();
         //date variable
         $todaydate = Carbon::now();
