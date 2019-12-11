@@ -67,10 +67,14 @@ Les idées:
 - Page d'administration des stages
 (Terminé, le 03.12.2019)
 
-# Plan d'intervention
-**26.11.2019**
-1. Added web route + Controller + view  
-(Terminé, le ...)
+# Plan d'intervention  
+**26.11.2019**  
+- Added web route + Controller + view  
+
+**10.12.2019**  
+- Added get api routes + call for `/api/internships/-internshipId-/logbooks` and `/api/internships/logbook/activity/-activityId-`  
+- Added post api route for `/internships/-internshipId-/logbook/activities`  
+- Added put api route for `/api/internships/logbook/activity/-activityId-`  
 
 # Exécution
 
