@@ -15,6 +15,6 @@ document.getElementsByName("modifycycle").forEach(function(elem){
 })
 document.getElementsByName("suppresscycle").forEach(function(elem){
     elem.addEventListener("click",function(event){
-        elem.parentElement.remove();
+        elem.parentNode.parentNode.remove();
     })
 })
