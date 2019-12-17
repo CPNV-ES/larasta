@@ -9,6 +9,8 @@ Les modifications apportées à la matrice de souhaits, qu'elles soient effectu�
 
 ## Description du problème
 
+On souhaite que les choix effectés par les utilisateurs soient persistants. 
+
 ## Description de la solution
 
 Ajout d'un bouton proposant d'enregistrer les modifications.
