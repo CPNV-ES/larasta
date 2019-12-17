@@ -13,10 +13,13 @@ On souhaite que les choix effectés par les utilisateurs soient persistants.
 
 ## Description de la solution
 
-Ajout d'un bouton proposant d'enregistrer les modifications.
-
-Traiter les informations du formulaire associé au bouton afin d'enregistrer les modifications 
+* Ajout d'un bouton proposant d'enregistrer les modifications.
+* Traiter les informations du formulaire associé au bouton afin d'enregistrer les modifications 
 et d'en garder la trace dans les remarques.
+    * Pour les élèves : ajouts de remarques sur l'élève et le stage
+    * Pour les enseignants : ajouts de remarques sur le stage, l'élève et l'enseigant
+* Mettre en évidence la colonne de l'élève
+* Limiter à un seul état donné par l'enseigant
 
 (Terminé, le ...)
 
