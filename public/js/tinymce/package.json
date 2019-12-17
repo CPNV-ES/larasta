@@ -1,0 +1,54 @@
+{
+  "_args": [
+    [
+      "tinymce@5.1.2",
+      "C:\\Users\\Diogo.VIEIRA-FERREIR\\Desktop\\web\\laravelProg\\larasta"
+    ]
+  ],
+  "_from": "tinymce@5.1.2",
+  "_id": "tinymce@5.1.2",
+  "_inBundle": false,
+  "_integrity": "sha512-P61Odc3O2IDvC1qBmd7xkh1uRDKtfn8YNvh3sone84H9/W527HNbATbXpin/ewzZHxhw67hKRe9FzOBhQzFQig==",
+  "_location": "/tinymce",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "tinymce@5.1.2",
+    "name": "tinymce",
+    "escapedName": "tinymce",
+    "rawSpec": "5.1.2",
+    "saveSpec": null,
+    "fetchSpec": "5.1.2"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.1.2.tgz",
+  "_spec": "5.1.2",
+  "_where": "C:\\Users\\Diogo.VIEIRA-FERREIR\\Desktop\\web\\laravelProg\\larasta",
+  "author": {
+    "name": "Ephox Corporation"
+  },
+  "bugs": {
+    "url": "https://github.com/tinymce/tinymce/issues"
+  },
+  "description": "Web based JavaScript HTML WYSIWYG editor control.",
+  "homepage": "https://github.com/tinymce/tinymce-dist#readme",
+  "keywords": [
+    "editor",
+    "wysiwyg",
+    "tinymce",
+    "richtext",
+    "javascript",
+    "html"
+  ],
+  "license": "LGPL-2.1",
+  "main": "tinymce.js",
+  "name": "tinymce",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tinymce/tinymce-dist.git"
+  },
+  "version": "5.1.2"
+}

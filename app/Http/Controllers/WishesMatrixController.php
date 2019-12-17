@@ -9,126 +9,172 @@
 
 namespace App\Http\Controllers;
 
+use App\Flock;
+use App\Internship;
+use App\Params;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Companies;
-use SebastianBergmann\Environment\Console;
+
 use function GuzzleHttp\json_encode;
+
 use CPNVEnvironment\Environment;
-use App\Params;
+
 
 class WishesMatrixController extends Controller
 {
+    /**
+     * Display the wish page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View : wish page
+     */
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Get the flock id
-        $currentUserFlockId = $this->getCurrentUser($currentUser->getId())->flock_id;
-        // Get companies to display
-        $companies = $this->getCompaniesWithInternships();
-        // Get list person in same flock id
-        $persons = $this->getPersons($currentUserFlockId);
-        $wishes = null;
-        $dateEndWishes =  null;
-        
-        // Get all wishes per person
-        foreach ($persons as $person)
-        {
-            $wishes[$person->id] = $this->getWishesByPerson($person->id);
+
+        // Get internships to display
+        // ??? Update function to work with other years ???
+        $internships = $this->getInternships();
+
+        // Get the selected year, and all classes from that year
+        $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
+
+        // Create param if it does not exist
+        if (is_null($selectedFlockYear)) {
+            $param = new Params();
+            $param->paramName = 'wishesSelectedYear';
+            $param->paramValueInt = -1;
+            $param->save();
+            $selectedFlockYear = $param;
         }
 
-        // Get info for teacher
-        // Test if current user is a teacher
-        if($currentUser->getLevel() >= 1)
-        {
-            $param = Params::getParamByName('dateEndWishes');
-            if($param != null)
-            {
-                // Convert the date/time to date only
-                $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));   
-            }
+        $flocks = null;
+        if ($selectedFlockYear != null) {
+            $selectedFlockYear = $selectedFlockYear->paramValueInt;
+            $flocks = $this->getFlocksWithYear($selectedFlockYear);
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes, 'currentUserFlockId' => $currentUserFlockId]);
+
+        // Get info for teacher : available start years, and date of end for wishes
+        $flockYears = null;
+        $dateEndWishes = null;
+        // Test if current user is a teacher
+        if ($currentUser->getLevel() >= 1) {
+            // get date end wishes
+            $param = Params::getParamByName('dateEndWishes');
+            if ($param != null) {
+                // Convert the date/time to date only
+                $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));
+            }
+
+            // get flock years
+            $flockYears = $this->getFlockYears();
+        }
+
+        return view('wishesMatrix/wishesMatrix')
+            ->with([
+                'internships' => $internships,
+                'currentUser' => $currentUser,
+                'dateEndWishes' => $dateEndWishes,
+                'selectedYear' => $selectedFlockYear,
+                'flocks' => $flocks,
+                'flockYears' => $flockYears
+            ]);
     }
 
+
+    /**
+     * Save the display modifications of hte wishMatrix page
+     *
+     * @param Request $request : POST request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector : redirect to the wish page
+     */
     public function save(Request $request)
     {
-        // Do only if not student
-        // !!!!!!!!!!!!!! Value Test !!!!!!!!!!!!!!!!!!!
-        if(Environment::currentUser()->getLevel() > 0)
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        {
+        // Do only if user is not student
+        if (Environment::currentUser()->getLevel() > 0) {
             // Save the date
-            if($request->input('date') != null)
-            {
+            if ($request->input('dateEndWishes') != null) {
+                // get the date saved in the database
                 $param = Params::getParamByName('dateEndWishes');
-                // Test if param exists
-                if ($param != null)
-                {
-                    // Update the date
-                    $param->paramValueDate = $request->input('date');
-                }
-                else
-                {
-                    // Insert param
+
+                // Create param if it does not exist
+                if (is_null($param)) {
                     $param = new Params();
                     $param->paramName = 'dateEndWishes';
-                    $param->paramValueDate = $request->input('date');
                 }
-                $param->save(); 
+
+                // Update the date
+                $param->paramValueDate = $request->input('dateEndWishes');
+                $param->save();
+            }
+
+            // Save the year to display
+            if ($request->input('flockYear') != null) {
+                // get the year saved in the database
+                $param = Params::getParamByName('wishesSelectedYear');
+
+                // Create param if it does not exist
+                if (is_null($param)) {
+                    $param = new Params();
+                    $param->paramName = 'wishesSelectedYear';
+                }
+
+                // update the year
+                $param->paramValueInt = $request->input('flockYear');
+                $param->save();
             }
         }
+
+        // return to the wishMatrix view
+        return redirect('/wishesMatrix');
     }
 
-    private function getCompaniesWithInternships()
+    /**
+     * Get all the internships with state 'Reconduit' or 'Confirmé' in the current year,
+     * ordered by the name of the company
+     *
+     * @return mixed : list of internships
+     */
+    private function getInternships()
     {
-        // Get all the companies with state 'Reconduit' or 'Confirmé'
-        $companies = DB::table('companies')
-            ->join('internships', 'internships.companies_id', '=', 'companies.id')
-            ->join('contractstates', 'internships.contractstate_id', '=', 'contractstates.id')
-            ->where('companies.mptOK', 1)
-            ->where('contractstates.stateDescription','Confirmé')
-            ->orWhere('contractstates.stateDescription','Reconduit')
-            ->whereYear('internships.beginDate', '=', date('Y'))
-            ->select('companies.id','companies.companyName')
+        $internships = Internship::whereYear('beginDate', '=', date('Y'))
+            ->whereHas('contractstate', function ($query) {
+                $query->where('stateDescription', 'Confirmé')
+                    ->orWhere('stateDescription', 'Reconduit');
+            })
+            ->get()
+            ->sortBy(function ($internship) {
+                return $internship->company->companyName;
+            });
+        return $internships;
+    }
+
+    /**
+     * Get all distinct start years of flocks, starting by the latest
+     *
+     * @return array : starting years of flocks
+     */
+    private function getFlockYears()
+    {
+        $flockYears = Flock::distinct()
+            ->orderBy('startYear', 'desc')
+            ->pluck('startYear');
+        return $flockYears;
+    }
+
+    /**
+     * Get all flocks that started on a specific year, ordered alphabetically
+     *
+     * @param $year : starting year of the flocks
+     * @return mixed : list of flocks
+     */
+    private function getFlocksWithYear($year)
+    {
+        $flocks = Flock::where('startYear', '=', $year)
+            ->orderBy('flockName')
             ->get();
-        return $companies;
-    }
-
-    // Get persons by class id
-    private function getPersons($flock_id)
-    {
-        $persons = DB::table('persons')
-            ->where('persons.flock_id', $flock_id)
-            ->whereNotNull('persons.initials')
-            ->select('persons.id','persons.initials')
-            ->get();
-        return $persons;
-    }
-
-    // Get wishes by id persons
-    private function getWishesByPerson($idPerson)
-    {
-        $wishes = DB::table('wishes')
-            ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-            ->join('companies', 'internships.companies_id', '=', 'companies.id')
-            ->where('wishes.persons_id', $idPerson)
-            ->where('wishes.rank', '>', 0)
-            ->select('wishes.rank', 'wishes.internships_id', 'companies.companyName', 'companies.id')
-            ->get();
-        return $wishes;
-    }
-
-    // Get current user by id person
-    private function getCurrentUser($idPerson)
-    {
-        $persons = DB::table('persons')
-            ->where('persons.id', $idPerson)
-            ->whereNotNull('persons.initials')
-            ->select('persons.id','persons.initials', 'persons.flock_id', 'persons.role')
-            ->first();
-        return $persons;
+        return $flocks;
     }
 }

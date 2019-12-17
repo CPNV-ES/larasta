@@ -21,7 +21,7 @@ namespace App\Http\Controllers;
 use App\IntranetConnection as Connection;
 use Illuminate\Http\Request;
 use CPNVEnvironment\Environment;
-use App\Persons;
+use App\Person;
 use App\Flock;
 use Carbon\Carbon;
 
@@ -51,7 +51,7 @@ class SynchroController extends Controller
     */
     protected function dbObsoletePersons($personIntranetId)
     {
-        $person = Persons::where('intranetUserId', $personIntranetId);
+        $person = Person::where('intranetUserId', $personIntranetId);
         $person->obsolete = 1;
 
         $person->save();
@@ -69,7 +69,7 @@ class SynchroController extends Controller
      */
     protected function dbNewPersons($personIndex)
     {
-        $person = new Persons;
+        $person = new Person;
 
         $person->firstname = $this->getNewPersons()[$personIndex]['firstname'];
         $person->lastname = $this->getNewPersons()[$personIndex]['lastname'];
@@ -102,10 +102,10 @@ class SynchroController extends Controller
      */
     protected function dbNewClasses($personIndex)
     {
-        if (Persons::where('intranetUserId', $this->getNewPersons()[$personIndex]['id'])->where('role', 0)->exists())
+        if (Person::where('intranetUserId', $this->getNewPersons()[$personIndex]['id'])->where('role', 0)->exists())
         {
             /// Only need to add the flock_id to students, so role = 0
-            $person = Persons::where('intranetUserId', $this->getNewPersons()[$personIndex]['id'])->where('role', 0)->first();
+            $person = Person::where('intranetUserId', $this->getNewPersons()[$personIndex]['id'])->where('role', 0)->first();
             /// Split the string returned by the intranet API for the date the person was updated on to get the starting year
             $dateSplit = explode('-', $this->getNewPersons()[$personIndex]['updated_on']);
             $flockId = $this->checkFlock($this->getNewPersons()[$personIndex]['current_class']['link']['name']);
@@ -141,9 +141,9 @@ class SynchroController extends Controller
             if ($classe['name'] == $className)
             {
                 if ($classe['master'] != null) {
-                    if (Persons::where('intranetUserId', $classe['master']['link']['id'])->exists())
+                    if (Person::where('intranetUserId', $classe['master']['link']['id'])->exists())
                     {
-                        $person = Persons::where('intranetUserId', $classe['master']['link']['id'])->first();
+                        $person = Person::where('intranetUserId', $classe['master']['link']['id'])->first();
                         $flock->classMaster_id = $person->id;
                     }
                     else
@@ -268,7 +268,7 @@ class SynchroController extends Controller
      */
     public function getDatas()
     {
-        $dbStudents = Persons::all();
+        $dbStudents = Person::all();
         $dbStudents = $dbStudents->sortBy('lastname');
         $intranetDatas = new Connection();
         $this->classesList = $intranetDatas->getClasses();

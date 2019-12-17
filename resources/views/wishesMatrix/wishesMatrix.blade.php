@@ -1,71 +1,126 @@
 <!-- ///////////////////////////////////              -->
 <!-- Benjamin Delacombaz                              -->
 <!-- Wishes Matrix layout                             -->
-<!-- Version 0.7                                      -->
+<!-- Version 0.8                                      -->
 <!-- Created 18.12.2017                               -->
-<!-- Last edit 23.01.2017 by Benjamin Delacombaz      -->
-
+<!-- Last edit 07.11.2019 by Damien Jakob             -->
 
 @extends ('layout')
 @section ('page_specific_css')
-    <link rel="stylesheet" href="/css/wishesMatrix.css" />
+    <link rel="stylesheet" href="/css/wishesMatrix.css"/>
 @stop
 @section ('content')
-    <div class="alert-info hidden">
-        <!-- Info if user doesn't have the good right -->
-    </div>
+    <!-- Display messages if the user doesn't have the correct rights -->
+    <div class="alert-info hidden"></div>
+
     <h1>Matrice des souhaits</h1>
     <div class="col-md-9">
         <table id="WishesMatrixTable" class="table-bordered col-md-11">
             <tr>
                 <th></th>
-                <!-- Add each persons where initials is ok -->
-                @foreach ($persons as $person)
-                    @if ($person->initials!="")
-                        <!-- Add access class for authoized to edit a col -->
-                        @if ($person->initials == $currentUser->getInitials()) 
-                            <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
-                        @else
-                            <th value="{{ $person->id }}">{{ $person->initials }}</th>   
-                        @endif
-                    @endif
+                <!-- Display flocks -->
+            @foreach ($flocks as $flock)
+                <!-- The colspan of a flock is the number of students of the flock -->
+                    <th class="" colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
                 @endforeach
             </tr>
-            @foreach ($companies as $companie)
+
+            <tr>
+                <th></th>
+
+                <!-- Display the students from the flocks -->
+            @foreach ($flocks as $flock)
+                @foreach($flock->students as $person)
+                    <!-- Display the initials of the student -->
+                    @if ($person->initials!="")
+                        <!-- Add the class access to cases of belonging to the user -->
+                            <th
+                                    @if ($person->initials == $currentUser->getInitials())
+                                    class="access"
+                                    @endif
+                                    value="{{ $person->id }}">
+                                {{ $person->initials }}
+                            </th>
+                    @else
+                        <!-- Default initials : ??? -->
+                            <th value="{{ $person->id }}">???</th>
+                        @endif
+                    @endforeach
+                @endforeach
+            </tr>
+
+            <!-- Display the internships and their wishes -->
+            @foreach ($internships as $internship)
                 <tr>
-                    <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
+                    <td>
+                    {{-- Display the company of the internship, with a link to the internship --}}
+                    <!-- Link to previous internship -->
+                        <a href="/internships/{{ $internship->id }}/view">
+                            {{ $internship->company->companyName }}
+                        </a>
+                    </td>
+
                     <!-- Create the clickable case for each person -->
-                    @foreach ($persons as $person)
-                        @if ($person->initials!="")
-                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                            @if ($currentUser->getLevel() != 0)
+                @foreach ($flocks as $flock)
+                    @foreach ($flock->students as $person)
+                        @if ($currentUser->getLevel() != 0)
+                            <!-- Give extra classes to teacher -->
                                 <td class="clickableCase locked teacher">
                             @else
                                 <td class="clickableCase">
-                            @endif
-                            <!-- Add for each persons in the table her wish -->
-                                @foreach ($wishes[$person->id] as $wish)
-                                    <!-- if wish company is equal to the current company display the rank -->
-                                    @if($wish->id == $companie->id)
-                                        {{ $wish->rank }}
-                                    @endif
+                                @endif
+
+                                <!-- If student person has a wish for this internship, display the rank -->
+                                    @foreach($person->wishes as $wish)
+                                        @if($wish->internship->id == $internship->id)
+                                            {{ $wish->rank }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 @endforeach
-                            </td>
-                        @endif
-                    @endforeach
+                                @endforeach
+
                 </tr>
             @endforeach
         </table>
+
+        <!-- Lock table button -->
         @if ($currentUser->getLevel() != 0)
             <img id="lockTable" src="/images/padlock_32x32.png"/>
         @endif
     </div>
+
+    <!-- Parameters modification, for teachers only -->
     <!-- Check if current user is not a student -->
     @if ($currentUser->getLevel() != 0)
-        <a href="/traveltime/{{$currentUserFlockId}}/load" class="col-md-3">Travel time</a>
-        <label>Modifiable jusqu'au</label> <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
+        <form action="/wishesMatrix" method="post">
+            <!-- Necessary in order to validate the POST-->
+        {{ csrf_field() }}
+
+        <!-- Limit date for modifications -->
+            <label>Modifiable jusqu'au</label>
+            <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="dateEndWishes"
+                   value="{{ $dateEndWishes }}"/>
+
+            <!-- Year selection -->
+            <label>Année à afficher</label>
+            <select name="flockYear" id="flockYear">
+            @foreach($flockYears as $year)
+                <!-- default selected year is the displayed year -->
+                    <option value="{{ $year }}"
+                            @if($year == $selectedYear)
+                            selected
+                            @endif
+                    >{{ $year }}
+                    </option>
+                @endforeach
+            </select>
+
+            <!-- Submit button -->
+            <button type="submit">Enregistrer</button>
+        </form>
     @endif
-    <button id="save">Enregistrer</button>
+
 @stop
 
 @section ('page_specific_js')

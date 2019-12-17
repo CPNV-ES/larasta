@@ -79,7 +79,6 @@ module.exports = __webpack_require__(14);
 // Internships.js: for main internships page
 // Author: X. Carrel
 // Date: Dec 2018
-
 $(document).ready(function () {
     // Manage filter box collapse/expand
     $('#collapsedfilters').click(function () {

@@ -8,7 +8,11 @@
 @extends ('layout')
 
 @section ('content')
-
+@if(session('message'))
+    <div class="alert alert-success">
+      {{session('message')}}
+    </div>
+@endif
 <div class="container-fluid">
     @if($user->getLevel() >= 2)
     <form method="post" action="/entreprise/{{Request::segment(2)}}/save">
@@ -122,6 +126,14 @@
                     @include ('internships.internshipslist',['iships' => $iships]) <br />
                     <a href="/newinternship/{{ $company[0]->id }}"><button type="button" class="">Créer un nouveau stage</button></a>
                 </div>
+            </div>
+            <div class="col-lg-8 col-lg-offset-2 ">
+            <br>
+            @foreach ($company as $companies)
+                <a href="/internships/{{$companies->id}}/new" class="underline-none">
+                    <button type="button" class="btn-success small text-white">Créer une stage</button>
+                </a>
+            @endforeach
             </div>
         </div>
         <div class="row content-box">

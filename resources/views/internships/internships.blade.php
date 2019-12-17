@@ -9,23 +9,33 @@
 @stop
 
 @section ('content')
-    <div id="collapsedfilters" class="simple-box-collapsed filters"><h4>Filtre...</h4></div>
-    <div id="expandedfilters" class="simple-box filters d-none">
-        <h4 id="collapsefilters">Afficher les stages dans l'état</h4>
+    <div id="filtersBoxButton">
+        Filtres <i class="arrow
+        @if($isOneFilterActive)
+                up
+@else
+                down
+@endif
+                "></i>
+    </div>
+    <div id="expandedfilters" class="simple-box filters
+        @if(!$isOneFilterActive) d-none  @endif
+            ">
+        <h4 class="internshipsFilterText">Afficher les stages dans l'état </h4>
         <form name="filterInternships" method="post">
             {{ csrf_field() }}
-                @foreach ($filter->getStateFilter() as $state)
-                    <span class="onefilter">
+            @foreach ($filter->getStateFilter() as $state)
+                <span class="onefilter">
                         <input type="checkbox" id="state{{ $state->id }}" name="state{{ $state->id }}" @if ($state->checked) checked @endif >
                         <label for="state{{ $state->id }}">{{ $state->stateDescription }}</label>
                     </span>
-                @endforeach
-                <h4> et </h4>
-                <span class="onefilter">
+            @endforeach
+            <h4> et </h4>
+            <span class="onefilter">
                     <input type="checkbox" id="inprogress" name="inprogress" @if ($filter->getInProgress()) checked @endif >
                     <label for="inprogress">En cours</label>
                 </span>
-                <span class="onefilter">
+            <span class="onefilter">
                     <input type="checkbox" id="mine" name="mine" @if ($filter->getMine()) checked @endif >
                     <label for="mine">A moi</label>
                 </span>

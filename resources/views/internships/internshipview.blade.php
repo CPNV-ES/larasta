@@ -1,64 +1,93 @@
 @extends ('layout')
 
 @section ('content')
-    <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
+    {{-- Title --}}
+    {{-- Display the name of the student, if the internship is attributed --}}
+    <h2 class="text-left">Stage
+        @if (isset($internship->student))
+            de {{ $internship->student->firstname }} {{ $internship->student->lastname }}
+        @else
+            non attribué
+        @endif
+        chez {{ $internship->company->companyName }}
+    </h2>
+
+    {{-- Internship information --}}
     <table class="table text-left larastable">
         <tr>
             <td class="col-md-2" colspan="2">Du</td>
-            <td>{{ strftime("%e %b %g", strtotime($iship->beginDate)) }}</td>
+            <td>{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</td>
         </tr>
         <tr>
             <td class="col-md-2" colspan="2">Au</td>
-            <td>{{ strftime("%e %b %g", strtotime($iship->endDate)) }}</td>
+            <td>{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</td>
         </tr>
         <tr>
             <td class="col-md-2" colspan="2">Description</td>
             <td>
-                <div id="description">{!! $iship->internshipDescription !!}</div>
+                <div id="description">{!! $internship->internshipDescription !!}</div>
             </td>
         </tr>
-        <tr class="clickable-row" data-href="/listPeople/{{ $iship->arespid }}/info">
+        <tr class="clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
             <td class="col-md-2" colspan="2">Responsable administratif</td>
-            <td>{{ $iship->arespfirstname }} {{ $iship->aresplastname }}</td>
+            <td>{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</td>
         </tr>
-        <tr class="clickable-row" data-href="/listPeople/{{ $iship->intrespid }}/info">
+        <tr class="clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
             <td class="col-md-2" colspan="2">Responsable</td>
-            <td>{{ $iship->irespfirstname }} {{ $iship->iresplastname }}</td>
+            <td>{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</td>
         </tr>
         <tr>
             <td class="col-md-2" colspan="2">Maître de classe</td>
-            <td>{{ $iship->initials }}</td>
+            <td>
+                {{-- Display the teacher, if the internship is attributed --}}
+                @if (isset($internship->student))
+                    {{ $internship->student->flock->classMaster->initials }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td class="col-md-2" colspan="2">Etat</td>
-            <td>{{ $iship->stateDescription }}</td>
+            <td>
+                {{ $internship->contractState->stateDescription }}
+            </td>
         </tr>
         <tr>
             <td class="col-md-2" colspan="2">Salaire</td>
-            <td>{{ $iship->grossSalary }}</td>
+            <td>{{ $internship->grossSalary }}</td>
         </tr>
-        @if (isset($iship->previous_id))
+        @if (isset($internship->previous_id))
             <tr>
-                <td class="col-md-2" colspan="3"><a href="/internships/{{ $iship->previous_id }}/view">Stage précédent</a></td>
+                <td class="col-md-2" colspan="3">
+                    <a href="/internships/{{ $internship->previous_id }}/view">Stage précédent</a>
+                </td>
             </tr>
         @endif
     </table>
+
     {{-- Action buttons --}}
-    @if(substr($iship->contractGenerated,0,4) == "0000" || $iship->contractGenerated == null)
-        <a href="/contract/{{ $iship->id }}">
-            <button class="btn btn-primary">Générer le contrat</button>
-        </a>
+    {{-- Generate contract button --}}
+    @if(substr($internship->contractGenerated,0,4) == "0000" || $internship->contractGenerated == null)
+        {{-- We can only generate the contract if there is an attibuted student --}}
+        @if (isset($internship->student))
+            <a href="/contract/{{ $internship->id }}">
+                <button class="btn btn-primary">Générer le contrat</button>
+            </a>
+        @endif
     @else
-        <br> Contrat généré le : {{$iship->contractGenerated}}<br>
-        <a href="/contract/{{$iship->id}}/cancel">
+        {{-- Reset contract button --}}
+        <br> Contrat généré le : {{$internship->contractGenerated}}<br>
+        <a href="/contract/{{$internship->id}}/cancel">
             <button class="btn btn-danger">Réinitialiser</button>
         </a>
     @endif
+    {{-- Modify button --}}
     @if (env('USER_LEVEL') >= 1)
-        <a href="/internships/{{$iship->id}}/edit">
+        <a href="/internships/{{$internship->id}}/edit">
             <button class="btn btn-warning">Modifier</button>
         </a>
     @endif
+
+    {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>
         <table class="table text-left larastable">
@@ -93,6 +122,8 @@
             @endforeach
         </table>
     @endif @endif
+
+    {{-- Remarks --}}
     @if (isset($remarks)) @if (count($remarks) > 0)
         <hr/>
         <table class="table text-left larastable">
@@ -116,7 +147,7 @@
                         {{ $value->remarkText }}
                     </td>
                 </tr>
-        @endforeach
+            @endforeach
         </table>
     @endif @endif
 @stop

@@ -21,17 +21,21 @@ Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
 
 Route::get('/internships/{iid}/view','InternshipsController@view');
 
-Route::get('/internships/{iid}/edit','InternshipsController@edit');
+Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
-Route::get('/internships/{iid}/update','InternshipsController@update');
+Route::get('/internships/{iid}/update','InternshipsController@update')->name("updateInternships");
 
 Route::get('/internships/{iid}/addVisit','InternshipsController@addVisit');
 
 Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit');
 
-Route::get('/internships/{iid}/addRemark','InternshipsController@addRemark');
+Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
 
-Route::get('/admin', 'AdminController@index');
+Route::get('/internships/{iid}/new','InternshipsController@createInternship');
+
+Route::post('/internships/{iid}/create','InternshipsController@addInternship');
+
+Route::get('/admin','AdminController@index')->middleware('admin');
 
 Route::get('/about', function () {
     return view('about');
@@ -64,23 +68,21 @@ Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
 
 
 // Quentin N - Contract generation
-Route::get('/contract/{iid}', 'ContractController@generateContract');
+Route::get('/contract/{id}', 'ContractController@generateContract');
 
-Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
+Route::post('/contract/{id}/view', 'ContractController@visualizeContract')->name("viewContract");
 
-Route::post('/contract/{iid}/save', 'ContractController@saveContract');
+Route::post('/contract/{id}/save', 'ContractController@saveContract')->name("saveContract");
 
-Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
+Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
 // Steven
-
 Route::get('/synchro', 'SynchroController@index');
-
 Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-Route::post('/visits', 'VisitsController@changeFilter');
+Route::post('/visits','VisitsController@filter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
 Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
@@ -88,7 +90,7 @@ Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
-Route::get('/wishesMatrix', 'WishesMatrixController@index');
+Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');
 // Add by Benjamin Delacombaz 21.01.2018
 Route::post('/wishesMatrix', 'WishesMatrixController@save');
 
@@ -96,6 +98,8 @@ Route::post('/wishesMatrix', 'WishesMatrixController@save');
 Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
 Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
+// Logbook
+Route::get('/internships/{iid}/logbook', 'LogbookController@show');
 
 /**
  * Bastien - Evaluation grid
@@ -141,8 +145,6 @@ Route::post('/contact/delete','PeopleControlleur@deleteContact');
 Route::post('/contact/add','PeopleControlleur@addContact');
 Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 
-//
-
 
 //Julien - Grille d'évaluation - Modélisation
 Route::get('/editGrid', 'EditGridController@index');
@@ -152,3 +154,6 @@ Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
 Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
 Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
 Route::post('/editGrid/addSection', 'EditGridController@addSection');
+
+//Life cicle
+Route::get('/editlifecycle','LifeCycleController@index');

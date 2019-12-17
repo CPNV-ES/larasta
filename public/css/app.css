@@ -1,3 +1,100 @@
+body {
+  font-family: "Raleway", sans-serif;
+  color: #484B4D;
+}
+
+h1,
+h3,
+h4,
+h5,
+h6 {
+  color: #1E262C;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  font-size: 14px;
+}
+
+.lead-text {
+  font-size: 30px;
+  color: #6F7274;
+}
+
+.description-text {
+  font-size: 14px;
+  color: #1E262C;
+}
+
+button {
+  height: 30px;
+  min-width: 120px;
+  font-size: 14pt;
+  padding-left: 30pt;
+  padding-right: 30pt;
+  background-color: #009CDE;
+  color: white;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  background-color: #1E262C;
+}
+
+button:disabled {
+  background-color: #D1D5D8;
+  color: #D1D5D8;
+}
+
+.primaryCall {
+  background-color: #19AB20;
+}
+
+.secondary {
+  color: #1E262C;
+  background-color: white;
+  outline-color: #C1C5C7;
+}
+
+.secondary:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.secondary:active {
+  color: white;
+}
+
+.large-button {
+  height: 40px;
+  font-size: 16pt;
+}
+
 .version {
   font-size: 10px;
   color: #cccccc;
@@ -56,5 +153,128 @@
   background-color: #1E4F67;
   color: white;
   padding: 8px;
+}
+
+/*arrows
+found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.arrow.right {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.arrow.left {
+  -webkit-transform: rotate(135deg);
+          transform: rotate(135deg);
+}
+
+.arrow.up {
+  -webkit-transform: rotate(-135deg);
+          transform: rotate(-135deg);
+}
+
+.arrow.down {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.filters {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  width: 100%;
+}
+
+#filtersBoxButton {
+  border: 2px solid #ccc;
+  background-color: white;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 3px 10px 3px 10px;
+  margin-right: 15px;
+  font-size: 15px;
+  border-radius: 4px;
+  float: right;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+#filtersBoxButton > .arrow {
+  margin-left: 5px;
+}
+
+#filtersBoxButton > .arrow.down {
+  margin-bottom: 3px;
+}
+
+#expandedfilters {
+  -webkit-box-shadow: 0 0 5px #bbb;
+          box-shadow: 0 0 5px #bbb;
+  margin-top: 10px;
+}
+
+/*checkbox filters*/
+
+.onefilter {
+  display: inline-block;
+  width: 170px;
+  text-align: left;
+  padding-right: 10px;
+  padding-left: 10px;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+.onefilter > input[type=checkbox] {
+  display: none;
+}
+
+.onefilter > input[type=checkbox] + label {
+  /*label disabled*/
+  display: block;
+  width: 100%;
+  height: 29px;
+  line-height: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 2px solid #ccc;
+  background-color: white;
+  color: #666;
+  border-radius: 5px;
+  border-bottom-width: 3px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.onefilter > input[type=checkbox]:checked + label {
+  /*label enabled*/
+  background-color: #56aeff;
+  border-color: #3f92df;
+  color: white;
+  border-bottom-width: 2px;
+}
+
+.onefilter:active > input[type=checkbox] + label {
+  /*label click*/
+  border-bottom-width: 2px;
+  border-top-width: 3px;
 }
 
