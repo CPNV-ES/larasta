@@ -92,10 +92,17 @@ class WishesMatrixController extends Controller
      */
     public function save(Request $request)
     {
+        // validate the data
+        $data = $request->validate([
+            'dateEndWishes' => 'date|nullable',
+            'flockYear' => 'digits:2',
+        ]);
+
+
         // Do only if user is not student
         if (Environment::currentUser()->getLevel() > 0) {
             // Save the date
-            if ($request->input('dateEndWishes') != null) {
+            if (isset($data['dateEndWishes'])) {
                 // get the date saved in the database
                 $param = Params::getParamByName('dateEndWishes');
 
@@ -106,12 +113,12 @@ class WishesMatrixController extends Controller
                 }
 
                 // Update the date
-                $param->paramValueDate = $request->input('dateEndWishes');
+                $param->paramValueDate = $data['dateEndWishes'];
                 $param->save();
             }
 
             // Save the year to display
-            if ($request->input('flockYear') != null) {
+            if (isset($data['flockYear'])) {
                 // get the year saved in the database
                 $param = Params::getParamByName('wishesSelectedYear');
 
@@ -122,7 +129,7 @@ class WishesMatrixController extends Controller
                 }
 
                 // update the year
-                $param->paramValueInt = $request->input('flockYear');
+                $param->paramValueInt = $data['flockYear'];
                 $param->save();
             }
         }
