@@ -37,8 +37,10 @@ Database
 * Mise à jour du script de création de la BD pour ajouter le nouveau champ et regrouper certains stages
 
 Controleur WishesMatrixController
-* Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
-* Supression de l'ancienne méthode récupérant les entreprises
+* Ordonne les stages par ordre alphabétique de l'entreprise
+* Récupère les stages plutôt que les entreprises
+* Compte le nombre de places disponibles par stage parent
+    * Récupère l'id d'un stage enfant (ou celle du parent) non attribué
 
 Controleur InternshipsController
 * Remplacement de quelques dbquerries par des requetes Eloquent
@@ -51,7 +53,9 @@ seuls les stages dont il est responsable administratif sont affichés
 
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
-* Ajout d'un lien vers le stage
+* Regroupement des stages identiques
+* Affichage uniquement des stages non attribués
+* Affichage du nombre de places disponibles pour les stages ayant plus d'une place
 
 Vue internshipview
 * Utilisation d'Eloquent pour afficher les stages
@@ -62,11 +66,6 @@ Vue internshipedit
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
 ## A FAIRE
-Page de souhaits
-    * Regrouper stages
-    * N'afficher que les stages non attribués
-    * Le compte des stages ne doit indiquer le nombre de stages disponibless
-
 Modification de stage :
     * Possibilité de modifier le stage parent
     
