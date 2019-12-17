@@ -123,7 +123,9 @@ A faire - problème car pas possible pour l'instant d'assigner un stage à un é
 
 # Commit / Merge
 
-(Fait, le ...)
+Page de souhaits : commit 0b5ace01caaeff830327438ecdfa72d1fa6f0903, branche RegroupInternshipsV2
+
+(Fait, le 17.12.2019)
 
 # Revue de code
 
