@@ -48,6 +48,11 @@ Vue des personnes :
 
 (Terminé, le ...)
 
+# Exécution
+Etat au 17.12.2019 :
+* Discussion avec XCL des objectifs à atteindre et des moyens à utiliser
+* Etablissement de la fiche de quête
+
 # Tests
 
 (Terminés, le ...)
