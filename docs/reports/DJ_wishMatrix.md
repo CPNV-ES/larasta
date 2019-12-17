@@ -97,6 +97,10 @@ Modification : commit e511bde07a924c9de4d2193f69c8913fb36c3f3c, branche Damien
 
 (Fait, le 26.11.2019)
 
+Modification : commit b66a8d802cfe03fca3007846ced245ba58f0deca, branche validateWishMatrixData
+
+(Fait, le 10.12.2019)
+
 # Revue de code
 
 (Effectuée, le ...)
