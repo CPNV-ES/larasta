@@ -34,7 +34,7 @@ Vue :
 Database
 * Déplacement dans un dossier old les scripts SQL n'étant pas d'actualité
 * Mise à jour du schéma pour ajouter une nouvelle relation
-* Mise à jour du script de création de la BD pour ajouter le nouveau champ
+* Mise à jour du script de création de la BD pour ajouter le nouveau champ et regrouper certains stages
 
 Controleur WishesMatrixController
 * Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
@@ -62,18 +62,17 @@ Vue internshipedit
 * Correction d'un bug qui empêchait les stages auxquels l'élève n'a pas été attribué de s'afficher
 
 ## A FAIRE
-Ajout champ dans db
-    regrouper certains stages
-
 Page de souhaits
-    Regrouper stages
+    * Regrouper stages
+    * N'afficher que les stages non attribués
+    * Le compte des stages ne doit indiquer le nombre de stages disponibless
 
 Modification de stage :
-    * Possibilité de modifier le stage root
+    * Possibilité de modifier le stage parent
     
 Création de stage :
-    * Par défaut est son propre stage root
-    * Possibilité de sélectionner un autre stage racine
+    * Par défaut pas de stage parent
+    * Possibilité de sélectionner un stage parent
 
 ## A ETE ABANDONNE
 Database
@@ -100,7 +99,7 @@ Vue peopleEdit
 Vue visits
 * Modification des requetes Eloquent pour être compatible avec les stages séparés end eux tables
 
-Modèle Intership
+Modèle Internship
 * Suppression des champs déplacés dan la BD
 
 Modèle InternshipFamily
