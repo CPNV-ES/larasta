@@ -31,10 +31,16 @@ Vue :
 (Terminé, le ...)
 
 # Exécution
+Database
+* Déplacement dans un dossier old les scripts SQL n'étant pas d'actualité
+* Mise à jour du schéma pour ajouter une nouvelle relation
+* Mise à jour du script de création de la BD pour ajouter le nouveau champ et regrouper certains stages
 
 Controleur WishesMatrixController
-* Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
-* Supression de l'ancienne méthode récupérant les entreprises
+* Ordonne les stages par ordre alphabétique de l'entreprise
+* Récupère les stages plutôt que les entreprises
+* Compte le nombre de places disponibles par stage parent
+    * Récupère l'id d'un stage enfant (ou celle du parent) non attribué
 
 Controleur InternshipsController
 * Remplacement de quelques dbquerries par des requetes Eloquent
@@ -47,7 +53,9 @@ seuls les stages dont il est responsable administratif sont affichés
 
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
-* Ajout d'un lien vers le stage
+* Regroupement des stages identiques
+* Affichage uniquement des stages non attribués
+* Affichage du nombre de places disponibles pour les stages ayant plus d'une place
 
 Vue internshipview
 * Utilisation d'Eloquent pour afficher les stages
@@ -59,15 +67,18 @@ Vue internshipedit
 
 ## A FAIRE
 Modification de stage :
-    * Possibilité de modifier le stage root
+* Possibilité de modifier le stage parent
     
 Création de stage :
-    * Par défaut est son propre stage root
-    * Possibilité de sélectionner un autre stage racine
+* Par défaut pas de stage parent
+* Possibilité de sélectionner un stage parent
 
+Modification de stage :
+* Attribution d'un élève
+    * Doit générer des remarques
+        
 ## A ETE ABANDONNE
 Database
-* Déplacement dans un dossier old les scripts SQL n'étant pas d'actualité
 * Mise à jour du schéma pour séparer la table internship en internship/internshipfamily
 * Mise à jour du script de création de la BD pour ajouter la nouvelle table et séparer les données de stage selon les deux tables
 
@@ -91,7 +102,7 @@ Vue peopleEdit
 Vue visits
 * Modification des requetes Eloquent pour être compatible avec les stages séparés end eux tables
 
-Modèle Intership
+Modèle Internship
 * Suppression des champs déplacés dan la BD
 
 Modèle InternshipFamily
@@ -100,12 +111,21 @@ Modèle InternshipFamily
 
 # Tests
 
+Fait :
+- Je vais dans la pages souhaits (année 2019) on y voit 'IMD (2)' et 'HEIG-VD (2)'
+- Je clique sur 'IMD' -> j'arrive sur le premier stage
+
+A faire - problème car pas possible pour l'instant d'assigner un stage à un élève :
+- Je clique sur 'IMD' -> j'arrive sur le premier stage -> je l'édite et je lui assigne un élève -> je retourne dans les souhaits -> je ne vois plus que 'IMD' et les souhaits précédents sont toujours présents
+- Je vais dans les souhaits, je vois qu'il y a des souhaits posés pour HEIG-VD (2). Je passe par Entreprise>HEIG-VD>Stages pour assigner un stage à un élève. Quand je retourne dans wishlist, les autres souhaits sont toujours là
 
 (Terminés, le ...)
 
 # Commit / Merge
 
-(Fait, le ...)
+Page de souhaits : commit 0b5ace01caaeff830327438ecdfa72d1fa6f0903, branche RegroupInternshipsV2
+
+(Fait, le 17.12.2019)
 
 # Revue de code
 
@@ -123,10 +143,9 @@ il a été décidé simplement de rajouter un champ indiquant l'id du stage 'mai
 Bien que permettant la redondance de données, il été estimé que c'était la meilleure manière de résoudre le problème.
 
 Comportements anormaux détectés :
-* Générer le contrat (depuis la page stage) : erreur, ne trouve pas App\Companies
-* Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
-* Page personnes : n'affiche pas toutes les personnes
+* Page personnes : n'affiche pas toutes les personnes (Ex Erik Tagirov)
 * Page personne : ne fonctionne pas avec les enseignants (cas non defini)
-* Filtres : bouton illisible
+* Visites : qui est sélectionné par défaut ? (affiche Carrel dans la liste, mais n'affiche pas les visites de Carrel)
+* Boutons illisibles (blanc sur fond gris)
 
 (Mise à jour, le ...)
