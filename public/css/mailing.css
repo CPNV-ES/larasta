@@ -1,0 +1,57 @@
+.enterprises {
+  display: inline-block;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.delete {
+  color: black;
+}
+
+.delete:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.responsibles {
+  display: inline-block;
+  border-bottom: 1px solid black;
+}
+
+.responsible,
+.showDeletedResponsibles,
+.showDeletedEnterprises {
+  display: inline-block;
+  background: white;
+  border-radius: 5px;
+  padding: 3px;
+  margin-bottom: 3px;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+.responsible .delete,
+.showDeletedResponsibles .delete,
+.showDeletedEnterprises .delete {
+  color: red;
+}
+
+.responsible:hover,
+.showDeletedResponsibles:hover,
+.showDeletedEnterprises:hover {
+  background: #dfdfdf;
+  -webkit-box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32);
+          box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32);
+}
+
+.responsible:active,
+.showDeletedResponsibles:active,
+.showDeletedEnterprises:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+.showDeletedEnterprises {
+  margin-top: 10px;
+}
+

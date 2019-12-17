@@ -1,0 +1,49 @@
+.enterprises
+{
+  display: inline-block;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.delete
+{
+  color: black ;
+  &:hover
+  {
+    color: red ;
+    cursor: pointer;
+  }
+}
+
+.responsibles
+{
+  display: inline-block;
+  border-bottom: 1px solid black
+}
+
+.responsible, .showDeletedResponsibles, .showDeletedEnterprises
+{
+  display: inline-block;
+  background: white;
+  border-radius: 5px;
+  padding:3px;
+  margin-bottom: 3px;
+  -webkit-user-select: none;
+  cursor:pointer;
+  .delete{
+    color: red;
+  }
+  &:hover
+  {
+    background: #dfdfdf;
+    box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32) ;
+  }
+  &:active
+  {
+    transform: scale(0.95);
+  }
+}
+.showDeletedEnterprises
+{
+  margin-top: 10px;
+}

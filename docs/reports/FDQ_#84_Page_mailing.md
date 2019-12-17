@@ -20,16 +20,6 @@ De ce fait, nous souhaitons pouvoir les contacter en une seule fois.
 
 ### Description de la solution
 
-```
-/**
-* Décrire les changements proposés pour pallier aux manques.
-* Exemple:
-*  - Ajouter la date du dernier contrôle
-*  - Ajouter la date dans les listings de véhicules
-*  - Permettre de filtrer la liste de véhicule sur la date
-*  - Générer une alerte pour chaque véhicule quand la date est plus de deux ans dans le passé
-*/
-```
 - Créer une nouvelle page
 - Afficher une liste d'entreprises
  - Avec les responsables
@@ -37,8 +27,7 @@ De ce fait, nous souhaitons pouvoir les contacter en une seule fois.
 - Pouvoir choisir le responsable à qui nous souhaitons envoyer le mail
 - Pourvoir enlever les entreprises dont nous ne souhaitons pas contacter
 - Quand nous avons choisis les entreprises et les responsables:
-    - Afficher une page pour envoyer un mail
-    - Envoyer le mail
+    - ouvre notre application email avec la liste des destinataires
 
 (Terminé, le 11.12.19)
 
@@ -60,6 +49,19 @@ De ce fait, nous souhaitons pouvoir les contacter en une seule fois.
 
 ### Exécution
 
+ - Création de wireframes, visible sur l'issue.
+ 
+`17.12.2019`
+ - Mise en place de la page `mailing.blade.php`
+ - Ajout dans la page Admin d'un bouton pour la page mailing
+ - Création d'une route pour la page mailing
+ - Création d'une page SCSS
+ - Création d'un JS pour les différents événements
+ 
+ **TODO**
+  - Au re-affichage des entreprises, les responsables sont tous visibles
+  - Ajouter un bouton mailto
+  - Regarder pour une meilleure interface
 ```
 /**
 * Description de ce qui s'est vraiment passé. On repart du plan d'intervention.
@@ -76,6 +78,12 @@ De ce fait, nous souhaitons pouvoir les contacter en une seule fois.
 ### Tests
 
 Cette section sera remplie dès que le wireframe sera validé
+
+ - Afficher une liste d'entreprises
+ - Afficher une liste de responsable par entreprises
+ - Cliquer sur une croix cache bien l'élément
+ - Après l'éffacement d'un élément, affiche (+x élément(s))
+ - Cliquer sur (+x élément(s)) re-affiche toutes les données correspondantes
 
 ```
 /**

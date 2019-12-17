@@ -114,3 +114,6 @@ Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 
 //Life cicle
 Route::get('/editlifecycle','LifeCycleController@index');
+
+//Life cicle
+Route::get('/mailing','MailingController@index');
