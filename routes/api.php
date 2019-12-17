@@ -24,3 +24,5 @@ Route::get('/internships/logbook/activity/{activityId}', 'LogbookController@getA
 Route::post('/internships/{internshipId}/logbook/activities','LogbookController@addActivity');
 
 Route::put('/internships/logbook/activity/{activityId}', 'LogbookController@updateActivity');
+
+Route::delete('/internships/logbook/activity/{activityId}', 'LogbookController@deleteActivity');

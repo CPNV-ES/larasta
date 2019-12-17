@@ -16,7 +16,10 @@ class LogbookController extends Controller
     }
 
     public function getActivities($internshipId){
-        $activities = Logbook::where("internships_id", $internshipId)->with('activitytype')->get();
+        $activities = Logbook::where("internships_id", $internshipId)
+            ->with('activitytype')
+            ->orderBy("entryDate", "asc")
+            ->get();
         return $activities;
     }
     public function getActivity($activityId){
@@ -24,12 +27,29 @@ class LogbookController extends Controller
         return $activity;
     }
     public function addActivity(Request $request, $internshipId){
-        dd($internshipId, $request);
-        return false;
+        //create and save new activity
+        $newActivity = Logbook::fromRequest($internshipId, $request);
+        $newActivity->save();
+        return $newActivity;
     }
-    public function updateActivity(Request $request, $activityId){
-        echo "sdagdashd";
-        dd($activityId, $request);
-        return false;
+    public function updateActivity($activityId){
+        //parses PUT body content into $dataRequest
+        parse_str(file_get_contents('php://input'), $dataArray);
+        $dataRequest = (object)$dataArray;
+
+        //update activity
+        $activity = self::getActivity($activityId)
+            ->applyData($dataRequest);
+        $activity->save();
+
+        return $activity;
+    }
+    public function deleteActivity($activityId){
+        $activity = self::getActivity($activityId);
+        if(!$activity){
+            return ["state" => "error", "error" => "activity is undefined"];
+        }
+        $activity->delete();
+        return ["state" => "success", "id" => $activityId];
     }
 }

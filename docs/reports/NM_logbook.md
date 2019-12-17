@@ -76,6 +76,12 @@ Les idées:
 - Added post api route for `/internships/-internshipId-/logbook/activities`  
 - Added put api route for `/api/internships/logbook/activity/-activityId-`  
 
+**17.12.2019**  
+- Added put data getter + call for `/api/internships/logbook/activity/-activityId-`
+- Added post api call for `/internships/-internshipId-/logbook/activities`  
+- Added delete api route + call for `/api/internships/logbook/activity/-activityId-`
+- Started addition of the callApi method in utils.js
+
 # Exécution
 
 ## Tests
