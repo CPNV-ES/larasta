@@ -31,6 +31,10 @@ Vue :
 (Terminé, le ...)
 
 # Exécution
+Database
+* Déplacement dans un dossier old les scripts SQL n'étant pas d'actualité
+* Mise à jour du schéma pour ajouter une nouvelle relation
+* Mise à jour du script de création de la BD pour ajouter le nouveau champ
 
 Controleur WishesMatrixController
 * Création d'une méthode récupérant tous les stages, les triant par ordre alphabétique de l'entreprise
@@ -59,9 +63,7 @@ Vue internshipedit
 
 ## A FAIRE
 Ajout champ dans db
-    schema
-    script db
-    data
+    regrouper certains stages
 
 Page de souhaits
     Regrouper stages
@@ -75,7 +77,6 @@ Création de stage :
 
 ## A ETE ABANDONNE
 Database
-* Déplacement dans un dossier old les scripts SQL n'étant pas d'actualité
 * Mise à jour du schéma pour séparer la table internship en internship/internshipfamily
 * Mise à jour du script de création de la BD pour ajouter la nouvelle table et séparer les données de stage selon les deux tables
 
