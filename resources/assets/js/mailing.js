@@ -20,11 +20,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // on click, we show all hidden people on enterprise
         showDeletedResponsibles.addEventListener("click", function (event) {
             var responsiblesELem = showDeletedResponsibles.parentElement;
-            var responsiblesElems = responsiblesELem.getElementsByClassName("d-none");
-            //because js update dynamically the array
-            while(responsiblesElems[0]){
-                responsiblesElems[0].classList.remove("d-none");
-            }
+            var responsiblesElems = responsiblesELem.querySelectorAll(".d-none");
+            //remove d-none on all elements
+            responsiblesElems.forEach(function (elem) {
+                elem.classList.remove("d-none");
+            });
             showDeletedResponsibles.classList.add("d-none");
         });
     });
