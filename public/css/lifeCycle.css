@@ -1,0 +1,27 @@
+.selected {
+  background-color: lightgreen;
+}
+
+.th {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  position: relative;
+  bottom: 20px;
+  border-bottom: solid 1px lightgray;
+}
+
+table {
+  margin-top: 50px;
+}
+
+th {
+  height: 30px;
+  width: 100px;
+  border-style: none;
+  background-color: white;
+}
+
+td {
+  white-space: nowrap;
+}
+

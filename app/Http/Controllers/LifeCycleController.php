@@ -15,8 +15,8 @@ class LifeCycleController extends Controller
         $nameCicle = Contractstate::all();
         return view('lifeCycle/lifecycleedit')->with(
             [
-                'lifecicle' => $lifecicle,
-                'namecicle' => $nameCicle,
+                'lifecycle' => $lifecicle,
+                'namecycle' => $nameCicle,
             ]
         );
 
