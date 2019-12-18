@@ -80,62 +80,66 @@ module.exports = __webpack_require__(21);
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    /*
+     * Responsibles events
+     */
     //all elements with responsible class and on click we add d-none class
     document.getElementsByClassName("responsible").forEach(function (responsible) {
         responsible.addEventListener("click", function (event) {
-            responsible.classList.add("d-none");
 
-            var responsiblesELem = responsible.parentElement;
-            var showDelElem = responsiblesELem.querySelector(".showDeletedResponsibles");
-
-            //remove d-none at the parent and show the number of people hidden
-            showDelElem.classList.remove("d-none");
-            var nbElemHidden = responsiblesELem.getElementsByClassName('d-none').length;
-            showDelElem.innerText = "(" + nbElemHidden + " Personne(s) supprim\xE9e(s))";
+            cancelButtom(responsible, "showDeletedResponsibles", "d-none", "Personne(s) supprimée(s)", "d-none");
         });
     });
     //all elements with showDeletedResponsibles class
     document.getElementsByClassName("showDeletedResponsibles").forEach(function (showDeletedResponsibles) {
         // on click, we show all hidden people on enterprise
-        showDeletedResponsibles.addEventListener("click", function (event) {
-            var responsiblesELem = showDeletedResponsibles.parentElement;
-            var responsiblesElems = responsiblesELem.getElementsByClassName("d-none");
-            //because js update dynamically the array
-            while (responsiblesElems[0]) {
-                responsiblesElems[0].classList.remove("d-none");
-            }
-            showDeletedResponsibles.classList.add("d-none");
+
+        showDeletedResponsibles.addEventListener("click", function () {
+            HiddenItems(showDeletedResponsibles, ".d-none", "d-none");
         });
     });
-
+    /*
+     * enterprises events
+     */
     //all elements with enterprise class
     document.querySelectorAll(".enterprise>.delete").forEach(function (enterprise) {
         //add d-none class on click each enterprise
         enterprise.addEventListener("click", function (event) {
             var enterpriseElem = enterprise.parentElement;
-            enterpriseElem.classList.add("d-none");
-
-            var enterprisesElem = enterpriseElem.parentElement;
-            var showDelElem = enterprisesElem.querySelector(".showDeletedEnterprises");
-
-            //remove d-none at the parent and show the number of people hidden
-            showDelElem.classList.remove("d-none");
-            var nbElemHidden = enterprisesElem.querySelectorAll('.enterprise.d-none').length;
-            showDelElem.innerText = "(" + nbElemHidden + " entrepise(s) supprim\xE9e(s))";
+            cancelButtom(enterpriseElem, "showDeletedEnterprises", "d-none", "entrepise(s) supprimée(s)", "enterprise.d-none");
         });
     });
     //all elements with showDeletedEnterprises class
     document.getElementsByClassName("showDeletedEnterprises").forEach(function (showDeletedEnterprises) {
         // on click, we show all hidden people on enterprise
-        showDeletedEnterprises.addEventListener("click", function (event) {
-            var enterprisesElem = showDeletedEnterprises.parentElement;
-            var enterprisesElems = enterprisesElem.querySelectorAll(".enterprise.d-none");
-            enterprisesElems.forEach(function (elem) {
-                elem.classList.remove("d-none");
-            });
-            showDeletedEnterprises.classList.add("d-none");
+        showDeletedEnterprises.addEventListener("click", function () {
+            HiddenItems(showDeletedEnterprises, ".enterprise.d-none", "d-none");
         });
     });
+    function cancelButtom(element, elemClass, classToAddOrRemove, message, classElemToCount) {
+        element.classList.add(classToAddOrRemove);
+
+        var parentElem = element.parentElement;
+        var showDelElem = parentElem.querySelector("." + elemClass);
+
+        //remove d-none at the parent and show the number of people hidden
+        showDelElem.classList.remove(classToAddOrRemove);
+        var nbElemHidden = parentElem.querySelectorAll("." + classElemToCount).length;
+        showDelElem.innerText = "(" + nbElemHidden + "  " + message + ")";
+    }
+    //Hidde elements with specific class
+    //element = what's element have your class
+    //elemClass = class of your element
+    //elemToRemoveOrAdd = element to remove and add on element var
+    function HiddenItems(element, elemClass, elemToRemoveOrAdd) {
+        var parentElem = element.parentElement;
+        var childElems = parentElem.querySelectorAll(elemClass);
+        childElems.forEach(function (childElem) {
+            //remove d-none on all elements
+            childElem.classList.remove(elemToRemoveOrAdd);
+        });
+        element.classList.add(elemToRemoveOrAdd);
+    }
 });
 
 /***/ })
