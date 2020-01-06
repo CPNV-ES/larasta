@@ -33,13 +33,17 @@ class LogbookController extends Controller
         return $newActivity;
     }
     public function updateActivity($activityId){
-        //parses PUT body content into $dataRequest
+        //parses PUT body content into $dataArray
         parse_str(file_get_contents('php://input'), $dataArray);
         $dataRequest = (object)$dataArray;
 
         //update activity
-        $activity = self::getActivity($activityId)
-            ->applyData($dataRequest);
+        $activity = self::getActivity($activityId);
+        if(!$activity){
+            abort(400, "invalid id");
+            return;
+        }
+        $activity->applyData($dataRequest);
         $activity->save();
 
         return $activity;
