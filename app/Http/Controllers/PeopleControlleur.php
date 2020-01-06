@@ -152,7 +152,7 @@ class PeopleControlleur extends Controller
         // Read Contact info from DB
         $contacts = DB::table('contactinfos')
             ->join('contacttypes', 'contacttypes.id', '=', 'contactinfos.contacttypes_id')
-            ->select('contactinfos.id','icon','value')
+            ->select('contactinfos.id','iconName','value')
             ->where('persons_id','=',$id)
             ->get();
 
