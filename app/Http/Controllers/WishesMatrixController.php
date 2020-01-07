@@ -209,7 +209,15 @@ class WishesMatrixController extends Controller
         // get old wishes of the student
         $oldWishes = $student->wishes->all();
 
+
+        // validate the data
+        $data = $request->validate([
+            'choices' => 'required|json',
+        ]);
+
         // TODO get new wishes from request
+        $wishes = $data['wishes'];
+        dd($wishes);
 
         // TODO compare wishes
 
@@ -225,6 +233,7 @@ class WishesMatrixController extends Controller
 
         // return to the wishMatrix view
         // return redirect('/wishesMatrix');
+        return redirect('/index');
     }
 
     /**

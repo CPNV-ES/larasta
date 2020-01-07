@@ -76,7 +76,7 @@
                                         <!-- Student -->
                                     @if ($currentUser->getId() == $person->id)
                                         <td class="clickableCase currentStudent">
-                                            @else
+                                    @else
                                         <td class="clickableCase">
                                         @endif
                                         @endif
@@ -135,11 +135,11 @@
     <!-- Save choices, students only -->
     <!-- Check if current user is a student -->
     @if ($currentUser->getLevel() == 0)
-        <form action="/updateWishes" method="post">
+        <form id="choicesForm" action="/updateWishes" method="post">
             <!-- Necessary in order to validate the POST-->
         {{ csrf_field() }}
 
-            <!-- modifications, hidden -->
+        <!-- modifications, hidden -->
             <textarea id="choices" hidden></textarea>
 
             <!-- Submit button -->
