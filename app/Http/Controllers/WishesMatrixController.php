@@ -35,7 +35,8 @@ class WishesMatrixController extends Controller
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // List of all possible parent internships, having an internship starting this year
-        $parentInternships = Internship::whereYear('beginDate', '=', date('Y'))
+        // For testing : date('Y') - 1
+        $parentInternships = Internship::whereYear('beginDate', '=', date('Y') - 1)
             ->whereNull('parent_id')
             ->get()
             ->sortBy(function ($internship) {
@@ -43,7 +44,8 @@ class WishesMatrixController extends Controller
             });
 
         // list of all non attributed internships, starting this year, having the contract state Confirmé or Reconduit
-        $internshipsToDisplay = Internship::whereYear('beginDate', '=', date('Y'))
+        // For testing : date('Y') - 1
+        $internshipsToDisplay = Internship::whereYear('beginDate', '=', date('Y') -1)
             ->whereHas('contractstate', function ($query) {
                 $query->where('stateDescription', 'Confirmé')
                     ->orWhere('stateDescription', 'Reconduit');
