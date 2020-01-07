@@ -72,20 +72,24 @@
                             @if ($currentUser->getLevel() != 0)
                                 <!-- Give extra classes to teacher -->
                                     <td class="clickableCase locked teacher">
-                                @else
-                                    <td class="clickableCase">
-                                    @endif
+                                    @else
+                                        <!-- Student -->
+                                    @if ($currentUser->getId() == $person->id)
+                                        <td class="clickableCase currentStudent">
+                                            @else
+                                        <td class="clickableCase">
+                                        @endif
+                                        @endif
 
-                                    <!-- If student person has a wish for this internship, display the rank -->
-                                        @foreach($person->wishes as $wish)
-                                            @if($wish->internship->id == $internship->id)
-                                                {{ $wish->rank }}
-                                            @endif
+                                        <!-- If student person has a wish for this internship, display the rank -->
+                                            @foreach($person->wishes as $wish)
+                                                @if($wish->internship->id == $internship->id)
+                                                    {{ $wish->rank }}
+                                                @endif
+                                            @endforeach
+                                        </td>
                                         @endforeach
-                                    </td>
-                                    @endforeach
-                                    @endforeach
-
+                                        @endforeach
                     </tr>
                 @endif
             @endforeach
