@@ -86,14 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
     //all elements with responsible class and on click we add d-none class
     document.getElementsByClassName("responsible").forEach(function (responsible) {
         responsible.addEventListener("click", function (event) {
-
-            cancelButtom(responsible, "showDeletedResponsibles", "d-none", "Personne(s) supprimée(s)", "d-none");
+            showCancelButtom(responsible, "showDeletedResponsibles", "d-none", "Personne(s) supprimée(s)", "d-none");
         });
     });
     //all elements with showDeletedResponsibles class
     document.getElementsByClassName("showDeletedResponsibles").forEach(function (showDeletedResponsibles) {
         // on click, we show all hidden people on enterprise
-
         showDeletedResponsibles.addEventListener("click", function () {
             HiddenItems(showDeletedResponsibles, ".d-none", "d-none");
         });
@@ -106,39 +104,45 @@ document.addEventListener("DOMContentLoaded", function () {
         //add d-none class on click each enterprise
         enterprise.addEventListener("click", function (event) {
             var enterpriseElem = enterprise.parentElement;
-            cancelButtom(enterpriseElem, "showDeletedEnterprises", "d-none", "entrepise(s) supprimée(s)", "enterprise.d-none");
+            showCancelButtom(enterpriseElem, "showDeletedEnterprises", "d-none", "entrepise(s) supprimée(s)", "enterprise.d-none");
         });
     });
     //all elements with showDeletedEnterprises class
-    document.getElementsByClassName("showDeletedEnterprises").forEach(function (showDeletedEnterprises) {
-        // on click, we show all hidden people on enterprise
-        showDeletedEnterprises.addEventListener("click", function () {
-            HiddenItems(showDeletedEnterprises, ".enterprise.d-none", "d-none");
+    var showDeletedEnterprises = document.querySelector(".showDeletedEnterprises");
+    // on click, we show all hidden people on enterprise
+    showDeletedEnterprises.addEventListener("click", function () {
+        // re-show all responsible of hidden enterprises
+        showDeletedEnterprises.parentElement.querySelectorAll('.showDeletedResponsibles').forEach(function (showDeletedResponsibles) {
+            showDeletedResponsibles.click();
         });
+
+        HiddenItems(showDeletedEnterprises, ".enterprise.d-none", "d-none");
     });
-    function cancelButtom(element, elemClass, classToAddOrRemove, message, classElemToCount) {
+
+    //remove d-none of element and count the number of hidden to message
+    function showCancelButtom(element, elemClass, classToAddOrRemove, message, classElemToCount) {
         element.classList.add(classToAddOrRemove);
 
         var parentElem = element.parentElement;
-        var showDelElem = parentElem.querySelector("." + elemClass);
+        var showDelElem = parentElem.parentElement.querySelector("." + elemClass);
 
         //remove d-none at the parent and show the number of people hidden
         showDelElem.classList.remove(classToAddOrRemove);
         var nbElemHidden = parentElem.querySelectorAll("." + classElemToCount).length;
         showDelElem.innerText = "(" + nbElemHidden + "  " + message + ")";
     }
-    //Hidde elements with specific class
+    //Hide elements with specific class
     //element = what's element have your class
     //elemClass = class of your element
-    //elemToRemoveOrAdd = element to remove and add on element var
-    function HiddenItems(element, elemClass, elemToRemoveOrAdd) {
+    //classToRemoveOrAdd = element to remove and add on element var
+    function HiddenItems(element, elemClass, classToRemoveOrAdd) {
         var parentElem = element.parentElement;
         var childElems = parentElem.querySelectorAll(elemClass);
         childElems.forEach(function (childElem) {
             //remove d-none on all elements
-            childElem.classList.remove(elemToRemoveOrAdd);
+            childElem.classList.remove(classToRemoveOrAdd);
         });
-        element.classList.add(elemToRemoveOrAdd);
+        element.classList.add(classToRemoveOrAdd);
     }
 });
 
