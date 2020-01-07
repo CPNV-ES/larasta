@@ -85,7 +85,7 @@ Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
 
-// WishMatrix
+// WishesMatrix
 Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');
 Route::post('/wishesMatrix', 'WishesMatrixController@save');
 Route::post('/updateWishes', 'WishesMatrixController@saveWishes');

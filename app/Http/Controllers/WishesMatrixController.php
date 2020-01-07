@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Flock;
 use App\Internship;
+use App\Person;
 use App\Params;
 
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class WishesMatrixController extends Controller
 
         // list of all non attributed internships, starting this year, having the contract state Confirmé or Reconduit
         // For testing : date('Y') - 1
-        $internshipsToDisplay = Internship::whereYear('beginDate', '=', date('Y') -1)
+        $internshipsToDisplay = Internship::whereYear('beginDate', '=', date('Y') - 1)
             ->whereHas('contractstate', function ($query) {
                 $query->where('stateDescription', 'Confirmé')
                     ->orWhere('stateDescription', 'Reconduit');
@@ -193,10 +194,37 @@ class WishesMatrixController extends Controller
      * @param Request $request : POST request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function saveWishes(Request $request) {
+    public function saveWishes(Request $request)
+    {
+        $currentUser = Environment::currentUser();
+
+        // Only students should be able to save their wishes
+        if ($currentUser->getLevel() != 0) {
+            return redirect('/wishesMatrix');
+        }
+
+        $studentId = $currentUser->getId();
+        $student = Person::find($studentId);
+
+        // get old wishes of the student
+        $oldWishes = $student->wishes->all();
+
+        // TODO get new wishes from request
+
+        // TODO compare wishes
+
+        // TODO add new wishes
+
+        // TODO update wishes ranks if necessary
+
+        // TODO delete old wishes
+
+        // TODO create log for student
+
+        // TODO create log for wishes
 
         // return to the wishMatrix view
-        return redirect('/wishesMatrix');
+        // return redirect('/wishesMatrix');
     }
 
     /**
