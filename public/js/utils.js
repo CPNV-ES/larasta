@@ -9,6 +9,19 @@ Element.prototype.addElement = function(type, className = ""){
     newElement.setAttribute('class', className);
     return newElement;
 };
+//get Monday to sunday day number (monday is 0)
+Date.prototype.getMoSuDay = function(){
+    var currentDay = this.getDay();
+    if(currentDay === 0){
+        return 6;
+    }
+    return currentDay - 1;
+};
+Date.prototype.getMoSuWeek = function(){
+    var currentStamp = this.getTime();
+    var currentDayIndex = this.getMoSuDay();
+    console.warn("not functionnal");
+};
 
 var Utils = {};
 
@@ -59,8 +72,12 @@ Utils.queryEncode = function(queryData){
 	var encodedStr = ""
 	for(var key in queryData){
 		encodedStr += encodeURIComponent(key);
-		encodedStr += "=";
-		encodedStr += encodeURIComponent(queryData[key]);
+        encodedStr += "=";
+        if(typeof queryData[key] == "string" || typeof queryData[key] == "number"){
+            encodedStr += encodeURIComponent((queryData[key])); //is value
+        } else {
+            encodedStr += encodeURIComponent(JSON.stringify(queryData[key])); //is json struct
+        }
 		encodedStr += "&"
 	}
 	return encodedStr.slice(0, -1);
