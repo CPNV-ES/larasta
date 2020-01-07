@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call(VisitsSeeder::class);
         // $this->call(UsersTableSeeder::class);
         $this->call([
+            ContacttypeTableSeeder::class,
             InternshipsSeeder::class
-            ]);
+          ]);
     }
 }

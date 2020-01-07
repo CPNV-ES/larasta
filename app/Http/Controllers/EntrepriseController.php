@@ -27,7 +27,7 @@ class EntrepriseController extends Controller
         $company = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->join('contracts', 'contracts_id','=', 'contracts.id')
-            ->select('companies.id','companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
+            ->select('companies.id', 'companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
             ->where('companies.id',$id)
             ->get();
 
@@ -53,7 +53,6 @@ class EntrepriseController extends Controller
             ->where('remarkType',1)
             ->where('remarkOn_id', $id)
             ->get();
-
 
         return view('/entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'persons' => $persons, 'contacts' => $contacts,  'iships'=>$iships, 'remarks'=>$remarks, 'message'=>$msg, 'contracts' => $eType]);
     }
