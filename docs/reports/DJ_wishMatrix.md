@@ -42,6 +42,7 @@ permettant de sélectionner l'année.
     - Ajout d'une entité contenant l'année sélectionnée
 - Controleur WishesMatrixController :
     - Ajout de fonctions pour interagir avec la base de données
+    - Validation des données
     - Envoi à la vue des années affichables, de l'année sélectionnée, et des classes à afficher
     - Redirection après réception des données vers la page de souhaits
 - Vue wishesMatrix
@@ -71,7 +72,6 @@ Améliorations à faire dans de nouvelles tâches
  - Meilleure distinction visuelle entre les deux classes
 
 
-
 # Tests
 Création de nouvelles classes avec des étudiants dans une nouvelle année.
 - La nouvelle année apparait dans le menu déroulant
@@ -96,6 +96,10 @@ commit 251dd32950b846c22bafa38557f6676c62ec2596, branche Damien
 Modification : commit e511bde07a924c9de4d2193f69c8913fb36c3f3c, branche Damien
 
 (Fait, le 26.11.2019)
+
+Modification : commit b66a8d802cfe03fca3007846ced245ba58f0deca, branche validateWishMatrixData
+
+(Fait, le 10.12.2019)
 
 # Revue de code
 

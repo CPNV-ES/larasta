@@ -50,37 +50,44 @@
             </tr>
 
             <!-- Display the internships and their wishes -->
-            @foreach ($internships as $internship)
-                <tr>
-                    <td>
-                    {{-- Display the company of the internship, with a link to the internship --}}
-                    <!-- Link to previous internship -->
-                        <a href="/internships/{{ $internship->id }}/view">
-                            {{ $internship->company->companyName }}
-                        </a>
-                    </td>
+        @foreach ($parentInternships as $internship)
+            <!-- Do not display a group if all internships are attributed -->
+                @if($placesQuantities[$internship->id] >= 1 )
+                    <tr>
+                        <td>
+                            {{-- Display the company of the internship, with a link to the first available internship --}}
+                            <a href="/internships/{{ $childIds[$internship->id] }}/view">
+                                {{ $internship->company->companyName }}
 
-                    <!-- Create the clickable case for each person -->
-                @foreach ($flocks as $flock)
-                    @foreach ($flock->students as $person)
-                        @if ($currentUser->getLevel() != 0)
-                            <!-- Give extra classes to teacher -->
-                                <td class="clickableCase locked teacher">
-                            @else
-                                <td class="clickableCase">
+                                {{-- Display the number of available internships, if that number is greater than 1 --}}
+                                @if($placesQuantities[$internship->id] >= 2)
+                                    ({{ $placesQuantities[$internship->id] }})
                                 @endif
+                            </a>
+                        </td>
 
-                                <!-- If student person has a wish for this internship, display the rank -->
-                                    @foreach($person->wishes as $wish)
-                                        @if($wish->internship->id == $internship->id)
-                                            {{ $wish->rank }}
-                                        @endif
+                        <!-- Create the clickable case for each person -->
+                    @foreach ($flocks as $flock)
+                        @foreach ($flock->students as $person)
+                            @if ($currentUser->getLevel() != 0)
+                                <!-- Give extra classes to teacher -->
+                                    <td class="clickableCase locked teacher">
+                                @else
+                                    <td class="clickableCase">
+                                    @endif
+
+                                    <!-- If student person has a wish for this internship, display the rank -->
+                                        @foreach($person->wishes as $wish)
+                                            @if($wish->internship->id == $internship->id)
+                                                {{ $wish->rank }}
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     @endforeach
-                                </td>
-                                @endforeach
-                                @endforeach
+                                    @endforeach
 
-                </tr>
+                    </tr>
+                @endif
             @endforeach
         </table>
 

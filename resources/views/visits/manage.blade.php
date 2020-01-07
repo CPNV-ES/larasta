@@ -87,23 +87,6 @@
     @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
         <button id="edit" class="btn-info hideb">Editer</button>
         <button id="bmail" class="btn-success hideb">Envoyer un e-mail</button>{{-- Link to evaluation--}}
-        @switch(\App\Http\Controllers\EvalController::getEvalState($visit->id))
-            @case(1)
-            <a href="/evalgrid/neweval/{{ $visit->id }}">
-                <button class="beval btn-primary hideb">Démarrer l'évaluation</button>
-            </a>
-            @break
-            @case(2)
-            <a href="/evalgrid/grid/edit/{{ $visit->id }}">
-                <button class="beval btn-warning hideb">Reprendre l'évaluation</button>
-            </a>
-            @break
-            @case(3)
-            <a href="/evalgrid/grid/readonly/{{ $eval->id }}">
-                <button class="beval btn-secondary hideb">Afficher l'évaluation</button>
-            </a>
-            @break
-        @endswitch
     @endif
     <div class="text-left">
         <p id="pdone" class="hidden done hidea">Supprimer la visite de stage <span class="text-danger">Irréversible !</span></p>

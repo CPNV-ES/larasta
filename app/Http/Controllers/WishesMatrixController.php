@@ -34,9 +34,54 @@ class WishesMatrixController extends Controller
         $currentUser = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        // Get internships to display
-        // ??? Update function to work with other years ???
-        $internships = $this->getInternships();
+        // List of all possible parent internships, having an internship starting this year
+        $parentInternships = Internship::whereYear('beginDate', '=', date('Y'))
+            ->whereNull('parent_id')
+            ->get()
+            ->sortBy(function ($internship) {
+                return $internship->company->companyName;
+            });
+
+        // list of all non attributed internships, starting this year, having the contract state Confirmé or Reconduit
+        $internshipsToDisplay = Internship::whereYear('beginDate', '=', date('Y'))
+            ->whereHas('contractstate', function ($query) {
+                $query->where('stateDescription', 'Confirmé')
+                    ->orWhere('stateDescription', 'Reconduit');
+            })
+            ->whereNull('intern_id')
+            ->get();
+
+        // Count, for each parent internship, the number of non attributed internships of its group
+        $placesQuantities = array();
+
+        // Get an id of a non attributed internship of the group (can be the d of the parent),
+        // used to give the link to the non attributed internship
+        $childIds = array();
+
+        // Initialize the count to 0
+        foreach ($parentInternships as $parentInternship) {
+            $placesQuantities[$parentInternship->id] = 0;
+        }
+
+        // Compute the count, and get the child id to display
+        foreach ($internshipsToDisplay as $internshipToDisplay) {
+            // if the internship is a parent
+            if (is_null($internshipToDisplay->parent_id)) {
+                // increment its own count
+                $placesQuantities[$internshipToDisplay->id] += 1;
+
+                // update the chils id
+                $childIds[$internshipToDisplay->id] = $internshipToDisplay->id;
+
+                // if the internship is a child
+            } else {
+                // increment its parent count
+                $placesQuantities[$internshipToDisplay->parent_id] += 1;
+
+                // update the child id
+                $childIds[$internshipToDisplay->parent_id] = $internshipToDisplay->id;
+            }
+        }
 
         // Get the selected year, and all classes from that year
         $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
@@ -74,7 +119,9 @@ class WishesMatrixController extends Controller
 
         return view('wishesMatrix/wishesMatrix')
             ->with([
-                'internships' => $internships,
+                'parentInternships' => $parentInternships,
+                'placesQuantities' => $placesQuantities,
+                'childIds' => $childIds,
                 'currentUser' => $currentUser,
                 'dateEndWishes' => $dateEndWishes,
                 'selectedYear' => $selectedFlockYear,
@@ -92,10 +139,17 @@ class WishesMatrixController extends Controller
      */
     public function save(Request $request)
     {
+        // validate the data
+        $data = $request->validate([
+            'dateEndWishes' => 'date|nullable',
+            'flockYear' => 'digits:2',
+        ]);
+
+
         // Do only if user is not student
         if (Environment::currentUser()->getLevel() > 0) {
             // Save the date
-            if ($request->input('dateEndWishes') != null) {
+            if (isset($data['dateEndWishes'])) {
                 // get the date saved in the database
                 $param = Params::getParamByName('dateEndWishes');
 
@@ -106,12 +160,12 @@ class WishesMatrixController extends Controller
                 }
 
                 // Update the date
-                $param->paramValueDate = $request->input('dateEndWishes');
+                $param->paramValueDate = $data['dateEndWishes'];
                 $param->save();
             }
 
             // Save the year to display
-            if ($request->input('flockYear') != null) {
+            if (isset($data['flockYear'])) {
                 // get the year saved in the database
                 $param = Params::getParamByName('wishesSelectedYear');
 
@@ -122,33 +176,13 @@ class WishesMatrixController extends Controller
                 }
 
                 // update the year
-                $param->paramValueInt = $request->input('flockYear');
+                $param->paramValueInt = $data['flockYear'];
                 $param->save();
             }
         }
 
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
-    }
-
-    /**
-     * Get all the internships with state 'Reconduit' or 'Confirmé' in the current year,
-     * ordered by the name of the company
-     *
-     * @return mixed : list of internships
-     */
-    private function getInternships()
-    {
-        $internships = Internship::whereYear('beginDate', '=', date('Y'))
-            ->whereHas('contractstate', function ($query) {
-                $query->where('stateDescription', 'Confirmé')
-                    ->orWhere('stateDescription', 'Reconduit');
-            })
-            ->get()
-            ->sortBy(function ($internship) {
-                return $internship->company->companyName;
-            });
-        return $internships;
     }
 
     /**
