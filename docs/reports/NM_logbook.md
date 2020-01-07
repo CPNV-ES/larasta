@@ -82,6 +82,9 @@ Les idées:
 - Added delete api route + call for `/api/internships/logbook/activity/-activityId-`
 - Started addition of the callApi method in utils.js
 
+**07.01.2020**
+- Continued frontend -> estimation 2-3 weeks
+
 # Exécution
 
 ## Tests

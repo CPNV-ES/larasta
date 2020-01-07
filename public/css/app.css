@@ -193,7 +193,7 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
           flex-direction: row;
   flex-wrap: wrap;
   -webkit-box-pack: start;
-          justify-content: start;
+          justify-content: flex-start;
   width: 100%;
 }
 
