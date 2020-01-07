@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/minimal.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="/js/my.js"></script>
+    <script src="/js/utils.js"></script>
     <script src="/js/ckeditor.js"></script>
 
     @yield('page_specific_css')
