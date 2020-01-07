@@ -1,6 +1,7 @@
 
-lockTable.addEventListener("click",function(event){
+Status = [...document.getElementsByClassName("selected")];
 
+lockTable.addEventListener("click",function(event){
     if(lockTable.className == "lock" ){
         lockTable.src = "/images/open-padlock-silhouette_32x32.png";
         unlock();
@@ -27,6 +28,37 @@ function unlock(){
 
 function toggleSelected(event){
     event.target.classList.toggle("selected");
+    save();
 }
 
+Submit.addEventListener("click",get);
+
+function save(){
+    DifferentStatus = document.getElementsByClassName("selected");
+    console.log(DifferentStatus);
+    console.log(Status);
+    for(var i=0;i<DifferentStatus.length;i++){
+        if(DifferentStatus[i] != Status[i]){
+            Submit.classList.remove("d-none");
+            break;
+        }
+        Submit.classList.add("d-none");
+    }
+}
+
+function get(){
+    DataArray = {};
+    document.getElementsByClassName("selected").forEach(function(elem){
+        Lifecicle = {from : elem.getAttribute("data-from"), to : elem.getAttribute("data-to")};
+        DataArray.push(Lifecicle);
+    });
+    $.ajax({
+        url:'/api/editlifecycle',
+        type: 'POST',
+        dataType:'json',
+        contentType: 'json',
+        data: JSON.stringify(DataArray),
+        contentType: 'application/json; charset=utf-8',
+    });
+}
 

@@ -51,13 +51,13 @@
                                     <td data-from="{{$from->id}}" name="cell" data-to="{{$to->id}}"> </td>  
                                 @endif
                                 
-                                
                             @endif
                         @endforeach
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <button id="Submit" class="d-none">Enregistrer</button>
         </div>
         <div class="col-lg-12 col-lg-offset-2 text-center pt-2">
             <img id="lockTable" class="lock" src="/images/padlock_32x32.png"/>
