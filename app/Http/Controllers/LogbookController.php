@@ -15,11 +15,15 @@ class LogbookController extends Controller
         //⛔🌈
     }
 
-    public function getActivities($internshipId){
-        $activities = Logbook::where("internships_id", $internshipId)
+    public function getActivities(Request $request, $internshipId){
+        //dd($request->request->keys());
+        $activitiesRequest = Logbook::where("internships_id", $internshipId)
             ->with('activitytype')
-            ->orderBy("entryDate", "asc")
-            ->get();
+            ->orderBy("entryDate", "asc");
+
+        $this->patchRequestWithGetParams($activitiesRequest, $request);
+
+        $activities = $activitiesRequest->get();
         return $activities;
     }
     public function getActivity($activityId){
@@ -55,5 +59,22 @@ class LogbookController extends Controller
         }
         $activity->delete();
         return ["state" => "success", "id" => $activityId];
+    }
+
+    private function patchRequestWithGetParams(\Illuminate\Database\Eloquent\Builder $eloqRequest, Request $routeRequest){
+        foreach($routeRequest->request->keys() as $key){
+            $value = $routeRequest->request->get($key);
+            $params = json_decode($value);
+            if($params == null){//use value
+                $eloqRequest->where($key, "=", $value);
+            }
+            //use range
+            if(isset($params->from)){
+                $eloqRequest->where($key, ">=", $params->from);
+            }
+            if(isset($params->to)){
+                $eloqRequest->where($key, "<=", $params->to);
+            }
+        }
     }
 }
