@@ -134,7 +134,7 @@ class WishesMatrixController extends Controller
 
 
     /**
-     * Save the display modifications of hte wishMatrix page
+     * Save the display modifications of the wishMatrix page
      *
      * @param Request $request : POST request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector : redirect to the wish page
@@ -182,6 +182,18 @@ class WishesMatrixController extends Controller
                 $param->save();
             }
         }
+
+        // return to the wishMatrix view
+        return redirect('/wishesMatrix');
+    }
+
+    /**
+     * Save the display wishes of a student
+     *
+     * @param Request $request : POST request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function saveWishes(Request $request) {
 
         // return to the wishMatrix view
         return redirect('/wishesMatrix');

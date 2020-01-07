@@ -132,6 +132,21 @@
         </form>
     @endif
 
+    <!-- Save choices, students only -->
+    <!-- Check if current user is a student -->
+    @if ($currentUser->getLevel() == 0)
+        <form action="/updateWishes" method="post">
+            <!-- Necessary in order to validate the POST-->
+        {{ csrf_field() }}
+
+            <!-- modifications, hidden -->
+            <textarea id="choices" hidden></textarea>
+
+            <!-- Submit button -->
+            <button type="submit">Enregistrer</button>
+        </form>
+    @endif
+
 @stop
 
 @section ('page_specific_js')
