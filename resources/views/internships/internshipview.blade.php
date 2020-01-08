@@ -13,56 +13,56 @@
     </h2>
 
     {{-- Internship information --}}
-    <table class="table text-left larastable">
-        <tr>
-            <td class="col-md-2" colspan="2">Du</td>
-            <td>{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Au</td>
-            <td>{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Description</td>
-            <td>
+    <div class="container text-left border">
+        <div class="row p-1 border">
+            <div class="col-2">Du</div>
+            <div class="col-10">{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Au</div>
+            <div class="col-10">{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Description</div>
+            <div class="col-10">
                 <div id="description">{!! $internship->internshipDescription !!}</div>
-            </td>
-        </tr>
-        <tr class="clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
-            <td class="col-md-2" colspan="2">Responsable administratif</td>
-            <td>{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</td>
-        </tr>
-        <tr class="clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
-            <td class="col-md-2" colspan="2">Responsable</td>
-            <td>{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Maître de classe</td>
-            <td>
+            </div>
+        </div>
+        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
+            <div class="col-2">Responsable administratif</div>
+            <div class="col-10">{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</div>
+        </div>
+        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
+            <div class="col-2">Responsable</div>
+            <div class="col-10">{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Maître de classe</div>
+            <div class="col-10">
                 {{-- Display the teacher, if the internship is attributed --}}
                 @if (isset($internship->student))
                     {{ $internship->student->flock->classMaster->initials }}
                 @endif
-            </td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Etat</td>
-            <td>
+            </div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Etat</div>
+            <div class="col-10">
                 {{ $internship->contractState->stateDescription }}
-            </td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Salaire</td>
-            <td>{{ $internship->grossSalary }}</td>
-        </tr>
+            </div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Salaire</div>
+            <div class="col-10">{{ $internship->grossSalary }}</div>
+        </div>
         @if (isset($internship->previous_id))
-            <tr>
-                <td class="col-md-2" colspan="3">
+            <div class="row p-1 border">
+                <div class="col-2">
                     <a href="/internships/{{ $internship->previous_id }}/view">Stage précédent</a>
-                </td>
-            </tr>
+                </div>
+            </div>
         @endif
-    </table>
+    </div>
 
     {{-- Action buttons --}}
     {{-- Generate contract button --}}
@@ -126,28 +126,26 @@
     {{-- Remarks --}}
     @if (isset($remarks)) @if (count($remarks) > 0)
         <hr/>
-        <table class="table text-left larastable">
-            <tr>
-                <th colspan="3">Remarques</th>
-            </tr>
-            <tr>
-                <td>Date</td>
-                <td>Auteur</td>
-                <td>Remarque</td>
-            </tr>
+        <div class="container text-left">
+            <h4>Remarques</h4>
+            <div class="row border bg-header">
+                <div class="col-1">Date</div>
+                <div class="col-1">Auteur</div>
+                <div class="col-10">Remarque</div>
+            </div>
             @foreach ($remarks->toArray() as $value)
-                <tr>
-                    <td>
+                <div class="row border">
+                    <div class="col-1">
                         {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-1">
                         {{ $value->author }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-10">
                         {{ $value->remarkText }}
-                    </td>
-                </tr>
+                    </div>
+                </div>
             @endforeach
-        </table>
+        </div>
     @endif @endif
 @stop

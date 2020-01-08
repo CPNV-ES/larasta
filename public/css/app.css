@@ -115,6 +115,10 @@ button:disabled {
   text-align: left;
 }
 
+.bg-header {
+  background-color: #999;
+}
+
 .btn-tile {
   border: solid 1px #fab;
   width: 150px;
