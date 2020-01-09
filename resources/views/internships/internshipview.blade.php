@@ -70,64 +70,62 @@
         {{-- We can only generate the contract if there is an attibuted student --}}
         @if (isset($internship->student))
             <a href="/contract/{{ $internship->id }}">
-                <button class="btn btn-primary">Générer le contrat</button>
+                <button>Générer le contrat</button>
             </a>
         @endif
     @else
         {{-- Reset contract button --}}
         <br> Contrat généré le : {{$internship->contractGenerated}}<br>
         <a href="/contract/{{$internship->id}}/cancel">
-            <button class="btn btn-danger">Réinitialiser</button>
+            <button>Réinitialiser</button>
         </a>
     @endif
     {{-- Modify button --}}
     @if (env('USER_LEVEL') >= 1)
         <a href="/internships/{{$internship->id}}/edit">
-            <button class="btn btn-warning">Modifier</button>
+            <button>Modifier</button>
         </a>
     @endif
 
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>
-        <table class="table text-left larastable">
-            <tr>
-                <th colspan="4">Visites</th>
-            </tr>
-            <tr>
-                <td>Date et heure</td>
-                <td>Etat</td>
-                <td>N°</td>
-                <td>Note</td>
-            </tr>
+        <h4>Visites</h4>
+        <div class="container text-left">
+            <div class="row border bg-header">
+                <div class="col-1">N°</div>
+                <div class="col-2">Date et heure</div>
+                <div class="col-2">Etat</div>
+                <div class="col-1">Note</div>
+            </div>
             @foreach ($visits->toArray() as $value)
-                <tr>
-                    <td>
+                <div class="row border">
+                    <div class="col-1">
+                        {{ $value->number }}
+                    </div>
+                    <div class="col-2">
                         {{ strftime("%e %b %g %R", strtotime($value->moment)) }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-2">
                         @if ($value->confirmed)
                             {{ "Confirmé" }}
                         @else
                             {{ "Non-confirmé" }}
                         @endif
-                    </td>
-                    <td>
-                        {{ $value->number }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-1">
                         {{ $value->grade == "" ? "Pas de note" : $value->grade }}
-                    </td>
-                </tr>
+                    </div>
+                </div>
             @endforeach
-        </table>
+        </div>
     @endif @endif
 
     {{-- Remarks --}}
     @if (isset($remarks)) @if (count($remarks) > 0)
         <hr/>
+        <h4>Remarques</h4>
         <div class="container text-left">
-            <h4>Remarques</h4>
             <div class="row border bg-header">
                 <div class="col-1">Date</div>
                 <div class="col-1">Auteur</div>
