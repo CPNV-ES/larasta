@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //life cycle
-Route::post('/editlifecycle','LifeCycleController@ModifyLifeCycle');
+Route::post('/editLifecycleCell','LifeCycleController@ModifyLifeCycleCell');
+Route::post('/editLifecycleTitle','LifeCycleController@ModifyLifeCycleTitle');

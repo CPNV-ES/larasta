@@ -22,14 +22,14 @@
                                     {{$name->stateDescription}}
                                 </div>
                             </th>
-                        
+                            
                     @endforeach
                     <tr>
                 </thead>
                 <tbody>
                     @foreach ($namecycle as $from)
                         <tr>
-                            <td width="100">{{$from->stateDescription}}</td>
+                        <td width="100"><input type="text" name="title"  title-id="{{$from->id}}"value="{{$from->stateDescription}}" disabled></td>
                         @foreach ($namecycle as $to)
                             @foreach ($lifecycle as $cycle)
                                 @if ($cycle->from_id == $from->id && $cycle->to_id == $to->id )

@@ -20,7 +20,7 @@ class LifeCycleController extends Controller
             ]
         );
     }
-    public function ModifyLifeCycle(Request $request){
+    public function ModifyLifeCycleCell(Request $request){
         $data = json_decode($request->getContent());
         Lifecycles::truncate();
         foreach($data as $cycle){
@@ -29,6 +29,13 @@ class LifeCycleController extends Controller
             $Lifecycles->to_id = $cycle->to;
             $Lifecycles->save();
         }
+    }
+    public function ModifyLifeCycleTitle(Request $request){
+        $data = json_decode($request->getContent());
+        foreach($data as $title){
+            Contractstate::where('id',$title->id)->update(['stateDescription' => $title->value]);
+        }
+        echo json_encode(array('status' => 'ok'));
     }
     //
 }
