@@ -115,5 +115,5 @@ Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 //Life cicle
 Route::get('/editlifecycle','LifeCycleController@index');
 
-//Life cicle
+//Mailling
 Route::get('/mailing','MailingController@index');

@@ -58,22 +58,25 @@ De ce fait, nous souhaitons pouvoir les contacter en une seule fois.
  - Création d'une page SCSS
  - Création d'un JS pour les différents événements
  
- `07.01.20 9h`
-    - tests pour re-afficher les responsables au re-affichage des entreprises
-    Estimation de fin
-    - dans 2h
+ `07.01.20`
+ 9h
+- tests pour re-afficher les responsables au re-affichage des entreprises
+ Estimation de fin
+- dans 2h
     
  9h23
-    - fin des events
-    - refonte de l'affichage
+- fin des events
+- refonte de l'affichage
     
  10h
-    - modification html, css
+- modification html, css
+
  11h
-    - essayer de faire quelque chose au niveau de la mise en page, mais rien de concret
+- essayer de faire quelque chose au niveau de la mise en page, mais rien de concret
+
  12h
-    - interface modifiée
-    - début de l'appel à la db pour avoir les données
+- interface modifiée
+- début de l'appel à la db pour avoir les données
     
  **TODO**
   - Ajouter un bouton mailto
