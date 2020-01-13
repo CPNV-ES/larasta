@@ -50,12 +50,14 @@
         <tr>
             <td><a href="/documents"><img alt="Documents" src="/images/documents.png">Documents</a></td>
         </tr>
+        @yield ('sidemenu_table')
         @if (CPNVEnvironment\Environment::currentUser()->getLevel() > 1)
             <tr>
                 <td><a href="/admin"><img alt="mp" src="/images/MP.png">Admin</a></td>
             </tr>
         @endif
     </table>
+    @yield ('sidemenu')
     @if (!CPNVEnvironment\Environment::isProd())
         <img id="imgwip" src="/images/wip.png">
     @endif

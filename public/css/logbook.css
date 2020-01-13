@@ -1,0 +1,50 @@
+.bgNotEnoughWords {
+  background-color: orange;
+}
+
+.bgNotEnoughHours {
+  background-color: red;
+}
+
+.bgLogbookOk {
+  background-color: green;
+}
+
+.colorNotEnoughWords {
+  color: orange;
+}
+
+.colorNotEnoughHours {
+  color: red;
+}
+
+.colorLogbookOk {
+  color: green;
+}
+
+.logbookTips {
+  padding-top: 5px;
+}
+
+.logbookTip {
+  margin-bottom: 5px;
+}
+
+.logbookTipColor {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 10px;
+}
+
+.wordCountTipText {
+  display: inline-block;
+  width: calc(100% - 40px - 1em);
+  vertical-align: middle;
+  padding-left: 10px;
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
+}
+

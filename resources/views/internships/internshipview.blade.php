@@ -87,6 +87,11 @@
         </a>
     @endif
 
+    {{-- logbook button --}}
+    <a href="/internships/{{$internship->id}}/logbook">
+        <button class="btn btn-primary">Journal de travail</button>
+    </a>
+
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>

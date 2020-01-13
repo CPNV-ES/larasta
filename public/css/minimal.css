@@ -6,7 +6,7 @@ body {
 	font-size: 11px; /*0.688em; /* 0.75 for 12px, 0.688 for 11px */
 	/* background-color: #e0e0e0; */
 	margin:0;
-	padding:0;
+	padding: 10px 10px 0 0;
 }
 
 input {
@@ -409,7 +409,7 @@ div.progress-container > div {
 }
 .content-besides-sidebar {
 	margin-left: 260px;
-	width: 80%;
+	width: calc(100% - 260px);
 }
 
 #sidemenu {

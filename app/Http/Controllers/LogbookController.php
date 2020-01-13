@@ -16,7 +16,7 @@ class LogbookController extends Controller
     }
 
     public function getActivities(Request $request, $internshipId){
-        //dd($request->request->keys());
+        //dd($request->request);
         $activitiesRequest = Logbook::where("internships_id", $internshipId)
             ->with('activitytype')
             ->orderBy("entryDate", "asc");

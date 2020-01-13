@@ -1,0 +1,46 @@
+$notEnoughHoursColor: red;
+$notEnoughWordsColor: orange;
+$logbookOkColor: green;
+
+//base colors
+.bgNotEnoughWords{
+    background-color: $notEnoughWordsColor;
+}
+.bgNotEnoughHours{
+    background-color: $notEnoughHoursColor;
+}
+.bgLogbookOk{
+    background-color: $logbookOkColor;
+}
+.colorNotEnoughWords{
+    color: $notEnoughWordsColor;
+}
+.colorNotEnoughHours{
+    color: $notEnoughHoursColor;
+}
+.colorLogbookOk{
+    color: $logbookOkColor;
+}
+
+.logbookTips{
+    padding-top: 5px;
+}
+.logbookTip {
+    margin-bottom: 5px;
+}
+.logbookTipColor {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+.wordCountTipText {
+    display: inline-block;
+    width: calc(100% - 40px - 1em);
+    vertical-align: middle;
+    padding-left: 10px;
+    margin: 0;
+    font-size: 15px;
+    text-align: left;
+}

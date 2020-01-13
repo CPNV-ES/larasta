@@ -17,10 +17,20 @@ Date.prototype.getMoSuDay = function(){
     }
     return currentDay - 1;
 };
-Date.prototype.getMoSuWeek = function(){
+//get first and last day of the week, starting on monday
+Date.prototype.getWeek = function(){
     var currentStamp = this.getTime();
     var currentDayIndex = this.getMoSuDay();
-    console.warn("not functionnal");
+
+    var dayLengthStamp = 24 * 60 * 60 * 1000;
+    var firstDayStamp = currentStamp - currentDayIndex * dayLengthStamp;
+    var lastDayStamp = currentStamp + (6 - currentDayIndex) * dayLengthStamp;
+    //TODO: add week number to return
+
+    return {
+        first: new Date(firstDayStamp),
+        last: new Date(lastDayStamp)
+    }
 };
 
 var Utils = {};
