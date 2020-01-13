@@ -18,7 +18,7 @@
                     @foreach ($namecycle as $name)
                         
                             <th width="100" height="50">
-                                <div class="th">
+                                <div class="titleTable">
                                     {{$name->stateDescription}}
                                 </div>
                             </th>

@@ -67,8 +67,14 @@ function get(){
         contentType: 'json',
         data: JSON.stringify(DataArrayTitle),
         contentType: 'application/json; charset=utf-8',
-        success: function(d){
+        success: function(){
+            PastLifecicle = document.getElementsByClassName("titleTable");
+            PastLifecicle.forEach(function(elem, key){
+                elem.innerHTML =  DataArrayTitle[key].value;
+            });
         }
     });
+    
+
 }
 

@@ -1,14 +1,15 @@
 .selected{
     background-color:lightgreen;
 }
-.th{
+.titleTable{
     transform: rotate(-45deg);
     position: relative;
     bottom: 20px;
     border-bottom: solid 1px lightgray;
 }
 table{
-    margin-top: 50px
+    margin-top: 50px;
+    
 }
 th{
     height: 30px;
@@ -18,4 +19,8 @@ th{
 }
 td{
     white-space: nowrap;
+}
+
+th,td{
+    user-select: none;
 }

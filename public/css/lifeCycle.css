@@ -2,7 +2,7 @@
   background-color: lightgreen;
 }
 
-.th {
+.titleTable {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
   position: relative;
@@ -23,5 +23,13 @@ th {
 
 td {
   white-space: nowrap;
+}
+
+th,
+td {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 

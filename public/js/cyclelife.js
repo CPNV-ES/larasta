@@ -146,7 +146,12 @@ function get() {
         dataType: 'json',
         contentType: 'json',
         data: JSON.stringify(DataArrayTitle)
-    }, _defineProperty(_$$ajax2, "contentType", 'application/json; charset=utf-8'), _defineProperty(_$$ajax2, "success", function success(d) {}), _$$ajax2));
+    }, _defineProperty(_$$ajax2, "contentType", 'application/json; charset=utf-8'), _defineProperty(_$$ajax2, "success", function success() {
+        PastLifecicle = document.getElementsByClassName("titleTable");
+        PastLifecicle.forEach(function (elem, key) {
+            elem.innerHTML = DataArrayTitle[key].value;
+        });
+    }), _$$ajax2));
 }
 
 /***/ })
