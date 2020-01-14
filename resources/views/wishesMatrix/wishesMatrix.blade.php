@@ -66,27 +66,40 @@
                             </a>
                         </td>
 
-                        <!-- Create the clickable case for each person -->
-                    @foreach ($flocks as $flock)
-                        @foreach ($flock->students as $person)
-                            @if ($currentUser->getLevel() != 0)
-                                <!-- Give extra classes to teacher -->
-                                    <td class="clickableCase locked teacher">
+                        {{-- Create the clickable case for each person --}}
+                        @foreach ($flocks as $flock)
+                            @foreach ($flock->students as $person)
+                                {{-- If the student has a wish associated to the internship, get the wish --}}
+                                @php
+                                    $currentWish = null;
+                                @endphp
+                                @foreach($person->wishes as $wish)
+                                    @if($wish->internship->id == $internship->id)
+                                        @php
+                                            $currentWish = $wish;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @if ($currentUser->getLevel() != 0)
+                                    {{-- Give extra classes to teacher --}}
+                                    @if (is_null($currentWish))
+                                        <td class="clickableCase locked teacher" data-wish-id="">
                                     @else
-                                        <!-- Student -->
+                                        <td class="clickableCase locked teacher" data-wish-id="{{ $currentWish->id }}">
+                                    @endif
+                                @else
+                                    {{-- Student --}}
                                     @if ($currentUser->getId() == $person->id)
                                         <td class="clickableCase currentStudent">
                                     @else
                                         <td class="clickableCase">
-                                        @endif
-                                        @endif
+                                            @endif
+                                            @endif
 
-                                        <!-- If student person has a wish for this internship, display the rank -->
-                                            @foreach($person->wishes as $wish)
-                                                @if($wish->internship->id == $internship->id)
-                                                    {{ $wish->rank }}
-                                                @endif
-                                            @endforeach
+                                            {{-- If student person has a wish for this internship, display the rank --}}
+                                            @if (!is_null($currentWish))
+                                                {{ $currentWish->rank }}
+                                            @endif
                                         </td>
                                         @endforeach
                                         @endforeach
