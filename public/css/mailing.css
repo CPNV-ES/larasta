@@ -35,9 +35,14 @@
           transform: scale(0.95);
 }
 
+.cmdMail {
+  margin-top: 20px;
+  margin-left: calc(50% - 232px);
+}
+
 .enterprises {
-  text-align: left;
   font-size: 1rem;
+  text-align: left;
   vertical-align: top;
 }
 

@@ -85,7 +85,7 @@ class Person extends Model
      */
     public function contactinfo()
     {
-        return $this->hasMany('App\Contactinfos');
+        return $this->hasMany('App\Contactinfos',"persons_id");
     }
 
     
@@ -161,4 +161,23 @@ class Person extends Model
     {
         return strtolower("{$this->firstname}.{$this->lastname}@cpnv.ch");
     }
+
+    /**
+     * @return string of emails -> "email1,email2"
+     */
+    public function emails()
+    {
+        $contactInformations=$this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL);
+        $emails="";
+
+        foreach ($contactInformations as $key => $collection)
+        {
+            $emails.=trim($collection->value);
+            if($key != count($contactInformations)-1)
+                $emails.=",";
+        }
+
+        return $emails;
+    }
+
 }

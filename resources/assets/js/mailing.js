@@ -65,5 +65,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         element.classList.add(classToRemoveOrAdd);
     }
+    document.querySelector(".cmdMail").addEventListener("click",() => {
+        var mailto = "mailto:";
+        var responsibles = document.querySelectorAll(".responsible");
 
+        responsibles.forEach((responsible) => {
+            console.log(responsible);
+        });
+    });
 });

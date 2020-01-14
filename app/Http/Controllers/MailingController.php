@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 class MailingController extends Controller
 {
     //
-    public function index(){
-        $companies = Company::has('internship')->get()->sortByDesc(function ($company){
-           return $company->internship->max('endDate');
-        });
+    public function mailling(){
+        $companies = new Company;
+        $companies = $companies->getCompanyByLastInternships();
 
         return view('admin/mailing')->with('companies', $companies);
     }

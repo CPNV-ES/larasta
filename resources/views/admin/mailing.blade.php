@@ -10,15 +10,15 @@
             <span class="enterpriseDate">{{$company->internship->sortByDesc('endDate')->first()->endDate}}</span>
             <div class="responsibles">
                 @foreach($company->internship->unique('responsible_id') as $internship)
-                   <div class="responsible" email="lkdlésddfd@cpnv.ch">{{$internship->responsible->lastname}} <span class="delete">x</span></div>
+                   <div class="responsible" email="{{$internship->responsible->emails()}}">{{$internship->responsible->lastname}} <span class="delete">x</span></div>
                 @endforeach
             </div>
             <div class="showDeletedResponsibles d-none">()</div>
         </div>
         @endforeach
         <div class="showDeletedEnterprises d-none"></div>
+        <div class="cmdMail">Envoyer un mail</div>
     </div>
-    <div class="cmdMail">Envoyer un mail</div>
 @stop
 
 @section('page_specific_css')

@@ -13,6 +13,6 @@ class Contactinfos extends Model
      */
     public function contacttypes()
     {
-        return $this->hasMany('App\contacttypes');
+        return $this->hasMany('App\contacttypes',"persons_id");
     }
 }

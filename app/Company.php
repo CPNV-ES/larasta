@@ -42,4 +42,11 @@ class Company extends Model
         return $this->belongsToMany('App\Contractstate', 'internships',
             'companies_id', 'contractstate_id');
     }
+
+    public function getCompanyByLastInternships()
+    {
+        return $this->has('internship')->get()->sortByDesc(function ($company){
+            return $company->internship->max('endDate');
+        });
+    }
 }

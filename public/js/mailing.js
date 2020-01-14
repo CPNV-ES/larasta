@@ -144,6 +144,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         element.classList.add(classToRemoveOrAdd);
     }
+    document.querySelector(".cmdMail").addEventListener("click", function () {
+        var mailto = "mailto:";
+        var responsibles = document.querySelectorAll(".responsible");
+
+        responsibles.forEach(function (responsible) {
+            console.log(responsible);
+        });
+    });
 });
 
 /***/ })

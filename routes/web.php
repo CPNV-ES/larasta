@@ -120,4 +120,4 @@ Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 Route::get('/editlifecycle','LifeCycleController@index');
 
 //Mailling
-Route::get('/mailing','MailingController@index');
+Route::get('/mailing','MailingController@mailling');
