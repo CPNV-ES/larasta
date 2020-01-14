@@ -98,6 +98,17 @@
         <!-- Lock table button -->
         @if ($currentUser->getLevel() != 0)
             <img id="lockTable" src="/images/padlock_32x32.png"/>
+
+            <form id="postulationsForm" action="/wishesPostulations" method="post">
+                <!-- Necessary in order to validate the POST-->
+            {{ csrf_field() }}
+
+            <!-- modifications, hidden -->
+                <textarea id="postulations" name="choices" hidden></textarea>
+
+                <!-- Submit button -->
+                <button type="submit">Enregistrer les postulations</button>
+            </form>
         @endif
     </div>
 
@@ -128,7 +139,7 @@
             </select>
 
             <!-- Submit button -->
-            <button type="submit">Enregistrer</button>
+            <button type="submit">Enregistrer les paramètres</button>
         </form>
     @endif
 

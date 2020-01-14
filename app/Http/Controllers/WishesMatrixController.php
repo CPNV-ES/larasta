@@ -293,8 +293,11 @@ class WishesMatrixController extends Controller
             $remark->save();
         }
 
-        // TODO create log for students
+        // return to the wishMatrix view
+        return redirect('/wishesMatrix');
+    }
 
+    public function saveWishesPostulations(Request $request) {
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
     }

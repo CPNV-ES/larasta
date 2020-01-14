@@ -89,6 +89,7 @@ Route::post('/visits/{id}/update', 'VisitsController@update');
 Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');
 Route::post('/wishesMatrix', 'WishesMatrixController@save');
 Route::post('/updateWishes', 'WishesMatrixController@saveWishes');
+Route::post('/wishesPostulations', 'WishesMatrixController@saveWishespostulations');
 
 // Kevin
 Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
