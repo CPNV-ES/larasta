@@ -14,6 +14,7 @@ use App\Internship;
 use App\Person;
 use App\Params;
 
+use App\Remark;
 use App\Wish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -231,9 +232,18 @@ class WishesMatrixController extends Controller
             if (array_key_exists($internshipId, $wishes)) {
                 $wishRank = $wishes[$internshipId];
                 // if the wish rank is different, update the rank
-                if ($wishRank != $oldWish->rank) {
+                $oldrank = $oldWish->rank;
+                if ($wishRank != $oldrank) {
                     $oldWish->rank = $wishRank;
                     $oldWish->save();
+
+                    $remark = new Remark();
+                    $remark->remarktype = 5;
+                    $remark->remarkOn_id = $internshipId;
+                    $remark->author = $student->initials;
+                    $remark->remarkText =
+                        "Modification du rang du souhait de {$student->firstname} {$student->lastname}, de {$oldrank} à {$wishRank}";
+                    $remark->save();
                 }
 
                 // remove the wish from the wishes list
@@ -241,6 +251,14 @@ class WishesMatrixController extends Controller
 
             } else {
                 $oldWish->delete();
+
+                $remark = new Remark();
+                $remark->remarktype = 5;
+                $remark->remarkOn_id = $internshipId;
+                $remark->author = $student->initials;
+                $remark->remarkText =
+                    "Suppression du souhait de {$student->firstname} {$student->lastname}";
+                $remark->save();
             }
         }
 
@@ -250,11 +268,16 @@ class WishesMatrixController extends Controller
             $wish->internships_id = $internship_id;
             $wish->persons_id = $studentId;
             $wish->rank = $rank;
-
             $wish->save();
-        }
 
-        // TODO create log for student
+            $remark = new Remark();
+            $remark->remarktype = 5;
+            $remark->remarkOn_id = $internshipId;
+            $remark->author = $student->initials;
+            $remark->remarkText =
+                "Ajout d'un souhait de {$student->firstname} {$student->lastname}";
+            $remark->save();
+        }
 
         // TODO create log for wishes
 
