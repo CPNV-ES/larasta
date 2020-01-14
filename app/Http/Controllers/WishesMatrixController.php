@@ -14,6 +14,7 @@ use App\Internship;
 use App\Person;
 use App\Params;
 
+use App\Wish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -206,36 +207,60 @@ class WishesMatrixController extends Controller
         $studentId = $currentUser->getId();
         $student = Person::find($studentId);
 
-        // get old wishes of the student
-        $oldWishes = $student->wishes->all();
-
         // validate the data
         $data = $request->validate([
             'choices' => 'required|json',
         ]);
 
-        // TODO get new wishes from request
-        // $wishes = $data['choices'];
-        dd($data);
-        exit();
+        // extract data
+        $wishesCollection = json_decode($data['choices'])->wishes;
 
+        // convert the wishes to a map : internship_id => rank
+        $wishes = [];
+        foreach ($wishesCollection as $wish) {
+            $wishes[$wish->internship_id] = $wish->rank;
+        }
 
+        // get old wishes of the student
+        $oldWishes = $student->wishes->all();
 
-        // TODO compare wishes
+        foreach ($oldWishes as $oldWish) {
+            $internshipId = $oldWish->internship->id;
 
-        // TODO add new wishes
+            // if the new wish is already in the old wishes
+            if (array_key_exists($internshipId, $wishes)) {
+                $wishRank = $wishes[$internshipId];
+                // if the wish rank is different, update the rank
+                if ($wishRank != $oldWish->rank) {
+                    $oldWish->rank = $wishRank;
+                    $oldWish->save();
+                }
 
-        // TODO update wishes ranks if necessary
+                // remove the wish from the wishes list
+                unset($wishes[$internshipId]);
 
-        // TODO delete old wishes
+            } else {
+                $oldWish->delete();
+            }
+        }
+
+        // new wishes
+        foreach ($wishes as $internship_id => $rank) {
+            $wish = new Wish();
+            $wish->internships_id = $internship_id;
+            $wish->persons_id = $studentId;
+            $wish->rank = $rank;
+
+            $wish->save();
+        }
 
         // TODO create log for student
 
         // TODO create log for wishes
 
         // return to the wishMatrix view
-        // return redirect('/wishesMatrix');
-        return redirect('/index');
+        return redirect('/wishesMatrix');
+        // return redirect('/index');
     }
 
     /**

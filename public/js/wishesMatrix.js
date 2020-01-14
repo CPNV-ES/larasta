@@ -143,8 +143,8 @@ $(document).ready(function () {
     }
 
     class Wish {
-        constructor(company_id, rank) {
-            this.company_id = company_id;
+        constructor(internship_id, rank) {
+            this.internship_id = internship_id;
             this.rank = rank;
         }
     }
@@ -166,9 +166,9 @@ $(document).ready(function () {
             }
 
             let row = $(this).parent();
-            let company_id = row.attr('data-internship-id');
+            let internship_id = row.attr('data-internship-id');
 
-            let wish = new Wish(company_id, rank);
+            let wish = new Wish(internship_id, rank);
             wishesContainer.addWish(wish);
         });
 
