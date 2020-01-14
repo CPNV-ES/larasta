@@ -88,8 +88,8 @@
     @endif
 
     {{-- logbook button --}}
-    <a href="/internships/{{$internship->id}}/logbook">
-        <button class="btn btn-primary">Journal de travail</button>
+    <a href="{{route('logbookIndex', ['internshipId' => $internship->id])}}">
+        <button class="">Journal de travail</button>
     </a>
 
     {{-- Visits --}}

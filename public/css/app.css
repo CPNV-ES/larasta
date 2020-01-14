@@ -193,10 +193,10 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   display: inline-flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  flex-direction: row;
+          flex-direction: row;
   flex-wrap: wrap;
   -webkit-box-pack: start;
-  justify-content: flex-start;
+          justify-content: flex-start;
   width: 100%;
 }
 

@@ -613,7 +613,7 @@ div.error {
 
 
 ul.medium-menu {
-    -moz-border-radius: 5px;
+    border-radius: 5px;
     /*background-color:#eeeeee;*/
     height: 26px;
     margin: 10px 0 15px;
@@ -621,7 +621,7 @@ ul.medium-menu {
 }
 
 ul.medium-menu li a {
-    -moz-border-radius: 4px;
+    border-radius: 4px;
     font-weight: bold;
     color: #333333;
     float: left;

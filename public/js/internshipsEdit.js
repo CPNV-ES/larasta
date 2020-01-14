@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -123,18 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
-/***/ }),
-
-/***/ 2:
-/*!******************************************************!*\
-  !*** multi ./resources/assets/js/internshipsEdit.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\internshipsEdit.js */"./resources/assets/js/internshipsEdit.js");
-
 
 /***/ }),
 

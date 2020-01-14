@@ -92,3 +92,18 @@ Utils.queryEncode = function(queryData){
 	}
 	return encodedStr.slice(0, -1);
 }
+
+
+//EXEC ON ALL PAGES:
+document.addEventListener("DOMContentLoaded", ()=>{
+    //filters toggler (if elem on page)
+    if(window.filtersBoxButton && window.expandedfilters){
+        var icon = filtersBoxButton.querySelector("i");
+        filtersBoxButton.addEventListener("click", function(ev){
+            expandedfilters.classList.toggle("d-none");
+            //toggle arrow
+            icon.classList.toggle("down");
+            icon.classList.toggle("up");
+        });
+    }
+});

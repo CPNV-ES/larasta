@@ -22,6 +22,7 @@ $logbookOkColor: green;
     color: $logbookOkColor;
 }
 
+//side menu
 .logbookTips{
     padding-top: 5px;
 }
@@ -42,5 +43,13 @@ $logbookOkColor: green;
     padding-left: 10px;
     margin: 0;
     font-size: 15px;
+    text-align: left;
+}
+
+//review mode
+.reviewerContainer p{
+    margin: 0;
+}
+.reviewerContainer{
     text-align: left;
 }

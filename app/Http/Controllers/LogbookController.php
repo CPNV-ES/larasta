@@ -6,20 +6,43 @@ use App\Internship;
 use Illuminate\Http\Request;
 use App\Logbook;
 use App\Activitytype;
+use Carbon\Carbon;
 
 class LogbookController extends Controller
 {
-    public function view($iid){
-        $internship = Internship::where("id", $iid)->first();
-        return view('logbook/logbook')->with(["internship" => $internship]);
+    public function index($internshipId){
+        $internship = Internship::fromId($internshipId);
+        return view('logbook/index')->with(["internship" => $internship]);
         //⛔🌈
     }
+    public function reviewMode($internshipId){
+        $internship = Internship::fromId($internshipId);
+        $activities = $this->getActivities(new Request(), $internshipId);
+        //separate by week and date
+        $activitiesByWeeks = [];
+        foreach($activities as $activity){
+            $activityDate = new Carbon($activity->entryDate);
+            $dayStr = $activityDate->toDateString();
+            $weekStart = $activityDate->startOfWeek();
+            $weekStartStr = $weekStart->toDateString(); //warning! this mutes the var because Carbon is nonsense
+            if(!isset($activitiesByWeeks[$weekStartStr])){
+                $activitiesByWeeks[$weekStartStr] = ["dateObj" => $weekStart];
+            }
+            if(!isset($activitiesByWeeks[$weekStartStr][$dayStr])){
+                $activitiesByWeeks[$weekStartStr][$dayStr] = [];
+            }
+            array_push($activitiesByWeeks[$weekStartStr][$dayStr], $activity);
+        }
+        //dd($activitiesByWeeks);
 
+        return view('logbook/review')->with(["activitiesByWeeks" => $activitiesByWeeks, "internship" => $internship]);
+    }
+
+    //api
     public function getActivities(Request $request, $internshipId){
-        //dd($request->request);
         $activitiesRequest = Logbook::where("internships_id", $internshipId)
             ->with('activitytype')
-            ->orderBy("entryDate", "asc");
+            ->orderBy("entryDate", "desc");
 
         $this->patchRequestWithGetParams($activitiesRequest, $request);
 
@@ -61,6 +84,7 @@ class LogbookController extends Controller
         return ["state" => "success", "id" => $activityId];
     }
 
+    //util
     private function patchRequestWithGetParams(\Illuminate\Database\Eloquent\Builder $eloqRequest, Request $routeRequest){
         foreach($routeRequest->request->keys() as $key){
             $value = $routeRequest->request->get($key);

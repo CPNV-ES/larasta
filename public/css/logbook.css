@@ -48,3 +48,11 @@
   text-align: left;
 }
 
+.reviewerContainer p {
+  margin: 0;
+}
+
+.reviewerContainer {
+  text-align: left;
+}
+
