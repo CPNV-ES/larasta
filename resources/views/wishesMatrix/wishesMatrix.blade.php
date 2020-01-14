@@ -140,7 +140,7 @@
         {{ csrf_field() }}
 
         <!-- modifications, hidden -->
-            <textarea id="choices" hidden></textarea>
+            <textarea id="choices" name="choices" hidden></textarea>
 
             <!-- Submit button -->
             <button type="submit">Enregistrer</button>

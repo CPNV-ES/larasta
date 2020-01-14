@@ -181,7 +181,8 @@ $(document).ready(function () {
     function prepareStudentData() {
         let wishes = getWishes();
 
-        $('#choices').innerText = wishes;
+        // put the json data into the choices input
+        $('#choices').text(JSON.stringify(wishes));
 
         return true;
     }
