@@ -64,7 +64,7 @@ $(document).ready(function () {
                             $(this).text(3)
                         } else {
                             // View The toast message
-                            $('.alert-info').text("Vous ne pouvez que 3 souhaits.");
+                            $('.alert-info').text("Vous ne pouvez avoir que 3 souhaits.");
                             $('.alert-info').removeClass('hidden');
                             cleanMessage();
                         }
@@ -80,9 +80,6 @@ $(document).ready(function () {
                 // Test if had already a postulation
                 if ($(this).hasClass('postulationRequest')) {
                     $(this).removeClass('postulationRequest');
-                    $(this).addClass('postulationDone');
-                } else if ($(this).hasClass('postulationDone')) {
-                    $(this).removeClass('postulationDone');
                 } else {
                     $(this).addClass('postulationRequest');
                 }
