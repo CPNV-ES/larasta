@@ -53,7 +53,7 @@
         @foreach ($parentInternships as $internship)
             <!-- Do not display a group if all internships are attributed -->
                 @if($placesQuantities[$internship->id] >= 1 )
-                    <tr>
+                    <tr data-internship-id="{{ $internship->id }}">
                         <td>
                             {{-- Display the company of the internship, with a link to the first available internship --}}
                             <a href="/internships/{{ $childIds[$internship->id] }}/view">

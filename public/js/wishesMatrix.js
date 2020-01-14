@@ -95,7 +95,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#choicesForm').submit(function() {
+    $('#choicesForm').submit(function () {
         return prepareStudentData();
     });
 
@@ -158,22 +158,15 @@ $(document).ready(function () {
         let wishesContainer = new Wishes();
 
         $('.currentStudent').each(function () {
-
             let rank = $(this).text().trim();
-            console.log($(this));
-            console.log(rank);
 
             // we are not interested in not selected internships
             if (rank === "") {
                 return
             }
 
-            // TODO fix, for is undefined
-            let row = $(this).rowIndex;
-            console.log(row);
-
-            // TODO get real id of the company
-            let company_id = row;
+            let row = $(this).parent();
+            let company_id = row.attr('data-internship-id');
 
             let wish = new Wish(company_id, rank);
             wishesContainer.addWish(wish);
@@ -190,9 +183,7 @@ $(document).ready(function () {
 
         $('#choices').innerText = wishes;
 
-        console.log(wishes);
-
-        return false;
+        return true;
     }
 
     /**

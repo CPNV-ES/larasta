@@ -196,6 +196,7 @@ class WishesMatrixController extends Controller
      */
     public function saveWishes(Request $request)
     {
+
         $currentUser = Environment::currentUser();
 
         // Only students should be able to save their wishes
@@ -209,6 +210,8 @@ class WishesMatrixController extends Controller
         // get old wishes of the student
         $oldWishes = $student->wishes->all();
 
+        exit();
+        // TODO next point
 
         // validate the data
         $data = $request->validate([
@@ -217,7 +220,7 @@ class WishesMatrixController extends Controller
 
         // TODO get new wishes from request
         $wishes = $data['wishes'];
-        dd($wishes);
+
 
         // TODO compare wishes
 
