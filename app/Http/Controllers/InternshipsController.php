@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
+
 class InternshipsController extends Controller
 {
     // index, base route
@@ -37,6 +38,31 @@ class InternshipsController extends Controller
         return $this->filteredInternships($internshipFilter);
     }
 
+    /**
+     * @description sert à arriver sur la page stageform
+     */
+    public function showForm ($id)
+    {
+        $newinternships = Companies::find($id);
+        $companypersons = Persons::all()->where('company_id',$id);
+        return view('entreprises/stageform')->with(compact('newinternships','companypersons'));
+
+    }
+
+    /**
+     * @description sert à ajouté les différents éléments dans la base de donnée et d revenir sur la page entreprise
+     */
+    public function enterFormInDb(Request $request)
+    {
+        $newinternships = Companies::find($id);
+        $addstage = new Internship();
+        $addstage->beginDate = $request->input('startDate');
+        $addstage->endDate = $request->input('endDate');
+        $addstage->responsible_id = $request->input('responsible_id');
+        $addstage->admin_id = $request->input('admin_id');
+        return view('entreprises/entreprise')->with(compact('newinternships', 'addstage'));
+
+    }
     /**
      * Some filtering parameter has changed (or filter is empty)
      *
@@ -89,12 +115,15 @@ class InternshipsController extends Controller
             }
         }
 
-        if (isset($idlist)) {
+        if (isset($idlist)){
+
             $iships = Internship::whereIn('contractstate_id', $idlist)->get();
-        } else {
+        }
+        else{
             $iships = Internship::all();
         }
-        switch ($internshipFilter->getMine() * 2 + $internshipFilter->getInProgress()) {
+        switch ($internshipFilter->getMine() * 2 + $internshipFilter->getInProgress())
+        {
             case 1:
                 $keepOnly = self::getCurrentInternships();
                 break;
@@ -113,10 +142,7 @@ class InternshipsController extends Controller
         } else
             $finallist = $iships;
 
-        return view('internships/internships')
-            ->with('iships', $finallist)
-            ->with('filter', $internshipFilter)
-            ->with('isOneFilterActive', $isOneFilterActive);
+        return view('internships/internships')->with('iships', $finallist)->with('filter', $internshipFilter)->with('isOneFilterActive', $isOneFilterActive);
     }
 
     /**

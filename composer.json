@@ -25,7 +25,8 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "nimbly/activeresource": "^1.1",
-        "phurni/phpactiveresource": "1.0.0"
+        "phurni/phpactiveresource": "1.0.0",
+        "doctrine/dbal": "v2.4.2"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

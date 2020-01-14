@@ -8,14 +8,11 @@ class Contactinfos extends Model
 {
     public $timestamps = false;
 
-    //
     /**
-     * Relation to the teacher/student 
+     * Relation to the contactinfos of the contacttypes
      */
-    public function person()
+    public function contacttypes()
     {
-        return $this->belongTo('App\Persons','persons_id');
+        return $this->hasMany('App\contacttypes');
     }
-
-    
 }
