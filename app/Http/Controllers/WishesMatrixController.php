@@ -222,6 +222,20 @@ class WishesMatrixController extends Controller
             $wishes[$wish->internship_id] = $wish->rank;
         }
 
+        $logText = "Modification des souhaits :";
+        foreach ($wishes as $internship_id => $rank) {
+            $internship = Internship::find($internship_id);
+            $logText = $logText." {$internship->company->companyName}({$rank}),";
+        }
+        $logText = substr($logText, 0, -1);
+
+        $remark = new Remark();
+        $remark->remarktype = 2;
+        $remark->remarkOn_id = $student->id;
+        $remark->author = $student->initials;
+        $remark->remarkText = $logText;
+        $remark->save();
+
         // get old wishes of the student
         $oldWishes = $student->wishes->all();
 
@@ -279,11 +293,10 @@ class WishesMatrixController extends Controller
             $remark->save();
         }
 
-        // TODO create log for wishes
+        // TODO create log for students
 
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
-        // return redirect('/index');
     }
 
     /**
