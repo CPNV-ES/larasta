@@ -96,6 +96,10 @@ $(document).ready(function () {
         return prepareStudentData();
     });
 
+    $('#postulationsForm').submit(function () {
+        return prepareTeacherData();
+    });
+
     /**
      * Recalculate the rank in a column, when a wish has been removed
      * @param col column whose ranks must be recalculated
@@ -180,6 +184,45 @@ $(document).ready(function () {
 
         // put the json data into the choices input
         $('#choices').text(JSON.stringify(wishes));
+
+        return true;
+    }
+
+    class Postulations {
+        constructor() {
+            this.postulations = [];
+        }
+
+        addPostulation(postulation) {
+            this.postulations.push(postulation);
+        }
+    }
+
+    class Postulation {
+        constructor(wishId, isValidated) {
+            this.wishId = wishId;
+            this.isValidated = isValidated;
+        }
+    }
+
+    /**
+     * Get the list of postulations validated by the teacher
+     * @returns {{}}
+     */
+    function getPostulations() {
+        let postulations = new Postulations();
+
+        // TODO implementation
+        // foreach wish, get if postulation or not
+
+        return postulations;
+    }
+
+    function prepareTeacherData() {
+        let postulations = getPostulations();
+
+        // put the json data into the postulations input
+        $('#postulations').text(JSON.stringify(postulations));
 
         return true;
     }
