@@ -214,6 +214,19 @@ $(document).ready(function () {
 
         // TODO implementation
         // foreach wish, get if postulation or not
+        $('.clickableCase').each(function () {
+            let wishId = $(this).attr('data-wish-id');
+
+            // we are not interested in cases without a wish
+            if (wishId === "") {
+                return;
+            }
+
+            let isValidated = $(this).hasClass('postulationRequest');
+
+            let postulation = new Postulation(wishId, isValidated);
+            postulations.addPostulation(postulation);
+        });
 
         return postulations;
     }

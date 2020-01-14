@@ -298,6 +298,9 @@ class WishesMatrixController extends Controller
     }
 
     public function saveWishesPostulations(Request $request) {
+        dd($request);
+        exit();
+
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
     }
