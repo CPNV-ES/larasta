@@ -81,75 +81,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 lockTable.addEventListener("click", function (event) {
     if (lockTable.className == "lock") {
         lockTable.src = "/images/open-padlock-silhouette_32x32.png";
-        unlock();
+        unlockTableAccess();
     } else if (lockTable.className == "unlock") {
         lockTable.src = "/images/padlock_32x32.png";
-        lock();
+        lockTableAccess();
     }
     lockTable.classList.toggle("lock");
     lockTable.classList.toggle("unlock");
 });
 
-function lock() {
+Submit.addEventListener("click", getDataAndSendToController);
+
+function lockTableAccess() {
     document.getElementsByName("cell").forEach(function (elem) {
         elem.removeEventListener("click", toggleSelected);
     });
     document.getElementsByName("title").forEach(function (elem) {
         elem.disabled = true;
     });
-    save();
+    enableSaveButton();
 }
 
-function unlock() {
+function unlockTableAccess() {
     document.getElementsByName("cell").forEach(function (elem) {
         elem.addEventListener("click", toggleSelected);
     });
     document.getElementsByName("title").forEach(function (elem) {
         elem.disabled = false;
     });
-    save();
+    enableSaveButton();
 }
 
 function toggleSelected(event) {
     event.target.classList.toggle("selected");
 }
 
-Submit.addEventListener("click", get);
-
-function save() {
+function enableSaveButton() {
     Submit.classList.toggle("d-none");
 }
 
-function get() {
+function getDataAndSendToController() {
     var _$$ajax2;
 
-    DataArrayCell = [];
+    dataArrayCell = [];
     document.getElementsByClassName("selected").forEach(function (elem) {
-        Lifecicle = { from: elem.getAttribute("data-from"), to: elem.getAttribute("data-to") };
-        DataArrayCell.push(Lifecicle);
+        lifeCicleCell = { from: elem.getAttribute("data-from"), to: elem.getAttribute("data-to") };
+        dataArrayCell.push(lifeCicleCell);
     });
-    DataArrayTitle = [];
+    dataArrayTitle = [];
     document.getElementsByName("title").forEach(function (elem) {
-        Lifecicle = { value: elem.value, id: elem.getAttribute("title-id") };
-        DataArrayTitle.push(Lifecicle);
+        lifeCicleTitle = { value: elem.value, id: elem.getAttribute("title-id") };
+        dataArrayTitle.push(lifeCicleTitle);
     });
     $.ajax(_defineProperty({
         url: '/api/editLifecycleCell',
         type: 'POST',
         dataType: 'json',
         contentType: 'json',
-        data: JSON.stringify(DataArrayCell)
+        data: JSON.stringify(dataArrayCell)
     }, "contentType", 'application/json; charset=utf-8'));
     $.ajax((_$$ajax2 = {
         url: '/api/editLifecycleTitle',
         type: 'POST',
         dataType: 'json',
         contentType: 'json',
-        data: JSON.stringify(DataArrayTitle)
+        data: JSON.stringify(dataArrayTitle)
     }, _defineProperty(_$$ajax2, "contentType", 'application/json; charset=utf-8'), _defineProperty(_$$ajax2, "success", function success() {
-        PastLifecicle = document.getElementsByClassName("titleTable");
-        PastLifecicle.forEach(function (elem, key) {
-            elem.innerHTML = DataArrayTitle[key].value;
+        pastLifecicle = document.getElementsByClassName("titleTable");
+        pastLifecicle.forEach(function (elem, key) {
+            elem.innerHTML = dataArrayTitle[key].value;
         });
     }), _$$ajax2));
 }

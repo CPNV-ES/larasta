@@ -153,4 +153,5 @@ Route::post('/editGrid/addSection', 'EditGridController@addSection');
 
 //Life cicle
 Route::get('/editlifecycle','LifeCycleController@index');
-
+Route::post('/addlifecycle','LifeCycleController@addEmptyContractState');
+Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');

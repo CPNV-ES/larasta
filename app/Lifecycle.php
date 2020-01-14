@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lifecycles extends Model
+class Lifecycle extends Model
 {
     public $timestamps = false;
 
@@ -19,5 +19,12 @@ class Lifecycles extends Model
     public function contractstateto()
     {
         return $this->belongsTo('App\Contractstate', 'to_id');
+    }
+
+    public function modifyLifeCycleData($cycle)
+    {
+        $this->from_id = $cycle->from;
+        $this->to_id = $cycle->to;
+        $this->save();
     }
 }

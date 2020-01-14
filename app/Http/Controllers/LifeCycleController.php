@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Contract;
 use App\Contractstate;
-use App\Lifecycles;
+use App\Lifecycle;
 use Illuminate\Http\Request;
 
 class LifeCycleController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         
-        $lifecicle = Lifecycles::orderBy('from_id')->get();
+        $lifecicle = Lifecycle::orderBy('from_id')->get();
         $nameCicle = Contractstate::all();
         return view('lifeCycle/lifecycleedit')->with(
             [
@@ -20,22 +21,36 @@ class LifeCycleController extends Controller
             ]
         );
     }
-    public function ModifyLifeCycleCell(Request $request){
+
+    public function ModifyLifeCycleCell(Request $request)
+    {
         $data = json_decode($request->getContent());
-        Lifecycles::truncate();
-        foreach($data as $cycle){
-            $Lifecycles = new Lifecycles();
-            $Lifecycles->from_id = $cycle->from;
-            $Lifecycles->to_id = $cycle->to;
-            $Lifecycles->save();
+        Lifecycle::query()->delete();
+        foreach($data as $cycle)
+        {
+            $lifecicle = new Lifecycle();
+            $lifecicle->modifyLifeCycleData($cycle);
         }
     }
-    public function ModifyLifeCycleTitle(Request $request){
+
+    public function ModifyContractStateTitle(Request $request)
+    {
         $data = json_decode($request->getContent());
-        foreach($data as $title){
-            Contractstate::where('id',$title->id)->update(['stateDescription' => $title->value]);
-        }
+        $contractstate = new Contractstate();
+        $contractstate->modifyContractCellTitle($data);
         echo json_encode(array('status' => 'ok'));
+    }
+    public function addEmptyContractState(Request $request)
+    {
+        $contractState = new Contractstate;
+        $contractState->addEmptyContractState();
+        return redirect('/editlifecycle');
+    }
+
+    public function removeLifeCycleState(Request $request)
+    {
+        Contractstate::find($request->id)->delete();
+        return redirect('/editlifecycle');
     }
     //
 }
