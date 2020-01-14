@@ -298,6 +298,9 @@ class WishesMatrixController extends Controller
     }
 
     public function saveWishesPostulations(Request $request) {
+        // TODO implementation
+        // TODO display modifications
+        // TODO prevent click on non wish case
         dd($request);
         exit();
 
