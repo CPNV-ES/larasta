@@ -1,5 +1,10 @@
 {
     "/js/internships.js": "/js/internships.js",
+<<<<<<< HEAD
+=======
+    "/js/internshipsEdit.js": "/js/internshipsEdit.js",
+    "/js/my.js": "/js/my.js",
+>>>>>>> develop
     "/css/app.css": "/css/app.css",
     "/css/documents.css": "/css/documents.css",
     "/css/editGrid.css": "/css/editGrid.css",
@@ -11,11 +16,15 @@
     "/css/wishesMatrix.css": "/css/wishesMatrix.css",
     "/css/mpmenu.css": "/css/mpmenu.css",
     "/css/internships.css": "/css/internships.css",
+<<<<<<< HEAD
     "/css/logbook.css": "/css/logbook.css",
     "/js/internshipsEdit.js": "/js/internshipsEdit.js",
     "/js/visits.js": "/js/visits.js",
     "/js/utils.js": "/js/utils.js",
     "/js/logbook.js": "/js/logbook.js",
+=======
+    "/js/visits.js": "/js/visits.js",
+>>>>>>> develop
     "/css/minimal.css": "/css/minimal.css",
     "/css/bootstrap.css": "/css/bootstrap.css",
     "/css/bootstrap.css.map": "/css/bootstrap.css.map",

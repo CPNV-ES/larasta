@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,21 +93,19 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-// Internships.js: for main internships page
-// Author: X. Carrel
-// Date: Dec 2018
-$(document).ready(function () {
-  // Manage filter box collapse/expand
-  $('#collapsedfilters').click(function () {
-    $(this).addClass('d-none');
-    $('#expandedfilters').removeClass('d-none');
-  });
-  $('#collapsefilters').click(function () {
-    // when we click on the title (not anywhere in the form)
-    $('#expandedfilters').addClass('d-none');
-    $('#collapsedfilters').removeClass('d-none');
-  });
-});
+
+
+/***/ }),
+
+/***/ 1:
+/*!**************************************************!*\
+  !*** multi ./resources/assets/js/internships.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\internships.js */"./resources/assets/js/internships.js");
+
 
 /***/ }),
 

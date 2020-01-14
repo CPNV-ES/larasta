@@ -13,56 +13,56 @@
     </h2>
 
     {{-- Internship information --}}
-    <table class="table text-left larastable">
-        <tr>
-            <td class="col-md-2" colspan="2">Du</td>
-            <td>{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Au</td>
-            <td>{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Description</td>
-            <td>
+    <div class="container text-left border">
+        <div class="row p-1 border">
+            <div class="col-2">Du</div>
+            <div class="col-10">{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Au</div>
+            <div class="col-10">{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Description</div>
+            <div class="col-10">
                 <div id="description">{!! $internship->internshipDescription !!}</div>
-            </td>
-        </tr>
-        <tr class="clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
-            <td class="col-md-2" colspan="2">Responsable administratif</td>
-            <td>{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</td>
-        </tr>
-        <tr class="clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
-            <td class="col-md-2" colspan="2">Responsable</td>
-            <td>{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Maître de classe</td>
-            <td>
+            </div>
+        </div>
+        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
+            <div class="col-2">Responsable administratif</div>
+            <div class="col-10">{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</div>
+        </div>
+        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
+            <div class="col-2">Responsable</div>
+            <div class="col-10">{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Maître de classe</div>
+            <div class="col-10">
                 {{-- Display the teacher, if the internship is attributed --}}
                 @if (isset($internship->student))
                     {{ $internship->student->flock->classMaster->initials }}
                 @endif
-            </td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Etat</td>
-            <td>
+            </div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Etat</div>
+            <div class="col-10">
                 {{ $internship->contractState->stateDescription }}
-            </td>
-        </tr>
-        <tr>
-            <td class="col-md-2" colspan="2">Salaire</td>
-            <td>{{ $internship->grossSalary }}</td>
-        </tr>
+            </div>
+        </div>
+        <div class="row p-1 border">
+            <div class="col-2">Salaire</div>
+            <div class="col-10">{{ $internship->grossSalary }}</div>
+        </div>
         @if (isset($internship->previous_id))
-            <tr>
-                <td class="col-md-2" colspan="3">
+            <div class="row p-1 border">
+                <div class="col-2">
                     <a href="/internships/{{ $internship->previous_id }}/view">Stage précédent</a>
-                </td>
-            </tr>
+                </div>
+            </div>
         @endif
-    </table>
+    </div>
 
     {{-- Action buttons --}}
     {{-- Generate contract button --}}
@@ -70,20 +70,20 @@
         {{-- We can only generate the contract if there is an attibuted student --}}
         @if (isset($internship->student))
             <a href="/contract/{{ $internship->id }}">
-                <button class="btn btn-primary">Générer le contrat</button>
+                <button>Générer le contrat</button>
             </a>
         @endif
     @else
         {{-- Reset contract button --}}
         <br> Contrat généré le : {{$internship->contractGenerated}}<br>
         <a href="/contract/{{$internship->id}}/cancel">
-            <button class="btn btn-danger">Réinitialiser</button>
+            <button>Réinitialiser</button>
         </a>
     @endif
     {{-- Modify button --}}
     @if (env('USER_LEVEL') >= 1)
         <a href="/internships/{{$internship->id}}/edit">
-            <button class="btn btn-warning">Modifier</button>
+            <button>Modifier</button>
         </a>
     @endif
 
@@ -95,64 +95,60 @@
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>
-        <table class="table text-left larastable">
-            <tr>
-                <th colspan="4">Visites</th>
-            </tr>
-            <tr>
-                <td>Date et heure</td>
-                <td>Etat</td>
-                <td>N°</td>
-                <td>Note</td>
-            </tr>
+        <h4>Visites</h4>
+        <div class="container text-left">
+            <div class="row border bg-header">
+                <div class="col-1">N°</div>
+                <div class="col-2">Date et heure</div>
+                <div class="col-2">Etat</div>
+                <div class="col-1">Note</div>
+            </div>
             @foreach ($visits->toArray() as $value)
-                <tr>
-                    <td>
+                <div class="row border">
+                    <div class="col-1">
+                        {{ $value->number }}
+                    </div>
+                    <div class="col-2">
                         {{ strftime("%e %b %g %R", strtotime($value->moment)) }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-2">
                         @if ($value->confirmed)
                             {{ "Confirmé" }}
                         @else
                             {{ "Non-confirmé" }}
                         @endif
-                    </td>
-                    <td>
-                        {{ $value->number }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-1">
                         {{ $value->grade == "" ? "Pas de note" : $value->grade }}
-                    </td>
-                </tr>
+                    </div>
+                </div>
             @endforeach
-        </table>
+        </div>
     @endif @endif
 
     {{-- Remarks --}}
     @if (isset($remarks)) @if (count($remarks) > 0)
         <hr/>
-        <table class="table text-left larastable">
-            <tr>
-                <th colspan="3">Remarques</th>
-            </tr>
-            <tr>
-                <td>Date</td>
-                <td>Auteur</td>
-                <td>Remarque</td>
-            </tr>
+        <h4>Remarques</h4>
+        <div class="container text-left">
+            <div class="row border bg-header">
+                <div class="col-1">Date</div>
+                <div class="col-1">Auteur</div>
+                <div class="col-10">Remarque</div>
+            </div>
             @foreach ($remarks->toArray() as $value)
-                <tr>
-                    <td>
+                <div class="row border">
+                    <div class="col-1">
                         {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-1">
                         {{ $value->author }}
-                    </td>
-                    <td>
+                    </div>
+                    <div class="col-10">
                         {{ $value->remarkText }}
-                    </td>
-                </tr>
+                    </div>
+                </div>
             @endforeach
-        </table>
+        </div>
     @endif @endif
 @stop

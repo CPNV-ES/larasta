@@ -86,6 +86,43 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./resources/assets/js/my.js":
+/*!***********************************!*\
+  !*** ./resources/assets/js/my.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// my global js (if any)
+HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
+//adds and include an element into another
+
+Element.prototype.addElement = function (type) {
+  var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  var newElement = document.createElement(type); //create
+
+  this.appendChild(newElement); //append to parent
+
+  newElement.setAttribute('class', className); //set class name
+
+  return newElement;
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  //filters toggler (author: nicolas maitre)
+  if (window.filtersBoxButton && window.expandedfilters) {
+    var icon = filtersBoxButton.querySelector("i");
+    filtersBoxButton.addEventListener("click", function (ev) {
+      expandedfilters.classList.toggle("d-none"); //toggle arrow
+
+      icon.classList.toggle("down");
+      icon.classList.toggle("up");
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/sass/app.scss":
 /*!****************************************!*\
   !*** ./resources/assets/sass/app.scss ***!
@@ -203,7 +240,26 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+/***/ 0:
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/my.js ./resources/assets/sass/app.scss ./resources/assets/sass/documents.scss ./resources/assets/sass/editGrid.scss ./resources/assets/sass/evalGrid.scss ./resources/assets/sass/people.scss ./resources/assets/sass/synchro.scss ./resources/assets/sass/travelTime.scss ./resources/assets/sass/visits.scss ./resources/assets/sass/wishesMatrix.scss ./resources/assets/sass/mpmenu.scss ./resources/assets/sass/internships.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'C:\\git\\larasta\\resources\\assets\\js\\my.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\documents.scss */"./resources/assets/sass/documents.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\editGrid.scss */"./resources/assets/sass/editGrid.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\evalGrid.scss */"./resources/assets/sass/evalGrid.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\people.scss */"./resources/assets/sass/people.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\synchro.scss */"./resources/assets/sass/synchro.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\travelTime.scss */"./resources/assets/sass/travelTime.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\visits.scss */"./resources/assets/sass/visits.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\wishesMatrix.scss */"./resources/assets/sass/wishesMatrix.scss");
+__webpack_require__(/*! C:\git\larasta\resources\assets\sass\mpmenu.scss */"./resources/assets/sass/mpmenu.scss");
+module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\sass\internships.scss */"./resources/assets/sass/internships.scss");
+
 
 /***/ }),
 
@@ -214,7 +270,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-!(function webpackMissingModule() { var e = new Error("Cannot find module 'C:\\git\\larasta\\resources\\assets\\js\\my.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+__webpack_require__(/*! C:\git\larasta\resources\assets\js\my.js */"./resources/assets/js/my.js");
 __webpack_require__(/*! C:\git\larasta\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
 __webpack_require__(/*! C:\git\larasta\resources\assets\sass\documents.scss */"./resources/assets/sass/documents.scss");
 __webpack_require__(/*! C:\git\larasta\resources\assets\sass\editGrid.scss */"./resources/assets/sass/editGrid.scss");

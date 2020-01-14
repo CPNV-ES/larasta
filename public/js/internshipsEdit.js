@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -93,19 +93,11 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 document.addEventListener("DOMContentLoaded", function () {
   //get the first table in form
   var table = document.querySelector("form table"); //get all inputs, selects in our table
 
-  var inputs = [].concat(_toConsumableArray(table.getElementsByTagName("input")), _toConsumableArray(table.getElementsByTagName("select"))); //when we change value on inputs we add input remark
+  var inputs = table.querySelectorAll("input, select"); //when we change value on inputs we add input remark
 
   inputs.forEach(function (elem) {
     var td = false;
@@ -131,6 +123,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+/***/ }),
+
+/***/ 2:
+/*!******************************************************!*\
+  !*** multi ./resources/assets/js/internshipsEdit.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\internshipsEdit.js */"./resources/assets/js/internshipsEdit.js");
+
 
 /***/ }),
 

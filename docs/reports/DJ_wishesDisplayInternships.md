@@ -14,7 +14,7 @@ Une compagnie peut avoir proposer plusieurs stages différents ou identiques.
 
 Afficher tous les stages. Permettre de distinguer les stages d'une même entreprise.
 
-Regrouper les stages identiques et indiquer le nombre de places disponibles.
+Idéalement, les stages identiques sont regroupés et indiquent le nombre de places.
 
 (Terminé, le ...)
 
@@ -44,12 +44,6 @@ Controleur WishesMatrixController
 
 Controleur InternshipsController
 * Remplacement de quelques dbquerries par des requetes Eloquent
-
-Controleur PeopleControlleur
-* Remplacement d'une dbquerry par une requete Eloquent
-* Correction d'un bug empechant les personnes avec des stages d'etre affichées
-* Correction d'un bug faisant que, pour un responsable, 
-seuls les stages dont il est responsable administratif sont affichés
 
 Vue wishesMatrix
 * Utilisation des stages plutôt ques compagnies
@@ -123,6 +117,9 @@ A faire - problème car pas possible pour l'instant d'assigner un stage à un é
 
 # Commit / Merge
 
+[commit](https://github.com/CPNV-ES/larasta/commit/8f5d7a13ee967a26e7684e9dece0808d95084ff3) sur git, 
+branche Damien-Jakob
+
 Page de souhaits : commit 0b5ace01caaeff830327438ecdfa72d1fa6f0903, branche RegroupInternshipsV2
 
 (Fait, le 17.12.2019)
@@ -132,7 +129,7 @@ Page de souhaits : commit 0b5ace01caaeff830327438ecdfa72d1fa6f0903, branche Regr
 (Effectuée, le ...)
 
 # Documentation
-Pour regrouper de manière propre les stages, 
+git Pour regrouper de manière propre les stages, 
 il faudrait séparer la table des stages en deux tables (internships et internshipGroup).
 Cependant, les stages étant un élément central de l'application, 
 cette modification demanderait de modifier pratiquement toutes les pages afin d'être compatibles avec la nouvelle structure des données.
