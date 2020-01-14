@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var table = document.querySelector("form table");
 
     //get all inputs, selects in our table
-    var inputs = [...table.getElementsByTagName("input"), ...table.getElementsByTagName("select")];
+    var inputs = table.querySelectorAll("input, select");
 
     //when we change value on inputs we add input remark
     inputs.forEach(function(elem){

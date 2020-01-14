@@ -191,16 +191,12 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 
 .filters {
   display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
           flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   -webkit-box-pack: start;
-      -ms-flex-pack: start;
           justify-content: start;
   width: 100%;
 }
@@ -229,8 +225,7 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 }
 
 #expandedfilters {
-  -webkit-box-shadow: 0 0 5px #bbb;
-          box-shadow: 0 0 5px #bbb;
+  box-shadow: 0 0 5px #bbb;
   margin-top: 10px;
 }
 
