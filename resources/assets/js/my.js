@@ -8,3 +8,17 @@ Element.prototype.addElement = function(type, className = ""){
     newElement.setAttribute('class', className); //set class name
     return newElement;
 };
+
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    //filters toggler (author: nicolas maitre)
+    if(window.filtersBoxButton && window.expandedfilters){
+        var icon = filtersBoxButton.querySelector("i");
+        filtersBoxButton.addEventListener("click", function(ev){
+            expandedfilters.classList.toggle("d-none");
+            //toggle arrow
+            icon.classList.toggle("down");
+            icon.classList.toggle("up");
+        });
+    }
+});

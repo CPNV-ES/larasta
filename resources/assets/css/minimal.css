@@ -486,7 +486,7 @@ div.progress-container > div {
 
 .content-besides-sidebar {
     margin-left: 260px;
-    width: 80%;
+    width: calc(100% - 260px);
 }
 
 #sidemenu {
