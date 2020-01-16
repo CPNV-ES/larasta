@@ -78,11 +78,18 @@
                                     {{-- Teacher --}}
                                     {{-- Differentiate the whishes which have an aprouved internship --}}
                                     <td
-                                            @if (!is_null($currentWish) && $currentWish->application >= 1)
+                                            @if (!is_null($currentWish))
+
+                                            @if ($currentWish->application >= 1)
                                             class="clickableCase locked teacher postulationRequest"
                                             @else
                                             class="clickableCase locked teacher"
                                             @endif
+
+                                            @else
+                                            class="locked teacher"
+                                            @endif
+
                                             @if(!is_null($currentWish))
                                             data-wish-id="{{ $currentWish->id }}"
                                             @else
