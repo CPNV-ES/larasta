@@ -11,42 +11,41 @@
     <h1>Matrice des souhaits</h1>
     <div class="col-md-9">
         <table id="WishesMatrixTable" class="table-bordered col-md-11">
+            {{-- Display flocks --}}
             <tr>
                 <th></th>
-                <!-- Display flocks -->
-            @foreach ($flocks as $flock)
-                <!-- The colspan of a flock is the number of students of the flock -->
+                @foreach ($flocks as $flock)
+                    {{-- The colspan of a flock is the number of students of the flock --}}
                     <th class="" colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
                 @endforeach
             </tr>
 
+            {{-- Display the students from the flocks --}}
             <tr>
                 <th></th>
-
-                <!-- Display the students from the flocks -->
-            @foreach ($flocks as $flock)
-                @foreach($flock->students as $person)
-                    <!-- Display the initials of the student -->
-                    @if ($person->initials!="")
-                        <!-- Add the class access to cases of belonging to the user -->
-                            <th
-                                    @if ($person->initials == $currentUser->getInitials())
-                                    class="access"
-                                    @endif
-                                    value="{{ $person->id }}">
+                @foreach ($flocks as $flock)
+                    @foreach($flock->students as $person)
+                        {{-- Display the initials of the student --}}
+                        {{-- Add the class access to cases of belonging to the user --}}
+                        <th
+                                @if ($person->initials == $currentUser->getInitials())
+                                class="access"
+                                @endif
+                        >
+                            @if ($person->initials!="")
                                 {{ $person->initials }}
-                            </th>
-                    @else
-                        <!-- Default initials : ??? -->
-                            <th value="{{ $person->id }}">???</th>
-                        @endif
+                            @else
+                                {{-- Default initials : ??? --}}
+                                ???
+                            @endif
+                        </th>
                     @endforeach
                 @endforeach
             </tr>
 
-            <!-- Display the internships and their wishes -->
-        @foreach ($parentInternships as $internship)
-            <!-- Do not display a group if all internships are attributed -->
+            {{-- Display the internships and their wishes --}}
+            @foreach ($parentInternships as $internship)
+                {{-- Display a group only if at least one internship is disponible --}}
                 @if($placesQuantities[$internship->id] >= 1 )
                     <tr data-internship-id="{{ $internship->id }}">
                         <td>
@@ -55,7 +54,7 @@
                                 {{ $internship->company->companyName }}
 
                                 {{-- Display the number of available internships, if that number is greater than 1 --}}
-                                @if($placesQuantities[$internship->id] >= 2)
+                                @if($placesQuantities[$internship->id] > 1)
                                     ({{ $placesQuantities[$internship->id] }})
                                 @endif
                             </a>
@@ -75,37 +74,41 @@
                                         @endphp
                                     @endif
                                 @endforeach
+
                                 @if ($currentUser->getLevel() != 0)
-                                    {{-- Give extra classes to teacher --}}
-                                    @if (is_null($currentWish))
-                                        <td class="clickableCase locked teacher" data-wish-id="">
-                                    @else
-                                        {{-- Differentiate the whishes which have an aprouved internship --}}
-                                        <td
-                                                @if ($currentWish->application >= 1)
-                                                class="clickableCase locked teacher postulationRequest"
-                                                @else
-                                                class="clickableCase locked teacher"
-                                                @endif
-                                                data-wish-id="{{ $currentWish->id }}"
-                                        >
-                                    @endif
+                                    {{-- Teacher --}}
+                                    {{-- Differentiate the whishes which have an aprouved internship --}}
+                                    <td
+                                            @if (!is_null($currentWish) && $currentWish->application >= 1)
+                                            class="clickableCase locked teacher postulationRequest"
+                                            @else
+                                            class="clickableCase locked teacher"
+                                            @endif
+                                            @if(!is_null($currentWish))
+                                            data-wish-id="{{ $currentWish->id }}"
+                                            @else
+                                            data-wish-id=""
+                                            @endif
+                                    >
                                 @else
                                     {{-- Student --}}
-                                    @if ($currentUser->getId() == $person->id)
-                                        <td class="clickableCase currentStudent">
-                                    @else
-                                        <td class="clickableCase">
-                                            @endif
-                                            @endif
 
-                                            {{-- If student person has a wish for this internship, display the rank --}}
-                                            @if (!is_null($currentWish))
-                                                {{ $currentWish->rank }}
+                                    <td
+                                            @if ($currentUser->getId() == $person->id)
+                                            class="clickableCase currentStudent"
+                                            @else
+                                            class="clickableCase"
                                             @endif
-                                        </td>
-                                        @endforeach
-                                        @endforeach
+                                    >
+                                        @endif
+
+                                        {{-- If student person has a wish for this internship, display the rank --}}
+                                        @if (!is_null($currentWish))
+                                            {{ $currentWish->rank }}
+                                        @endif
+                                    </td>
+                                    @endforeach
+                                    @endforeach
                     </tr>
                 @endif
             @endforeach
