@@ -100,10 +100,22 @@
                                     {{-- Student --}}
 
                                     <td
+                                            @if (!is_null($currentWish))
+
+                                            @if ($currentUser->getId() == $student->id)
+                                            class="clickableCase currentStudent postulationRequest"
+                                            @else
+                                            class="clickableCase postulationRequest"
+                                            @endif
+
+                                            @else
+
                                             @if ($currentUser->getId() == $student->id)
                                             class="clickableCase currentStudent"
                                             @else
                                             class="clickableCase"
+                                            @endif
+
                                             @endif
                                     >
                                         @endif
