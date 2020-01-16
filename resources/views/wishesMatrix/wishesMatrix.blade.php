@@ -62,17 +62,16 @@
 
                         {{-- Create the clickable case for each person --}}
                         @foreach ($flocks as $flock)
-                            @foreach ($flock->students as $person)
+                            @foreach ($flock->students as $student)
                                 {{-- If the student has a wish associated to the internship, get the wish --}}
                                 @php
                                     $currentWish = null;
                                 @endphp
-                                @foreach($person->wishes as $wish)
-                                    @if($wish->internship->id == $internship->id)
-                                        @php
-                                            $currentWish = $wish;
-                                        @endphp
-                                    @endif
+                                @foreach($student->wishes->where('internship.id', $internship->id) as $wish)
+                                    @php
+                                        $currentWish = $wish;
+                                    @endphp
+                                    @break
                                 @endforeach
 
                                 @if ($currentUser->getLevel() != 0)
