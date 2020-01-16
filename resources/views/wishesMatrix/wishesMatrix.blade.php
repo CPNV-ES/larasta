@@ -81,13 +81,14 @@
                                         <td class="clickableCase locked teacher" data-wish-id="">
                                     @else
                                         {{-- Differentiate the whishes which have an aprouved internship --}}
-                                        <td class=
-                                            @if ($currentWish->application >= 1)
-                                                    "clickableCase locked teacher postulationRequest"
-                                        @else
-                                            "clickableCase locked teacher"
-                                        @endif
-                                        data-wish-id="{{ $currentWish->id }}">
+                                        <td
+                                                @if ($currentWish->application >= 1)
+                                                class="clickableCase locked teacher postulationRequest"
+                                                @else
+                                                class="clickableCase locked teacher"
+                                                @endif
+                                                data-wish-id="{{ $currentWish->id }}"
+                                        >
                                     @endif
                                 @else
                                     {{-- Student --}}
