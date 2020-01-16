@@ -277,9 +277,9 @@ class WishesMatrixController extends Controller
         }
 
         // new wishes
-        foreach ($wishes as $internship_id => $rank) {
+        foreach ($wishes as $internshipId => $rank) {
             $wish = new Wish();
-            $wish->internships_id = $internship_id;
+            $wish->internships_id = $internshipId;
             $wish->persons_id = $studentId;
             $wish->rank = $rank;
             $wish->save();

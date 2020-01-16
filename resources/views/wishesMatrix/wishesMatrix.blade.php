@@ -100,7 +100,7 @@
                                     {{-- Student --}}
 
                                     <td
-                                            @if ($currentUser->getId() == $person->id)
+                                            @if ($currentUser->getId() == $student->id)
                                             class="clickableCase currentStudent"
                                             @else
                                             class="clickableCase"
