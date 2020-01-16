@@ -299,9 +299,15 @@ class WishesMatrixController extends Controller
 
     public function saveWishesPostulations(Request $request)
     {
-        // TODO log for internship, student and teacher
         // TODO in view : display modifications
         // TODO in view : prevent click on non wish case
+
+        $currentUser = Environment::currentUser();
+
+        // Only teachers should be allowed modify postulations
+        if ($currentUser->getLevel() <= 0) {
+            return redirect('/wishesMatrix');
+        }
 
         // validate the data
         $data = $request->validate([
@@ -317,19 +323,26 @@ class WishesMatrixController extends Controller
             $postulations[$postulation->wishId] = $postulation->isValidated;
         }
 
+        $teacher = Person::find($currentUser->getId());
+
         foreach ($postulations as $wishId => $isValidated) {
             $wish = Wish::find($wishId);
 
             // wish->application <= 0 : no postulation
-            // wish->application >= 0 : postulation
+            // wish->application > 0 : postulation
             $wasValidated = false;
             if ($wish->application > 0) {
                 $wasValidated = true;
             }
 
-            if($wasValidated !== $isValidated) {
+            if ($wasValidated !== $isValidated) {
                 $wish->application = (int)$isValidated;
                 $wish->save();
+
+                $student = $wish->person;
+                $internship = $wish->internship;
+
+                // TODO log for internship, student and teacher
             }
         }
 
