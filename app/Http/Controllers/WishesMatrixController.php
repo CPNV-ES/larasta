@@ -342,6 +342,22 @@ class WishesMatrixController extends Controller
                 $student = $wish->person;
                 $internship = $wish->internship;
 
+                // Teacher log
+                $teacherRemark = new Remark();
+                $teacherRemark->remarkType = 2;
+                $teacherRemark->remarkOn_Id = $teacher->id;
+                $teacherRemark->author = $teacher->initials;
+                $teacherRemarkText = "";
+                if ($isValidated) {
+                    $teacherRemarkText =
+                        "Approbation de la postulation de {$student->firstname} {$student->lastname} chez {$internship->company->companyName}";
+                } else {
+                    $teacherRemarkText =
+                        "Retrait de l'approbation de la postulation de {$student->firstname} {$student->lastname} chez {$internship->company->companyName}";
+                }
+                $teacherRemark->remarkText = $teacherRemarkText;
+                $teacherRemark->save();
+
                 // TODO log for internship, student and teacher
             }
         }
