@@ -60,26 +60,35 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 20:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(21);
+module.exports = __webpack_require__(19);
 
 
 /***/ }),
 
-/***/ 21:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".responsible").forEach(function (responsible) {
+        if (responsible.getAttribute("email") == "[]") {
+            responsible.classList.add("d-none");
+        }
+    });
+
     /*
      * Responsibles events
      */
@@ -145,12 +154,14 @@ document.addEventListener("DOMContentLoaded", function () {
         element.classList.add(classToRemoveOrAdd);
     }
     document.querySelector(".cmdMail").addEventListener("click", function () {
-        var mailto = "mailto:";
-        var responsibles = document.querySelectorAll(".responsible");
+        var responsibles = document.querySelectorAll(".responsible:not(.d-none)");
+        var emails = [];
 
         responsibles.forEach(function (responsible) {
-            console.log(responsible);
+            emails = [].concat(_toConsumableArray(emails), _toConsumableArray(JSON.parse(responsible.getAttribute("email"))));
         });
+        //show email application
+        Utils.sendMail(emails);
     });
 });
 

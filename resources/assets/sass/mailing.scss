@@ -50,7 +50,8 @@
 }
 .enterpriseName {
   display: inline-block;
-  width: 150px;
+  width: 170px;
+  word-wrap: break-word;
 }
 .enterpriseDate {
   display: inline-block;

@@ -11,5 +11,4 @@ class Contacttypes extends Model
     const EMAIL = 1;
     const TEL_FIXE = 2;
     const TEL_PORTABLE = 3;
-    //Contacttypes::where("contactTypeDescription","Email")->first()->id
 }

@@ -163,21 +163,13 @@ class Person extends Model
     }
 
     /**
-     * @return string of emails -> "email1,email2"
+     * @return JSON with mail(s) of user
      */
     public function emails()
     {
-        $contactInformations=$this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL);
-        $emails="";
+        $emails=$this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL)->pluck("value");
 
-        foreach ($contactInformations as $key => $collection)
-        {
-            $emails.=trim($collection->value);
-            if($key != count($contactInformations)-1)
-                $emails.=",";
-        }
-
-        return $emails;
+        return json_encode($emails);
     }
 
 }

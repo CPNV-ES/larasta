@@ -17,7 +17,7 @@
         </div>
         @endforeach
         <div class="showDeletedEnterprises d-none"></div>
-        <div class="cmdMail">Envoyer un mail</div>
+            <button class="cmdMail">Envoyer un mail</button>
     </div>
 @stop
 

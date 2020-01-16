@@ -1,6 +1,13 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function() {
+
+    document.querySelectorAll(".responsible").forEach((responsible) => {
+        if(responsible.getAttribute("email") == "[]"){
+            responsible.classList.add("d-none");
+        }
+    });
+
     /*
      * Responsibles events
      */
@@ -66,11 +73,13 @@ document.addEventListener("DOMContentLoaded", function() {
         element.classList.add(classToRemoveOrAdd);
     }
     document.querySelector(".cmdMail").addEventListener("click",() => {
-        var mailto = "mailto:";
-        var responsibles = document.querySelectorAll(".responsible");
+       var responsibles = document.querySelectorAll(".responsible:not(.d-none)");
+        var emails = [];
 
         responsibles.forEach((responsible) => {
-            console.log(responsible);
+            emails=[...emails,...JSON.parse(responsible.getAttribute("email"))];
         });
+        //show email application
+        Utils.sendMail(emails);
     });
 });
