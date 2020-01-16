@@ -299,9 +299,9 @@ class WishesMatrixController extends Controller
 
     public function saveWishesPostulations(Request $request)
     {
-        // TODO implementation
-        // TODO display modifications
-        // TODO prevent click on non wish case
+        // TODO log for internship, student and teacher
+        // TODO in view : display modifications
+        // TODO in view : prevent click on non wish case
 
         // validate the data
         $data = $request->validate([
@@ -317,10 +317,21 @@ class WishesMatrixController extends Controller
             $postulations[$postulation->wishId] = $postulation->isValidated;
         }
 
+        foreach ($postulations as $wishId => $isValidated) {
+            $wish = Wish::find($wishId);
 
+            // wish->application <= 0 : no postulation
+            // wish->application >= 0 : postulation
+            $wasValidated = false;
+            if ($wish->application > 0) {
+                $wasValidated = true;
+            }
 
-        dd($postulations);
-        exit();
+            if($wasValidated !== $isValidated) {
+                $wish->application = (int)$isValidated;
+                $wish->save();
+            }
+        }
 
         // return to the wishMatrix view
         return redirect('/wishesMatrix');
