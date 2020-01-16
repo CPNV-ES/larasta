@@ -299,9 +299,6 @@ class WishesMatrixController extends Controller
 
     public function saveWishesPostulations(Request $request)
     {
-        // TODO in view : display modifications
-        // TODO in view : prevent click on non wish case
-
         $currentUser = Environment::currentUser();
 
         // Only teachers should be allowed modify postulations

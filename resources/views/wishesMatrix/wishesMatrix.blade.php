@@ -1,9 +1,4 @@
-<!-- ///////////////////////////////////              -->
-<!-- Benjamin Delacombaz                              -->
-<!-- Wishes Matrix layout                             -->
-<!-- Version 0.8                                      -->
-<!-- Created 18.12.2017                               -->
-<!-- Last edit 07.11.2019 by Damien Jakob             -->
+{{-- TODO in view : prevent click on non wish case --}}
 
 @extends ('layout')
 @section ('page_specific_css')
@@ -85,7 +80,14 @@
                                     @if (is_null($currentWish))
                                         <td class="clickableCase locked teacher" data-wish-id="">
                                     @else
-                                        <td class="clickableCase locked teacher" data-wish-id="{{ $currentWish->id }}">
+                                        {{-- Differentiate the whishes which have an aprouved internship --}}
+                                        <td class=
+                                            @if ($currentWish->application >= 1)
+                                                    "clickableCase locked teacher postulationRequest"
+                                        @else
+                                            "clickableCase locked teacher"
+                                        @endif
+                                        data-wish-id="{{ $currentWish->id }}">
                                     @endif
                                 @else
                                     {{-- Student --}}
