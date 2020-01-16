@@ -212,7 +212,6 @@ $(document).ready(function () {
     function getPostulations() {
         let postulations = new Postulations();
 
-        // TODO implementation
         // foreach wish, get if postulation or not
         $('.clickableCase').each(function () {
             let wishId = $(this).attr('data-wish-id');

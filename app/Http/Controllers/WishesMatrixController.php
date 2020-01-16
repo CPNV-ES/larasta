@@ -225,7 +225,7 @@ class WishesMatrixController extends Controller
         $logText = "Modification des souhaits :";
         foreach ($wishes as $internship_id => $rank) {
             $internship = Internship::find($internship_id);
-            $logText = $logText." {$internship->company->companyName}({$rank}),";
+            $logText = $logText . " {$internship->company->companyName}({$rank}),";
         }
         $logText = substr($logText, 0, -1);
 
@@ -297,11 +297,29 @@ class WishesMatrixController extends Controller
         return redirect('/wishesMatrix');
     }
 
-    public function saveWishesPostulations(Request $request) {
+    public function saveWishesPostulations(Request $request)
+    {
         // TODO implementation
         // TODO display modifications
         // TODO prevent click on non wish case
-        dd($request);
+
+        // validate the data
+        $data = $request->validate([
+            'postulations' => 'required|json',
+        ]);
+
+        // extract data
+        $postulationsCollection = json_decode($data['postulations'])->postulations;
+
+        // convert the postulations to a map : wishId => isValidated
+        $postulations = [];
+        foreach ($postulationsCollection as $postulation) {
+            $postulations[$postulation->wishId] = $postulation->isValidated;
+        }
+
+
+
+        dd($postulations);
         exit();
 
         // return to the wishMatrix view

@@ -117,7 +117,7 @@
             {{ csrf_field() }}
 
             <!-- modifications, hidden -->
-                <textarea id="postulations" name="choices" hidden></textarea>
+                <textarea id="postulations" name="postulations" hidden></textarea>
 
                 <!-- Submit button -->
                 <button type="submit">Enregistrer les postulations</button>
