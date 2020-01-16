@@ -358,7 +358,37 @@ class WishesMatrixController extends Controller
                 $teacherRemark->remarkText = $teacherRemarkText;
                 $teacherRemark->save();
 
-                // TODO log for internship, student and teacher
+                // Student log
+                $studentRemark = new Remark();
+                $studentRemark->remarkType = 2;
+                $studentRemark->remarkOn_Id = $student->id;
+                $studentRemark->author = $teacher->initials;
+                $studentRemarkText = "";
+                if ($isValidated) {
+                    $studentRemarkText =
+                        "Approbation de la postulation chez {$internship->company->companyName} par {$teacher->firstname} {$teacher->lastname}";
+                } else {
+                    $studentRemarkText =
+                        "Retrait de l'approbation de la postulation chez {$internship->company->companyName} par {$teacher->firstname} {$teacher->lastname}";
+                }
+                $studentRemark->remarkText = $studentRemarkText;
+                $studentRemark->save();
+
+                // Internship log
+                $internshipRemark = new Remark();
+                $internshipRemark->remarkType = 1;
+                $internshipRemark->remarkOn_Id = $internship->company->id;
+                $internshipRemark->author = $teacher->initials;
+                $internshipRemarkText = "";
+                if ($isValidated) {
+                    $internshipRemarkText =
+                        "Approbation de la postulation de {$student->firstname} {$student->lastname} par {$teacher->firstname} {$teacher->lastname}";
+                } else {
+                    $internshipRemarkText =
+                        "Retrait de l'approbation de la postulation de {$student->firstname} {$student->lastname} par {$teacher->firstname} {$teacher->lastname}";
+                }
+                $internshipRemark->remarkText = $internshipRemarkText;
+                $internshipRemark->save();
             }
         }
 
