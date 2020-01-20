@@ -105,7 +105,7 @@
                                             @if ($currentUser->getId() == $student->id)
                                             class="clickableCase currentStudent postulationRequest"
                                             @else
-                                            class="clickableCase postulationRequest"
+                                            class="postulationRequest"
                                             @endif
 
                                             @else
@@ -113,7 +113,7 @@
                                             @if ($currentUser->getId() == $student->id)
                                             class="clickableCase currentStudent"
                                             @else
-                                            class="clickableCase"
+                                            class=""
                                             @endif
 
                                             @endif

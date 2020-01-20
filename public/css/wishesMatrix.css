@@ -1,3 +1,7 @@
+.clickableCase:not(.locked):hover {
+  cursor: pointer;
+}
+
 .postulationRequest {
   background-color: #00FFFF;
 }
