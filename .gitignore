@@ -28,3 +28,5 @@ config/deploy/production\.rb
 config/deploy/staging\.rb
 public/package-lock\.json
 public/package\.json
+
+public/css
