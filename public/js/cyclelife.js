@@ -76,21 +76,21 @@ module.exports = __webpack_require__(21);
 /***/ 21:
 /***/ (function(module, exports) {
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-lockTable.addEventListener("click", function (event) {
-    if (lockTable.className == "lock") {
-        lockTable.src = "/images/open-padlock-silhouette_32x32.png";
-        unlockTableAccess();
-    } else if (lockTable.className == "unlock") {
-        lockTable.src = "/images/padlock_32x32.png";
-        lockTableAccess();
-    }
-    lockTable.classList.toggle("lock");
-    lockTable.classList.toggle("unlock");
+document.addEventListener("DOMContentLoaded", function () {
+    lockTable.addEventListener("click", function (event) {
+        if (lockTable.className == "lock") {
+            lockTable.src = "/images/open-padlock-silhouette_32x32.png";
+            unlockTableAccess();
+        } else if (lockTable.className == "unlock") {
+            lockTable.src = "/images/padlock_32x32.png";
+            lockTableAccess();
+        }
+        lockTable.classList.toggle("lock");
+        lockTable.classList.toggle("unlock");
+    });
+    Submit.addEventListener("click", getDataAndSendToController);
 });
-
-Submit.addEventListener("click", getDataAndSendToController);
 
 function lockTableAccess() {
     document.getElementsByName("cell").forEach(function (elem) {
@@ -99,7 +99,7 @@ function lockTableAccess() {
     document.getElementsByName("title").forEach(function (elem) {
         elem.disabled = true;
     });
-    enableSaveButton();
+    enableButton();
 }
 
 function unlockTableAccess() {
@@ -109,49 +109,54 @@ function unlockTableAccess() {
     document.getElementsByName("title").forEach(function (elem) {
         elem.disabled = false;
     });
-    enableSaveButton();
+    enableButton();
 }
 
 function toggleSelected(event) {
     event.target.classList.toggle("selected");
 }
 
-function enableSaveButton() {
-    Submit.classList.toggle("d-none");
+function enableButton() {
+    document.getElementsByTagName("button").forEach(function (elem) {
+        elem.classList.toggle("d-none");
+    });
 }
 
 function getDataAndSendToController() {
-    var _$$ajax2;
-
     dataArrayCell = [];
+    //collect cell data and create json array
     document.getElementsByClassName("selected").forEach(function (elem) {
-        lifeCicleCell = { from: elem.getAttribute("data-from"), to: elem.getAttribute("data-to") };
+        lifeCicleCell = { from: elem.dataset.from, to: elem.dataset.to };
         dataArrayCell.push(lifeCicleCell);
     });
+    //collect title data and create json array
     dataArrayTitle = [];
     document.getElementsByName("title").forEach(function (elem) {
-        lifeCicleTitle = { value: elem.value, id: elem.getAttribute("title-id") };
+        lifeCicleTitle = { value: elem.value, id: elem.dataset.title };
         dataArrayTitle.push(lifeCicleTitle);
     });
-    $.ajax(_defineProperty({
+    $.ajax({
         url: '/api/editLifecycleCell',
         type: 'POST',
-        dataType: 'json',
-        contentType: 'json',
-        data: JSON.stringify(dataArrayCell)
-    }, "contentType", 'application/json; charset=utf-8'));
-    $.ajax((_$$ajax2 = {
+        data: JSON.stringify(dataArrayCell),
+        error: function error(jqXHR, textStatus, errorThrown) {
+            alert("L'enregistrement des du changement des cellules n'a pas pu être éffectué");
+        }
+    });
+    $.ajax({
         url: '/api/editLifecycleTitle',
         type: 'POST',
-        dataType: 'json',
-        contentType: 'json',
-        data: JSON.stringify(dataArrayTitle)
-    }, _defineProperty(_$$ajax2, "contentType", 'application/json; charset=utf-8'), _defineProperty(_$$ajax2, "success", function success() {
-        pastLifecicle = document.getElementsByClassName("titleTable");
-        pastLifecicle.forEach(function (elem, key) {
-            elem.innerHTML = dataArrayTitle[key].value;
-        });
-    }), _$$ajax2));
+        data: JSON.stringify(dataArrayTitle),
+        success: function success() {
+            pastLifecicle = document.getElementsByClassName("titleTable");
+            pastLifecicle.forEach(function (elem, key) {
+                elem.innerHTML = dataArrayTitle[key].value;
+            });
+        },
+        error: function error(jqXHR, textStatus, errorThrown) {
+            alert("L'enregistrement des du changement des titres n'a pas pu être éffectué");
+        }
+    });
 }
 
 /***/ })

@@ -20,7 +20,7 @@ class Lifecycle extends Model
     {
         return $this->belongsTo('App\Contractstate', 'to_id');
     }
-
+    
     public function modifyLifeCycleData($cycle)
     {
         $this->from_id = $cycle->from;

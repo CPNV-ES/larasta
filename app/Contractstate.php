@@ -29,6 +29,11 @@ class Contractstate extends Model
         }
     }
 
+    public function contractStates()
+    {
+        return $this->belongsToMany(Contractstate::class,"lifecycles","from_id","to_id");
+    }
+
     public function addEmptyContractState()
     {
         $this->stateDescription = '';
