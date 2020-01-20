@@ -1,5 +1,3 @@
-{{-- TODO in view : prevent click on non wish case --}}
-
 @extends ('layout')
 @section ('page_specific_css')
     <link rel="stylesheet" href="/css/wishesMatrix.css"/>
