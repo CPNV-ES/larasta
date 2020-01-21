@@ -1,0 +1,70 @@
+.responsible, .showDeletedResponsibles, .showDeletedEnterprises, .cmdMail
+{
+  display: inline-block;
+  background: white;
+  border-radius: 5px;
+  padding:3px;
+  margin-bottom: 3px;
+  -webkit-user-select: none;
+  cursor:pointer;
+  .delete{
+    color: red;
+  }
+  &:hover
+  {
+    background: #dfdfdf;
+    box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32) ;
+  }
+  &:active
+  {
+    transform: scale(0.95);
+  }
+}
+.cmdMail
+{
+  margin-top: 20px;
+  margin-left: calc(50% - 232px);
+}
+
+.enterprises
+{
+  font-size: 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.enterprise
+{
+  margin-top: 10px;
+}
+
+.delete
+{
+  display: inline-block;
+  color: black ;
+  &:hover
+  {
+    color: red ;
+    cursor: pointer;
+  }
+}
+.enterpriseName {
+  display: inline-block;
+  width: 170px;
+  word-wrap: break-word;
+}
+.enterpriseDate {
+  display: inline-block;
+  width: 150px;
+}
+.responsibles
+{
+  display: inline-block;
+  width: 60%;
+  border-bottom: 1px solid black
+}
+
+.showDeletedEnterprises
+{
+  margin-top: 10px;
+}

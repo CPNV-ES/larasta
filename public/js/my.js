@@ -185,4 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // removed by extract-text-webpack-plugin
 
 /***/ })
+
+/******/ });
+
 /******/ ]);
