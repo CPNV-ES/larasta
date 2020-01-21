@@ -14,7 +14,7 @@
                 <th></th>
                 @foreach ($flocks as $flock)
                     {{-- The colspan of a flock is the number of students of the flock --}}
-                    <th class="" colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
+                    <th colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
                 @endforeach
             </tr>
 
@@ -33,7 +33,6 @@
                             @if ($student->initials!="")
                                 {{ $student->initials }}
                             @else
-                                {{-- Default initials : ??? --}}
                                 ???
                             @endif
                         </th>
@@ -63,15 +62,8 @@
                             @foreach ($flock->students as $student)
                                 {{-- If the student has a wish associated to the internship, get the wish --}}
                                 @php
-                                    $currentWish = null;
+                                    $currentWish = $student->wishes->where('internship.id', $internship->id)->first();
                                 @endphp
-                                @foreach($student->wishes->where('internship.id', $internship->id) as $wish)
-                                    @php
-                                        $currentWish = $wish;
-                                    @endphp
-                                    @break
-                                @endforeach
-
                                 <td
                                         {{-- Teacher --}}
                                         {{-- Differentiate the whishes which have an aprouved internship --}}
@@ -94,9 +86,9 @@
 
                                         @endif
 
+                                        {{-- Student --}}
                                         @else
 
-                                        {{-- Student --}}
                                         @if (!is_null($currentWish))
 
                                         @if ($currentUser->getId() == $student->id)
@@ -117,8 +109,6 @@
 
                                         @endif
                                 >
-
-                                    {{-- If student person has a wish for this internship, display the rank --}}
                                     @if (!is_null($currentWish))
                                         {{ $currentWish->rank }}
                                     @endif
@@ -130,40 +120,38 @@
             @endforeach
         </table>
 
-        <!-- Lock table button -->
+        {{-- Lock table button --}}
         @if ($currentUser->getLevel() != 0)
             <img id="lockTable" src="/images/padlock_32x32.png" alt="unlock"/>
 
             <form id="postulationsForm" action="/wishesPostulations" method="post">
-                <!-- Necessary in order to validate the POST-->
-            {{ csrf_field() }}
+                {{-- Necessary in order to validate the POST--}}
+                {{ csrf_field() }}
 
-            <!-- modifications, hidden -->
+                {{-- data --}}
                 <textarea id="postulations" name="postulations" hidden></textarea>
 
-                <!-- Submit button -->
                 <button type="submit">Enregistrer les postulations</button>
             </form>
         @endif
     </div>
 
-    <!-- Parameters modification, for teachers only -->
-    <!-- Check if current user is not a student -->
+    {{-- Parameters modification, teachers only --}}
     @if ($currentUser->getLevel() != 0)
         <form action="/wishesMatrix" method="post">
-            <!-- Necessary in order to validate the POST-->
-        {{ csrf_field() }}
+            {{-- Necessary in order to validate the POST--}}
+            {{ csrf_field() }}
 
-        <!-- Limit date for modifications -->
-            <label>Modifiable jusqu'au</label>
-            <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="dateEndWishes"
+            {{-- Limit date for modifications --}}
+            <label for="dateEndChoices">Modifiable jusqu'au</label>
+            <input id="dateEndChoices" name="dateEndWishes" placeholder="AAAA-MM-DD" type="date"
                    value="{{ $dateEndWishes }}"/>
 
-            <!-- Year selection -->
-            <label>Année à afficher</label>
-            <select name="flockYear" id="flockYear">
-            @foreach($flockYears as $year)
-                <!-- default selected year is the displayed year -->
+            {{-- Year selection --}}
+            <label for="flockYear">Année à afficher</label>
+            <select id="flockYear" name="flockYear">
+                @foreach($flockYears as $year)
+                    {{-- default selected year is the displayed year --}}
                     <option value="{{ $year }}"
                             @if($year == $selectedYear)
                             selected
@@ -173,22 +161,20 @@
                 @endforeach
             </select>
 
-            <!-- Submit button -->
             <button type="submit">Enregistrer les paramètres</button>
         </form>
     @endif
 
-    <!-- Save choices, students only -->
-    <!-- Check if current user is a student -->
+    {{-- Save choices, students only --}}
+    {{-- Check if current user is a student --}}
     @if ($currentUser->getLevel() == 0)
         <form id="choicesForm" action="/updateWishes" method="post">
-            <!-- Necessary in order to validate the POST-->
-        {{ csrf_field() }}
+            {{-- Necessary in order to validate the POST--}}
+            {{ csrf_field() }}
 
-        <!-- modifications, hidden -->
+            {{-- data --}}
             <textarea id="choices" name="choices" hidden></textarea>
 
-            <!-- Submit button -->
             <button type="submit">Enregistrer</button>
         </form>
     @endif
