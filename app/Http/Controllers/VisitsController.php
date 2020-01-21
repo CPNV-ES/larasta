@@ -16,9 +16,7 @@ use Illuminate\Http\Request;
 
 //Models
 use App\Visit;
-use App\Internship;
 use App\Remark;
-use App\Evaluation;
 use App\Person;
 use App\Visitsstate;
 
@@ -58,13 +56,15 @@ class VisitsController extends Controller
         if (Environment::currentUser()->getLevel() >= 1){
 
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome=Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','<',now()); })->get();
+            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
+            {
+                $query->where('classMaster_id',$id)->where('moment','<',now()); 
+            })->get();
             //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitPast=Visit::whereHas('internship.student.flock',function($query) use ($id){
+            $visitPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('moment','>=',now());})->get();
             //Eloquent query to gets all the teacher
-            $person=Person::whereHas('mcof')->get();
+            $person = Person::whereHas('mcof')->get();
 
 
             // Returns all details to his/her in visits' main page
@@ -92,13 +92,13 @@ class VisitsController extends Controller
         if (Environment::currentUser()->getLevel() >= 1){
 
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome=Visit::whereHas('internship.student.flock',function($query) use ($id){
+            $visitsToCome= Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('moment','<',now()); })->get();
                 //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitPast=Visit::whereHas('internship.student.flock',function($query) use ($id){
+            $visitPast= Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('moment','>=',now());})->get();
             //Eloquent query to gets all the teacher
-            $person=Person::whereHas('mcof')->get();
+            $person= Person::whereHas('mcof')->get();
 
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
