@@ -8,6 +8,8 @@
         <div class="title row">
             <h3>Modification Cycle de vie</h3>
         </div>
+        <div id="message">
+        </div>
     </div>
     <div class="row content-box" id="view">
         <div class="col-lg-12 col-lg-offset-2">

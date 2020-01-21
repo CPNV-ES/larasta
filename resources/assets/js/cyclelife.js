@@ -91,7 +91,15 @@ function getDataAndSendToController()
             data: JSON.stringify(dataArrayCell),
             error: function(jqXHR, textStatus, errorThrown)
             {
-                alert("L'enregistrement des du changement des cellules n'a pas pu être éffectué");
+                var div = document.createElement("div");
+                div.classList.add("error");
+                var p = document.createElement("p");
+                p.innerHTML = "L'enregistrement du changement des cellules n'a pas pu être éffectué"
+                div.appendChild(p);
+                if(document.getElementsByClassName("error").length <= 0)
+                {
+                    document.getElementById("message").appendChild(div);
+                }
             }
         }
     );
@@ -111,7 +119,15 @@ function getDataAndSendToController()
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                alert("L'enregistrement des du changement des titres n'a pas pu être éffectué");
+                var div = document.createElement("div");
+                div.classList.add("error");
+                var p = document.createElement("p");
+                p.innerHTML = "L'enregistrement du changement des titres n'a pas pu être éffectué"
+                div.appendChild(p);
+                if(document.getElementsByClassName("error").length <= 0)
+                {
+                    document.getElementById("message").appendChild(div);
+                }
             }
         }
     ); 
