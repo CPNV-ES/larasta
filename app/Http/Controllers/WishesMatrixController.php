@@ -320,10 +320,7 @@ class WishesMatrixController extends Controller
 
             // wish->application <= 0 : no postulation
             // wish->application > 0 : postulation
-            $wasValidated = false;
-            if ($wish->application > 0) {
-                $wasValidated = true;
-            }
+            $wasValidated = ($wish->application > 0);
 
             if ($wasValidated !== $isValidated) {
                 $wish->application = (int)$isValidated;
