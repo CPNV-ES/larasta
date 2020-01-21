@@ -277,6 +277,8 @@ class WishesMatrixController extends Controller
             $wish->rank = $rank;
             $wish->save();
 
+            $student =
+
             $remark = new Remark();
             $remark->remarktype = 5;
             $remark->remarkOn_id = $internshipId;
@@ -290,6 +292,7 @@ class WishesMatrixController extends Controller
         return redirect('/wishesMatrix');
     }
 
+    // TODO prevent deletion of wishes with an approved postulation
     public function saveWishesPostulations(Request $request)
     {
         $currentUser = Environment::currentUser();
@@ -324,7 +327,35 @@ class WishesMatrixController extends Controller
                     $wish->application = 1;
                     $wish->save();
 
-                    // TODO add log for teacher, student, internship
+                    $student = Person::find($postulation->studentId);
+                    $internship = Internship::find($postulation->internshipId);
+
+                    // Teacher log
+                    $teacherRemark = new Remark();
+                    $teacherRemark->remarkType = 2;
+                    $teacherRemark->remarkOn_Id = $teacher->id;
+                    $teacherRemark->author = $teacher->initials;
+                    $teacherRemark->remarkText =
+                        "Ajout d'une postulation de {$student->firstname} {$student->lastname} chez {$internship->company->companyName}";
+                    $teacherRemark->save();
+
+                    // Student log
+                    $studentRemark = new Remark();
+                    $studentRemark->remarkType = 2;
+                    $studentRemark->remarkOn_Id = $student->id;
+                    $studentRemark->author = $teacher->initials;
+                    $studentRemark->remarkText =
+                        "Ajout d'une postulation chez {$internship->company->companyName} par {$teacher->firstname} {$teacher->lastname}";
+                    $studentRemark->save();
+
+                    // Internship log
+                    $internshipRemark = new Remark();
+                    $internshipRemark->remarkType = 1;
+                    $internshipRemark->remarkOn_Id = $internship->company->id;
+                    $internshipRemark->author = $teacher->initials;
+                    $internshipRemark->remarkText =
+                        "Ajout d'une postulation de {$student->firstname} {$student->lastname} par {$teacher->firstname} {$teacher->lastname}";
+                    $internshipRemark->save();
                 }
             }
         }
