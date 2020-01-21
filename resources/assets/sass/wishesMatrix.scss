@@ -1,6 +1,6 @@
 .clickableCase {
   &:not(.locked):hover {
-        cursor: pointer;
+    cursor: pointer;
   }
 }
 
@@ -9,5 +9,7 @@
 }
 
 .currentStudent {
-  background-color: #e9e9e9;
+  &:not(.postulationRequest) {
+    background-color: #e9e9e9;
+  }
 }

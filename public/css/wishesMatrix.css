@@ -6,7 +6,7 @@
   background-color: #00FFFF;
 }
 
-.currentStudent {
+.currentStudent:not(.postulationRequest) {
   background-color: #e9e9e9;
 }
 
