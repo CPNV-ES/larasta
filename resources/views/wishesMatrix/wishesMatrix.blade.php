@@ -22,16 +22,16 @@
             <tr>
                 <th></th>
                 @foreach ($flocks as $flock)
-                    @foreach($flock->students as $person)
+                    @foreach($flock->students as $student)
                         {{-- Display the initials of the student --}}
                         {{-- Add the class access to cases of belonging to the user --}}
                         <th
-                                @if ($person->initials == $currentUser->getInitials())
+                                @if ($student->id == $currentUser->getId())
                                 class="access"
                                 @endif
                         >
-                            @if ($person->initials!="")
-                                {{ $person->initials }}
+                            @if ($student->initials!="")
+                                {{ $student->initials }}
                             @else
                                 {{-- Default initials : ??? --}}
                                 ???
@@ -72,59 +72,59 @@
                                     @break
                                 @endforeach
 
-                                @if ($currentUser->getLevel() != 0)
-                                    {{-- Teacher --}}
-                                    {{-- Differentiate the whishes which have an aprouved internship --}}
-                                    <td
-                                            @if (!is_null($currentWish))
+                                <td
+                                        {{-- Teacher --}}
+                                        {{-- Differentiate the whishes which have an aprouved internship --}}
+                                        @if ($currentUser->getLevel() != 0)
 
-                                            @if ($currentWish->application >= 1)
-                                            class="clickableCase locked teacher postulationRequest"
-                                            @else
-                                            class="clickableCase locked teacher"
-                                            @endif
-
-                                            @else
-                                            class="locked teacher"
-                                            @endif
-
-                                            @if(!is_null($currentWish))
-                                            data-wish-id="{{ $currentWish->id }}"
-                                            @else
-                                            data-wish-id=""
-                                            @endif
-                                    >
-                                @else
-                                    {{-- Student --}}
-
-                                    <td
-                                            @if (!is_null($currentWish))
-
-                                            @if ($currentUser->getId() == $student->id)
-                                            class="clickableCase currentStudent postulationRequest"
-                                            @else
-                                            class="postulationRequest"
-                                            @endif
-
-                                            @else
-
-                                            @if ($currentUser->getId() == $student->id)
-                                            class="clickableCase currentStudent"
-                                            @else
-                                            class=""
-                                            @endif
-
-                                            @endif
-                                    >
-                                        @endif
-
-                                        {{-- If student person has a wish for this internship, display the rank --}}
                                         @if (!is_null($currentWish))
-                                            {{ $currentWish->rank }}
+
+                                        @if ($currentWish->application >= 1)
+                                        class="clickableCase locked teacher postulationRequest"
+                                        @else
+                                        class="clickableCase locked teacher"
                                         @endif
-                                    </td>
-                                    @endforeach
-                                    @endforeach
+
+                                        data-wish-id="{{ $currentWish->id }}"
+
+                                        @else
+
+                                        class="locked teacher"
+                                        data-wish-id=""
+
+                                        @endif
+
+                                        @else
+
+                                        {{-- Student --}}
+                                        @if (!is_null($currentWish))
+
+                                        @if ($currentUser->getId() == $student->id)
+                                        class="clickableCase currentStudent postulationRequest"
+                                        @else
+                                        class="postulationRequest"
+                                        @endif
+
+                                        @else
+
+                                        @if ($currentUser->getId() == $student->id)
+                                        class="clickableCase currentStudent"
+                                        @else
+                                        class=""
+                                        @endif
+
+                                        @endif
+
+                                        @endif
+                                >
+
+                                    {{-- If student person has a wish for this internship, display the rank --}}
+                                    @if (!is_null($currentWish))
+                                        {{ $currentWish->rank }}
+                                    @endif
+                                </td>
+                            @endforeach
+                        @endforeach
                     </tr>
                 @endif
             @endforeach
@@ -132,7 +132,7 @@
 
         <!-- Lock table button -->
         @if ($currentUser->getLevel() != 0)
-            <img id="lockTable" src="/images/padlock_32x32.png"/>
+            <img id="lockTable" src="/images/padlock_32x32.png" alt="unlock"/>
 
             <form id="postulationsForm" action="/wishesPostulations" method="post">
                 <!-- Necessary in order to validate the POST-->

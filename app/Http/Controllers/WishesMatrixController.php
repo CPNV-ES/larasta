@@ -1,11 +1,4 @@
 <?php
-//------------------------------------------------------------
-// Benjamin Delacombaz
-// version 0.7
-// WishesMatrixController
-// Created 18.12.2017
-// Last edit 23.01.2017 by Benjamin Delacombaz
-//------------------------------------------------------------
 
 namespace App\Http\Controllers;
 
