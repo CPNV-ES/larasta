@@ -30,11 +30,13 @@
                                 class="access"
                                 @endif
                         >
-                            @if ($student->initials!="")
-                                {{ $student->initials }}
-                            @else
-                                ???
-                            @endif
+                            <a href="/listPeople/{{ $student->id }}/info">
+                                @if ($student->initials!="")
+                                    {{ $student->initials }}
+                                @else
+                                    ???
+                                @endif
+                            </a>
                         </th>
                     @endforeach
                 @endforeach
