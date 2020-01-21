@@ -81,16 +81,32 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
+<<<<<<< HEAD
 /******/ 	return __webpack_require__(__webpack_require__.s = 3);
+=======
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
+>>>>>>> feature/CycleLifeEditing
 /******/ })
 /************************************************************************/
 /******/ ({
 
+<<<<<<< HEAD
 /***/ "./resources/assets/js/visits.js":
 /*!***************************************!*\
   !*** ./resources/assets/js/visits.js ***!
   \***************************************/
 /*! no static exports found */
+=======
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(19);
+
+
+/***/ }),
+
+/***/ 19:
+>>>>>>> feature/CycleLifeEditing
 /***/ (function(module, exports) {
 
 // visits.js: for main visit page
@@ -98,8 +114,12 @@
 // Date: Nov 2019
 //Fonction permettant d'enlever et rajouter la classe d-none à l'id past 
 showpastbtn.addEventListener("click", function (event) {
+<<<<<<< HEAD
   console.log(past);
   past.classList.toggle("d-none");
+=======
+    past.classList.toggle("d-none");
+>>>>>>> feature/CycleLifeEditing
 });
 
 /***/ }),

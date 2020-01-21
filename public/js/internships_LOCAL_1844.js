@@ -81,75 +81,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-<<<<<<< HEAD
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
-=======
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
->>>>>>> feature/CycleLifeEditing
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-<<<<<<< HEAD
-/***/ "./resources/assets/js/internshipsEdit.js":
-/*!************************************************!*\
-  !*** ./resources/assets/js/internshipsEdit.js ***!
-  \************************************************/
+/***/ "./resources/assets/js/internships.js":
+/*!********************************************!*\
+  !*** ./resources/assets/js/internships.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-document.addEventListener("DOMContentLoaded", function () {
-  //get the first table in form
-  var table = document.querySelector("form table"); //get all inputs, selects in our table
-=======
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
->>>>>>> feature/CycleLifeEditing
-
-  var inputs = table.querySelectorAll("input, select"); //when we change value on inputs we add input remark
-
-  inputs.forEach(function (elem) {
-    var td = false;
-    var initialValue = elem.value;
-    elem.addEventListener("change", function (ev) {
-      if (elem.value === initialValue && td) {
-        //no modif
-        td.remove();
-        td = false;
-        return;
-      }
-
-<<<<<<< HEAD
-      if (td) {
-        //already displayed
-        return;
-      }
-=======
-/***/ 17:
-/***/ (function(module, exports) {
->>>>>>> feature/CycleLifeEditing
-
-      td = elem.parentElement.parentNode.addElement("td");
-      var inputRemark = td.addElement("input");
-      inputRemark.type = "text";
-      inputRemark.name = "remark_".concat(elem.name);
-      inputRemark.placeholder = "Pourquoi?";
-    });
-  });
-});
 
 /***/ }),
 
-/***/ 2:
-/*!******************************************************!*\
-  !*** multi ./resources/assets/js/internshipsEdit.js ***!
-  \******************************************************/
+/***/ 1:
+/*!**************************************************!*\
+  !*** multi ./resources/assets/js/internships.js ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\internshipsEdit.js */"./resources/assets/js/internshipsEdit.js");
+module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\internships.js */"./resources/assets/js/internships.js");
 
 
 /***/ })

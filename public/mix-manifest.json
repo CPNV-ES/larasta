@@ -13,7 +13,14 @@
     "/css/wishesMatrix.css": "/css/wishesMatrix.css",
     "/css/mpmenu.css": "/css/mpmenu.css",
     "/css/internships.css": "/css/internships.css",
+    "/css/lifeCycle.css": "/css/lifeCycle.css",
     "/js/visits.js": "/js/visits.js",
+<<<<<<< HEAD
+=======
+    "/js/internshipsEdit.js": "/js/internshipsEdit.js",
+    "/js/internships.js": "/js/internships.js",
+    "/js/cyclelife.js": "/js/cyclelife.js",
+>>>>>>> feature/CycleLifeEditing
     "/css/minimal.css": "/css/minimal.css",
     "/css/bootstrap.css": "/css/bootstrap.css",
     "/css/bootstrap.css.map": "/css/bootstrap.css.map",

@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//life cycle
+Route::post('/editLifecycleCell','LifeCycleController@ModifyLifeCycleCell');
+Route::post('/editLifecycleTitle','LifeCycleController@ModifyContractStateTitle');

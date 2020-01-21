@@ -20,4 +20,26 @@ class Contractstate extends Model
     {
         return $this->hasMany('App\Internship');
     }
+
+    public function modifyContractCellTitle($data)
+    {
+        foreach($data as $title)
+        {
+            Contractstate::where('id',$title->id)->update(['stateDescription' => $title->value]);
+        }
+    }
+
+    public function contractStates()
+    {
+        return $this->belongsToMany(Contractstate::class,"lifecycles","from_id","to_id");
+    }
+
+    public function addEmptyContractState()
+    {
+        $this->stateDescription = '';
+        $this->details = '';
+        $this->openForApplication = 0;
+        $this->openForRenewal = 0;
+        $this->save();
+    }
 }

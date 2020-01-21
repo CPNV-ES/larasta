@@ -118,3 +118,8 @@ Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 
 //Life cicle
 Route::get('/editlifecycle','LifeCycleController@index');
+<<<<<<< HEAD
+=======
+Route::post('/addlifecycle','LifeCycleController@addEmptyContractState');
+Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
+>>>>>>> feature/CycleLifeEditing

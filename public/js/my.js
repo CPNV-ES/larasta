@@ -84,7 +84,28 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
+<<<<<<< HEAD
 /******/ ({
+=======
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(1);
+__webpack_require__(2);
+__webpack_require__(3);
+__webpack_require__(4);
+__webpack_require__(5);
+__webpack_require__(6);
+__webpack_require__(7);
+__webpack_require__(8);
+__webpack_require__(9);
+__webpack_require__(10);
+__webpack_require__(11);
+__webpack_require__(12);
+module.exports = __webpack_require__(13);
+
+>>>>>>> feature/CycleLifeEditing
 
 /***/ "./resources/assets/js/my.js":
 /*!***********************************!*\
@@ -243,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // removed by extract-text-webpack-plugin
 
 /***/ }),
+<<<<<<< HEAD
 
 /***/ 0:
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -264,6 +286,12 @@ __webpack_require__(/*! C:\git\larasta\resources\assets\sass\wishesMatrix.scss *
 __webpack_require__(/*! C:\git\larasta\resources\assets\sass\mpmenu.scss */"./resources/assets/sass/mpmenu.scss");
 module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\sass\internships.scss */"./resources/assets/sass/internships.scss");
 
+=======
+/* 13 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+>>>>>>> feature/CycleLifeEditing
 
 /***/ })
 
