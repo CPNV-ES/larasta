@@ -119,5 +119,8 @@ Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 //Life cicle
 Route::get('/editlifecycle','LifeCycleController@index');
 
+Route::post('/addlifecycle','LifeCycleController@addEmptyContractState');
+Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
+
 //Mailling
 Route::get('/mailing','MailingController@mailling');

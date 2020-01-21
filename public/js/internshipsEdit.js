@@ -60,20 +60,35 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
+<<<<<<< HEAD
 /******/ 	return __webpack_require__(__webpack_require__.s = 14);
+=======
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
+>>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
 /******/ })
 /************************************************************************/
 /******/ ({
 
+<<<<<<< HEAD
 /***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(15);
+=======
+/***/ 16:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(17);
+>>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
 
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ 15:
+=======
+/***/ 17:
+>>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
 /***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", function () {

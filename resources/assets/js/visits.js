@@ -5,6 +5,5 @@
 //Fonction permettant d'enlever et rajouter la classe d-none à l'id past 
 
 showpastbtn.addEventListener("click",function(event){
-    console.log(past)
     past.classList.toggle("d-none")
 })

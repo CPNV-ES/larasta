@@ -60,49 +60,36 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-<<<<<<< HEAD
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
-=======
-/******/ 	return __webpack_require__(__webpack_require__.s = 18);
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-<<<<<<< HEAD
-/***/ 16:
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
-=======
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(19);
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+module.exports = __webpack_require__(14);
 
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ 17:
-=======
-/***/ 19:
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+/***/ 14:
 /***/ (function(module, exports) {
 
-// visits.js: for main visit page
-// Author: K. Viquerat
-// Date: Nov 2019
-
-//Fonction permettant d'enlever et rajouter la classe d-none à l'id past 
-
-showpastbtn.addEventListener("click", function (event) {
-<<<<<<< HEAD
-    console.log(past);
-=======
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
-    past.classList.toggle("d-none");
+// Internships.js: for main internships page
+// Author: X. Carrel
+// Date: Dec 2018
+$(document).ready(function () {
+    // Manage filter box collapse/expand
+    $('#collapsedfilters').click(function () {
+        $(this).addClass('d-none');
+        $('#expandedfilters').removeClass('d-none');
+    });
+    $('#collapsefilters').click(function () {
+        // when we click on the title (not anywhere in the form)
+        $('#expandedfilters').addClass('d-none');
+        $('#collapsedfilters').removeClass('d-none');
+    });
 });
 
 /***/ })

@@ -2,7 +2,11 @@
   "_args": [
     [
       "tinymce@5.1.2",
+<<<<<<< HEAD
       "C:\\Users\\Diogo.VIEIRA-FERREIR\\Desktop\\web\\laravelProg\\larasta"
+=======
+      "C:\\DATA\\Projet\\larasta"
+>>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
     ]
   ],
   "_from": "tinymce@5.1.2",
@@ -26,7 +30,11 @@
   ],
   "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.1.2.tgz",
   "_spec": "5.1.2",
+<<<<<<< HEAD
   "_where": "C:\\Users\\Diogo.VIEIRA-FERREIR\\Desktop\\web\\laravelProg\\larasta",
+=======
+  "_where": "C:\\DATA\\Projet\\larasta",
+>>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
   "author": {
     "name": "Ephox Corporation"
   },
