@@ -307,13 +307,27 @@ class WishesMatrixController extends Controller
         // extract data
         $postulationsCollection = json_decode($data['postulations'])->postulations;
 
-        // convert the postulations to a map : wishId => isValidated
+        $teacher = Person::find($currentUser->getId());
+
+        // existing wishes : convert the postulations to a map : wishId => isValidated
+        // new wishes : create the new wish
         $postulations = [];
         foreach ($postulationsCollection as $postulation) {
-            $postulations[$postulation->wishId] = $postulation->isValidated;
-        }
+            if ($postulation->wishId != "") {
+                $postulations[$postulation->wishId] = $postulation->isValidated;
+            } else {
+                if ($postulation->isValidated) {
+                    $wish = new Wish();
+                    $wish->internships_id = $postulation->internshipId;
+                    $wish->persons_id = $postulation->studentId;
+                    $wish->rank = 0;
+                    $wish->application = 1;
+                    $wish->save();
 
-        $teacher = Person::find($currentUser->getId());
+                    // TODO add log for teacher, student, internship
+                }
+            }
+        }
 
         foreach ($postulations as $wishId => $isValidated) {
             $wish = Wish::find($wishId);

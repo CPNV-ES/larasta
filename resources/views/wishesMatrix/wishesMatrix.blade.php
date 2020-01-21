@@ -83,10 +83,13 @@
 
                                         @else
 
-                                        class="locked teacher"
+                                        class="clickableCase locked teacher"
                                         data-wish-id=""
 
                                         @endif
+
+                                        data-student-id="{{ $student->id }}"
+                                        data-internship-id="{{ $internship->id }}"
 
                                         {{-- Student --}}
                                         @else

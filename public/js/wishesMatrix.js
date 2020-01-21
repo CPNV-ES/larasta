@@ -296,16 +296,18 @@ $(document).ready(function () {
         return Postulations;
     }();
 
-    var Postulation = function Postulation(wishId, isValidated) {
+    var Postulation = function Postulation(wishId, studentId, internshipId, isValidated) {
         _classCallCheck(this, Postulation);
 
         this.wishId = wishId;
+        this.studentId = studentId;
+        this.internshipId = internshipId;
         this.isValidated = isValidated;
     };
 
     /**
      * Get the list of postulations validated by the teacher
-     * @returns {{}}
+     * @returns {Postulations}
      */
 
 
@@ -315,15 +317,11 @@ $(document).ready(function () {
         // foreach wish, get if postulation or not
         $('.clickableCase').each(function () {
             var wishId = $(this).attr('data-wish-id');
-
-            // we are not interested in cases without a wish
-            if (wishId === "") {
-                return;
-            }
-
+            var studentId = $(this).attr('data-student-id');
+            var internshipId = $(this).attr('data-internship-id');
             var isValidated = $(this).hasClass('postulationRequest');
 
-            var postulation = new Postulation(wishId, isValidated);
+            var postulation = new Postulation(wishId, studentId, internshipId, isValidated);
             postulations.addPostulation(postulation);
         });
 

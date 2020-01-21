@@ -199,15 +199,17 @@ $(document).ready(function () {
     }
 
     class Postulation {
-        constructor(wishId, isValidated) {
+        constructor(wishId, studentId, internshipId, isValidated) {
             this.wishId = wishId;
+            this.studentId = studentId;
+            this.internshipId = internshipId;
             this.isValidated = isValidated;
         }
     }
 
     /**
      * Get the list of postulations validated by the teacher
-     * @returns {{}}
+     * @returns {Postulations}
      */
     function getPostulations() {
         let postulations = new Postulations();
@@ -215,15 +217,11 @@ $(document).ready(function () {
         // foreach wish, get if postulation or not
         $('.clickableCase').each(function () {
             let wishId = $(this).attr('data-wish-id');
-
-            // we are not interested in cases without a wish
-            if (wishId === "") {
-                return;
-            }
-
+            let studentId = $(this).attr('data-student-id');
+            let internshipId = $(this).attr('data-internship-id');
             let isValidated = $(this).hasClass('postulationRequest');
 
-            let postulation = new Postulation(wishId, isValidated);
+            let postulation = new Postulation(wishId, studentId, internshipId, isValidated);
             postulations.addPostulation(postulation);
         });
 
