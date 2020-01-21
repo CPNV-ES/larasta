@@ -2,11 +2,7 @@
   "_args": [
     [
       "tinymce@5.1.2",
-<<<<<<< HEAD
-      "C:\\git\\larasta"
-=======
       "C:\\DATA\\Projet\\larasta"
->>>>>>> feature/CycleLifeEditing
     ]
   ],
   "_from": "tinymce@5.1.2",
@@ -30,11 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.1.2.tgz",
   "_spec": "5.1.2",
-<<<<<<< HEAD
-  "_where": "C:\\git\\larasta",
-=======
   "_where": "C:\\DATA\\Projet\\larasta",
->>>>>>> feature/CycleLifeEditing
   "author": {
     "name": "Ephox Corporation"
   },
