@@ -65,56 +65,28 @@
                                 {{-- If the student has a wish associated to the internship, get the wish --}}
                                 @php
                                     $currentWish = $student->wishes->where('internship.id', $internship->id)->first();
+                                    $tdClasses = " ";
+                                    if($currentUser->getLevel() > 0) {
+                                        $tdClasses .= "clickableCase locked teacher ";
+                                    } elseif ($currentUser->getId() == $student->id) {
+                                        $tdClasses .= "clickableCase currentStudent ";
+                                    }
+                                    if(!is_null($currentWish) && $currentWish->application >= 1) {
+                                        $tdClasses .= "postulationRequest ";
+                                    }
                                 @endphp
                                 <td
-                                        {{-- Teacher --}}
-                                        {{-- Differentiate the whishes which have an aprouved internship --}}
-                                        @if ($currentUser->getLevel() != 0)
+                                        class="{{ $tdClasses }}"
 
                                         @if (!is_null($currentWish))
-
-                                        @if ($currentWish->application >= 1)
-                                        class="clickableCase locked teacher postulationRequest"
-                                        @else
-                                        class="clickableCase locked teacher"
-                                        @endif
-
                                         data-wish-id="{{ $currentWish->id }}"
-
                                         @else
-
-                                        class="clickableCase locked teacher"
                                         data-wish-id=""
-
                                         @endif
-
                                         data-student-id="{{ $student->id }}"
                                         data-internship-id="{{ $internship->id }}"
-
-                                        {{-- Student --}}
-                                        @else
-
-                                        @if (!is_null($currentWish))
-
-                                        @if ($currentUser->getId() == $student->id)
-                                        class="clickableCase currentStudent postulationRequest"
-                                        @else
-                                        class="postulationRequest"
-                                        @endif
-
-                                        @else
-
-                                        @if ($currentUser->getId() == $student->id)
-                                        class="clickableCase currentStudent"
-                                        @else
-                                        class=""
-                                        @endif
-
-                                        @endif
-
-                                        @endif
                                 >
-                                    @if (!is_null($currentWish))
+                                    @if (!is_null($currentWish) && $currentWish->rank > 0)
                                         {{ $currentWish->rank }}
                                     @endif
                                 </td>
