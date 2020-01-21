@@ -1,6 +1,5 @@
 {
     "/js/internships.js": "/js/internships.js",
-    "/js/my.js": "/js/my.js",
     "/css/app.css": "/css/app.css",
     "/css/documents.css": "/css/documents.css",
     "/css/editGrid.css": "/css/editGrid.css",
@@ -17,10 +16,8 @@
     "/js/visits.js": "/js/visits.js",
     "/js/mailing.js": "/js/mailing.js",
     "/js/internshipsEdit.js": "/js/internshipsEdit.js",
-    "/js/my.js": "/js/my.js",
-    "/js/internshipsEdit.js": "/js/internshipsEdit.js",
-    "/js/internships.js": "/js/internships.js",
     "/js/cyclelife.js": "/js/cyclelife.js",
+    "/js/my.js": "/js/my.js",
     "/css/minimal.css": "/css/minimal.css",
     "/css/bootstrap.css": "/css/bootstrap.css",
     "/css/bootstrap.css.map": "/css/bootstrap.css.map",

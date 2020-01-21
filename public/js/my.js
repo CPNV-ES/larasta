@@ -1,127 +1,21 @@
-<<<<<<< HEAD
 // my global js (if any)
 var Utils={};
 
 HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
 //adds and include an element into another
 Element.prototype.addElement = function(type, className = ""){
-=======
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(1);
-__webpack_require__(2);
-__webpack_require__(3);
-__webpack_require__(4);
-__webpack_require__(5);
-__webpack_require__(6);
-__webpack_require__(7);
-__webpack_require__(8);
-__webpack_require__(9);
-__webpack_require__(10);
-__webpack_require__(11);
-__webpack_require__(12);
-module.exports = __webpack_require__(13);
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-// my global js (if any)
-
-HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
-//adds and include an element into another
-Element.prototype.addElement = function (type) {
-    var className = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
     var newElement = document.createElement(type); //create
     this.appendChild(newElement); //append to parent
     newElement.setAttribute('class', className); //set class name
     return newElement;
 };
 
-<<<<<<< HEAD
 
 document.addEventListener("DOMContentLoaded", ()=>{
     //filters toggler (author: nicolas maitre)
     if(window.filtersBoxButton && window.expandedfilters){
         var icon = filtersBoxButton.querySelector("i");
         filtersBoxButton.addEventListener("click", function(ev){
-=======
-document.addEventListener("DOMContentLoaded", function () {
-    //filters toggler (author: nicolas maitre)
-    if (window.filtersBoxButton && window.expandedfilters) {
-        var icon = filtersBoxButton.querySelector("i");
-        filtersBoxButton.addEventListener("click", function (ev) {
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
             expandedfilters.classList.toggle("d-none");
             //toggle arrow
             icon.classList.toggle("down");
@@ -129,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-<<<<<<< HEAD
 /**
  * Create a Tag "a" with a mailto and execute it
  * @param to array or string with emails
@@ -143,83 +36,3 @@ Utils.sendMail = function(to) {
     link.href = `mailto:${to}`;
     link.click();
 };
-=======
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ })
-
-/******/ });
-
-/******/ ]);
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
