@@ -18,6 +18,9 @@
         <a href="/editlifecycle">
             <button class="btn btn-default btn-tile">Editer le cycle de vie</button>
         </a>
+        <a href="/mailing">
+            <button class="btn btn-default btn-tile">Mailing</button>
+        </a>
     </div>
 @stop
 

@@ -14,7 +14,7 @@ class Company extends Model
      */
     public function internship()
     {
-        return $this->hasMany('App\Internship');
+        return $this->hasMany('App\Internship', 'companies_id');
     }
 
     /**
@@ -41,5 +41,12 @@ class Company extends Model
     {
         return $this->belongsToMany('App\Contractstate', 'internships',
             'companies_id', 'contractstate_id');
+    }
+
+    public function getCompanyByLastInternships()
+    {
+        return $this->has('internship')->get()->sortByDesc(function ($company){
+            return $company->internship->max('endDate');
+        });
     }
 }

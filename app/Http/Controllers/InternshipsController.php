@@ -298,60 +298,61 @@ class InternshipsController extends Controller
     public function update(Request $request, $id)
     {
 
-        if (env('USER_LEVEL') >= 1) {
-            //update insternship by id
-            $internships = Internship::find($id);
-            $internships->beginDate = $request->beginDate;
-            $internships->endDate = $request->endDate;
-            $internships->internshipDescription = $request->description;
-            $internships->admin_id = $request->aresp;
-            $internships->responsible_id = $request->intresp;
-            $internships->contractstate_id = $request->stateDescription;
-            $internships->grossSalary = $request->grossSalary;
-            $internships->save();
-
-            $textRegex = "([A-Za-z0-9]+)";
-            //search all keys on request (exemple: "id" is $key and 5664 is $data)
-            foreach ($request->request as $key => $data) {
-                //check if the name of request begin by "remark_"
-                if (preg_match("#^remark_$textRegex$#", $key)) {
-                    //customized remarks
-                    switch ($key) {
-                        case "remark_beginDate":
-                            $request->remark = "La date de début de stage a été modifiée. ";
-                            break;
-                        case "remark_endDate":
-                            $request->remark = "La date de fin de stage a été modifiée. ";
-                            break;
-                        case "remark_aresp":
-                            $request->remark = "Le Responsable administratif du stage a été modifié. ";
-                            break;
-                        case "remark_intresp":
-                            $request->remark = "Le responsable du stage a été modifié. ";
-                            break;
-                        case "remark_stateDescription":
-                            $request->remark = "L'état du stage a été modifié.  ";
-                            break;
-                        case "remark_grossSalary":
-                            $request->remark = "Le salaire du stage a été modifié. ";
-                            break;
-                        default:
-                            //show which field has been changed
-                            $request->remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
-                            break;
-                    }
-                    if (isset($data))
-                        $request->remark .= "Raison: $data";
-
-                    self::addRemarks($request);
-                }
-            }
-            return redirect()->action(
-                'InternshipsController@edit', ['iid' => $request->id]
-            );
-        } else {
+        if (env('USER_LEVEL') < 1){
             abort(404);
+            return;
         }
+        //update insternship by id
+        $internships = Internship::find($id);
+        $internships->beginDate = $request->beginDate;
+        $internships->endDate = $request->endDate;
+        $internships->internshipDescription = $request->description;
+        $internships->admin_id = $request->aresp;
+        $internships->responsible_id = $request->intresp;
+        $internships->contractstate_id = $request->stateDescription;
+        $internships->grossSalary = $request->grossSalary;
+        $internships->save();
+
+        $textRegex = "([A-Za-z0-9]+)";
+        //search all keys on request (exemple: "id" is $key and 5664 is $data)
+        foreach ($request->request as $key => $data) {
+            //check if the name of request begin by "remark_"
+            if (!preg_match("#^remark_$textRegex$#", $key)) {
+                continue;
+            }
+            //customized remarks
+            switch ($key) {
+                case "remark_beginDate":
+                    $request->remark = "La date de début de stage a été modifiée. ";
+                    break;
+                case "remark_endDate":
+                    $request->remark = "La date de fin de stage a été modifiée. ";
+                    break;
+                case "remark_aresp":
+                    $request->remark = "Le Responsable administratif du stage a été modifié. ";
+                    break;
+                case "remark_intresp":
+                    $request->remark = "Le responsable du stage a été modifié. ";
+                    break;
+                case "remark_stateDescription":
+                    $request->remark = "L'état du stage a été modifié.  ";
+                    break;
+                case "remark_grossSalary":
+                    $request->remark = "Le salaire du stage a été modifié. ";
+                    break;
+                default:
+                    //show which field has been changed
+                    $request->remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
+                    break;
+            }
+            if (isset($data))
+                $request->remark .= "Raison: $data";
+
+            self::addRemarks($request);
+        }
+        return redirect()->action(
+            'InternshipsController@edit', ['iid' => $request->id]
+        );
     }
 
     public function addVisit($iid)
