@@ -26,7 +26,7 @@
                         {{-- Display the initials of the student --}}
                         {{-- Add the class access to cases of belonging to the user --}}
                         <th
-                                @if ($student->id == $currentUser->getId())
+                                @if ($student->id == $currentUser->id)
                                 class="access"
                                 @endif
                         >
@@ -66,9 +66,9 @@
                                 @php
                                     $currentWish = $student->wishes->where('internship.id', $internship->id)->first();
                                     $tdClasses = " ";
-                                    if($currentUser->getLevel() > 0) {
+                                    if($currentUser->isTeacher) {
                                         $tdClasses .= "clickableCase locked teacher ";
-                                    } elseif ($currentUser->getId() == $student->id) {
+                                    } elseif ($currentUser->id == $student->id) {
                                         $tdClasses .= "clickableCase currentStudent ";
                                     }
                                     if(!is_null($currentWish) && $currentWish->application >= 1) {
@@ -98,7 +98,7 @@
         </table>
 
         {{-- Lock table button --}}
-        @if ($currentUser->getLevel() != 0)
+        @if ($currentUser->isTeacher)
             <img id="lockTable" src="/images/padlock_32x32.png" alt="unlock"/>
 
             <form id="postulationsForm" action="/wishesPostulations" method="post">
@@ -113,8 +113,8 @@
         @endif
     </div>
 
-    {{-- Parameters modification, teachers only --}}
-    @if ($currentUser->getLevel() != 0)
+    {{-- Parameters modification --}}
+    @if ($currentUser->isTeacher)
         <form action="/wishesMatrix" method="post">
             {{-- Necessary in order to validate the POST--}}
             {{ csrf_field() }}
@@ -144,7 +144,7 @@
 
     {{-- Save choices, students only --}}
     {{-- Check if current user is a student --}}
-    @if ($currentUser->getLevel() == 0)
+    @if ($currentUser->isStudent)
         <form id="choicesForm" action="/updateWishes" method="post">
             {{-- Necessary in order to validate the POST--}}
             {{ csrf_field() }}

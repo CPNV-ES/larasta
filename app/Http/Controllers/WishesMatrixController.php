@@ -27,7 +27,7 @@ class WishesMatrixController extends Controller
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
-        $currentUser = Environment::currentUser();
+        $currentUser = Person::find(Environment::currentUser()->getId());
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // List of all possible parent internships, having an internship starting this year
@@ -103,7 +103,7 @@ class WishesMatrixController extends Controller
         $flockYears = null;
         $dateEndWishes = null;
         // Test if current user is a teacher
-        if ($currentUser->getLevel() >= 1) {
+        if ($currentUser->isTeacher) {
             // get date end wishes
             $param = Params::getParamByName('dateEndWishes');
             if ($param != null) {
