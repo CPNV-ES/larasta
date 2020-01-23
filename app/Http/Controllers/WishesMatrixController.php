@@ -235,9 +235,10 @@ class WishesMatrixController extends Controller
         foreach ($oldWishes as $oldWish) {
             $internshipId = $oldWish->internship->id;
 
-            // if the new wish is already in the old wishes
-            if (array_key_exists($internshipId, $wishes)) {
-                $wishRank = $wishes[$internshipId];
+            // if the new wish is already in the old wishes, or if the old wish is approved
+            if (array_key_exists($internshipId, $wishes) || $oldWish->application > 0) {
+                $wishRank = array_key_exists($internshipId, $wishes) ? $wishes[$internshipId] : 0;
+
                 // if the wish rank is different, update the rank
                 $oldrank = $oldWish->rank;
                 if ($wishRank != $oldrank) {
@@ -277,8 +278,6 @@ class WishesMatrixController extends Controller
             $wish->rank = $rank;
             $wish->save();
 
-            $student =
-
             $remark = new Remark();
             $remark->remarktype = 5;
             $remark->remarkOn_id = $internshipId;
@@ -292,7 +291,6 @@ class WishesMatrixController extends Controller
         return redirect('/wishesMatrix');
     }
 
-    // TODO prevent deletion of wishes with an approved postulation
     public function saveWishesPostulations(Request $request)
     {
         $currentUser = Environment::currentUser();
