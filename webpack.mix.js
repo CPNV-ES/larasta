@@ -39,4 +39,6 @@ mix.copy('resources/assets/js/my.js', 'public/js')
     .copy('node_modules/bootstrap/dist/js/bootstrap.js.map','public/js')
     .copy('node_modules/jquery/dist/jquery.js','public/js')
     .copy('node_modules/bootstrap/dist/js/bootstrap.js','public/js')
+    .copy('node_modules/dropzone/dist/min/dropzone.min.css','public/css')
+    .copy('node_modules/dropzone/dist/min/dropzone.min.js','public/js')
     .copy('node_modules/datatables/media/js/jquery.dataTables.js','public/js');

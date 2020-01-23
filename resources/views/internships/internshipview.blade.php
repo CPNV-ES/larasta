@@ -84,9 +84,11 @@
     @if (env('USER_LEVEL') >= 1)
         <a href="/internships/{{$internship->id}}/edit">
             <button>Modifier</button>
-        </a>
+        </a>        
     @endif
 
+    @include('uploadFile',["route" => route("internship.uploadFiles", ["id" => $internship->id])])
+    
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>

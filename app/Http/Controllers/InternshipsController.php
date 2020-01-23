@@ -506,4 +506,9 @@ class InternshipsController extends Controller
         $newInternship->save();
         return redirect('entreprise/' . $iid . '')->with('message', 'Creation Réussie');
     }
+
+    public function uploadFiles(Request $request)
+    {
+        dd($request);
+    }
 }

@@ -10,8 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'InternshipsController@index');
+Route::get('/', 'InternshipsController@index')->name("index");
 
 Route::post('/', 'InternshipsController@changeFilter');
 
@@ -34,6 +33,8 @@ Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
 Route::get('/internships/{iid}/new','InternshipsController@createInternship');
 
 Route::post('/internships/{iid}/create','InternshipsController@addInternship');
+//
+Route::post('/internships/{id}/files',"InternshipsController@uploadFiles")->name("internship.uploadFiles");
 
 Route::get('/admin','AdminController@index')->middleware('admin');
 
@@ -124,3 +125,4 @@ Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
 
 //Mailling
 Route::get('/mailing','MailingController@mailling');
+
