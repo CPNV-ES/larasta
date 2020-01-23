@@ -10,7 +10,7 @@
             <span class="enterpriseDate">{{$company->internship->sortByDesc('endDate')->first()->endDate}}</span>
             <div class="responsibles">
                 @foreach($company->internship->unique('responsible_id') as $internship)
-                   <div class="responsible" email="{{$internship->responsible->emails()}}">{{$internship->responsible->lastname}} <span class="delete">x</span></div>
+                   <div class="responsible" email="{{json_encode($internship->responsible->emails())}}">{{$internship->responsible->lastname}} <span class="delete">x</span></div>
                 @endforeach
             </div>
             <div class="showDeletedResponsibles d-none">()</div>

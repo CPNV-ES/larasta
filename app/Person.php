@@ -167,9 +167,7 @@ class Person extends Model
      */
     public function emails()
     {
-        $emails=$this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL)->pluck("value");
-
-        return json_encode($emails);
+        return $this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL)->pluck("value");
     }
 
 }
