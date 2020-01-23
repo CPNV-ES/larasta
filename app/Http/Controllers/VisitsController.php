@@ -341,4 +341,10 @@ class VisitsController extends Controller
         }
     }
 
+    public function uploadFiles()
+    {
+        
+
+    }
+
 }

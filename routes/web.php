@@ -89,6 +89,7 @@ Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
+Route::post('/visits/{id}/files',"VisitsController@uploadFiles")->name("visit.uploadFiles");
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');

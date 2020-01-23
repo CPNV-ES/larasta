@@ -133,6 +133,7 @@
                 </td>
             </tr>
         </table>
+        @include('uploadFile',["route" => route("visit.uploadFiles", ["id" => $visit->id])])
             <form method="post" action="/remarks/add" class="col-md-12 text-left">
                 {{ csrf_field() }}
                 <fieldset>
