@@ -27,7 +27,8 @@ class WishesMatrixController extends Controller
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
-        $currentUser = Person::find(Environment::currentUser()->getId());
+        $currentUserId = Environment::currentUser()->getId();
+        $currentUser = Person::find($currentUserId);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // List of all possible parent internships, having an internship starting this year
@@ -49,41 +50,31 @@ class WishesMatrixController extends Controller
             ->whereNull('intern_id')
             ->get();
 
-        // Count, for each parent internship, the number of non attributed internships of its group
+        // parent internship id => count of non attributed internships in its group
         $placesQuantities = array();
-
-        // Get an id of a non attributed internship of the group (can be the d of the parent),
-        // used to give the link to the non attributed internship
-        $childIds = array();
-
         // Initialize the count to 0
         foreach ($parentInternships as $parentInternship) {
             $placesQuantities[$parentInternship->id] = 0;
         }
 
+        // parent internship id => one non attributed child id
+        $childIds = array();
+
         // Compute the count, and get the child id to display
         foreach ($internshipsToDisplay as $internshipToDisplay) {
-            // if the internship is a parent
-            if (is_null($internshipToDisplay->parent_id)) {
-                // increment its own count
-                $placesQuantities[$internshipToDisplay->id] += 1;
+            // internships with a null parent_id are their own parent
+            $parentInternshipId = is_null($internshipToDisplay->parent_id) ?
+                $internshipToDisplay->id : $internshipToDisplay->parent_id;
 
-                // update the chils id
-                $childIds[$internshipToDisplay->id] = $internshipToDisplay->id;
+            // increment the parent count
+            $placesQuantities[$parentInternshipId] += 1;
 
-                // if the internship is a child
-            } else {
-                // increment its parent count
-                $placesQuantities[$internshipToDisplay->parent_id] += 1;
-
-                // update the child id
-                $childIds[$internshipToDisplay->parent_id] = $internshipToDisplay->id;
-            }
+            // update the child id
+            $childIds[$parentInternshipId] = $internshipToDisplay->id;
         }
 
         // Get the selected year, and all classes from that year
         $selectedFlockYear = Params::getParamByName('wishesSelectedYear');
-
         // Create param if it does not exist
         if (is_null($selectedFlockYear)) {
             $param = new Params();
