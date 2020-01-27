@@ -60,23 +60,15 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-<<<<<<< HEAD
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
-=======
-/******/ 	return __webpack_require__(__webpack_require__.s = 18);
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+/******/ 	return __webpack_require__(__webpack_require__.s = 19);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-<<<<<<< HEAD
-/***/ 16:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
-=======
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
+module.exports = __webpack_require__(20);
 
 module.exports = __webpack_require__(19);
 >>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
@@ -84,11 +76,7 @@ module.exports = __webpack_require__(19);
 
 /***/ }),
 
-<<<<<<< HEAD
-/***/ 17:
-=======
-/***/ 19:
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+/***/ 20:
 /***/ (function(module, exports) {
 
 // visits.js: for main visit page

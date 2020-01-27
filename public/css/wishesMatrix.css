@@ -1,8 +1,12 @@
+.clickableCase:not(.locked):hover {
+  cursor: pointer;
+}
+
 .postulationRequest {
   background-color: #00FFFF;
 }
 
-.postulationDone {
-  background-color: #2C75FF;
+.currentStudent:not(.postulationRequest) {
+  background-color: #e9e9e9;
 }
 

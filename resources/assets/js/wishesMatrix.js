@@ -1,85 +1,3 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
-/******/ })
-/************************************************************************/
-/******/ ({
-
-/***/ 17:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(18);
-
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports) {
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 $(document).ready(function () {
     // save if the table is locked or not
     var lockTable = true;
@@ -139,11 +57,11 @@ $(document).ready(function () {
                     } else {
                         // Else if for limit 3 choices
                         if (jQuery.inArray("1", items) == -1) {
-                            $(this).text(1);
+                            $(this).text(1)
                         } else if (jQuery.inArray("2", items) == -1) {
-                            $(this).text(2);
+                            $(this).text(2)
                         } else if (jQuery.inArray("3", items) == -1) {
-                            $(this).text(3);
+                            $(this).text(3)
                         } else {
                             // View The toast message
                             $('.alert-info').text("Vous ne pouvez avoir que 3 souhaits.");
@@ -215,52 +133,43 @@ $(document).ready(function () {
         });
     }
 
-    var Wishes = function () {
-        function Wishes() {
-            _classCallCheck(this, Wishes);
-
+    class Wishes {
+        constructor() {
             this.wishes = [];
         }
 
-        _createClass(Wishes, [{
-            key: 'addWish',
-            value: function addWish(wish) {
-                this.wishes.push(wish);
-            }
-        }]);
+        addWish(wish) {
+            this.wishes.push(wish);
+        }
+    }
 
-        return Wishes;
-    }();
-
-    var Wish = function Wish(internship_id, rank) {
-        _classCallCheck(this, Wish);
-
-        this.internship_id = internship_id;
-        this.rank = rank;
-    };
+    class Wish {
+        constructor(internship_id, rank) {
+            this.internship_id = internship_id;
+            this.rank = rank;
+        }
+    }
 
     /**
      * Get the list of wishes of the current student user
      *
      * @returns {Wishes} container of the wishes
      */
-
-
     function getWishes() {
-        var wishesContainer = new Wishes();
+        let wishesContainer = new Wishes();
 
         $('.currentStudent').each(function () {
-            var rank = $(this).text().trim();
+            let rank = $(this).text().trim();
 
             // we are not interested in not selected internships
             if (rank === "") {
-                return;
+                return
             }
 
-            var row = $(this).parent();
-            var internship_id = row.attr('data-internship-id');
+            let row = $(this).parent();
+            let internship_id = row.attr('data-internship-id');
 
-            var wish = new Wish(internship_id, rank);
+            let wish = new Wish(internship_id, rank);
             wishesContainer.addWish(wish);
         });
 
@@ -271,7 +180,7 @@ $(document).ready(function () {
      * Prepare the content of the form to be sent by the student when saving their wishes
      */
     function prepareStudentData() {
-        var wishes = getWishes();
+        let wishes = getWishes();
 
         // put the json data into the choices input
         $('#choices').text(JSON.stringify(wishes));
@@ -279,49 +188,40 @@ $(document).ready(function () {
         return true;
     }
 
-    var Postulations = function () {
-        function Postulations() {
-            _classCallCheck(this, Postulations);
-
+    class Postulations {
+        constructor() {
             this.postulations = [];
         }
 
-        _createClass(Postulations, [{
-            key: 'addPostulation',
-            value: function addPostulation(postulation) {
-                this.postulations.push(postulation);
-            }
-        }]);
+        addPostulation(postulation) {
+            this.postulations.push(postulation);
+        }
+    }
 
-        return Postulations;
-    }();
-
-    var Postulation = function Postulation(wishId, studentId, internshipId, isValidated) {
-        _classCallCheck(this, Postulation);
-
-        this.wishId = wishId;
-        this.studentId = studentId;
-        this.internshipId = internshipId;
-        this.isValidated = isValidated;
-    };
+    class Postulation {
+        constructor(wishId, studentId, internshipId, isValidated) {
+            this.wishId = wishId;
+            this.studentId = studentId;
+            this.internshipId = internshipId;
+            this.isValidated = isValidated;
+        }
+    }
 
     /**
      * Get the list of postulations validated by the teacher
      * @returns {Postulations}
      */
-
-
     function getPostulations() {
-        var postulations = new Postulations();
+        let postulations = new Postulations();
 
         // foreach wish, get if postulation or not
         $('.clickableCase').each(function () {
-            var wishId = $(this).attr('data-wish-id');
-            var studentId = $(this).attr('data-student-id');
-            var internshipId = $(this).attr('data-internship-id');
-            var isValidated = $(this).hasClass('postulationRequest');
+            let wishId = $(this).attr('data-wish-id');
+            let studentId = $(this).attr('data-student-id');
+            let internshipId = $(this).attr('data-internship-id');
+            let isValidated = $(this).hasClass('postulationRequest');
 
-            var postulation = new Postulation(wishId, studentId, internshipId, isValidated);
+            let postulation = new Postulation(wishId, studentId, internshipId, isValidated);
             postulations.addPostulation(postulation);
         });
 
@@ -329,7 +229,7 @@ $(document).ready(function () {
     }
 
     function prepareTeacherData() {
-        var postulations = getPostulations();
+        let postulations = getPostulations();
 
         // put the json data into the postulations input
         $('#postulations').text(JSON.stringify(postulations));
@@ -346,7 +246,3 @@ $(document).ready(function () {
         });
     }
 });
-
-/***/ })
-
-/******/ });

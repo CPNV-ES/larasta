@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix.copy('resources/assets/js/my.js', 'public/js')
     .js('resources/assets/js/internships.js', 'public/js')
     .js('resources/assets/js/internshipsEdit.js', 'public/js')
+    .js('resources/assets/js/wishesMatrix.js', 'public/js')
     .js('resources/assets/js/visits.js', 'public/js')
     .js('resources/assets/js/mailing.js', 'public/js')
     .js('resources/assets/js/cyclelife.js', 'public/js')

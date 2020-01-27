@@ -15,4 +15,9 @@ class Wish extends Model
     {
         return $this->belongsTo('App\Internship', 'internships_id');
     }
+
+    public function person()
+    {
+        return $this->belongsTo('App\Person', 'persons_id');
+    }
 }
