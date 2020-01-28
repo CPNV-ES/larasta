@@ -35,6 +35,7 @@ class Logbook extends Model
         //test fields existence
         if(!isset($internshipId, $request->activityType, $request->entryDate, $request->duration, $request->description)){
             abort(400);
+            return;
         }
 
         //set values

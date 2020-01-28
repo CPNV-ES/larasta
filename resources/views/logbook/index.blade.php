@@ -20,4 +20,30 @@
 @section ('content')
     <h1>Stage de {{$student->full_name}}</h1>
     <h2>{{$internship->company->companyName}}</h2>
+    <div class="logbookContainer">
+        <div class="todaySection">
+            <h2 class="todayTitle">Aujourd'hui</h2>
+            <p id="todayComplianceMsg" class="colorInactive">Inactif</p>
+            <div id="todayActivitiesContainer">
+                <button id="todayNewActivityBtn">+</button>
+            </div>
+        </div>
+        <div class="calendarSection">
+            <div class="calendarHeader">
+                <button id="todayTimeBtn">Aujourd'hui</button>
+                <button id="lastTimeBtn">&lt;</button>
+                <p id="currentDatesDisplay">...</p>
+                <button id="nextTimeBtn">&gt;</button>
+                <button id="calendarModeBtn"></button>
+            </div>
+            <div class="calendarBody">
+                <div id="monthsContainer" class="hidden">
+
+                </div>
+                <div id="weeksContainer" class="current">
+
+                </div>
+            </div>
+        </div>
+    </div>    
 @endsection

@@ -1,29 +1,41 @@
-.bgNotEnoughWords {
-  background-color: orange;
-}
-
-.bgNotEnoughHours {
-  background-color: red;
-}
-
 .bgLogbookOk {
   background-color: green;
-}
-
-.colorNotEnoughWords {
-  color: orange;
-}
-
-.colorNotEnoughHours {
-  color: red;
 }
 
 .colorLogbookOk {
   color: green;
 }
 
-p {
-  margin: 0;
+.bgNotEnoughWords {
+  background-color: orange;
+}
+
+.colorNotEnoughWords {
+  color: orange;
+}
+
+.bgNotEnoughHours {
+  background-color: red;
+}
+
+.colorNotEnoughHours {
+  color: red;
+}
+
+.bgInactive {
+  background-color: #666;
+}
+
+.colorInactive {
+  color: #666;
+}
+
+.none {
+  display: none !important;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .logbookTips {
@@ -114,5 +126,230 @@ p {
 .reviewActivityType {
   display: inline-block;
   vertical-align: middle;
+}
+
+.logbookContainer {
+  width: 90%;
+  margin-left: 5%;
+  padding: 10px;
+  border: 1px solid;
+  text-align: left;
+}
+
+.logbookContainer p {
+  margin: 0;
+}
+
+.logbookContainer button {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.logbookContainer button:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.logbookContainer button:active {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+}
+
+/*today*/
+
+.todayTitle {
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#todayComplianceMsg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+#todayActivitiesContainer {
+  border: 1px solid #666;
+  height: 150px;
+  padding: 5px;
+  padding-bottom: 15px;
+  box-sizing: content-box;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+#todayNewActivityBtn {
+  width: 60px;
+  line-height: 35px;
+  border-radius: 100%;
+  font-size: 35px;
+  margin-left: 20px;
+  margin-right: 15px;
+  margin-top: calc((150px - 60px) / 2);
+  height: 60px;
+  background-color: lightgreen;
+  border-color: green;
+  color: #004d00;
+}
+
+/*calendar*/
+
+.calendarSection {
+  border: 1px solid #666;
+  margin-top: 15px;
+}
+
+.calendarHeader {
+  border-bottom: 1px solid #666;
+  position: relative;
+  text-align: center;
+  padding: 5px;
+  line-height: 35px;
+  -webkit-user-select: none;
+}
+
+#todayTimeBtn {
+  display: inline-block;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 10px;
+  border-radius: 3px;
+  line-height: 10px;
+}
+
+#lastTimeBtn,
+#currentDatesDisplay,
+#nextTimeBtn,
+#calendarModeBtn {
+  display: inline-block;
+  vertical-align: middle;
+  background: none;
+  border: none;
+  font-weight: bold;
+}
+
+#lastTimeBtn,
+#nextTimeBtn {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+#currentDatesDisplay {
+  min-width: 275px;
+  font-size: 20px;
+  margin: 0 10px 0 10px;
+}
+
+#calendarModeBtn {
+  position: absolute;
+  right: 10px;
+  background-image: url(/images/calendar.svg);
+  height: 30px;
+  width: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  top: 10px;
+  border-radius: 0;
+}
+
+.calendarBody {
+  min-height: 300px;
+  overflow: hidden;
+  height: 75%;
+}
+
+/*weeks*/
+
+#weeksContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.weekContainer.animating {
+  -webkit-transition: left 0.3s;
+  transition: left 0.3s;
+}
+
+.weekContainer {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.weekContainer.left {
+  left: -100%;
+}
+
+.weekContainer.right {
+  left: 100%;
+}
+
+/*days*/
+
+.weekDays.loader {
+  opacity: 0;
+  -webkit-transition: opacity 300ms;
+  transition: opacity 300ms;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-image: url(/images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75px;
+  height: 300px;
+}
+
+.dayAdapter {
+  width: calc(100% / 5 - 10px);
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px;
+  height: 100%;
+}
+
+.dayAdapterHeader {
+  padding: 5px;
+  position: relative;
+}
+
+.dayAdapterTimeDisplay {
+  display: inline-block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  text-align: right;
+}
+
+.dayAdapterActivitiesContainer {
+  padding: 30px 5px 5px 5px;
+  position: relative;
+  border: 1px solid;
+  height: calc(100% - 42px);
+}
+
+.dayAdapterNewActivityBtn {
+  border-radius: 5px;
+  padding: 0;
+  width: 23px;
+  display: inline-block;
+  position: absolute;
+  top: 3px;
+  right: 5px;
 }
 
