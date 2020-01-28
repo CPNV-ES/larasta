@@ -18,5 +18,6 @@
 @endsection
 
 @section ('content')
-
+    <h1>Stage de {{$student->full_name}}</h1>
+    <h2>{{$internship->company->companyName}}</h2>
 @endsection

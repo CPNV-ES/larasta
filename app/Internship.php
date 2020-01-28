@@ -69,6 +69,8 @@ class Internship extends Model
 
     static function fromId($internshipId)
     {
-        return self::where("id", $internshipId)->first();
+        return self::where("id", $internshipId)
+        ->with("company")
+        ->first();
     }
 }

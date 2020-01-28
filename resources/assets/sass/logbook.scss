@@ -3,53 +3,106 @@ $notEnoughWordsColor: orange;
 $logbookOkColor: green;
 
 //base colors
-.bgNotEnoughWords{
-    background-color: $notEnoughWordsColor;
+.bgNotEnoughWords {
+  background-color: $notEnoughWordsColor;
 }
-.bgNotEnoughHours{
-    background-color: $notEnoughHoursColor;
+.bgNotEnoughHours {
+  background-color: $notEnoughHoursColor;
 }
-.bgLogbookOk{
-    background-color: $logbookOkColor;
+.bgLogbookOk {
+  background-color: $logbookOkColor;
 }
-.colorNotEnoughWords{
-    color: $notEnoughWordsColor;
+.colorNotEnoughWords {
+  color: $notEnoughWordsColor;
 }
-.colorNotEnoughHours{
-    color: $notEnoughHoursColor;
+.colorNotEnoughHours {
+  color: $notEnoughHoursColor;
 }
-.colorLogbookOk{
-    color: $logbookOkColor;
+.colorLogbookOk {
+  color: $logbookOkColor;
+}
+//main
+p {
+  margin: 0;
 }
 
 //side menu
-.logbookTips{
-    padding-top: 5px;
+.logbookTips {
+  padding-top: 5px;
 }
 .logbookTip {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 .logbookTipColor {
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-    vertical-align: middle;
-    border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 10px;
 }
 .wordCountTipText {
-    display: inline-block;
-    width: calc(100% - 40px - 1em);
-    vertical-align: middle;
-    padding-left: 10px;
-    margin: 0;
-    font-size: 15px;
-    text-align: left;
+  display: inline-block;
+  width: calc(100% - 40px - 1em);
+  vertical-align: middle;
+  padding-left: 10px;
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
 }
 
 //review mode
-.reviewerContainer p{
-    margin: 0;
+.reviewerContainer {
+  text-align: left;
 }
-.reviewerContainer{
-    text-align: left;
+.reviewWeekSeparator {
+  margin-top: 10px;
+  border-bottom: 1px solid green;
+  font-size: 18px;
+}
+.reviewWeek {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.reviewDayTitle {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px;
+  display: inline-block;
+}
+.reviewDay {
+  background-color: white;
+  box-shadow: 0 0 5px #666;
+  padding: 5px 10px 0px 10px;
+  margin: 5px;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  width: 100%;
+}
+.reviewActivity {
+  font-size: 14px;
+  color: black;
+  border-top: 1px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+  display: flex;
+}
+.reviewActivityInfos {
+  min-width: 200px;
+  border-right: 1px solid #ccc;
+  margin-right: 10px;
+  padding-right: 5px;
+}
+.reviewActivityDuration {
+
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 17px;
+  padding-right: 5px;
+}
+.reviewActivityType {
+
+  display: inline-block;
+  vertical-align: middle;
+
 }

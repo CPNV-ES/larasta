@@ -1,3 +1,6 @@
+@php use Carbon\Carbon; 
+@endphp
+
 @extends ('layout')
 
 @section('page_specific_css')
@@ -9,30 +12,43 @@
 @endsection
 
 @section('content')
+<h1>Stage de {{$student->full_name}}</h1>
+<h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
-        @foreach($activitiesByWeeks as $weekStart => $week)
-        <!--week-->
-            <p class="reviewWeekSeparator">From {{$week["dateObj"]->toDateString()}} to {{$week["dateObj"]->endOfWeek()->toDateString()}}</p>
-            @foreach ($week as $key => $day)
-                @php 
-                    if($key == "dateObj"){
-                        continue;
-                    } 
-                    //$dayObject = new Carbone //ta maman
-                @endphp
-                <!--day-->
-                <div class="reviewDay">
-                    <p class="reviewDayTitle">Day: {{$key}}</p>
-                    @foreach ($day as $activity)
-                        <!--activity-->
-                        <div class="reviewActivity">
-                            {{gettype($activity->dateObj)}}
-                            {{"a"/*$activity->dateObj->locale("fr")->dayName*/}}
-                            {{$activity->activityDescription}}
+        @php 
+            setlocale(LC_TIME, 'French'); //356
+        @endphp
+        <!--weeks-->
+        @foreach ($activitiesByWeeks as $weekDate=>$week)
+            @php
+                $weekDateObj = new Carbon($weekDate);
+                $weekStartDate = $weekDateObj->copy()->startOfWeek();
+                $weekEndDate = $weekDateObj->copy()->endOfWeek();
+                $weekStartDateStr = $weekStartDate->formatLocalized('%d %B');
+                $weekEndDateStr = $weekEndDate->formatLocalized('%d %B %Y');
+                //dump($weekStartDate, $weekEndDate);
+            @endphp
+            <p class="reviewWeekSeparator">Semaine du {{$weekStartDateStr}} au {{$weekEndDateStr}}</p>
+            <div class="reviewWeek">
+                <!--days-->
+                @foreach ($week->reverse() as $dayKey => $day)
+                    <div class="reviewDay">
+                    <p class="reviewDayTitle">{{ucfirst($day[0]->entryDate->formatLocalized("%A"))}}</p>
+                        <div class="reviewDayActivitiesContainer">
+                            <!--activities-->
+                            @foreach ($day as $activityKey => $activity)
+                                <div class="reviewActivity">
+                                    <div class="reviewActivityInfos">
+                                        <p class="reviewActivityDuration">{{$activity->duration}}h</p>
+                                        <p class="reviewActivityType">{{$activity->activityType->typeActivityDescription}}</p>
+                                    </div>
+                                    <p class="reviewActivityDescription">{{$activity->activityDescription}}</p>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                </div>
-            @endforeach
+                    </div>
+                @endforeach
+            </div>
         @endforeach
     </div>
 @endsection

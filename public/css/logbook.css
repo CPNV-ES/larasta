@@ -22,6 +22,10 @@
   color: green;
 }
 
+p {
+  margin: 0;
+}
+
 .logbookTips {
   padding-top: 5px;
 }
@@ -48,11 +52,67 @@
   text-align: left;
 }
 
-.reviewerContainer p {
-  margin: 0;
-}
-
 .reviewerContainer {
   text-align: left;
+}
+
+.reviewWeekSeparator {
+  margin-top: 10px;
+  border-bottom: 1px solid green;
+  font-size: 18px;
+}
+
+.reviewWeek {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-align: stretch;
+          align-items: stretch;
+}
+
+.reviewDayTitle {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px;
+  display: inline-block;
+}
+
+.reviewDay {
+  background-color: white;
+  box-shadow: 0 0 5px #666;
+  padding: 5px 10px 0px 10px;
+  margin: 5px;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.reviewActivity {
+  font-size: 14px;
+  color: black;
+  border-top: 1px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+  display: -webkit-box;
+  display: flex;
+}
+
+.reviewActivityInfos {
+  min-width: 200px;
+  border-right: 1px solid #ccc;
+  margin-right: 10px;
+  padding-right: 5px;
+}
+
+.reviewActivityDuration {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 17px;
+  padding-right: 5px;
+}
+
+.reviewActivityType {
+  display: inline-block;
+  vertical-align: middle;
 }
 

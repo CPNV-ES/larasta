@@ -161,4 +161,9 @@ class Person extends Model
     {
         return strtolower("{$this->firstname}.{$this->lastname}@cpnv.ch");
     }
+
+    static function fromId($personId)
+    {
+        return self::where("id", $personId)->first();
+    }
 }

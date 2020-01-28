@@ -6,7 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 class Logbook extends Model
 {
+    const MIN_WORDS_PER_HOUR = 5;
+    const MIN_HOURS_PER_DAY = 4;
+    //new!
+    const MIN_ACTIVITIES_PER_DAY = 2;
+    const COMPLIANCE_LEVELS = [
+        0 => "ok",
+        10 => "not_enough_words",
+        20 => "not_enough_activities",
+        30 => "not_enough_hours",
+    ];
+
+    /**
+     * Eloquent will automatically convert this column of the model in Carbon dates
+     */
+    protected $dates = ['entryDate'];
+
     public $timestamps = false;
+    
     public function activitytype(){
         return $this->belongsTo('App\Activitytype', 'activitytypes_id');
     }
