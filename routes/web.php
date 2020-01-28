@@ -37,6 +37,11 @@ Route::post('/internships/{iid}/create','InternshipsController@addInternship');
 
 Route::get('/admin','AdminController@index')->middleware('admin');
 
+Route::get('/admin/snapshot', 'snapshotController@showSnapshot');
+Route::get('/admin/snapshot/take', 'snapshotController@takeDbSnapshot')->name('snapshot.take');
+Route::post('/admin/snapshot/upload', 'snapshotController@upload')->name('snapshot.upload');
+Route::post('/admin/snapshot/reload', 'snapshotController@reload')->name('snapshot.reload');
+
 Route::get('/about', function () {
     return view('about');
 });
