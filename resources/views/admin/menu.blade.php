@@ -3,7 +3,7 @@
 
 @section ('content')
     <div class="text-left">
-        <a href="/about">
+        <a href="/admin/snapshot">
             <button class="btn btn-default btn-tile">Snapshots</button>
         </a>
         <a href="/synchro">

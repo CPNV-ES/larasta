@@ -30,3 +30,4 @@ public/package-lock\.json
 public/package\.json
 
 public/css
+storage/app/snapshots/*
