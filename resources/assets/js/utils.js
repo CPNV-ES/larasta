@@ -40,18 +40,21 @@ Date.prototype.getWeek = function() {
     var firstDayStamp = currentStamp - currentDayIndex * dayLengthStamp;
     var lastDayStamp = currentStamp + (6 - currentDayIndex) * dayLengthStamp;
     var lastWorkStamp = lastDayStamp - (2 * dayLengthStamp);
-    //TODO: add week number to return
 
+    var firstDayDate = (new Date(firstDayStamp)).getAbsoluteDate()
+    //TODO: add week number to return
     return {
-        first: (new Date(firstDayStamp)).getAbsoluteDay(),
-        last: (new Date(lastDayStamp)).getAbsoluteDay(),
-        lastWork: (new Date(lastWorkStamp)).getAbsoluteDay()
+        id: firstDayDate.toISOString(),
+        first: firstDayDate,
+        last: (new Date(lastDayStamp)).getAbsoluteDate(),
+        lastWork: (new Date(lastWorkStamp)).getAbsoluteDate()
     }
 };
 Date.prototype.getRightMonth = function() {
     return String("00" + (this.getMonth() + 1)).slice(-2);
 }
-Date.prototype.getAbsoluteDay = function() {
+//get day timestamp without hours, seconds, etc
+Date.prototype.getAbsoluteDate = function() {
     var stamp = this.getTime();
     stamp -= (this.getHours() * 60 * 60 * 1000);
     stamp -= (this.getMinutes() * 60 * 1000);

@@ -143,6 +143,8 @@ $logbookInactiveColor: #666;
   transform: scale(0.8);
 }
 
+
+
 /*today*/
 
 .todayTitle {
@@ -168,6 +170,7 @@ $logbookInactiveColor: #666;
 }
 
 #todayNewActivityBtn {
+  display: inline-block;
   width: 60px;
   line-height: 35px;
   border-radius: 100%;
@@ -320,7 +323,6 @@ $logbookInactiveColor: #666;
   padding: 30px 5px 5px 5px;
   position: relative;
   border: 1px solid;
-  height: calc(100% - 42px);
 }
 
 .dayAdapterNewActivityBtn {
