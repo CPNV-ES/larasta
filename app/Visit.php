@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Visit extends Model
+class Visit extends Model implements HasMedia
 {
+    use HasMediaTrait;
+    
     public $timestamps = false;
-
     /**
      * Eloquent will automaticaly convert this colums of the model in Carbon dates
      */

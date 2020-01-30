@@ -132,23 +132,20 @@ class VisitsController extends Controller
         if (Environment::currentUser()->getLevel() >= 1){
 
             // Try to know if a visit exist
-            $visits=Visit::find($rid)
-            ->get();
-
+            $visits=Visit::find($rid);
             // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
             // return the user to his/her of visit
-            foreach($visits as $visit){
-                if(isset($visit->id) == 1)
+                if(isset($visits->id) == 1)
                 {
 
                     // Gets info from intern's responsible
-                    $mails = $visit->internship->responsible->contactinfo->where('contacttypes_id','1');
+                    $mails = $visits->internship->responsible->contactinfo->where('contacttypes_id','1');
 
                     // Gets info from intern's responsible
-                    $locals = $visit->internship->responsible->contactinfo->where('contacttypes_id','2');
+                    $locals = $visits->internship->responsible->contactinfo->where('contacttypes_id','2');
 
                     // Gets info from intern's responsible
-                    $mobiles = $visit->internship->responsible->contactinfo->where('contacttypes_id','3');
+                    $mobiles = $visits->internship->responsible->contactinfo->where('contacttypes_id','3');
  
                     /*
                      * Get status name of visit for the select input.
@@ -175,17 +172,19 @@ class VisitsController extends Controller
                     /*
                      * Gets evaluation from the visit (ID).
                      * */
-                    $eval = $visit->evaluation->first();
-
+                    $eval = $visits->evaluation->first();
+                    $media = $visits->getMedia();
+                    dd($media->first()->getUrl());
                     return view('visits/manage')->with(
                         [
-                            'visit' => $visit,
+                            'visit' => $visits,
                             'mails' => $mails,
                             'locals' => $locals,
                             'mobiles' => $mobiles,
                             'visitstate' => $visitstate,
                             'history' => $history,
-                            'eval' => $eval
+                            'eval' => $eval,
+                            'media' => $media
                         ]
                     );
                 }
@@ -195,7 +194,6 @@ class VisitsController extends Controller
                 {
                     return redirect('/visits')->with('status', "Visite pas trouvée");
                 }
-            }
         }
 
         //If not teacher or superuser, we redirect him/her to home page
@@ -341,10 +339,12 @@ class VisitsController extends Controller
         }
     }
 
-    public function uploadFiles()
+    public function uploadFiles(Request $request, $id)
     {
+        /* $filename = $file->storeAs('public/pdf','Evalution_'.$id.'.pdf'); */
+        $Visit = Visit::find($id);
+        $Visit->addMediaFromRequest('file')->toMediaCollection();
         
-
     }
 
 }
