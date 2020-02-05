@@ -173,8 +173,12 @@ class VisitsController extends Controller
                      * Gets evaluation from the visit (ID).
                      * */
                     $eval = $visits->evaluation->first();
-                    $media = $visits->getMedia();
-                    dd($media->first()->getUrl());
+
+                    /*
+                     * Gets media associate from the visit (ID).
+                     * */
+                    $medias = $visits->getMedia();
+
                     return view('visits/manage')->with(
                         [
                             'visit' => $visits,
@@ -184,7 +188,7 @@ class VisitsController extends Controller
                             'visitstate' => $visitstate,
                             'history' => $history,
                             'eval' => $eval,
-                            'media' => $media
+                            'medias' => $medias
                         ]
                     );
                 }
@@ -341,10 +345,8 @@ class VisitsController extends Controller
 
     public function uploadFiles(Request $request, $id)
     {
-        /* $filename = $file->storeAs('public/pdf','Evalution_'.$id.'.pdf'); */
         $Visit = Visit::find($id);
         $Visit->addMediaFromRequest('file')->toMediaCollection();
-        
     }
 
 }
