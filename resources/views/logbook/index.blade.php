@@ -59,7 +59,8 @@
                 <select id="activityWindowActivityTypeInput" class="editMode" required></select>
                 <button id="activityWindowDeleteBtn" type="button"></button>
             </div>
-            <p id="activityWindowDescription">...</p>
+            <p id="activityWindowDescription" class="viewMode">...</p>
+            <textarea required placeholder="Description" id="activityWindowDescriptionInput" class="editMode"></textarea>
             <div class="activityWindowButtons">
                 <button id="activityWindowCancel" type="button">Annuler</button>
                 <button class="activityWindowSubmit editMode" type="submit">Enregistrer</button>

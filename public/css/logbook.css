@@ -193,6 +193,8 @@
 .activityDescription {
   padding: 5px;
   overflow: hidden;
+  font-size: 11px;
+  max-height: 253.4px;
 }
 
 .activityMoreBtn {
@@ -314,7 +316,7 @@
 }
 
 .calendarBody {
-  min-height: 500px;
+  min-height: 600px;
   overflow: hidden;
   height: 75%;
 }
@@ -364,7 +366,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 75px;
-  height: 500px;
+  height: 600px;
 }
 
 .dayAdapter {
@@ -392,16 +394,21 @@
   padding: 30px 5px 5px 5px;
   position: relative;
   border: 1px solid;
+  max-height: 555px;
+  overflow-y: auto;
 }
 
 .dayAdapterNewActivityBtn {
   border-radius: 5px;
   padding: 0;
-  width: 23px;
   display: inline-block;
   position: absolute;
   top: 3px;
   right: 5px;
+  font-size: 20px;
+  width: 30px;
+  background-color: lightgreen !important;
+  border-color: green;
 }
 
 #activityWindowContainer {
@@ -457,6 +464,46 @@
 .activityWindowButtons button {
   position: absolute;
   height: 40px;
+}
+
+.activityWindowTimeEdit {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.activityWindowTimeEdit * {
+  font-size: 30px;
+  display: inline-block;
+}
+
+.activityWindowTimeEdit input {
+  width: 40px;
+  border: 0;
+  border-bottom: 2px solid #666;
+  color: #333;
+  line-height: 30px;
+  text-align: center;
+  -webkit-appearance: textfield;
+}
+
+#activityWindowActivityTypeInput {
+  font-size: 25px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 150px - 50px);
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+#activityWindowDescriptionInput {
+  max-width: 100%;
+  min-width: 100%;
+  border: 0;
+  min-height: 200px;
+  padding: 20px;
+  font-size: 15px;
 }
 
 #activityWindowCancel {

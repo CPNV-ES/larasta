@@ -50,14 +50,14 @@ class Logbook extends Model
 
     public function applyData($data){
         //only updates the provided data
-        if(isset($data->activityType))
-            $this->activitytypes_id = $data->activityType;
+        if(isset($data->activitytypes_id))
+            $this->activitytypes_id = $data->activitytypes_id;
         if(isset($data->entryDate))
             $this->entryDate = $data->entryDate;
         if(isset($data->duration))
             $this->duration = $data->duration;
-        if(isset($data->description))
-            $this->activityDescription = $data->description;
+        if(isset($data->activityDescription))
+            $this->activityDescription = $data->activityDescription;
 
         return $this;
     }
