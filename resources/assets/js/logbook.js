@@ -5,6 +5,7 @@ var weeks = {};
 var displayedWeekId = false;
 var currentDay = false;
 var currentDisplayMode = "weeks";
+var displayedActivityId = false;
 
 document.addEventListener("DOMContentLoaded", boot);
 async function boot(ev){
@@ -19,15 +20,29 @@ async function boot(ev){
     todayNewActivityBtn.addEventListener("click", function(){
         openCreateActivity(new Date());
     });
+    activityWindow.addEventListener("click", hideActivityWindow);
+    activityWindowContainer.addEventListener("click", (evt)=>{
+        evt.stopPropagation();
+    });
+    activityWindowCancel.addEventListener("click", hideActivityWindow);
+    activityWindowEditBtn.addEventListener("click", (evt)=>{
+        openEditActivity(displayedActivityId)
+    });
+    //window categories
+    activityTypes.forEach((activityType) => {
+        optionElem = activityWindowActivityTypeInput.addElement("option");
+        optionElem.textContent = activityType.typeActivityDescription;
+        optionElem.value = activityType.id;
+    });
     /*start*/
     resetTime();
 }
 
-function changeWeek(week) {
+function changeWeek(week, {force=false, animation=true}={}) {
     console.log("change week to ", week);
     newWeekId = week.id;
 
-    if (week.id == displayedWeekId) {
+    if (week.id == displayedWeekId && !force) {
         console.log("week already displayed");
         return;
     }
@@ -63,13 +78,18 @@ function changeWeek(week) {
     firstDateStr = week.first.getDate();
     lastDateStr = week.lastWork.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
     currentDatesDisplay.textContent = `Semaine du ${firstDateStr} au ${lastDateStr}`
-        //animation
+    //animation
     if (!oldWeekObj) {
         return;
     }
     var isNewer = (newWeekObj.week.first > oldWeekObj.week.first)
     var newElem = newWeekObj.container;
     var oldElem = oldWeekObj.container;
+    if(!animation){ //instant transition
+        oldElem.classList.add("none");
+        newElem.classList.remove("none");
+        return;
+    }
     var newClassName = isNewer ? "right" : "left";
     var oldClassName = isNewer ? "left" : "right";
     (async function() {
@@ -123,26 +143,53 @@ async function loadActivities(weekId) {
     var toStr = weekObj.week.last.toISOString();
 
     var newActivities = await Utils.callApi(`/api/internships/${internshipId}/logbook/activities`, {query:{entryDate:{from: fromStr, to: toStr}}});
+
     console.log("new activities", newActivities);
     weekObj.loader.remove();
     weekObj.loader = false;
 
+    if(!newActivities){
+        console.warn("couln't load activities");
+        Utils.infoBox("Couldn't load activities");
+
+        //retry message + delete week to allow reload
+        weekObj.container.removeChilds();
+        var textElem = weekObj.container.addElement("h1");
+        textElem.textContent = "Couldn't load activities for this week :(";
+        var retryBtn = weekObj.container.addElement("button");
+        retryBtn.textContent = "Retry";
+        retryBtn.addEventListener("click", (evt)=>{
+            weekObj.container.remove();
+            delete weeks[weekId];
+            changeWeek(weekObj.week, {force:true, animation:false});
+        });
+        return;
+    }
+
     newActivities.forEach(function(activity){
-        //objectify date
-        activity.date = new Date(activity.entryDate);
-        var dateId = activity.date.getAbsoluteDate().toISOString();
-        //store
-        if(activities[activity.id]){
-            console.warn("activity already displayed. This case is not treated yet.");
-        }
-        activities[activity.id] = {
-            object: activity,
-            adapters:[]
-        }
-        weeks[weekId].days[dateId].activities.push(activity.id);
-        //display
-        displayActivity(activity);
-    })
+        onNewActivity(activity, weekId);
+    });
+}
+
+function onNewActivity(activity, weekId=false){
+    //objectify date
+    activity.date = new Date(activity.entryDate);
+    var dateId = activity.date.getAbsoluteDate().toISOString();
+    //weekid
+    if(!weekId){
+        weekId = activity.date.getWeek.first.getAbsoluteDate().toISOString();
+    }
+    //store
+    if(activities[activity.id]){
+        console.warn("activity already displayed. This case is not treated yet.");
+    }
+    activities[activity.id] = {
+        object: activity,
+        adapters:[]
+    }
+    weeks[weekId].days[dateId].activities.push(activity.id);
+    //display
+    displayActivity(activity);
 }
 
 async function displayActivity(activity){
@@ -199,10 +246,11 @@ function buildActivityAdapter(parent, activity){
     
     //data
     updateData(activity);
+    moreBtn.textContent = "▼";
 
     //events
     moreBtn.addEventListener("click", function(){
-        openActivity(activity.id);
+        openViewActivity(activity.id);
     });
 
     function updateData(activity){
@@ -221,13 +269,14 @@ function buildActivityAdapter(parent, activity){
     return adapterObject;
 }
 
-function updateDisplayedActivityData(activity){
-    if(!activities[activity.id]){
+function updateActivityData(newActivity){
+    if(!activities[newActivity.id]){
         console.warn("activity not displayed yet");
         return;
     }
-    activities[activity.id].adapters.forEach(function(adapter){
-        adapter.updateData(activity);
+    activities[newActivity.id].object = newActivity;
+    activities[newActivity.id].adapters.forEach(function(adapter){
+        adapter.updateData(newActivity);
     });
 }
 function displayDayData(day){
@@ -236,9 +285,66 @@ function displayDayData(day){
 
 function openCreateActivity(date){
     console.log("open create activity window", date);
+    //clear data
+
+    //display
+    displayedActivityId = false;
+    displayActivityWindow("edit");
 }
-function openActivity(id){
-    console.log("open edit activity window", id);
+function openEditActivity(activityId){
+    console.log("open edit activity window", activityId);
+    //set data
+
+    //display
+    displayedActivityId = activityId;
+    displayActivityWindow("edit");
+}
+function openViewActivity(activityId){
+    console.log("open view activity window", activityId);
+    //display data
+    var activity = activities[activityId].object;
+    console.log(activity);
+    activityWindowTimeDisplay.textContent = getPrettyTime(activity.duration);
+    activityWindowActivityTypeDisplay.textContent = activity.activitytype.typeActivityDescription;
+    activityWindowDescription.textContent = activity.activityDescription;
+    //display
+    displayedActivityId = activityId;
+    displayActivityWindow("view");
+}
+
+function displayActivityWindow(mode = "view"){//mode: edit/view
+    var oppositeMode = (mode=="edit")?"view":"edit";
+    activityWindow.getElementsByClassName(`${oppositeMode}Mode`).forEach((elem)=>{
+        elem.classList.add("none");
+    });
+    activityWindow.getElementsByClassName(`${mode}Mode`).forEach((elem)=>{
+        elem.classList.remove("none");
+    });
+    activityWindow.classList.remove("none");
+}
+function hideActivityWindow(){
+    activityWindow.classList.add("none");
+}
+
+async function onActivitySave(){
+    console.log("saving", displayedActivityId);
+    //get data
+    activity = {}
+    //save data
+    if(displayedActivityId){
+        //edit
+        updateActivityData(activity);
+    }else{
+        //new
+        //show loader
+        //get response
+        //hide loader
+        activity = {id:"test"}
+        onNewActivity(activity);
+    }
+    
+    //display window
+    openViewActivity(activity.id);
 }
 
 function getPrettyTime(timeInHours){

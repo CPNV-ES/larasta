@@ -20,7 +20,8 @@ class LogbookController extends Controller
             abort(404, "internship not found");
         }
         $student = Person::fromId($internship->intern_id);
-        return view('logbook/index')->with(compact("internship", "student"));
+        $activityTypes = Activitytype::get();
+        return view('logbook/index')->with(compact("internship", "student", "activityTypes"));
         //⛔🌈
     }
     public function reviewMode($internshipId)

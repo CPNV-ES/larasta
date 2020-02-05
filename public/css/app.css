@@ -1,6 +1,6 @@
 body {
   font-family: "Raleway", sans-serif;
-  color: #484B4D;
+  color: #484b4d;
 }
 
 h1,
@@ -8,7 +8,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #1E262C;
+  color: #1e262c;
 }
 
 h1 {
@@ -41,12 +41,12 @@ p {
 
 .lead-text {
   font-size: 30px;
-  color: #6F7274;
+  color: #6f7274;
 }
 
 .description-text {
   font-size: 14px;
-  color: #1E262C;
+  color: #1e262c;
 }
 
 button {
@@ -55,7 +55,7 @@ button {
   font-size: 14pt;
   padding-left: 30pt;
   padding-right: 30pt;
-  background-color: #009CDE;
+  background-color: #009cde;
 }
 
 button:hover {
@@ -63,22 +63,22 @@ button:hover {
 }
 
 button:active {
-  background-color: #1E262C;
+  background-color: #1e262c;
 }
 
 button:disabled {
-  background-color: #D1D5D8;
-  color: #D1D5D8;
+  background-color: #d1d5d8;
+  color: #d1d5d8;
 }
 
 .primaryCall {
-  background-color: #19AB20;
+  background-color: #19ab20;
 }
 
 .secondary {
-  color: #1E262C;
+  color: #1e262c;
   background-color: white;
-  outline-color: #C1C5C7;
+  outline-color: #c1c5c7;
 }
 
 .secondary:hover {
@@ -153,7 +153,7 @@ button:disabled {
 }
 
 .titlebar {
-  background-color: #1E4F67;
+  background-color: #1e4f67;
   color: white;
   padding: 8px;
 }
@@ -240,11 +240,11 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   overflow: hidden;
 }
 
-.onefilter > input[type=checkbox] {
+.onefilter > input[type="checkbox"] {
   display: none;
 }
 
-.onefilter > input[type=checkbox] + label {
+.onefilter > input[type="checkbox"] + label {
   /*label disabled*/
   display: block;
   width: 100%;
@@ -262,7 +262,7 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   font-size: 13px;
 }
 
-.onefilter > input[type=checkbox]:checked + label {
+.onefilter > input[type="checkbox"]:checked + label {
   /*label enabled*/
   background-color: #56aeff;
   border-color: #3f92df;
@@ -270,9 +270,49 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   border-bottom-width: 2px;
 }
 
-.onefilter:active > input[type=checkbox] + label {
+.onefilter:active > input[type="checkbox"] + label {
   /*label click*/
   border-bottom-width: 2px;
   border-top-width: 3px;
+}
+
+/*windows*/
+
+.windowBackground {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  text-align: center;
+  overflow-y: scroll;
+}
+
+.windowBackground.darken {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.windowContainer {
+  background-color: white;
+  display: inline-block;
+  margin-top: 100px;
+}
+
+/*info box*/
+
+.infoMessageBox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+  opacity: 0;
+  z-index: 20;
+  font-size: 16px;
 }
 

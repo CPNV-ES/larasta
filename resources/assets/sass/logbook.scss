@@ -3,6 +3,9 @@ $notEnoughWordsColor: orange;
 $logbookOkColor: green;
 $logbookInactiveColor: #666;
 
+$normalCardHeight: 130px;
+$calendarHeight: 500px;
+
 //base colors
 .bgLogbookOk {
   background-color: $logbookOkColor;
@@ -22,10 +25,10 @@ $logbookInactiveColor: #666;
 .colorNotEnoughHours {
   color: $notEnoughHoursColor;
 }
-.bgInactive{
+.bgInactive {
   background-color: $logbookInactiveColor;
 }
-.colorInactive{
+.colorInactive {
   color: $logbookInactiveColor;
 }
 
@@ -124,27 +127,61 @@ $logbookInactiveColor: #666;
   text-align: left;
 }
 
-.logbookContainer p {
-  margin: 0;
+.logbookContainer,
+#activityWindow {
+  p {
+    margin: 0;
+  }
+  button {
+    transform: scale(1);
+    transition: transform 0.2s;
+    cursor: pointer;
+    min-width: 0;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:active {
+      transform: scale(0.8);
+    }
+  }
 }
 
-.logbookContainer button {
-  transform: scale(1);
-  transition: transform 0.2s;
-  cursor: pointer;
-  min-width: 0;
+.activityContainer {
+  background-color: white;
+  min-height: $normalCardHeight;
+  box-shadow: #666 0 0 5px;
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-top: 7px;
+  position: relative;
 }
-
-.logbookContainer button:hover {
-  transform: scale(1.1);
+.activityHeader {
+  border-bottom: 1px solid #666;
+  padding: 5px;
+  display: flex;
 }
-
-.logbookContainer button:active {
-  transform: scale(0.8);
+.activityType {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 5px;
 }
-
-
-
+.activityDescription {
+  padding: 5px;
+  overflow: hidden;
+}
+.activityMoreBtn {
+  font-size: 20px;
+  color: #333;
+  background: none !important;
+  border: none;
+  border-radius: 0;
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  padding: 0;
+}
 /*today*/
 
 .todayTitle {
@@ -182,6 +219,10 @@ $logbookInactiveColor: #666;
   background-color: lightgreen;
   border-color: green;
   color: #004d00;
+}
+#todayActivitiesContainer > .activityContainer {
+  max-width: 150px;
+  max-height: $normalCardHeight;
 }
 
 /*calendar*/
@@ -228,7 +269,7 @@ $logbookInactiveColor: #666;
 }
 
 #currentDatesDisplay {
-  min-width: 275px;
+  min-width: 400px;
   font-size: 20px;
   margin: 0 10px 0 10px;
 }
@@ -247,7 +288,7 @@ $logbookInactiveColor: #666;
 }
 
 .calendarBody {
-  min-height: 300px;
+  min-height: $calendarHeight;
   overflow: hidden;
   height: 75%;
 }
@@ -295,7 +336,7 @@ $logbookInactiveColor: #666;
   background-position: center;
   background-size: 75px;
   //temp
-  height: 300px;
+  height: $calendarHeight;
 }
 
 .dayAdapter {
@@ -333,4 +374,62 @@ $logbookInactiveColor: #666;
   position: absolute;
   top: 3px;
   right: 5px;
+}
+
+//window
+#activityWindowContainer {
+  width: 100%;
+  max-width: 600px;
+}
+.activityWindowHeader {
+  text-align: left;
+  padding: 10px;
+  position: relative;
+  border-bottom: 1px solid #666;
+}
+#activityWindowTimeDisplay {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 30px;
+}
+#activityWindowActivityTypeDisplay {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 25px;
+  padding-left: 10px;
+}
+#activityWindowDeleteBtn {
+  position: absolute;
+  right: 10px;
+  top: 16px;
+  background: none;
+  border: none;
+  background-image: url(/images/trashbin.svg);
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+#activityWindowDescription {
+  text-align: left;
+  text-justify: distribute;
+  padding: 20px;
+}
+.activityWindowButtons {
+  height: 50px;
+  position: relative;
+  button{
+    position: absolute;
+    height: 40px;
+  }
+}
+#activityWindowCancel {
+  left: 20px;
+}
+#activityWindowEditBtn {
+  right: 20px;
+}
+.activityWindowSubmit {
+  right: 20px;
 }

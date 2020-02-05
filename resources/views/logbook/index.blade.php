@@ -10,6 +10,7 @@
     <!--vars passed at page load-->
     <script>
         var internshipId = {{$internship->id}};
+        var activityTypes = {!! $activityTypes !!};
     </script>
 @endsection
 
@@ -37,13 +38,33 @@
                 <button id="calendarModeBtn"></button>
             </div>
             <div class="calendarBody">
-                <div id="monthsContainer" class="hidden">
-
-                </div>
-                <div id="weeksContainer" class="current">
-
-                </div>
+                <div id="monthsContainer" class="hidden"></div>
+                <div id="weeksContainer" class="current"></div>
             </div>
         </div>
     </div>    
+@endsection
+@section('windows')
+    <div id="activityWindow" class="none windowBackground darken">
+        <form id="activityWindowContainer" class="windowContainer" action="javascript:onActivitySave()">
+            <div class="activityWindowHeader">
+                <p id="activityWindowTimeDisplay" class="viewMode">...</p>
+                <p id="activityWindowActivityTypeDisplay" class="viewMode">...</p>
+                <div class="activityWindowTimeEdit editMode">
+                    <input id="activityWindowHoursInput" value="0" type="number" min="0" step="1" required/>
+                    <p>h</p>
+                    <input id="activityWindowMinutesInput" value="0" type="number" min="0" max="59" step="1" required/>
+                    <p>m</p>
+                </div>
+                <select id="activityWindowActivityTypeInput" class="editMode" required></select>
+                <button id="activityWindowDeleteBtn" type="button"></button>
+            </div>
+            <p id="activityWindowDescription">...</p>
+            <div class="activityWindowButtons">
+                <button id="activityWindowCancel" type="button">Annuler</button>
+                <button class="activityWindowSubmit editMode" type="submit">Enregistrer</button>
+                <button id="activityWindowEditBtn" class="viewMode" type="button">Modifier</button>
+            </div>
+        </form>
+    </div>
 @endsection

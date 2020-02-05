@@ -151,7 +151,24 @@ Utils.addLoader = function(parent, className){
         remove
     }
 }
-
+Utils.infoBox = function(message, time = 5000){
+	var infoBox = document.body.addElement("div", "infoMessageBox");
+	infoBox.innerText = message;
+	requestAnimationFrame(async function(){
+        infoBox.style.opacity = 1;
+        if(time != Infinity){
+            await async_setTimeout(time)
+            remove();
+        }
+    });
+    async function remove(){
+        await async_requestAnimationFrame();
+        infoBox.style.opacity = 0;
+        await async_setTimeout(0.5*1000);
+		infoBox.remove();
+    }
+	return {elem:infoBox, remove};
+};
 //EXEC ON ALL PAGES:
 document.addEventListener("DOMContentLoaded", ()=>{
     //filters toggler (if elem on page)
