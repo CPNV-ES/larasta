@@ -11,6 +11,7 @@
     <script>
         var internshipId = {{$internship->id}};
         var activityTypes = {!! $activityTypes !!};
+        //var routes = {} //couldn't manage to use dynamic routes without added dev
     </script>
 @endsection
 
@@ -60,7 +61,7 @@
                 <button id="activityWindowDeleteBtn" type="button"></button>
             </div>
             <p id="activityWindowDescription" class="viewMode">...</p>
-            <textarea required placeholder="Description" id="activityWindowDescriptionInput" class="editMode"></textarea>
+            <textarea required maxlength="2000" placeholder="Description" id="activityWindowDescriptionInput" class="editMode"></textarea>
             <div class="activityWindowButtons">
                 <button id="activityWindowCancel" type="button">Annuler</button>
                 <button class="activityWindowSubmit editMode" type="submit">Enregistrer</button>

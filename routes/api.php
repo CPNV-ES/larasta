@@ -18,11 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //logbook
-Route::get('/internships/{internshipId}/logbook/activities', 'LogbookController@getActivities');
-Route::get('/internships/logbook/activities/{activityId}', 'LogbookController@getActivity');
+Route::get('/internships/{internshipId}/logbook/activities', 'LogbookController@getActivities')->name("getActivities");
+Route::get('/internships/logbook/activities/{activityId}', 'LogbookController@getActivity')->name("getActivity");
 
-Route::post('/internships/{internshipId}/logbook/activities','LogbookController@addActivity');
+Route::post('/internships/{internshipId}/logbook/activities','LogbookController@addActivity')->name("postActivity");
 
-Route::put('/internships/logbook/activities/{activityId}', 'LogbookController@updateActivity');
+Route::put('/internships/logbook/activities/{activityId}', 'LogbookController@updateActivity')->name("putActivity");
 
-Route::delete('/internships/logbook/activities/{activityId}', 'LogbookController@deleteActivity');
+Route::delete('/internships/logbook/activities/{activityId}', 'LogbookController@deleteActivity')->name("deleteActivity");

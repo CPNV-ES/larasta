@@ -33,17 +33,17 @@ class Logbook extends Model
         $instance = new self();
 
         //test fields existence
-        if(!isset($internshipId, $request->activityType, $request->entryDate, $request->duration, $request->description)){
+        if(!isset($internshipId, $request->activitytypes_id, $request->entryDate, $request->duration, $request->activityDescription)){
             abort(400);
             return;
         }
 
         //set values
         $instance->internships_id = $internshipId;
-        $instance->activitytypes_id = $request->activityType;
+        $instance->activitytypes_id = $request->activitytypes_id;
         $instance->entryDate = $request->entryDate;
         $instance->duration = $request->duration;
-        $instance->activityDescription = $request->description;
+        $instance->activityDescription = $request->activityDescription;
 
         return $instance;
     }

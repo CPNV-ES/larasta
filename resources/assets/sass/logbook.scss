@@ -40,6 +40,25 @@ $calendarHeight: 600px;
   box-sizing: border-box;
 }
 
+//loader
+.loader {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.loader.dark {
+  background-color: rgba(0, 0, 0, 0.3);
+  background-image: url(/images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75px;
+}
+
 //side menu
 .logbookTips {
   padding-top: 5px;
@@ -155,6 +174,7 @@ $calendarHeight: 600px;
   vertical-align: top;
   margin-top: 7px;
   position: relative;
+  overflow: hidden;
 }
 .activityHeader {
   border-bottom: 1px solid #666;
@@ -171,10 +191,13 @@ $calendarHeight: 600px;
   $fontsize: 11px;
   $lineheight: 1.4 * $fontsize;
   $linecount: 16;
+
   padding: 5px;
   overflow: hidden;
   font-size: 11px;
   max-height: $lineheight * $linecount + 7px; //height without cutting lines
+  word-break: break-word;
+  white-space: normal;
 }
 .activityMoreBtn {
   font-size: 20px;
@@ -209,6 +232,7 @@ $calendarHeight: 600px;
   box-sizing: content-box;
   overflow-x: scroll;
   overflow-y: hidden;
+  white-space: nowrap;
 }
 
 #todayNewActivityBtn {
@@ -228,6 +252,7 @@ $calendarHeight: 600px;
 #todayActivitiesContainer > .activityContainer {
   max-width: 150px;
   max-height: $normalCardHeight;
+  margin-right: 10px;
 }
 
 /*calendar*/
@@ -326,21 +351,7 @@ $calendarHeight: 600px;
 }
 
 /*days*/
-.weekDays.loader {
-  opacity: 0;
-  transition: opacity 300ms;
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  background-image: url(/images/loader.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 75px;
-  //temp
+.weekContainer > .loader {
   height: $calendarHeight;
 }
 
@@ -371,6 +382,9 @@ $calendarHeight: 600px;
   border: 1px solid;
   max-height: $calendarHeight - 45px;
   overflow-y: auto;
+  .activityContainer:last-child {
+    margin-bottom: 7px;
+  }
 }
 
 .dayAdapterNewActivityBtn {
@@ -382,11 +396,16 @@ $calendarHeight: 600px;
   right: 5px;
   font-size: 20px;
   width: 30px;
-  background-color: lightgreen!important;
+  background-color: lightgreen !important;
   border-color: green;
 }
 
 //window
+#activityWindow {
+  .loader {
+    height: 100vh;
+  }
+}
 #activityWindowContainer {
   width: 100%;
   max-width: 600px;
@@ -425,6 +444,7 @@ $calendarHeight: 600px;
   text-align: left;
   text-justify: distribute;
   padding: 20px;
+  word-break: break-word;
 }
 .activityWindowButtons {
   height: 50px;

@@ -9,6 +9,13 @@ Element.prototype.addElement = function(type, className = "") {
     newElement.setAttribute('class', className);
     return newElement;
 };
+Element.prototype.addElemBefore = function(ref){
+	ref.parentNode.insertBefore(this, ref);
+}
+
+Element.prototype.addElemAfter = function(ref){
+	ref.parentNode.insertBefore(this, ref.nextSibling);
+}
 //remove matching childs
 Element.prototype.removeChilds = function(elemQuerySelector = false) {
     if (elemQuerySelector) {
@@ -52,6 +59,9 @@ Date.prototype.getWeek = function() {
 };
 Date.prototype.getRightMonth = function() {
     return String("00" + (this.getMonth() + 1)).slice(-2);
+};
+Date.prototype.getRightDate = function(){
+    return String("00" + (this.getDate())).slice(-2);
 }
 //get day timestamp without hours, seconds, etc
 Date.prototype.getAbsoluteDate = function() {
@@ -61,7 +71,10 @@ Date.prototype.getAbsoluteDate = function() {
     stamp -= (this.getSeconds() * 1000);
     stamp -= this.getMilliseconds();
     return new Date(stamp);
-}
+};
+Date.prototype.toSimpleISOString = function(){
+    return `${this.getFullYear()}-${this.getRightMonth()}-${this.getRightDate()}`;
+};
 
 function async_requestAnimationFrame() {
     return new Promise(function(res, rej) {

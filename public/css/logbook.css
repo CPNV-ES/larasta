@@ -38,6 +38,26 @@
   box-sizing: border-box;
 }
 
+.loader {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  -webkit-transition: opacity 300ms;
+  transition: opacity 300ms;
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.loader.dark {
+  background-color: rgba(0, 0, 0, 0.3);
+  background-image: url(/images/loader.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75px;
+}
+
 .logbookTips {
   padding-top: 5px;
 }
@@ -174,6 +194,7 @@
   vertical-align: top;
   margin-top: 7px;
   position: relative;
+  overflow: hidden;
 }
 
 .activityHeader {
@@ -195,6 +216,8 @@
   overflow: hidden;
   font-size: 11px;
   max-height: 253.4px;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .activityMoreBtn {
@@ -231,6 +254,7 @@
   box-sizing: content-box;
   overflow-x: scroll;
   overflow-y: hidden;
+  white-space: nowrap;
 }
 
 #todayNewActivityBtn {
@@ -251,6 +275,7 @@
 #todayActivitiesContainer > .activityContainer {
   max-width: 150px;
   max-height: 130px;
+  margin-right: 10px;
 }
 
 /*calendar*/
@@ -351,21 +376,7 @@
 
 /*days*/
 
-.weekDays.loader {
-  opacity: 0;
-  -webkit-transition: opacity 300ms;
-  transition: opacity 300ms;
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  background-image: url(/images/loader.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 75px;
+.weekContainer > .loader {
   height: 600px;
 }
 
@@ -398,6 +409,10 @@
   overflow-y: auto;
 }
 
+.dayAdapterActivitiesContainer .activityContainer:last-child {
+  margin-bottom: 7px;
+}
+
 .dayAdapterNewActivityBtn {
   border-radius: 5px;
   padding: 0;
@@ -409,6 +424,10 @@
   width: 30px;
   background-color: lightgreen !important;
   border-color: green;
+}
+
+#activityWindow .loader {
+  height: 100vh;
 }
 
 #activityWindowContainer {
@@ -454,6 +473,7 @@
   text-align: left;
   text-justify: distribute;
   padding: 20px;
+  word-break: break-word;
 }
 
 .activityWindowButtons {
