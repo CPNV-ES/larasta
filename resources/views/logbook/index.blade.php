@@ -38,7 +38,10 @@
                 <button id="nextTimeBtn">&gt;</button>
                 <button id="calendarModeBtn">
                     <!--temporary way. will use a js calendar widget later -->
-                    <input id="seekDateInput" type="date" value="2019-09-20"/>
+                    
+                    <label for="seekDateInput"></label>
+                    <input id="seekDateInput" type="date"/>
+                    
                 </button>
             </div>
             <div class="calendarBody">

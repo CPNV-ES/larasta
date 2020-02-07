@@ -182,6 +182,62 @@ Utils.infoBox = function (message, time = 5000) {
     }
     return { elem: infoBox, remove };
 };
+//parses a text with a provided regex, returns texts and matches in arrays.
+Utils.parseTextWithRegex = function(text, regex){
+	var matches = [];
+	var textArray = [text];
+	while(true){
+		//get url
+		var matchRes = regex.exec(text);
+		if(!matchRes){ //no (more) urls
+			break;
+		}
+		var match = matchRes[0];
+		//split on url
+		var splitted = textArray[textArray.length - 1].split(match);
+		//merge second part of splitted text, including urls.
+		var splitAfter = splitted.slice(1, splitted.length);
+		var nextString = splitAfter[0];
+		for(var indSplit = 1; indSplit < splitAfter.length; indSplit++){
+			nextString += match;
+			nextString += splitAfter[indSplit];
+		}
+		//push text and url to the respective arrays
+		textArray[textArray.length - 1] = splitted[0];
+		textArray.push(nextString)
+		matches.push(match);
+	}
+	return{
+		text: text,
+		texts: textArray,
+		matches: matches
+	}
+};
+Utils.appendLinkifiedText = function(container, text){
+    const URL_REGEX = /(\b(((https?|ftp|file):\/\/)|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig; // found on stackoverflow https://stackoverflow.com/a/8943487/11548808
+    const SECURE_SCHEME = "https://";
+    const UNSECURE_SCHEME = "http://";
+    const DEFAULT_SCHEME = UNSECURE_SCHEME;
+    //text data
+    var parsedText = Utils.parseTextWithRegex(text, URL_REGEX);
+
+    for(var indText = 0; indText < parsedText.texts.length; indText++){
+        var textNode = document.createTextNode(parsedText.texts[indText]);
+        container.appendChild(textNode);
+        if(typeof parsedText.matches[indText] !== "undefined"){
+            var linkText = parsedText.matches[indText];
+            if(linkText.substring(0, SECURE_SCHEME.length) != SECURE_SCHEME
+            && linkText.substring(0, UNSECURE_SCHEME.length) != UNSECURE_SCHEME){//test http str
+                linkText = DEFAULT_SCHEME + linkText;
+            }
+            var linkElem = container.addElement("a");
+            linkElem.setAttribute("href", linkText);
+            linkElem.setAttribute("target", "_blank"); //open in new tab
+            linkElem.setAttribute("rel", "noopener noreferrer"); //prevent resources conflict + leaks
+            linkElem.innerText = parsedText.matches[indText];
+        }
+    }
+}
 //EXEC ON ALL PAGES:
 document.addEventListener("DOMContentLoaded", () => {
     //filters toggler (if elem on page)

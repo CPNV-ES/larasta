@@ -22,6 +22,7 @@ async function boot(ev) {
 
     todayNewActivityBtn.addEventListener("click", function () {
         openCreateActivity(new Date());
+        openCreateActivity(new Date());
     });
     activityWindow.addEventListener("click", hideActivityWindow);
     activityWindowContainer.addEventListener("click", (evt) => {
@@ -44,7 +45,11 @@ async function boot(ev) {
     resetTime();
 }
 function onSeekValue(evt){
-    console.log("on seek value");
+    console.log("on seek value", evt.isTrusted);
+    if(!evt.isTrusted){
+        console.warn("ignoring passed date , non trusted evt");
+        return;
+    }
     var value = evt.target.value
     if(!value){
         console.warn("empty date passed");
@@ -88,6 +93,8 @@ function changeWeek(week, { force = false, animation = true } = {}) {
     var oldWeekObj = weeks[displayedWeekId];
     //set id
     displayedWeekId = week.id;
+    //selector
+    seekDateInput.value = week.first.toSimpleISOString();
     //text
     firstDateStr = week.first.getDate();
     lastDateStr = week.lastWork.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -278,7 +285,8 @@ function buildActivityAdapter(parent, activity) {
     function updateData(activity) {
         time.textContent = getPrettyTime(activity.duration);
         type.textContent = activity.activitytype.typeActivityDescription;
-        description.innerText = activity.activityDescription;
+        description.removeChilds();
+        Utils.appendLinkifiedText(description, activity.activityDescription);
     }
 
     //store adapter
@@ -344,7 +352,9 @@ function openViewActivity(activityId) {
     console.log(activity);
     activityWindowTimeDisplay.textContent = getPrettyTime(activity.duration);
     activityWindowActivityTypeDisplay.textContent = activity.activitytype.typeActivityDescription;
-    activityWindowDescription.innerText = activity.activityDescription;
+    //description
+    activityWindowDescription.removeChilds();
+    Utils.appendLinkifiedText(activityWindowDescription, activity.activityDescription);
     //display
     displayedActivityId = activityId;
     displayActivityWindow("view");
