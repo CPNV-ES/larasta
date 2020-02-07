@@ -12,7 +12,7 @@
                 <form action="{{route($route, ["idMedia" => $media->id, "id" => $id])}}" method="POST">
                     {{method_field('DELETE')}}
                     {{ csrf_field() }}
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn-danger">Supprimer</button>
                 </form>
             </div>
         </div>
