@@ -18,6 +18,8 @@ async function boot(ev) {
         switchTime("next");
     });
     todayTimeBtn.addEventListener("click", resetTime);
+    seekDateInput.addEventListener("input", onSeekValue);
+
     todayNewActivityBtn.addEventListener("click", function () {
         openCreateActivity(new Date());
     });
@@ -41,7 +43,15 @@ async function boot(ev) {
     /*start*/
     resetTime();
 }
-
+function onSeekValue(evt){
+    console.log("on seek value");
+    var value = evt.target.value
+    if(!value){
+        console.warn("empty date passed");
+        return;
+    }
+    changeWeek(new Date(value).getWeek());
+}
 function changeWeek(week, { force = false, animation = true } = {}) {
     console.log("change week to ", week);
     newWeekId = week.id;

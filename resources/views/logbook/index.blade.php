@@ -36,7 +36,10 @@
                 <button id="lastTimeBtn">&lt;</button>
                 <p id="currentDatesDisplay">...</p>
                 <button id="nextTimeBtn">&gt;</button>
-                <button id="calendarModeBtn"></button>
+                <button id="calendarModeBtn">
+                    <!--temporary way. will use a js calendar widget later -->
+                    <input id="seekDateInput" type="date" value="2019-09-20"/>
+                </button>
             </div>
             <div class="calendarBody">
                 <div id="monthsContainer" class="hidden"></div>

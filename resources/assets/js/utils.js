@@ -3,21 +3,21 @@
 HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
 
 //adds and include an element into another
-Element.prototype.addElement = function(type, className = "") {
+Element.prototype.addElement = function (type, className = "") {
     var newElement = document.createElement(type);
     this.appendChild(newElement);
     newElement.setAttribute('class', className);
     return newElement;
 };
-Element.prototype.addElemBefore = function(ref){
-	ref.parentNode.insertBefore(this, ref);
+Element.prototype.addElemBefore = function (ref) {
+    ref.parentNode.insertBefore(this, ref);
 }
 
-Element.prototype.addElemAfter = function(ref){
-	ref.parentNode.insertBefore(this, ref.nextSibling);
+Element.prototype.addElemAfter = function (ref) {
+    ref.parentNode.insertBefore(this, ref.nextSibling);
 }
 //remove matching childs
-Element.prototype.removeChilds = function(elemQuerySelector = false) {
+Element.prototype.removeChilds = function (elemQuerySelector = false) {
     if (elemQuerySelector) {
         var elemsToRemove = [...this.querySelectorAll(elemQuerySelector)]
     } else {
@@ -27,11 +27,11 @@ Element.prototype.removeChilds = function(elemQuerySelector = false) {
         elem.remove();
     });
 };
-String.prototype.capitalise = function() {
-        return this[0].toUpperCase() + this.slice(1);
-    }
-    //get Monday to sunday day number (monday is 0)
-Date.prototype.getMoSuDay = function() {
+String.prototype.capitalise = function () {
+    return this[0].toUpperCase() + this.slice(1);
+}
+//get Monday to sunday day number (monday is 0)
+Date.prototype.getMoSuDay = function () {
     var currentDay = this.getDay();
     if (currentDay === 0) {
         return 6;
@@ -39,7 +39,7 @@ Date.prototype.getMoSuDay = function() {
     return currentDay - 1;
 };
 //get first and last day of the week, starting on monday
-Date.prototype.getWeek = function() {
+Date.prototype.getWeek = function () {
     var currentStamp = this.getTime();
     var currentDayIndex = this.getMoSuDay();
 
@@ -57,14 +57,14 @@ Date.prototype.getWeek = function() {
         lastWork: (new Date(lastWorkStamp)).getAbsoluteDate()
     }
 };
-Date.prototype.getRightMonth = function() {
+Date.prototype.getRightMonth = function () {
     return String("00" + (this.getMonth() + 1)).slice(-2);
 };
-Date.prototype.getRightDate = function(){
+Date.prototype.getRightDate = function () {
     return String("00" + (this.getDate())).slice(-2);
 }
 //get day timestamp without hours, seconds, etc
-Date.prototype.getAbsoluteDate = function() {
+Date.prototype.getAbsoluteDate = function () {
     var stamp = this.getTime();
     stamp -= (this.getHours() * 60 * 60 * 1000);
     stamp -= (this.getMinutes() * 60 * 1000);
@@ -72,35 +72,35 @@ Date.prototype.getAbsoluteDate = function() {
     stamp -= this.getMilliseconds();
     return new Date(stamp);
 };
-Date.prototype.toSimpleISOString = function(){
+Date.prototype.toSimpleISOString = function () {
     return `${this.getFullYear()}-${this.getRightMonth()}-${this.getRightDate()}`;
 };
 
 function async_requestAnimationFrame() {
-    return new Promise(function(res, rej) {
+    return new Promise(function (res, rej) {
         requestAnimationFrame(res);
     });
 }
 
 function async_setTimeout(time) {
-    return new Promise(function(res, rej) {
+    return new Promise(function (res, rej) {
         setTimeout(res, time);
     });
 }
 
 var Utils = {};
-Utils.callApi = async function(path, {method = "GET", query = false, body = false, rawCallData = false} = {}){
+Utils.callApi = async function (path, { method = "GET", query = false, body = false, rawCallData = false } = {}) {
     var headers = new Headers();
     headers.append("content-Type", "application/x-www-form-urlencoded")
-    
+
     var fetchParams = {
         method: method,
         headers: headers
     }
 
     //body
-    if(body){
-        if(typeof body === 'object'){ //encoded body
+    if (body) {
+        if (typeof body === 'object') { //encoded body
             fetchParams.body = Utils.queryEncode(body);
         } else { //raw body
             fetchParams.body = body;
@@ -109,9 +109,9 @@ Utils.callApi = async function(path, {method = "GET", query = false, body = fals
 
     //query
     var queryText = "";
-    if(query){
+    if (query) {
         queryText = "?";
-        if(typeof query === 'object'){ //encoded query
+        if (typeof query === 'object') { //encoded query
             queryText += Utils.queryEncode(query);
         } else { //raw query
             queryText = query;
@@ -119,40 +119,40 @@ Utils.callApi = async function(path, {method = "GET", query = false, body = fals
     }
 
     var result = await fetch(path + queryText, fetchParams);
-    if(rawCallData){
+    if (rawCallData) {
         return result;
     }
 
-    try{
+    try {
         var jsonResponse = await result.json();
-    } catch(e){
+    } catch (e) {
         console.warn("couldn't decode json");
         return false;
     }
     return jsonResponse;
 }
-Utils.queryEncode = function(queryData){
-	var encodedStr = ""
-	for(var key in queryData){
-		encodedStr += encodeURIComponent(key);
+Utils.queryEncode = function (queryData) {
+    var encodedStr = ""
+    for (var key in queryData) {
+        encodedStr += encodeURIComponent(key);
         encodedStr += "=";
-        if(typeof queryData[key] == "string" || typeof queryData[key] == "number"){
+        if (typeof queryData[key] == "string" || typeof queryData[key] == "number") {
             encodedStr += encodeURIComponent((queryData[key])); //is value
         } else {
             encodedStr += encodeURIComponent(JSON.stringify(queryData[key])); //is json struct
         }
-		encodedStr += "&"
-	}
-	return encodedStr.slice(0, -1);
+        encodedStr += "&"
+    }
+    return encodedStr.slice(0, -1);
 }
-Utils.addLoader = function(parent, className){
+Utils.addLoader = function (parent, className) {
     var loader = parent.addElement("div", className);
     loader.classList.add("loader");
     loader.style.opacity = 0;
-    requestAnimationFrame(()=>{
+    requestAnimationFrame(() => {
         loader.style.opacity = 1;
     });
-    async function remove(){
+    async function remove() {
         await async_requestAnimationFrame();
         loader.style.opacity = 0;
         await async_setTimeout(300);
@@ -164,30 +164,30 @@ Utils.addLoader = function(parent, className){
         remove
     }
 }
-Utils.infoBox = function(message, time = 5000){
-	var infoBox = document.body.addElement("div", "infoMessageBox");
-	infoBox.innerText = message;
-	requestAnimationFrame(async function(){
+Utils.infoBox = function (message, time = 5000) {
+    var infoBox = document.body.addElement("div", "infoMessageBox");
+    infoBox.innerText = message;
+    requestAnimationFrame(async function () {
         infoBox.style.opacity = 1;
-        if(time != Infinity){
+        if (time != Infinity) {
             await async_setTimeout(time)
             remove();
         }
     });
-    async function remove(){
+    async function remove() {
         await async_requestAnimationFrame();
         infoBox.style.opacity = 0;
-        await async_setTimeout(0.5*1000);
-		infoBox.remove();
+        await async_setTimeout(0.5 * 1000);
+        infoBox.remove();
     }
-	return {elem:infoBox, remove};
+    return { elem: infoBox, remove };
 };
 //EXEC ON ALL PAGES:
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
     //filters toggler (if elem on page)
-    if(window.filtersBoxButton && window.expandedfilters){
+    if (window.filtersBoxButton && window.expandedfilters) {
         var icon = filtersBoxButton.querySelector("i");
-        filtersBoxButton.addEventListener("click", function(ev){
+        filtersBoxButton.addEventListener("click", function (ev) {
             expandedfilters.classList.toggle("d-none");
             //toggle arrow
             icon.classList.toggle("down");
