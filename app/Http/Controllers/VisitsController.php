@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 // Requests
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreFileRequest;
 
 //Models
 use App\Visit;
@@ -343,10 +344,9 @@ class VisitsController extends Controller
         }
     }
 
-    public function uploadFiles(Request $request, $id)
+    public function uploadFiles(StoreFileRequest $request, $id)
     {
         $Visit = Visit::find($id);
         $Visit->addMediaFromRequest('file')->toMediaCollection();
     }
-
 }
