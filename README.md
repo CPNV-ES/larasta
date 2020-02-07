@@ -56,13 +56,12 @@ php artisan key:generate
 In terminal, use the next command to create database with required data:
 ```
 php artisan mysql:createdb app_internships2
-php artisan migrate --sed
+php artisan migrate --seed
 ```
 
 if you want add test data:
 ```
-php artisan mysql:createdb app_internships2
-php artisan seed --class="TestDatabaseSeeder"
+php artisan seed --class="TestDataSeeder"
 ```
 
 ### 6. Fix some file system details
