@@ -116,8 +116,8 @@
         <a href="/internships/{{$internship->id}}/view">
             <button class="btn btn-danger" type="button">Annuler les modifications</button>
         </a>
-        <button class="formSend btn btn-warning" type="submit" onclick="transferDiv();">Valider les modifications
-        </button>
+        <button class="formSend btn btn-warning" type="submit" onclick="transferDiv();">Valider les modifications</button>
+        
         <script type="text/javascript">
             function transferDiv() {
                 var divHtml = document.getElementById("description");
@@ -126,6 +126,9 @@
             }
         </script>
     </form>
+    
+    <hr/>
+    @include('uploadFile',["route" => route("internship.uploadFiles", ["id" => $internship->id])])
 
     {{-- Visits --}}
     @if (isset($visits))
