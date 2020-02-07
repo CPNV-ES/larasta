@@ -27,7 +27,7 @@
             <h2 class="todayTitle">Aujourd'hui</h2>
             <p id="todayComplianceMsg" class="colorInactive">Inactif</p>
             <div id="todayActivitiesContainer">
-                <button id="todayNewActivityBtn">+</button>
+                <button id="todayNewActivityBtn" title="Créer une activité (Alt+N)">+</button>
             </div>
         </div>
         <div class="calendarSection">

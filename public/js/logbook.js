@@ -22,7 +22,6 @@ async function boot(ev) {
 
     todayNewActivityBtn.addEventListener("click", function () {
         openCreateActivity(new Date());
-        openCreateActivity(new Date());
     });
     activityWindow.addEventListener("click", hideActivityWindow);
     activityWindowContainer.addEventListener("click", (evt) => {
@@ -35,11 +34,20 @@ async function boot(ev) {
     activityWindowDeleteBtn.addEventListener("click", (evt) => {
         deleteActivity(displayedActivityId);
     })
+    document.body.addEventListener("keydown", (evt)=>{
+        if(evt.key == "Escape") hideActivityWindow(evt);
+        if(evt.key == "n" && evt.altKey){
+            evt.preventDefault();
+            openCreateActivity(new Date());
+        }
+        console.log(evt);
+    });
     //window categories
     activityTypes.forEach((activityType) => {
-        optionElem = activityWindowActivityTypeInput.addElement("option");
-        optionElem.textContent = activityType.typeActivityDescription;
-        optionElem.value = activityType.id;
+        optionElem = activityWindowActivityTypeInput.addElement("option", {
+            _text: activityType.typeActivityDescription, 
+            value:activityType.id
+        });
     });
     /*start*/
     resetTime();
@@ -67,7 +75,7 @@ function changeWeek(week, { force = false, animation = true } = {}) {
     }
 
     if (!weeks[week.id]) {
-        var weekContainer = weeksContainer.addElement("div", "weekContainer");
+        var weekContainer = weeksContainer.addElement("div", {class:"weekContainer"});
         weeks[week.id] = {
             id: week.id,
             container: weekContainer,
@@ -175,10 +183,8 @@ async function loadActivities(weekId) {
 
         //retry message + delete week to allow reload
         weekObj.container.removeChilds();
-        var textElem = weekObj.container.addElement("h1");
-        textElem.textContent = "Couldn't load activities for this week :(";
-        var retryBtn = weekObj.container.addElement("button");
-        retryBtn.textContent = "Retry";
+        var textElem = weekObj.container.addElement("h1", {_text: "Couldn't load activities for this week :("});
+        var retryBtn = weekObj.container.addElement("button", {_text: "Retry"});
         retryBtn.addEventListener("click", (evt) => {
             weekObj.container.remove();
             delete weeks[weekId];
@@ -244,17 +250,16 @@ async function displayActivity(activity) {
 
 //ELEMENTS
 function buildDayAdapter(parent, date) {
-    var element = parent.addElement("div", "dayAdapter");
-    var header = element.addElement("div", "dayAdapterHeader");
-    var dateDisplay = header.addElement("p", "dayAdapterDateDisplay");
-    var timeDisplay = header.addElement("p", "dayAdapterTimeDisplay colorInactive");
-    var container = element.addElement("div", "dayAdapterActivitiesContainer");
-    var addBtn = container.addElement("button", "dayAdapterNewActivityBtn");
+    var element = parent.addElement("div", {class:"dayAdapter"});
+    var header = element.addElement("div", {class:"dayAdapterHeader"});
+    var dateDisplay = header.addElement("p", {class:"dayAdapterDateDisplay"});
+    var timeDisplay = header.addElement("p", {class:"dayAdapterTimeDisplay colorInactive"});
+    var container = element.addElement("div", {class:"dayAdapterActivitiesContainer"});
+    var addBtn = container.addElement("button", {class:"dayAdapterNewActivityBtn", _text:"+"});
 
     //data
     dateDisplay.textContent = `${date.toLocaleDateString("fr-FR", { weekday: "long" }).capitalise()} ${date.getDate()}.${date.getRightMonth()}`;
     timeDisplay.textContent = "Inactif";
-    addBtn.textContent = "+";
     //evt
     addBtn.addEventListener("click", function (evt) {
         openCreateActivity(date);
@@ -263,16 +268,15 @@ function buildDayAdapter(parent, date) {
     return { element, container, timeDisplay };
 }
 function buildActivityAdapter(parent, activity) {
-    var element = parent.addElement("div", "activityContainer");
-    var header = element.addElement("div", "activityHeader");
-    var time = header.addElement("p", "activityTime");
-    var type = header.addElement("p", "activityType");
-    var description = element.addElement("div", "activityDescription");
-    var moreBtn = element.addElement("button", "activityMoreBtn");
+    var element = parent.addElement("div", {class:"activityContainer"});
+    var header = element.addElement("div", {class:"activityHeader"});
+    var time = header.addElement("p", {class:"activityTime"});
+    var type = header.addElement("p", {class:"activityType"});
+    var description = element.addElement("div", {class:"activityDescription"});
+    var moreBtn = element.addElement("button", {class:"activityMoreBtn", _text:"▼"});
 
     //data
     updateData(activity);
-    moreBtn.textContent = "▼";
 
     //events
     moreBtn.addEventListener("click", function (evt) {
@@ -285,6 +289,7 @@ function buildActivityAdapter(parent, activity) {
     function updateData(activity) {
         time.textContent = getPrettyTime(activity.duration);
         type.textContent = activity.activitytype.typeActivityDescription;
+        type.title = activity.activitytype.typeActivityDescription;
         description.removeChilds();
         Utils.appendLinkifiedText(description, activity.activityDescription);
     }
@@ -321,6 +326,7 @@ function openCreateActivity(date) {
     newActivityDate = date;
     displayedActivityId = false;
     displayActivityWindow("create");
+    activityWindowHoursInput.focus();
 }
 function openEditActivity(activityId) {
     console.log("open edit activity window", activityId);
@@ -344,6 +350,7 @@ function openEditActivity(activityId) {
     //display
     displayedActivityId = activityId;
     displayActivityWindow("edit");
+    activityWindowHoursInput.focus();
 }
 function openViewActivity(activityId) {
     console.log("open view activity window", activityId);
@@ -358,6 +365,7 @@ function openViewActivity(activityId) {
     //display
     displayedActivityId = activityId;
     displayActivityWindow("view");
+    activityWindowEditBtn.focus();
 }
 
 function displayActivityWindow(mode = "view") {//mode: edit/view

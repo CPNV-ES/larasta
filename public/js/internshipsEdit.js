@@ -116,10 +116,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       td = elem.parentElement.parentNode.addElement("td");
-      var inputRemark = td.addElement("input");
-      inputRemark.type = "text";
-      inputRemark.name = "remark_".concat(elem.name);
-      inputRemark.placeholder = "Pourquoi?";
+      var inputRemark = td.addElement("input", {
+        type: "text",
+        name: "remark_".concat(elem.name),
+        placeholder: "Pourquoi?"
+      });
     });
   });
 });

@@ -1,13 +1,19 @@
-//global js
+//Updated version of these methods can be found at https://github.com/nicolas-maitre/utils_js
 
+//global js
 HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
 
 //adds and include an element into another
-Element.prototype.addElement = function (type, className = "") {
-    var newElement = document.createElement(type);
-    this.appendChild(newElement);
-    newElement.setAttribute('class', className);
-    return newElement;
+Element.prototype.addElement = function(type = "div", attributes = {}){
+    var elem = document.createElement(type);
+    this.appendChild(elem);
+    for(var indAttr in attributes){
+        elem.setAttribute(indAttr, attributes[indAttr]);
+    }
+    //special attributes (setters/other)
+    if(attributes._text) elem.textContent = attributes._text;
+    if(attributes._html) elem.innerHTML = attributes._html;
+    return elem;
 };
 Element.prototype.addElemBefore = function (ref) {
     ref.parentNode.insertBefore(this, ref);
@@ -146,7 +152,7 @@ Utils.queryEncode = function (queryData) {
     return encodedStr.slice(0, -1);
 }
 Utils.addLoader = function (parent, className) {
-    var loader = parent.addElement("div", className);
+    var loader = parent.addElement("div", {class:className});
     loader.classList.add("loader");
     loader.style.opacity = 0;
     requestAnimationFrame(() => {
@@ -165,8 +171,7 @@ Utils.addLoader = function (parent, className) {
     }
 }
 Utils.infoBox = function (message, time = 5000) {
-    var infoBox = document.body.addElement("div", "infoMessageBox");
-    infoBox.innerText = message;
+    var infoBox = document.body.addElement("div", {class:"infoMessageBox", _text:message});
     requestAnimationFrame(async function () {
         infoBox.style.opacity = 1;
         if (time != Infinity) {
@@ -230,14 +235,17 @@ Utils.appendLinkifiedText = function(container, text){
             && linkText.substring(0, UNSECURE_SCHEME.length) != UNSECURE_SCHEME){//test http str
                 linkText = DEFAULT_SCHEME + linkText;
             }
-            var linkElem = container.addElement("a");
-            linkElem.setAttribute("href", linkText);
-            linkElem.setAttribute("target", "_blank"); //open in new tab
-            linkElem.setAttribute("rel", "noopener noreferrer"); //prevent resources conflict + leaks
-            linkElem.innerText = parsedText.matches[indText];
+            var linkElem = container.addElement("a", {
+                href: linkText,
+                target: "_blank",
+                rel: "noopener noreferrer", //prevent resources conflict + leaks
+                _text: parsedText.matches[indText]
+            });
         }
     }
 }
+
+
 //EXEC ON ALL PAGES:
 document.addEventListener("DOMContentLoaded", () => {
     //filters toggler (if elem on page)
