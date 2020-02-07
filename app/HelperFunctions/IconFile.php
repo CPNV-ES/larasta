@@ -1,6 +1,7 @@
 <?php
 
     use Illuminate\Support\Arr;
+    
     function getFileIcon($mimetype)
     {
 
