@@ -271,6 +271,7 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   left: 0;
   text-align: center;
   overflow-y: scroll;
+  z-index: 100;
 }
 .windowBackground.darken {
   background-color: rgba(0, 0, 0, 0.5);

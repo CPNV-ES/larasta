@@ -17,7 +17,7 @@
 
     @yield('page_specific_css')
 </head>
-<body>
+<body class="{{(isset($_COOKIE['sidemenu_state']) && $_COOKIE['sidemenu_state'] == 'open')?'sidemenu-open':''}}">
     @if (!empty($message))
         <div class="alert-info willvanish">{{ $message }}</div>
     @endif
@@ -27,6 +27,7 @@
             {{ session('status') }}
         </div>
     @endif
+    <button id="sidemenuToggler" title="toggle menu"></button>
     <div id="sidemenu" class="simple-box container-fluid text-center">
         <table class="table table-striped text-left larastable">
             <tr>

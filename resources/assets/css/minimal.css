@@ -1654,6 +1654,54 @@ table#changelogs {
     background: url(/images/icons/undo16.png) no-repeat center center;
 }
 
+#sidemenuToggler{
+    display: none;
+}
+/******/
+@media only screen and (max-width: 850px){
+    #sidemenuToggler{
+        display: inline-block;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        z-index: 30;
+        height: 40px;
+        min-width: 40px;
+        background: none;
+        border: 0;
+        background-image: url(/images/burger_menu.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: 0.3s transform;
+        transform: rotate(0deg);
+    }
+    body.sidemenu-open > #sidemenuToggler{
+        transform: rotate(90deg);
+    }
+    #sidemenu{
+        margin-top: 40px;
+        left: -250px;
+        position: absolute;
+        z-index: 20;
+        transition: 0.3s;
+    }
+    body.sidemenu-open > #sidemenu{
+        left: 0;
+    }
+
+    .content-besides-sidebar {
+        margin-left: 10px;
+        width: calc(100% - 10px);
+        opacity: 1;
+        transition: 0.3s opacity;
+    }
+    body.sidemenu-open > .content-besides-sidebar{
+        opacity: 0.4;
+        pointer-events: none;
+    }
+}
+
 /*************************************************************************/
 @media screen {
     #intranet_logo a span {

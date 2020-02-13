@@ -82,6 +82,36 @@ Date.prototype.toSimpleISOString = function () {
     return `${this.getFullYear()}-${this.getRightMonth()}-${this.getRightDate()}`;
 };
 
+var Cookies = {};
+Cookies.get = function(key = false){
+    var cookiesStr = document.cookie;
+	var cookiesArray = cookiesStr.split(";");
+    var cookies = {};
+    cookiesArray.forEach((cookie) => {
+        var cookieComponents = cookie.split("=");
+        if(cookieComponents.length != 2){
+            return;
+        }
+        var cookey = decodeURIComponent(cookieComponents[0].trim());
+        var value = decodeURIComponent(cookieComponents[1]);
+        cookies[cookey] = value;
+	});
+	if(key){
+		return cookies[key];
+	}
+    return cookies;
+}
+Cookies.set = function(key, value, expiration = (1000 * 60 * 60 * 24 * 365)/*1 year*/, path = "/"){
+    var expirationDate = new Date(Date.now() + expiration);
+    var cookieStr = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+    cookieStr += `; expires=${expirationDate.toUTCString()}`
+    cookieStr += `; path=${path}`;
+    document.cookie = cookieStr;
+}
+Cookies.delete = function(key){
+    Cookies.set(key, "deleted", -1);
+}
+
 function async_requestAnimationFrame() {
     return new Promise(function (res, rej) {
         requestAnimationFrame(res);
@@ -248,6 +278,24 @@ Utils.appendLinkifiedText = function(container, text){
 
 //EXEC ON ALL PAGES:
 document.addEventListener("DOMContentLoaded", () => {
+    //left menu
+    if(Cookies.get("sidemenu_state") == "open"){
+        document.body.classList.add("sidemenu-open");
+    }else{
+        document.body.classList.remove("sidemenu-open");
+    }
+
+    sidemenuToggler.addEventListener("click", (evt) => {
+        if(document.body.classList.contains("sidemenu-open")){
+            document.body.classList.remove("sidemenu-open");
+            Cookies.set("sidemenu_state", "closed");
+        }else{
+            document.body.classList.add("sidemenu-open");
+            Cookies.set("sidemenu_state", "open");
+        }
+        
+    });
+
     //filters toggler (if elem on page)
     if (window.filtersBoxButton && window.expandedfilters) {
         var icon = filtersBoxButton.querySelector("i");
