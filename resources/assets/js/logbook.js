@@ -32,7 +32,7 @@ async function boot(ev) {
     todayTimeBtn.addEventListener("click", resetTime);
     seekDateInput.addEventListener("input", onSeekValue);
 
-    todayNewActivityBtn.addEventListener("click", function() {
+    todayNewActivityBtn.addEventListener("click", function () {
         openCreateActivity(new Date());
     });
     activityWindow.addEventListener("click", hideActivityWindow);
@@ -52,7 +52,6 @@ async function boot(ev) {
             evt.preventDefault();
             openCreateActivity(new Date());
         }
-        console.log(evt);
     });
     //window categories
     activityTypes.forEach(activityType => {
@@ -141,7 +140,7 @@ function changeWeek(week, { force = false, animation = true } = {}) {
     }
     var newClassName = isNewer ? "right" : "left";
     var oldClassName = isNewer ? "left" : "right";
-    (async function() {
+    (async function () {
         await async_requestAnimationFrame();
         newElem.classList.remove("none");
         newElem.classList.add(newClassName);
@@ -224,7 +223,7 @@ async function loadActivities(weekId) {
         return;
     }
 
-    newActivities.forEach(function(activity) {
+    newActivities.forEach(function (activity) {
         onNewActivity(activity, weekId);
     });
 }
@@ -312,11 +311,11 @@ function buildDayAdapter(parent, date) {
         .capitalise()} ${date.getDate()}.${date.getRightMonth()}`;
     timeDisplay.textContent = "Inactif";
     //evt
-    addBtn.addEventListener("click", function(evt) {
+    addBtn.addEventListener("click", function (evt) {
         openCreateActivity(date);
     });
 
-    function updateData({duration}){
+    function updateData({ duration }) {
         timeDisplay.textContent = getPrettyTime(duration);
     }
     function updateCompliance(level) {
@@ -342,10 +341,10 @@ function buildActivityAdapter(parent, activity) {
     updateData(activity);
 
     //events
-    moreBtn.addEventListener("click", function(evt) {
+    moreBtn.addEventListener("click", function (evt) {
         openViewActivity(activity.id);
     });
-    element.addEventListener("dblclick", function(evt) {
+    element.addEventListener("dblclick", function (evt) {
         openViewActivity(activity.id);
     });
 
@@ -377,7 +376,7 @@ function updateActivityData(newActivity) {
         return;
     }
     activities[newActivity.id].object = newActivity;
-    activities[newActivity.id].adapters.forEach(function(adapter) {
+    activities[newActivity.id].adapters.forEach(function (adapter) {
         adapter.updateData(newActivity);
     });
 
@@ -400,9 +399,7 @@ function refreshDayData(dayDate) {
     var dayObject = weekObject.days[dayId];
 
     //calculate conditions compliance
-    console.log(COMPLIANCE_CONDITIONS);
     var complianceIndex = 0;
-    var complianceMsg = COMPLIANCE_LEVELS_COMMENT["ok"];
     var dayDuration = 0;
     dayObject.activities.forEach(activityId => {
         if (!activities[activityId]) {
@@ -422,18 +419,14 @@ function refreshDayData(dayDate) {
             //words per hour
             var description = activity.object.activityDescription;
             var wordCountPerHour = Utils.countWords(description) / duration;
-            console.log(wordCountPerHour, description);
             if (wordCountPerHour < COMPLIANCE_CONDITIONS.min_words_per_hour) {
-                activityComplianceIndex = Object.keyByValue(
-                    COMPLIANCE_LEVELS,
-                    "not_enough_words"
-                );
+                activityComplianceIndex = Object.keyByValue(COMPLIANCE_LEVELS, "not_enough_words");
                 return;
             }
         })();
 
         //activity compliance
-        activity.adapters.forEach(function(activityAdapter) {
+        activity.adapters.forEach(function (activityAdapter) {
             activityAdapter.updateCompliance(
                 COMPLIANCE_LEVELS[activityComplianceIndex]
             );
@@ -445,18 +438,30 @@ function refreshDayData(dayDate) {
         }
 
         //duration
-        dayDuration+=duration;
+        dayDuration += duration;
     });
+    //day compliance conditions
+    (()=>{
+        if(dayObject.activities.length < COMPLIANCE_CONDITIONS.min_activities_per_day){
+            let index = Object.keyByValue(COMPLIANCE_LEVELS, "not_enough_activities");
+            complianceIndex = (index > complianceIndex)?index:complianceIndex;
+        }
+        if(dayDuration < COMPLIANCE_CONDITIONS.min_hours_per_day){
+            let index = Object.keyByValue(COMPLIANCE_LEVELS, "not_enough_hours");
+            complianceIndex = (index > complianceIndex)?index:complianceIndex;
+        }
+    })();
 
+    //display
     var complianceLevel = COMPLIANCE_LEVELS[complianceIndex];
     //day in week
     dayObject.adapter.updateCompliance(complianceLevel);
-    dayObject.adapter.updateData({duration: dayDuration});
+    dayObject.adapter.updateData({ duration: dayDuration });
     //today
     if (dayId == new Date().getAbsoluteDate().toISOString()) {
         console.log(dayId);
         applyComplianceColor(todayDuration, complianceLevel);
-        todayDuration.textContent = `${getPrettyTime({duration:dayDuration})} ${COMPLIANCE_LEVELS_COMMENT[complianceLevel]}`;
+        todayDuration.textContent = `${getPrettyTime(dayDuration)} - ${COMPLIANCE_LEVELS_COMMENT[complianceLevel]}`;
     }
 }
 function applyComplianceColor(element, level) {
@@ -464,6 +469,7 @@ function applyComplianceColor(element, level) {
     element.classList.remove("colorLogbookOk");
     element.classList.remove("colorNotEnoughWords");
     element.classList.remove("colorNotEnoughHours");
+    element.classList.remove("colorNotEnoughActivities");
     element.classList.add(
         `color${COMPLIANCE_LEVELS_CLASSES[level].capitalise()}`
     );

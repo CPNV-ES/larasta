@@ -1,5 +1,6 @@
 $notEnoughHoursColor: red;
 $notEnoughWordsColor: orange;
+$notEnoughActivitiesColor: purple;
 $logbookOkColor: green;
 $logbookInactiveColor: #666;
 
@@ -24,6 +25,12 @@ $calendarHeight: 600px;
 }
 .colorNotEnoughHours {
   color: $notEnoughHoursColor;
+}
+.bgNotEnoughActivities{
+  background-color: $notEnoughActivitiesColor;
+}
+.colorNotEnoughActivities {
+  color: $notEnoughActivitiesColor;
 }
 .bgInactive {
   background-color: $logbookInactiveColor;
@@ -67,11 +74,15 @@ $calendarHeight: 600px;
   margin-bottom: 5px;
 }
 .logbookTipColor {
-  width: 40px;
+  width: 50px;
   height: 40px;
   display: inline-block;
   vertical-align: middle;
   border-radius: 10px;
+  color: white;
+  text-shadow: 0 0 2px black;
+  font-size: 11px;
+  padding: 3px;
 }
 .wordCountTipText {
   display: inline-block;

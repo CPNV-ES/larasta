@@ -111,7 +111,7 @@ showpastbtn.addEventListener("click", function (event) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/nmaitre/git/larasta/resources/assets/js/visits.js */"./resources/assets/js/visits.js");
+module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\visits.js */"./resources/assets/js/visits.js");
 
 
 /***/ })

@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/nmaitre/git/larasta/resources/assets/js/internshipsEdit.js */"./resources/assets/js/internshipsEdit.js");
+module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\js\internshipsEdit.js */"./resources/assets/js/internshipsEdit.js");
 
 
 /***/ })

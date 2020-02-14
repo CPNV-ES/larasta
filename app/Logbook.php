@@ -13,8 +13,8 @@ class Logbook extends Model
     const COMPLIANCE_LEVELS = [
         0 => "ok",
         10 => "not_enough_words",
-        20 => "not_enough_activities",
-        30 => "not_enough_hours",
+        20 => "not_enough_hours",
+        30 => "not_enough_activities",
     ];
 
     /**
