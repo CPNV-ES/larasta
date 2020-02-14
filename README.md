@@ -61,7 +61,7 @@ php artisan migrate --seed
 
 if you want add test data:
 ```
-php artisan seed --class="TestDataSeeder"
+php artisan db:seed --class="TestDataSeeder"
 ```
 
 ### 6. Fix some file system details
