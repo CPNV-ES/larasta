@@ -275,7 +275,6 @@ async function displayActivity(activity) {
 
     //current day
     if (currentDay.toISOString() == dateId) {
-        console.log("is current day");
         var todayActivityAdapter = buildActivityAdapter(
             todayActivitiesContainer,
             activity
@@ -413,7 +412,6 @@ function refreshDayData(dayDate) {
         (() => {
             //no validation
             if (!activity.object.activitytype.RequireDetails) {
-                console.log("doesn't require details");
                 return;
             }
             //words per hour
@@ -459,7 +457,6 @@ function refreshDayData(dayDate) {
     dayObject.adapter.updateData({ duration: dayDuration });
     //today
     if (dayId == new Date().getAbsoluteDate().toISOString()) {
-        console.log(dayId);
         applyComplianceColor(todayDuration, complianceLevel);
         todayDuration.textContent = `${getPrettyTime(dayDuration)} - ${COMPLIANCE_LEVELS_COMMENT[complianceLevel]}`;
     }
@@ -515,7 +512,6 @@ function openViewActivity(activityId) {
     console.log("open view activity window", activityId);
     //display data
     var activity = activities[activityId].object;
-    console.log(activity);
     activityWindowTimeDisplay.textContent = getPrettyTime(activity.duration);
     activityWindowActivityTypeDisplay.textContent =
         activity.activitytype.typeActivityDescription;
