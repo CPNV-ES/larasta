@@ -11,6 +11,8 @@
     <script>
         var internshipId = {{$internship->id}};
         var activityTypes = {!! $activityTypes !!};
+        var COMPLIANCE_CONDITIONS = {!! $complianceConditions !!}
+        var COMPLIANCE_LEVELS = COMPLIANCE_CONDITIONS.levels;
         //var routes = {} //couldn't manage to use dynamic routes without added dev
     </script>
 @endsection
@@ -25,7 +27,7 @@
     <div class="logbookContainer">
         <div class="todaySection">
             <h2 class="todayTitle">Aujourd'hui</h2>
-            <p id="todayComplianceMsg" class="colorInactive">Inactif</p>
+            <p id="todayDuration" class="colorInactive">Inactif</p>
             <div id="todayActivitiesContainer">
                 <button id="todayNewActivityBtn" title="Créer une activité (Alt+N)">+</button>
             </div>

@@ -21,7 +21,13 @@ class LogbookController extends Controller
         }
         $student = Person::fromId($internship->intern_id);
         $activityTypes = Activitytype::get();
-        return view('logbook/index')->with(compact("internship", "student", "activityTypes"));
+        $complianceConditions = json_encode([
+            "min_words_per_hour" => Logbook::MIN_WORDS_PER_HOUR,
+            "min_hours_per_day" => Logbook::MIN_HOURS_PER_DAY,
+            "min_activities_per_day" => Logbook::MIN_ACTIVITIES_PER_DAY,
+            "levels" => Logbook::COMPLIANCE_LEVELS
+        ]);
+        return view('logbook/index')->with(compact("internship", "student", "activityTypes", "complianceConditions"));
         //⛔🌈
     }
     public function reviewMode($internshipId)
