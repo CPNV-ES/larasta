@@ -16,22 +16,12 @@ var activities = {};
 var weeks = {};
 var displayedWeekId = false;
 var currentDay = false;
-var currentDisplayMode = "weeks";
 var displayedActivityId = false;
 var newActivityDate = false;
 
 document.addEventListener("DOMContentLoaded", boot);
 async function boot(ev) {
     /*add events*/
-    lastTimeBtn.addEventListener("click", () => {
-        switchTime("last");
-    });
-    nextTimeBtn.addEventListener("click", () => {
-        switchTime("next");
-    });
-    todayTimeBtn.addEventListener("click", resetTime);
-    seekDateInput.addEventListener("input", onSeekValue);
-
     todayNewActivityBtn.addEventListener("click", function () {
         openCreateActivity(new Date());
     });
@@ -46,14 +36,35 @@ async function boot(ev) {
     activityWindowDeleteBtn.addEventListener("click", evt => {
         deleteActivity(displayedActivityId);
     });
+    //body evts
+    document.body.addEventListener("click", evt => {
+        hideSeekCalendar(evt);
+    });
     document.body.addEventListener("keydown", evt => {
-        if (evt.key == "Escape") 
+        if (evt.key == "Escape") {
             hideActivityWindow(evt);
+            hideSeekCalendar(evt);
+        }
         if (evt.key == "n" && evt.altKey) { //alt + n
             evt.preventDefault();
             openCreateActivity(new Date());
         }
     });
+    //seek events
+    lastTimeBtn.addEventListener("click", evt => { switchTime("last", "week"); });
+    nextTimeBtn.addEventListener("click", evt => { switchTime("next", "week"); });
+    todayTimeBtn.addEventListener("click", resetTime);
+    //seek calendar evts
+    calendarModeBtn.addEventListener("click", toggleSeekCalendar);
+    seekCalendar.addEventListener("click", evt => { evt.stopPropagation(); });
+    seekCalendarLastWeek.addEventListener("click", evt => { switchTime("last", "week"); });
+    seekCalendarNextWeek.addEventListener("click", evt => { switchTime("next", "week"); });
+    seekCalendarLastMonth.addEventListener("click", evt => { switchTime("last", "month"); });
+    seekCalendarNextMonth.addEventListener("click", evt => { switchTime("next", "month"); });
+    seekCalendarLastYear.addEventListener("click", evt => { switchTime("last", "year"); });
+    seekCalendarNextYear.addEventListener("click", evt => { switchTime("next", "year"); });
+    seekDateInput.addEventListener("input", onSeekValue);
+
     //window categories
     activityTypes.forEach(activityType => {
         optionElem = activityWindowActivityTypeInput.addElement("option", {
@@ -64,6 +75,7 @@ async function boot(ev) {
     /*start*/
     resetTime();
 }
+
 function onSeekValue(evt) {
     console.log("on seek value", evt.isTrusted);
     if (!evt.isTrusted) {
@@ -162,28 +174,34 @@ function changeWeek(week, { force = false, animation = true } = {}) {
         oldElem.classList.remove(oldClassName);
     })();
 }
-function switchTime(direction) {
-    if (currentDisplayMode == "weeks") {
-        var stampWeekDiff = 1000 * 60 * 60 * 24 * 7;
-        if (direction == "last") {
-            stampWeekDiff *= -1;
-        }
-        var displayedWeekStartStamp = weeks[
-            displayedWeekId
-        ].week.first.getTime();
-        var newWeek = new Date(
-            displayedWeekStartStamp + stampWeekDiff
-        ).getWeek();
-        changeWeek(newWeek);
-        return;
+function switchTime(direction, unit = "week") {
+    const DAY_LENGTH = 1000 * 60 * 60 * 24
+    switch (unit) {
+        case "year":
+            var stampWeekDiff = DAY_LENGTH * 365;
+            break;
+        case "month":
+            var stampWeekDiff = DAY_LENGTH * 7 * 4;
+            break;
+        default: case "week":
+            var stampWeekDiff = DAY_LENGTH * 7;
     }
+    if (direction == "last") {
+        stampWeekDiff *= -1;
+    }
+    var displayedWeekStartStamp = weeks[
+        displayedWeekId
+    ].week.first.getTime();
+    var newWeek = new Date(
+        displayedWeekStartStamp + stampWeekDiff
+    ).getWeek();
+    changeWeek(newWeek);
+    return;
 }
 function resetTime() {
-    if (currentDisplayMode == "weeks") {
-        currentDay = new Date().getAbsoluteDate();
-        changeWeek(currentDay.getWeek());
-        return;
-    }
+    currentDay = new Date().getAbsoluteDate();
+    changeWeek(currentDay.getWeek());
+    return;
 }
 
 async function loadActivities(weekId) {
@@ -230,7 +248,7 @@ async function loadActivities(weekId) {
 }
 
 function onNewActivity(activity, weekId = false) {
-    console.log({activity});
+    console.log({ activity });
     //objectify date
     activity.date = new Date(activity.entryDate);
     var dateId = activity.date.getAbsoluteDate().toISOString();
@@ -446,7 +464,7 @@ function refreshDayData(dayDate) {
     //day compliance conditions
     (() => {
         //activities count
-        if (!forceActivityCountOK && dayObject.activities.length < COMPLIANCE_CONDITIONS.min_activities_per_day) { 
+        if (!forceActivityCountOK && dayObject.activities.length < COMPLIANCE_CONDITIONS.min_activities_per_day) {
             let index = Object.keyByValue(COMPLIANCE_LEVELS, "not_enough_activities");
             complianceIndex = (index > complianceIndex) ? index : complianceIndex;
         }
@@ -562,6 +580,24 @@ function hideActivityWindow() {
     activityWindow.classList.add("none");
 }
 
+function toggleSeekCalendar(evt) {
+    if (seekCalendar.classList.contains("none")) {
+        displaySeekCalendar(evt);
+        return
+    }
+    hideSeekCalendar(evt);
+}
+function displaySeekCalendar(evt) {
+    evt.stopPropagation();
+    seekCalendar.classList.remove("none");
+    seekDateInput.focus();
+}
+function hideSeekCalendar(evt) {
+    seekCalendar.classList.add("none");
+    if(evt.type == "keydown")
+        calendarModeBtn.focus();
+}
+
 async function onActivitySave() {
     console.log("saving", displayedActivityId);
     //get data
@@ -569,7 +605,7 @@ async function onActivitySave() {
     var minutes = parseInt(activityWindowMinutesInput.value);
     var duration = hours + minutes / 60;
 
-    console.log("help", {hours, minutes, duration});
+    console.log("help", { hours, minutes, duration });
 
     var activitytypes_id = activityWindowActivityTypeInput.value;
     var activitytype = [...activityTypes].find(object => {
@@ -577,7 +613,7 @@ async function onActivitySave() {
     });
     var activityDescription = activityWindowDescriptionInput.value;
     var activityData = { duration, activityDescription, activitytypes_id };
-    console.log({activityData});
+    console.log({ activityData });
 
     var loader = Utils.addLoader(activityWindow, "dark");
 

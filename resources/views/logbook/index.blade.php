@@ -39,12 +39,26 @@
                 <p id="currentDatesDisplay">...</p>
                 <button id="nextTimeBtn">&gt;</button>
                 <button id="calendarModeBtn">
-                    <!--temporary way. will use a js calendar widget later -->
-                    
-                    <label for="seekDateInput"></label>
-                    <input id="seekDateInput" type="date"/>
-                    
                 </button>
+                <!--temporary way. will use a js calendar widget later -->
+                <div id="seekCalendar" class="none">
+                    <div>
+                        <button id="seekCalendarLastWeek">&lt;</button>
+                        <p>Semaines</p>
+                        <button id="seekCalendarNextWeek">&gt;</button>
+                    </div>
+                    <div>
+                        <button id="seekCalendarLastMonth">&lt;</button>
+                        <p>Mois</p>
+                        <button id="seekCalendarNextMonth">&gt;</button>
+                    </div>
+                    <div>
+                        <button id="seekCalendarLastYear">&lt;</button>
+                        <p>Années</p>
+                        <button id="seekCalendarNextYear">&gt;</button>
+                    </div>
+                    <input id="seekDateInput" type="date"/>
+                </div>
             </div>
             <div class="calendarBody">
                 <div id="monthsContainer" class="hidden"></div>
