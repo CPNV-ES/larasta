@@ -16,7 +16,8 @@
 <h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
         @php 
-            setlocale(LC_TIME, 'French'); //356
+            Carbon::setUtf8(true);
+            setlocale(LC_TIME, 'French');
         @endphp
         <!--weeks-->
         @foreach ($activitiesByWeeks as $weekDate=>$week)
@@ -26,7 +27,6 @@
                 $weekEndDate = $weekDateObj->copy()->endOfWeek();
                 $weekStartDateStr = $weekStartDate->formatLocalized('%d %B');
                 $weekEndDateStr = $weekEndDate->formatLocalized('%d %B %Y');
-                //dump($weekStartDate, $weekEndDate);
             @endphp
             <p class="reviewWeekSeparator">Semaine du {{$weekStartDateStr}} au {{$weekEndDateStr}}</p>
             <div class="reviewWeek">
