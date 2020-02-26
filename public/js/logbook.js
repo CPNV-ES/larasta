@@ -229,6 +229,7 @@ async function loadActivities(weekId) {
 }
 
 function onNewActivity(activity, weekId = false) {
+    console.log({activity});
     //objectify date
     activity.date = new Date(activity.entryDate);
     var dateId = activity.date.getAbsoluteDate().toISOString();
@@ -236,6 +237,8 @@ function onNewActivity(activity, weekId = false) {
     if (!activity.activitytype) {
         activity.activitytype = activityTypes[activity.activitytypes_id];
     }
+    //duration
+    activity.duration = parseFloat(activity.duration);
     //weekid
     if (!weekId) {
         weekId = activity.date
@@ -400,6 +403,7 @@ function refreshDayData(dayDate) {
     //calculate conditions compliance
     var complianceIndex = 0;
     var dayDuration = 0;
+    var forceActivityCountOK = false;
     dayObject.activities.forEach(activityId => {
         if (!activities[activityId]) {
             console.warn("activity not found", activityId);
@@ -412,6 +416,7 @@ function refreshDayData(dayDate) {
         (() => {
             //no validation
             if (!activity.object.activitytype.RequireDetails) {
+                forceActivityCountOK = true;
                 return;
             }
             //words per hour
@@ -425,9 +430,7 @@ function refreshDayData(dayDate) {
 
         //activity compliance
         activity.adapters.forEach(function (activityAdapter) {
-            activityAdapter.updateCompliance(
-                COMPLIANCE_LEVELS[activityComplianceIndex]
-            );
+            activityAdapter.updateCompliance(COMPLIANCE_LEVELS[activityComplianceIndex]);
         });
 
         //day compliance
@@ -436,17 +439,20 @@ function refreshDayData(dayDate) {
         }
 
         //duration
+        //console.trace({duration}, typeof duration);
         dayDuration += duration;
     });
     //day compliance conditions
-    (()=>{
-        if(dayObject.activities.length < COMPLIANCE_CONDITIONS.min_activities_per_day){
+    (() => {
+        //activities count
+        if (!forceActivityCountOK && dayObject.activities.length < COMPLIANCE_CONDITIONS.min_activities_per_day) { 
             let index = Object.keyByValue(COMPLIANCE_LEVELS, "not_enough_activities");
-            complianceIndex = (index > complianceIndex)?index:complianceIndex;
+            complianceIndex = (index > complianceIndex) ? index : complianceIndex;
         }
-        if(dayDuration < COMPLIANCE_CONDITIONS.min_hours_per_day){
+        //hours per day
+        if (dayDuration < COMPLIANCE_CONDITIONS.min_hours_per_day) {
             let index = Object.keyByValue(COMPLIANCE_LEVELS, "not_enough_hours");
-            complianceIndex = (index > complianceIndex)?index:complianceIndex;
+            complianceIndex = (index > complianceIndex) ? index : complianceIndex;
         }
     })();
 
@@ -558,15 +564,19 @@ function hideActivityWindow() {
 async function onActivitySave() {
     console.log("saving", displayedActivityId);
     //get data
-    var hours = activityWindowHoursInput.value;
-    var minutes = activityWindowMinutesInput.value;
-    var duration = parseInt(hours) + minutes / 60;
+    var hours = parseInt(activityWindowHoursInput.value);
+    var minutes = parseInt(activityWindowMinutesInput.value);
+    var duration = hours + minutes / 60;
+
+    console.log("help", {hours, minutes, duration});
+
     var activitytypes_id = activityWindowActivityTypeInput.value;
     var activitytype = [...activityTypes].find(object => {
         return object.id == activitytypes_id;
     });
     var activityDescription = activityWindowDescriptionInput.value;
     var activityData = { duration, activityDescription, activitytypes_id };
+    console.log({activityData});
 
     var loader = Utils.addLoader(activityWindow, "dark");
 
@@ -588,7 +598,6 @@ async function onActivitySave() {
         var activity = activities[displayedActivityId].object;
         activity.activitytype = activitytype;
         Object.assign(activity, activityData);
-
         updateActivityData(activity);
     } else {
         //new
