@@ -47,8 +47,9 @@ async function boot(ev) {
         deleteActivity(displayedActivityId);
     });
     document.body.addEventListener("keydown", evt => {
-        if (evt.key == "Escape") hideActivityWindow(evt);
-        if (evt.key == "n" && evt.altKey) {
+        if (evt.key == "Escape") 
+            hideActivityWindow(evt);
+        if (evt.key == "n" && evt.altKey) { //alt + n
             evt.preventDefault();
             openCreateActivity(new Date());
         }

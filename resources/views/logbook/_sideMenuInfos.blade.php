@@ -1,15 +1,15 @@
 <div class="larastable">
     <div class="logbookTips">
         <div class="logbookTip">
-            <div class="logbookTipColor bgNotEnoughActivities">2 activités</div>
+            <div class="logbookTipColor bgNotEnoughActivities">{{\App\Logbook::MIN_ACTIVITIES_PER_DAY}} activités</div>
             <p class="wordCountTipText">Pas assez d'activités</p>
         </div>
         <div class="logbookTip">
-            <div class="logbookTipColor bgNotEnoughHours">4 heures</div>
+            <div class="logbookTipColor bgNotEnoughHours">{{\App\Logbook::MIN_HOURS_PER_DAY}} heures</div>
             <p class="wordCountTipText">Nombre d'heures insuffisantes</p>
         </div>
         <div class="logbookTip">
-            <div class="logbookTipColor bgNotEnoughWords">5 mots/h</div>
+            <div class="logbookTipColor bgNotEnoughWords">{{\App\Logbook::MIN_WORDS_PER_HOUR}} mots/h</div>
             <p class="wordCountTipText">Nombre de mots insuffisant</p>
         </div>
         <div class="logbookTip">
