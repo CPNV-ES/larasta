@@ -165,15 +165,6 @@ class VisitsController extends Controller
                      * 3. remark(s)
                      * */
                     $history = Remark::where('remarkOn_id', "=", $rid)->orderby('remarkDate', "DESC")->get(); 
-                    
-                    /* $history = Remark::select("remarkType", "remarkDate", "remarkText", "remarkOn_id", "author")
-                        ->where('remarkOn_id', "=", $rid)
-                        ->orderby('remarkDate', "DESC")
-                        ->get(); */
-                    /*
-                     * Gets evaluation from the visit (ID).
-                     * */
-                    $eval = $visits->evaluation->first();
 
                     /*
                      * Gets media associate from the visit (ID).
@@ -187,7 +178,6 @@ class VisitsController extends Controller
                             'mobiles' => $mobiles,
                             'visitstate' => $visitstate,
                             'history' => $history,
-                            'eval' => $eval,
                             'medias' => $medias
                         ]
                     );

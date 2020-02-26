@@ -80,7 +80,7 @@
         <div>
             <p id="info" class="hidden hidea"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>
             <button id="up" class="btn-info hidden hidea" type="submit">Enregistrer</button>
-            <a id="cancel_a" class="btn-info hidden hidea">Annuler</a>
+            <button id="cancel_a" type="button" class="btn-info hidden hidea">Annuler</button>
         </div>
     </form>
 
