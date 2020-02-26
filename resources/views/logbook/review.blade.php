@@ -1,4 +1,7 @@
-@php use Carbon\Carbon; 
+@php 
+    use Carbon\Carbon; 
+    Carbon::setUtf8(true);
+    setlocale(LC_TIME, 'French');
 @endphp
 
 @extends ('layout')
@@ -15,10 +18,6 @@
 <h1>Stage de {{$student->full_name}}</h1>
 <h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
-        @php 
-            Carbon::setUtf8(true);
-            setlocale(LC_TIME, 'French');
-        @endphp
         <!--weeks-->
         @foreach ($activitiesByWeeks as $weekDate=>$week)
             @php
@@ -39,7 +38,7 @@
                             @foreach ($day as $activityKey => $activity)
                                 <div class="reviewActivity">
                                     <div class="reviewActivityInfos">
-                                        <p class="reviewActivityDuration">{{$activity->duration}}h</p>
+                                        <p class="reviewActivityDuration">{{\App\Services\DurationHelper::getPrettyTime($activity->duration)}}</p>
                                         <p class="reviewActivityType">{{$activity->activityType->typeActivityDescription}}</p>
                                     </div>
                                     <p class="reviewActivityDescription">{{$activity->activityDescription}}</p>
