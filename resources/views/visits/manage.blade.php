@@ -7,7 +7,7 @@
     <h3 class="test">
         <a href="/visits/" class="btn btn-success"><span class="arrow">&lt;</span></a> Visite de stage n°{{$visit->id}} de <a href="#">{{$visit->internship->student->lastname}}, {{$visit->internship->student->firstname}}</a></h3>
     <br>
-    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
+    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left ">
         {{ csrf_field() }}
         @foreach($mails as $mail)
         <input type="hidden" name="email" value="{{$mail->value}}">
@@ -15,7 +15,7 @@
         <input type="hidden" name="visit" value="{{$visit->id}}">
         <input type="hidden" name="firstn" value="{{$visit->internship->responsible->firstname}}">
         <input type="hidden" name="lastn" value="{{$visit->internship->responsible->lastname}}">
-        <table class="larastable table table-bordered col-md-10">
+        <table class="larastable table table-bordered col-md-12">
             <tr>
                 <th class="col-md-1">Prénom de l'élève</th>
                 <th class="col-md-1">Nom de l'élève</th>

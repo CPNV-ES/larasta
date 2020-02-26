@@ -31,33 +31,37 @@
             <thead class="thead-inverse">
                 <tr class="d-flex clickable-row">
                     <th class="col-3">Nom</th>
-                    <th class="col-3">Prénom</th>
+                    <th class="col-2">Prénom</th>
                     <th class="col-2">Entreprise</th>
                     <th class="col-1">Date de début</th>
                     <th class="col-1">Date de fin</th>
                     <th class="col-1">Etat de la visite</th>
                     <th class="col-1">Email</th>
+                    <th class="col-1">Note</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($visitsToCome as $iship)
-                    <tr class="d-flex clickable-row text-left" data-href="/visits/{{$iship->id}}/manage">
-                        <td class="col-3">{{ $iship->internship->student->firstname }}</td>
-                        <td class="col-3">{{ $iship->internship->student->lastname }}</td>
-                        <td class="col-2">{!! $iship->internship->company->companyName !!}</td>
-                        <td class="col-1 text-center">{{ (new DateTime($iship->internship->beginDate))->format('d M Y') }}</td>
-                        <td class="col-1 text-center">{{ (new DateTime($iship->internship->endDate))->format('d M Y') }}</td>
-                        <td class="col-1">{{ $iship->visitsstate->stateName }}</td>
+                @foreach($visitsToCome as $visit)
+                    <tr class="d-flex clickable-row text-left" data-href="/visits/{{$visit->id}}/manage">
+                        <td class="col-3">{{ $visit->internship->student->firstname }}</td>
+                        <td class="col-2">{{ $visit->internship->student->lastname }}</td>
+                        <td class="col-2">{!! $visit->internship->company->companyName !!}</td>
+                        <td class="col-1 text-center">{{ (new DateTime($visit->internship->beginDate))->format('d M Y') }}</td>
+                        <td class="col-1 text-center">{{ (new DateTime($visit->internship->endDate))->format('d M Y') }}</td>
+                        <td class="col-1">{{ $visit->visitsstate->stateName }}</td>
                         <td class="col-1 text-center">
-                            @if($iship->mailstate == 1)
+                            @if($visit->mailstate == 1)
                                 <span class="ok glyphicon glyphicon-ok tick"></span>
                             @endif
                         </td>
+                        @if (!empty($visit->getMedia()) && !empty($visit->grade))
+                            <td class="col-1"><a href="{{$visit->getMedia()->first()->getUrl()}}" download>{{$visit->grade}}</a></td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        @if (count($visitPast) != 0)
+        @if (count($visitsPast) != 0)
             <button id="showpastbtn"> Voir les anciennes visites</button>
         @else
             
@@ -70,28 +74,32 @@
                 <thead class="thead-inverse">
                     <tr class="d-flex clickable-row">
                         <th class="col-3">Nom</th>
-                        <th class="col-3">Prénom</th>
+                        <th class="col-2">Prénom</th>
                         <th class="col-2">Entreprise</th>
                         <th class="col-1">Date de début</th>
                         <th class="col-1">Date de fin</th>
                         <th class="col-1">Etat de la visite</th>
                         <th class="col-1">Email</th>
+                        <th class="col-1">Note</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($visitPast as $iship)
-                        <tr class="d-flex clickable-row text-left" data-href="/visits/{{$iship->id}}/manage">
-                            <td class="col-3">{{ $iship->internship->student->firstname }}</td>
-                            <td class="col-3">{{ $iship->internship->student->lastname }}</td>
-                            <td class="col-2">{!! $iship->internship->company->companyName !!}</td>
-                            <td class="col-1 text-center">{{ (new DateTime($iship->internship->beginDate))->format('d M Y') }}</td>
-                            <td class="col-1 text-center">{{ (new DateTime($iship->internship->endDate))->format('d M Y') }}</td>
-                            <td class="col-1">{{ $iship->visitsstate->stateName }}</td>
+                    @foreach($visitsPast as $visit)
+                        <tr class="d-flex clickable-row text-left" data-href="/visits/{{$visit->id}}/manage">
+                            <td class="col-3">{{ $visit->internship->student->firstname }}</td>
+                            <td class="col-2">{{ $visit->internship->student->lastname }}</td>
+                            <td class="col-2">{!! $visit->internship->company->companyName !!}</td>
+                            <td class="col-1 text-center">{{ (new DateTime($visit->internship->beginDate))->format('d M Y') }}</td>
+                            <td class="col-1 text-center">{{ (new DateTime($visit->internship->endDate))->format('d M Y') }}</td>
+                            <td class="col-1">{{ $visit->visitsstate->stateName }}</td>
                             <td class="col-1 text-center">
-                                @if($iship->mailstate == 1)
+                                @if($visit->mailstate == 1)
                                     <span class="ok glyphicon glyphicon-ok tick"></span>
                                 @endif
                             </td>
+                            @if (!empty($visit->getMedia()) && !empty($visit->grade))
+                                <td class="col-1"><a href="{{$visit->getMedia()->first()->getUrl()}}" download>{{$visit->grade}}</a></td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
