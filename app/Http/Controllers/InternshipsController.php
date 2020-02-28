@@ -208,7 +208,7 @@ class InternshipsController extends Controller
         date_default_timezone_set('Europe/Zurich');
 
         $internship = Internship::find($internshipId);
-
+        $medias = $internship->getMedia();
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -228,10 +228,8 @@ class InternshipsController extends Controller
             ->orderby('remarkDate', 'desc')
             ->get();
 
-        return view('internships/internshipview')
-            ->with('visits', $visits)
-            ->with('remarks', $remarks)
-            ->with('internship', $internship);
+
+        return view('internships/internshipview', compact('visits','remarks','internship','medias'));
     }
 
     public function edit($internshipId)

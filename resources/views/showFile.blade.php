@@ -8,12 +8,14 @@
             </a>
             <div class="card-body">
                 <h5 class="card-title">{{$media->name}}</h5>
+                @if (env('USER_LEVEL') > 1)
                 <hr>
                 <form action="{{route($route, ["idMedia" => $media->id, "id" => $id])}}" method="POST">
                     {{method_field('DELETE')}}
                     {{ csrf_field() }}
                     <button type="submit" class="btn-danger">Supprimer</button>
                 </form>
+                @endif
             </div>
         </div>
         @endforeach
