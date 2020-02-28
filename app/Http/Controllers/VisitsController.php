@@ -179,7 +179,6 @@ class VisitsController extends Controller
                      * Gets media associate from the visit (ID).
                      * */
                     $medias = $visits->getMedia();
-
                     return view('visits/manage')->with(
                         [
                             'visit' => $visits,
@@ -344,9 +343,15 @@ class VisitsController extends Controller
         }
     }
 
-    public function uploadFiles(StoreFileRequest $request, $id)
+    public function storeFile(StoreFileRequest $request, $id)
     {
-        $Visit = Visit::find($id);
-        $Visit->addMediaFromRequest('file')->toMediaCollection();
+        $visit = Visit::find($id);
+        $visit->addMediaFromRequest('file')->toMediaCollection();
+    }
+    public function deleteFile($id,$idMedia)
+    {
+        $visit = Visit::find($id);
+        $visit->getMedia()->find($idMedia)->delete();
+        return redirect()->route('visit.manage',['rid' => $id]);
     }
 }

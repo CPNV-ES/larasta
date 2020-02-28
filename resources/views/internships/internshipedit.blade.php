@@ -126,7 +126,10 @@
             }
         </script>
     </form>
-
+    
+    <hr/>
+    @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship->id])])
+    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id ,"medias" => $medias])
     {{-- Visits --}}
     @if (isset($visits))
         <hr/>
