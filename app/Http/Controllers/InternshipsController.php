@@ -515,6 +515,6 @@ class InternshipsController extends Controller
     {
         $visit = Internship::find($id);
         $visit->getMedia()->find($idMedia)->delete();
-        return redirect()->route('editInternships',['iid' => $id]);
+        return redirect()->back();
     }
 }

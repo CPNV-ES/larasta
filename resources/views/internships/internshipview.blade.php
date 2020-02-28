@@ -87,7 +87,7 @@
         </a>        
     @endif
 
-    @include('uploadFile',["route" => route("internship.uploadFiles", ["id" => $internship->id])])
+    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id ,"medias" => $medias])
     
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
