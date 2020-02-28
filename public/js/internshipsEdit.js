@@ -36,12 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -57,70 +77,65 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
+/******/
 /******/
 /******/ 	// Load entry module and return exports
-<<<<<<< HEAD
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
-=======
-/******/ 	return __webpack_require__(__webpack_require__.s = 16);
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-<<<<<<< HEAD
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(15);
-=======
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(17);
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
-
-
-/***/ }),
-
-<<<<<<< HEAD
-/***/ 15:
-=======
-/***/ 17:
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+/***/ "./resources/assets/js/internshipsEdit.js":
+/*!************************************************!*\
+  !*** ./resources/assets/js/internshipsEdit.js ***!
+  \************************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", function () {
-    //get the first table in form
-    var table = document.querySelector("form table");
+  //get the first table in form
+  var table = document.querySelector("form table"); //get all inputs, selects in our table
 
-    //get all inputs, selects in our table
-    var inputs = table.querySelectorAll("input, select");
+  var inputs = table.querySelectorAll("input, select"); //when we change value on inputs we add input remark
 
-    //when we change value on inputs we add input remark
-    inputs.forEach(function (elem) {
-        var td = false;
-        var initialValue = elem.value;
-        elem.addEventListener("change", function (ev) {
-            if (elem.value === initialValue && td) {
-                //no modif
-                td.remove();
-                td = false;
-                return;
-            }
-            if (td) {
-                //already displayed
-                return;
-            }
-            td = elem.parentElement.parentNode.addElement("td");
-            var inputRemark = td.addElement("input");
-            inputRemark.type = "text";
-            inputRemark.name = "remark_" + elem.name;
-            inputRemark.placeholder = "Pourquoi?";
-        });
+  inputs.forEach(function (elem) {
+    var td = false;
+    var initialValue = elem.value;
+    elem.addEventListener("change", function (ev) {
+      if (elem.value === initialValue && td) {
+        //no modif
+        td.remove();
+        td = false;
+        return;
+      }
+
+      if (td) {
+        //already displayed
+        return;
+      }
+
+      td = elem.parentElement.parentNode.addElement("td");
+      var inputRemark = td.addElement("input", {
+        type: "text",
+        name: "remark_".concat(elem.name),
+        placeholder: "Pourquoi?"
+      });
     });
+  });
 });
+
+/***/ }),
+
+/***/ 1:
+/*!******************************************************!*\
+  !*** multi ./resources/assets/js/internshipsEdit.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! /home/nicolasmaitre/git/larasta/resources/assets/js/internshipsEdit.js */"./resources/assets/js/internshipsEdit.js");
+
 
 /***/ })
 

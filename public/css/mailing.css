@@ -23,8 +23,7 @@
 .showDeletedEnterprises:hover,
 .cmdMail:hover {
   background: #dfdfdf;
-  -webkit-box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32);
-          box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32);
+  box-shadow: inset 0 0 1px 1px rgba(131, 139, 156, 0.32);
 }
 
 .responsible:active,

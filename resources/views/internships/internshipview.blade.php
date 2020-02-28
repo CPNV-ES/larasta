@@ -86,6 +86,12 @@
             <button>Modifier</button>
         </a>
     @endif
+
+    {{-- logbook button --}}
+    <a href="{{route('logbookIndex', ['internshipId' => $internship->id])}}">
+        <button class="">Journal de travail</button>
+    </a>
+
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>

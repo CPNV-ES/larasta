@@ -3,12 +3,12 @@ html {
 }
 
 body {
-    line-height: 1.4;
-    font-family: verdana, geneva, freesans, clean, sans-serif;
-    font-size: 11px; /*0.688em; /* 0.75 for 12px, 0.688 for 11px */
-    /* background-color: #e0e0e0; */
-    margin: 0;
-    padding: 0;
+	line-height:1.4;
+	font-family:verdana,geneva,freesans,clean,sans-serif;
+	font-size: 11px; /*0.688em; /* 0.75 for 12px, 0.688 for 11px */
+	/* background-color: #e0e0e0; */
+	margin:0;
+	padding: 10px 10px 0 0;
 }
 
 input {
@@ -487,6 +487,8 @@ div.progress-container > div {
 .content-besides-sidebar {
     margin-left: 260px;
     width: calc(100% - 260px);
+	margin-left: 260px;
+	width: calc(100% - 260px);
 }
 
 #sidemenu {
@@ -613,7 +615,7 @@ div.error {
 
 
 ul.medium-menu {
-    -moz-border-radius: 5px;
+    border-radius: 5px;
     /*background-color:#eeeeee;*/
     height: 26px;
     margin: 10px 0 15px;
@@ -621,7 +623,7 @@ ul.medium-menu {
 }
 
 ul.medium-menu li a {
-    -moz-border-radius: 4px;
+    border-radius: 4px;
     font-weight: bold;
     color: #333333;
     float: left;
@@ -1652,6 +1654,54 @@ table#changelogs {
 
 .in_place_button_container button.in_place_cancel {
     background: url(/images/icons/undo16.png) no-repeat center center;
+}
+
+#sidemenuToggler{
+    display: none;
+}
+/******/
+@media only screen and (max-width: 850px){
+    #sidemenuToggler{
+        display: inline-block;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        z-index: 30;
+        height: 40px;
+        min-width: 40px;
+        background: none;
+        border: 0;
+        background-image: url(/images/burger_menu.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: 0.3s transform;
+        transform: rotate(0deg);
+    }
+    body.sidemenu-open > #sidemenuToggler{
+        transform: rotate(90deg);
+    }
+    #sidemenu{
+        margin-top: 40px;
+        left: -250px;
+        position: absolute;
+        z-index: 20;
+        transition: 0.3s;
+    }
+    body.sidemenu-open > #sidemenu{
+        left: 0;
+    }
+
+    .content-besides-sidebar {
+        margin-left: 10px;
+        width: calc(100% - 10px);
+        opacity: 1;
+        transition: 0.3s opacity;
+    }
+    body.sidemenu-open > .content-besides-sidebar{
+        opacity: 0.4;
+        pointer-events: none;
+    }
 }
 
 /*************************************************************************/

@@ -36,12 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -57,121 +77,138 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
+/******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(21);
-
-
-/***/ }),
-
-/***/ 21:
+/***/ "./resources/assets/js/cyclelife.js":
+/*!******************************************!*\
+  !*** ./resources/assets/js/cyclelife.js ***!
+  \******************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-
 document.addEventListener("DOMContentLoaded", function () {
-    lockTable.addEventListener("click", function (event) {
-        if (lockTable.className == "lock") {
-            lockTable.src = "/images/open-padlock-silhouette_32x32.png";
-            unlockTableAccess();
-        } else if (lockTable.className == "unlock") {
-            lockTable.src = "/images/padlock_32x32.png";
-            lockTableAccess();
-        }
-        lockTable.classList.toggle("lock");
-        lockTable.classList.toggle("unlock");
-    });
-    Submit.addEventListener("click", getDataAndSendToController);
+  lockTable.addEventListener("click", function (event) {
+    if (lockTable.className == "lock") {
+      lockTable.src = "/images/open-padlock-silhouette_32x32.png";
+      unlockTableAccess();
+    } else if (lockTable.className == "unlock") {
+      lockTable.src = "/images/padlock_32x32.png";
+      lockTableAccess();
+    }
+
+    lockTable.classList.toggle("lock");
+    lockTable.classList.toggle("unlock");
+  });
+  Submit.addEventListener("click", getDataAndSendToController);
 });
 
 function lockTableAccess() {
-    document.getElementsByName("cell").forEach(function (elem) {
-        elem.removeEventListener("click", toggleSelected);
-    });
-    document.getElementsByName("title").forEach(function (elem) {
-        elem.disabled = true;
-    });
-    enableButton();
+  document.getElementsByName("cell").forEach(function (elem) {
+    elem.removeEventListener("click", toggleSelected);
+  });
+  document.getElementsByName("title").forEach(function (elem) {
+    elem.disabled = true;
+  });
+  enableButton();
 }
 
 function unlockTableAccess() {
-    document.getElementsByName("cell").forEach(function (elem) {
-        elem.addEventListener("click", toggleSelected);
-    });
-    document.getElementsByName("title").forEach(function (elem) {
-        elem.disabled = false;
-    });
-    enableButton();
+  document.getElementsByName("cell").forEach(function (elem) {
+    elem.addEventListener("click", toggleSelected);
+  });
+  document.getElementsByName("title").forEach(function (elem) {
+    elem.disabled = false;
+  });
+  enableButton();
 }
 
 function toggleSelected(event) {
-    event.target.classList.toggle("selected");
+  event.target.classList.toggle("selected");
 }
 
 function enableButton() {
-    document.getElementsByTagName("button").forEach(function (elem) {
-        elem.classList.toggle("d-none");
-    });
+  document.getElementsByTagName("button").forEach(function (elem) {
+    elem.classList.toggle("d-none");
+  });
 }
 
 function getDataAndSendToController() {
-    dataArrayCell = [];
-    //collect cell data and create json array
-    document.getElementsByClassName("selected").forEach(function (elem) {
-        lifeCicleCell = { from: elem.dataset.from, to: elem.dataset.to };
-        dataArrayCell.push(lifeCicleCell);
-    });
-    //collect title data and create json array
-    dataArrayTitle = [];
-    document.getElementsByName("title").forEach(function (elem) {
-        lifeCicleTitle = { value: elem.value, id: elem.dataset.title };
-        dataArrayTitle.push(lifeCicleTitle);
-    });
-    $.ajax({
-        url: '/api/editLifecycleCell',
-        type: 'POST',
-        data: JSON.stringify(dataArrayCell),
-        error: function error(jqXHR, textStatus, errorThrown) {
-            var div = document.createElement("div");
-            div.classList.add("error");
-            var p = document.createElement("p");
-            p.innerHTML = "L'enregistrement du changement des cellules n'a pas pu être éffectué";
-            div.appendChild(p);
-            if (document.getElementsByClassName("error").length <= 0) {
-                document.getElementById("message").appendChild(div);
-            }
-        }
-    });
-    $.ajax({
-        url: '/api/editLifecycleTitle',
-        type: 'POST',
-        data: JSON.stringify(dataArrayTitle),
-        success: function success() {
-            pastLifecicle = document.getElementsByClassName("titleTable");
-            pastLifecicle.forEach(function (elem, key) {
-                elem.innerHTML = dataArrayTitle[key].value;
-            });
-        },
-        error: function error(jqXHR, textStatus, errorThrown) {
-            var div = document.createElement("div");
-            div.classList.add("error");
-            var p = document.createElement("p");
-            p.innerHTML = "L'enregistrement du changement des titres n'a pas pu être éffectué";
-            div.appendChild(p);
-            if (document.getElementsByClassName("error").length <= 0) {
-                document.getElementById("message").appendChild(div);
-            }
-        }
-    });
+  dataArrayCell = []; //collect cell data and create json array
+
+  document.getElementsByClassName("selected").forEach(function (elem) {
+    lifeCicleCell = {
+      from: elem.dataset.from,
+      to: elem.dataset.to
+    };
+    dataArrayCell.push(lifeCicleCell);
+  }); //collect title data and create json array
+
+  dataArrayTitle = [];
+  document.getElementsByName("title").forEach(function (elem) {
+    lifeCicleTitle = {
+      value: elem.value,
+      id: elem.dataset.title
+    };
+    dataArrayTitle.push(lifeCicleTitle);
+  });
+  $.ajax({
+    url: '/api/editLifecycleCell',
+    type: 'POST',
+    data: JSON.stringify(dataArrayCell),
+    error: function error(jqXHR, textStatus, errorThrown) {
+      var div = document.createElement("div");
+      div.classList.add("error");
+      var p = document.createElement("p");
+      p.innerHTML = "L'enregistrement du changement des cellules n'a pas pu être éffectué";
+      div.appendChild(p);
+
+      if (document.getElementsByClassName("error").length <= 0) {
+        document.getElementById("message").appendChild(div);
+      }
+    }
+  });
+  $.ajax({
+    url: '/api/editLifecycleTitle',
+    type: 'POST',
+    data: JSON.stringify(dataArrayTitle),
+    success: function success() {
+      pastLifecicle = document.getElementsByClassName("titleTable");
+      pastLifecicle.forEach(function (elem, key) {
+        elem.innerHTML = dataArrayTitle[key].value;
+      });
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      var div = document.createElement("div");
+      div.classList.add("error");
+      var p = document.createElement("p");
+      p.innerHTML = "L'enregistrement du changement des titres n'a pas pu être éffectué";
+      div.appendChild(p);
+
+      if (document.getElementsByClassName("error").length <= 0) {
+        document.getElementById("message").appendChild(div);
+      }
+    }
+  });
 }
+
+/***/ }),
+
+/***/ 5:
+/*!************************************************!*\
+  !*** multi ./resources/assets/js/cyclelife.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! /home/nicolasmaitre/git/larasta/resources/assets/js/cyclelife.js */"./resources/assets/js/cyclelife.js");
+
 
 /***/ })
 

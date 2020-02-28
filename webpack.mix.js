@@ -11,13 +11,14 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.copy('resources/assets/js/my.js', 'public/js')
+mix .copy('resources/assets/js/utils.js', 'public/js')
     .js('resources/assets/js/internships.js', 'public/js')
     .js('resources/assets/js/internshipsEdit.js', 'public/js')
     .js('resources/assets/js/wishesMatrix.js', 'public/js')
     .js('resources/assets/js/visits.js', 'public/js')
     .js('resources/assets/js/mailing.js', 'public/js')
     .js('resources/assets/js/cyclelife.js', 'public/js')
+    .copy('resources/assets/js/logbook.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/documents.scss', 'public/css')
     .sass('resources/assets/sass/editGrid.scss', 'public/css')
@@ -31,6 +32,7 @@ mix.copy('resources/assets/js/my.js', 'public/js')
     .sass('resources/assets/sass/internships.scss', 'public/css')
     .sass('resources/assets/sass/mailing.scss', 'public/css')
     .sass('resources/assets/sass/lifeCycle.scss', 'public/css')
+    .sass('resources/assets/sass/logbook.scss', 'public/css')
     .copy('resources/assets/css/minimal.css','public/css')
     .copy('node_modules/bootstrap/dist/css/bootstrap.css','public/css')
     .copy('node_modules/bootstrap/dist/css/bootstrap.css.map','public/css')

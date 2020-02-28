@@ -105,7 +105,8 @@ Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
 Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
 // Logbook
-Route::get('/internships/{iid}/logbook', 'LogbookController@show');
+Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
+Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');

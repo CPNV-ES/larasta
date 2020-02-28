@@ -199,4 +199,8 @@ class Person extends Model
         return $this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL)->pluck("value");
     }
 
+    static function fromId($personId)
+    {
+        return self::where("id", $personId)->first();
+    }
 }

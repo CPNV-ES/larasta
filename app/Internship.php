@@ -66,4 +66,11 @@ class Internship extends Model
     {
         return $this->belongsTo('App\Contractstate');
     }
+
+    static function fromId($internshipId)
+    {
+        return self::where("id", $internshipId)
+        ->with("company")
+        ->first();
+    }
 }
