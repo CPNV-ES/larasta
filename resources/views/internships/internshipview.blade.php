@@ -86,7 +86,6 @@
             <button>Modifier</button>
         </a>
     @endif
-
     {{-- Visits --}}
     @if (isset($visits)) @if (count($visits) > 0)
         <hr/>
