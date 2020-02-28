@@ -340,6 +340,5 @@ class VisitsController extends Controller
     {
         $visit = Visit::find($id);
         $visit->getMedia()->find($idMedia)->delete();
-        return redirect()->back();
     }
 }
