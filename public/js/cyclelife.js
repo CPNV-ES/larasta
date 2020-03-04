@@ -207,7 +207,7 @@ function getDataAndSendToController() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/nicolasmaitre/git/larasta/resources/assets/js/cyclelife.js */"./resources/assets/js/cyclelife.js");
+module.exports = __webpack_require__(/*! /home/nmaitre/git/larasta/resources/assets/js/cyclelife.js */"./resources/assets/js/cyclelife.js");
 
 
 /***/ })
