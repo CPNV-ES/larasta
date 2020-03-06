@@ -163,15 +163,20 @@ $calendarHeight: 600px;
     margin: 0;
   }
   button {
-    transform: scale(1);
-    transition: transform 0.2s;
+    scale: 1;
+    transition: scale 0.2s;
     cursor: pointer;
     min-width: 0;
     &:hover {
-      transform: scale(1.1);
+      scale: 1.1;
     }
     &:active {
-      transform: scale(0.8);
+      scale: 0.8;
+    }
+    &:disabled{
+      scale: 1;
+      opacity: 0.4;
+      color: black;
     }
   }
 }

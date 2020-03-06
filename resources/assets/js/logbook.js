@@ -16,7 +16,7 @@ var activities = {};
 var weeks = {};
 var displayedWeekId = false;
 var currentDay = false;
-var displayedActivityId = false;
+var displayedActivity = false;
 var newActivityDate = false;
 
 document.addEventListener("DOMContentLoaded", boot);
@@ -31,10 +31,10 @@ async function boot(ev) {
     });
     activityWindowCancel.addEventListener("click", hideActivityWindow);
     activityWindowEditBtn.addEventListener("click", evt => {
-        openEditActivity(displayedActivityId);
+        openEditActivity(displayedActivity);
     });
     activityWindowDeleteBtn.addEventListener("click", evt => {
-        deleteActivity(displayedActivityId);
+        deleteActivity(displayedActivity.id);
     });
     //body evts
     document.body.addEventListener("click", evt => {
@@ -57,14 +57,15 @@ async function boot(ev) {
     //seek calendar evts
     calendarModeBtn.addEventListener("click", toggleSeekCalendar);
     seekCalendar.addEventListener("click", evt => { evt.stopPropagation(); });
-    seekCalendarLastWeek.addEventListener("click", evt => { switchTime("last", "week"); });
-    seekCalendarNextWeek.addEventListener("click", evt => { switchTime("next", "week"); });
+    //seekCalendarLastWeek.addEventListener("click", evt => { switchTime("last", "week"); });
+    //seekCalendarNextWeek.addEventListener("click", evt => { switchTime("next", "week"); });
     seekCalendarLastMonth.addEventListener("click", evt => { switchTime("last", "month"); });
     seekCalendarNextMonth.addEventListener("click", evt => { switchTime("next", "month"); });
     seekCalendarLastYear.addEventListener("click", evt => { switchTime("last", "year"); });
     seekCalendarNextYear.addEventListener("click", evt => { switchTime("next", "year"); });
     seekDateInput.addEventListener("input", onSeekValue);
-
+    //history
+    window.addEventListener("popstate", onPopState);
     //window categories
     activityTypes.forEach(activityType => {
         optionElem = activityWindowActivityTypeInput.addElement("option", {
@@ -74,8 +75,41 @@ async function boot(ev) {
     });
     /*start*/
     resetTime();
+    /*load activity if reference. Search for ?activity=id*/
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has("activity")){
+        var activityId = urlParams.get("activity");
+        console.log("boot load activity ", activityId);
+        loadAndDisplayActivity(activityId, true);
+    }
 }
-
+function onPopState(evt){
+    console.log("pop state", evt);
+    if(!evt.state){
+        window.location = evt.target;
+    }
+    if(evt.state.activityId){
+        loadAndDisplayActivity(evt.state.activityId, true);
+    }else{
+        hideActivityWindow({},true);
+    }
+}
+async function loadAndDisplayActivity(activityId, preventHistory = false){
+    if(activities[activityId]){
+        var rawActivity = activities[activityId].object;
+    }else{
+        var loader = Utils.addLoader(document.body);
+        var rawActivity = await Utils.callApi(`/api/internships/logbook/activities/${activityId}`);
+        loader.remove();
+    }
+    if(!rawActivity){
+        console.warn("undefined activity");
+        Utils.infoBox("Couldn't load activity :(");
+        return;
+    }
+    var activity = objectifyActivity(rawActivity);
+    openViewActivity(activity, preventHistory);
+}
 function onSeekValue(evt) {
     console.log("on seek value", evt.isTrusted);
     if (!evt.isTrusted) {
@@ -138,6 +172,8 @@ function changeWeek(week, { force = false, animation = true } = {}) {
         year: "numeric"
     });
     currentDatesDisplay.textContent = `Semaine du ${firstDateStr} au ${lastDateStr}`;
+    seekCalendarMonthDisplay.textContent = week.first.toLocaleDateString("fr-FR", {month: "long"}).capitalise();
+    seekCalendarYearDisplay.textContent = week.first.getFullYear();
     //animation
     if (!oldWeekObj) {
         return;
@@ -247,17 +283,9 @@ async function loadActivities(weekId) {
     });
 }
 
-function onNewActivity(activity, weekId = false) {
-    console.log({ activity });
-    //objectify date
-    activity.date = new Date(activity.entryDate);
+function onNewActivity(rawActivity, weekId = false) {
+    var activity = objectifyActivity(rawActivity);
     var dateId = activity.date.getAbsoluteDate().toISOString();
-    //activity type
-    if (!activity.activitytype) {
-        activity.activitytype = activityTypes[activity.activitytypes_id];
-    }
-    //duration
-    activity.duration = parseFloat(activity.duration);
     //weekid
     if (!weekId) {
         weekId = activity.date
@@ -278,6 +306,19 @@ function onNewActivity(activity, weekId = false) {
     weeks[weekId].days[dateId].activities.push(activity.id);
     //display
     displayActivity(activity);
+}
+function objectifyActivity(rawActivity){
+    var activity = Object.assign(rawActivity);
+    //objectify date
+    activity.date = new Date(activity.entryDate);
+    //activity type
+    if (!activity.activitytype) {
+        activity.activitytype = activityTypes[activity.activitytypes_id];
+    }
+    //duration
+    activity.duration = parseFloat(activity.duration);
+
+    return activity;
 }
 
 async function displayActivity(activity) {
@@ -363,10 +404,10 @@ function buildActivityAdapter(parent, activity) {
 
     //events
     moreBtn.addEventListener("click", function (evt) {
-        openViewActivity(activity.id);
+        openViewActivity(activity);
     });
     element.addEventListener("dblclick", function (evt) {
-        openViewActivity(activity.id);
+        openViewActivity(activity);
     });
 
     function updateData(activity) {
@@ -505,21 +546,16 @@ function openCreateActivity(date) {
     activityWindowContainer.reset();
     //display
     newActivityDate = date;
-    displayedActivityId = false;
+    displayedActivity = false;
     displayActivityWindow("create");
     activityWindowHoursInput.focus();
 }
-function openEditActivity(activityId) {
-    console.log("open edit activity window", activityId);
-    if (!activityId) {
+function openEditActivity(activity) {
+    console.log("open edit activity window", activity);
+    if (!activity) {
         console.warn("activity not editable");
         return;
     }
-    if (!activities[activityId]) {
-        console.warn("activity not loaded yet");
-        return;
-    }
-    var activity = activities[activityId].object;
 
     //set data
     var { hours, minutes } = getHoursMinutes(activity.duration);
@@ -529,14 +565,19 @@ function openEditActivity(activityId) {
     activityWindowDescriptionInput.value = activity.activityDescription;
 
     //display
-    displayedActivityId = activityId;
+    displayedActivity = activity;
     displayActivityWindow("edit");
     activityWindowHoursInput.focus();
 }
-function openViewActivity(activityId) {
-    console.log("open view activity window", activityId);
+function openViewActivity(activity, preventHistory = false) {
+    console.log("open view activity window", activity);
+    //history
+    if(!preventHistory){
+        history.pushState({activityId:activity.id}, `Activité "${activity.activitytype.typeActivityDescription}"`, `?activity=${activity.id}`);
+    }else{
+        history.replaceState({activityId:activity.id}, `Activité "${activity.activitytype.typeActivityDescription}"`, `?activity=${activity.id}`);        
+    }
     //display data
-    var activity = activities[activityId].object;
     activityWindowTimeDisplay.textContent = getPrettyTime(activity.duration);
     activityWindowActivityTypeDisplay.textContent =
         activity.activitytype.typeActivityDescription;
@@ -546,8 +587,14 @@ function openViewActivity(activityId) {
         activityWindowDescription,
         activity.activityDescription
     );
+    //buttons
+    /* if(activities[activity.id]){
+        activityWindowEditBtn.disabled = false;
+    }else{
+        activityWindowEditBtn.disabled = true;
+    } */
     //display
-    displayedActivityId = activityId;
+    displayedActivity = activity;
     displayActivityWindow("view");
     activityWindowEditBtn.focus();
 }
@@ -576,8 +623,17 @@ function displayActivityWindow(mode = "view") {
     //display
     activityWindow.classList.remove("none");
 }
-function hideActivityWindow() {
+function hideActivityWindow(evt, preventHistory=false) {
     activityWindow.classList.add("none");
+    //history
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has("activity")){
+        if(preventHistory){
+            history.replaceState({activityId: false}, "Logbook", "?");
+        }else{
+            history.pushState({activityId: false}, "Logbook", "?");
+        }
+    }
 }
 
 function toggleSeekCalendar(evt) {
@@ -599,14 +655,12 @@ function hideSeekCalendar(evt) {
 }
 
 async function onActivitySave() {
-    console.log("saving", displayedActivityId);
+    console.log("saving", displayedActivity);
     //get data
     var hours = parseInt(activityWindowHoursInput.value);
     var minutes = parseInt(activityWindowMinutesInput.value);
     var duration = hours + minutes / 60;
-
-    console.log("help", { hours, minutes, duration });
-
+    
     var activitytypes_id = activityWindowActivityTypeInput.value;
     var activitytype = [...activityTypes].find(object => {
         return object.id == activitytypes_id;
@@ -618,11 +672,11 @@ async function onActivitySave() {
     var loader = Utils.addLoader(activityWindow, "dark");
 
     //save data
-    if (displayedActivityId) {
+    if (displayedActivity) {
         //edit
         //api call
         let result = await Utils.callApi(
-            `/api/internships/logbook/activities/${displayedActivityId}`,
+            `/api/internships/logbook/activities/${displayedActivity.id}`,
             { method: "PUT", body: activityData }
         );
         loader.remove();
@@ -631,11 +685,14 @@ async function onActivitySave() {
             Utils.infoBox("Couldn't update the activity");
             return;
         }
-        //update
-        var activity = activities[displayedActivityId].object;
-        activity.activitytype = activitytype;
-        Object.assign(activity, activityData);
-        updateActivityData(activity);
+        var activity = displayedActivity;
+        if(activities[activity.id]){
+            //update display
+            var activity = activities[displayedActivity.id].object;
+            activity.activitytype = activitytype;
+            Object.assign(activity, activityData);
+            updateActivityData(activity);
+        }
     } else {
         //new
         if (!newActivityDate) {
@@ -662,45 +719,47 @@ async function onActivitySave() {
     }
 
     //display window
-    openViewActivity(activity.id);
+    openViewActivity(activity);
 }
 async function deleteActivity(activityId) {
-    if (!activities[activityId]) {
-        console.warn("invalid activity", activityId);
-    }
     if (!confirm("Êtes vous surs de vouloir supprimer cette activité?")) {
         console.log("user aborted deletion");
         return;
     }
-    var activityRef = activities[activityId];
-
     var loader = Utils.addLoader(activityWindow, "dark");
     let result = await Utils.callApi(
         `/api/internships/logbook/activities/${activityId}`,
         { method: "DELETE" }
     );
     loader.remove();
+
     if (result.state != "success") {
         Utils.infoBox("Couldn't remove activity :(");
         console.warn("couldn't remove activity", result);
         return;
     }
-    //remove adapters
-    activityRef.adapters.forEach(adapter => {
-        adapter.element.remove();
-    });
-    //remove activities
-    var activityDate = activityRef.object.date;
-    var activitiesList =
-        weeks[activityDate.getWeek().first.toISOString()].days[
-            activityDate.getAbsoluteDate().toISOString()
-        ].activities;
-    activitiesList.splice(activitiesList.indexOf(activityId), 1);
-    delete activities[activityId];
-    //update day
-    refreshDayData(activityDate);
-
+    if (!activities[activityId]) {
+        console.warn("activity not loaded, skipping dependancy removal", activityId);
+    }else{
+        var activityRef = activities[activityId];
+    
+        //remove adapters
+        activityRef.adapters.forEach(adapter => {
+            adapter.element.remove();
+        });
+        //remove activities
+        var activityDate = activityRef.object.date;
+        var activitiesList =
+            weeks[activityDate.getWeek().first.toISOString()].days[
+                activityDate.getAbsoluteDate().toISOString()
+            ].activities;
+        activitiesList.splice(activitiesList.indexOf(activityId), 1);
+        delete activities[activityId];
+        //update day
+        refreshDayData(activityDate);
+    }
     console.log("success :)");
+    Utils.infoBox("Activity removed!")
     hideActivityWindow();
 }
 
