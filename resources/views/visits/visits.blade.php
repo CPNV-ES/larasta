@@ -54,9 +54,13 @@
                                 <span class="ok glyphicon glyphicon-ok tick"></span>
                             @endif
                         </td>
-                        @if (!empty($visit->getMedia()) && !empty($visit->grade))
-                            <td class="col-1"><a href="{{$visit->getMedia()->first()->getUrl()}}" download>{{$visit->grade}}</a></td>
-                        @endif
+                        <td class="col-1">
+                            @if($visit->getMedia()->isNotEmpty())
+                                <a href="{{$visit->getMedia()->first()->getUrl()}}">{{$visit->grade}}</a>
+                            @else 
+                                {{$visit->grade}}
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -97,9 +101,13 @@
                                     <span class="ok glyphicon glyphicon-ok tick"></span>
                                 @endif
                             </td>
-                            @if (!empty($visit->getMedia()) && !empty($visit->grade))
-                                <td class="col-1"><a href="{{$visit->getMedia()->first()->getUrl()}}" download>{{$visit->grade}}</a></td>
-                            @endif
+                            <td class="col-1">
+                                @if($visit->hasMedias())
+                                    <a href="{{$visit->getMediaUrl()}}">{{$visit->grade}}</a>
+                                @else 
+                                    {{$visit->grade}}
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

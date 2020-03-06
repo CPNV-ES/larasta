@@ -26,6 +26,7 @@ use CPNVEnvironment\Environment;
 
 // Other
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 use DateTime;
 
 /*
@@ -50,7 +51,6 @@ class VisitsController extends Controller
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = Environment::currentUser()->getId();
-        
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
@@ -63,10 +63,7 @@ class VisitsController extends Controller
             $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('classMaster_id',$id)->where('moment','<=', now()->toDateTimeString());
             })->get();
-            //Eloquent query to gets all the teacher
             $person = Person::whereHas('mcof')->get();
-            /* dd($visitsToCome);
-            dd(now()->toDateString()); */
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [

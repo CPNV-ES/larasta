@@ -81,7 +81,7 @@
         </a>
     @endif
     {{-- Modify button --}}
-    @if (env('USER_LEVEL') >= 1)
+    @if (env('USER_LEVEL') > 1)
         <a href="/internships/{{$internship->id}}/edit">
             <button>Modifier</button>
         </a>        

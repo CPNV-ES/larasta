@@ -128,7 +128,9 @@
     </form>
     
     <hr/>
+    @if (env('USER_LEVEL') > 1)
     @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship->id])])
+    @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id ,"medias" => $medias])
     {{-- Visits --}}
     @if (isset($visits))

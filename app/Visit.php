@@ -39,4 +39,14 @@ class Visit extends Model implements HasMedia
     {
         return $this->belongsTo('App\Visitsstate','visitsstates_id');
     }
+
+    public function hasMedias()
+    {
+        return $this->getMedia()->isNotEmpty();
+    }
+
+    public function getMediaUrl()
+    {
+        return $this->getMedia()->first()->getUrl();
+    }
 }
