@@ -660,9 +660,7 @@ async function onActivitySave() {
     var hours = parseInt(activityWindowHoursInput.value);
     var minutes = parseInt(activityWindowMinutesInput.value);
     var duration = hours + minutes / 60;
-
-    console.log("help", { hours, minutes, duration });
-
+    
     var activitytypes_id = activityWindowActivityTypeInput.value;
     var activitytype = [...activityTypes].find(object => {
         return object.id == activitytypes_id;
