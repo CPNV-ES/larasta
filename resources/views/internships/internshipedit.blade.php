@@ -218,7 +218,7 @@
             </table>
         </form>
     @endif
-@stop
+@endsection
 @push ('page_specific_js')
     <script src="/js/internshipsEdit.js"></script>
 @endpush

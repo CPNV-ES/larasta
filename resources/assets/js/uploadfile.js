@@ -3,10 +3,8 @@ var cards = document.getElementsByClassName("filecard");
     var form = card.querySelector("form")
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
-        var url = form.dataset.action
-        var formmethod = form.dataset.method
-        var result = await fetch(url, {
-            method: formmethod,
+        var result = await fetch(form.dataset.action, {
+            method: form.dataset.method,
         })
         if(result.ok)
         {
