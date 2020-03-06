@@ -1,9 +1,4 @@
 @extends ('layout')
-
-@section ('page_specific_js')
-    <script src="/js/internshipsEdit.js"></script>
-@stop
-
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
@@ -40,16 +35,6 @@
                 <td class="col-md-2">Description</td>
                 <td>
                     <div id="description">{!! $internship->internshipDescription !!}</div>
-                    <script>
-                        BalloonEditor
-                            .create(document.querySelector('#description'))
-                            .then(editor => {
-                                console.log(editor);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
-                    </script>
                     <textarea style="display: none" name="description" id="txtDescription"></textarea>
                 </td>
             </tr>
@@ -129,9 +114,9 @@
     
     <hr/>
     @if (env('USER_LEVEL') > 1)
-    @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship->id])])
+        @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship->id])])
     @endif
-    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id ,"medias" => $medias])
+    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id , "medias" => $medias])
     {{-- Visits --}}
     @if (isset($visits))
         <hr/>
@@ -234,3 +219,6 @@
         </form>
     @endif
 @stop
+@push ('page_specific_js')
+    <script src="/js/internshipsEdit.js"></script>
+@endpush

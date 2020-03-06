@@ -263,7 +263,7 @@
 </div>
 
 @stop
-@section('page_specific_js')
+@push('page_specific_js')
     <script src="/js/entreprise.js"></script>
-@stop
+@endpush
 

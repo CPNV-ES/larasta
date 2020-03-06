@@ -1,8 +1,8 @@
 
 @extends ('layout')
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" href="/css/visits.css">
-@stop
+@endpush
 @section ('content')
     <div class="container">
         <div class="row">
@@ -115,7 +115,7 @@
         </div>
     </div>
 @stop
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="js/visits.js"></script>
     <script src="js/visit.js"></script>
-@stop
+@endpush

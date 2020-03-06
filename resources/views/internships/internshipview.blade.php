@@ -84,13 +84,13 @@
     @if (env('USER_LEVEL') > 1)
         <a href="/internships/{{$internship->id}}/edit">
             <button>Modifier</button>
-        </a>        
+        </a>   
     @endif
 
-    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id ,"medias" => $medias])
+    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id , "medias" => $medias,"editable"=>false])
     
     {{-- Visits --}}
-    @if (isset($visits)) @if (count($visits) > 0)
+    @if (isset($visits) && count($visits) > 0)
         <hr/>
         <h4>Visites</h4>
         <div class="container text-left">
@@ -109,11 +109,7 @@
                         {{ strftime("%e %b %g %R", strtotime($value->moment)) }}
                     </div>
                     <div class="col-2">
-                        @if ($value->confirmed)
-                            {{ "Confirmé" }}
-                        @else
-                            {{ "Non-confirmé" }}
-                        @endif
+                        {{ $value->confirmed ? "Confirmé" : "Non-confirmé" }}
                     </div>
                     <div class="col-1">
                         {{ $value->grade == "" ? "Pas de note" : $value->grade }}
@@ -121,7 +117,7 @@
                 </div>
             @endforeach
         </div>
-    @endif @endif
+    @endif
 
     {{-- Remarks --}}
     @if (isset($remarks)) @if (count($remarks) > 0)

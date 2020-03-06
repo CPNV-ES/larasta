@@ -9,11 +9,11 @@
             </a>
             <div class="card-body">
                 <h5 title="{{$media->name}}" class="card-title text-ellipsis">{{$media->name}}</h5>
-                @if (env('USER_LEVEL') > 1)
-                <hr>
-                <form data-action="{{route($route, ["idMedia" => $media->id, "id" => $id])}}" data-method="DELETE">
-                    <button type="submit" class="btn-danger deletefile">Supprimer</button>
-                </form>
+                @if (env('USER_LEVEL') > 1 && !isset($editable))
+                    <hr>
+                    <form data-action="{{route($route, ["idMedia" => $media->id, "id" => $id])}}" data-method="DELETE">
+                        <button type="submit" class="btn-danger deletefile">Supprimer</button>
+                    </form>
                 @endif
             </div>
         </div>
@@ -21,6 +21,6 @@
     @endforeach
 </div>
 @endif
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/uploadfile.js"></script>
-@stop
+@endpush

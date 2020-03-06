@@ -5,9 +5,9 @@
 -->
 @extends ('layout')
 
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" type="text/css" href="/css/documents.css">
-@stop
+@endpush
 
 @section ('content')
     <h1>Eleves à reconduire</h1>
@@ -52,6 +52,6 @@
 
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="js/reconstages.js"></script>
-@stop
+@endpush
