@@ -508,13 +508,12 @@ class InternshipsController extends Controller
 
     public function storeFile(StoreFileRequest $request, $id)
     {
-        $internship = Internship::find($id);
+        $internship = Internship::findOrFail($id);
         $internship->addMediaFromRequest('file')->toMediaCollection();
     }
     public function deleteFile($id,$idMedia)
     {
-        $visit = Internship::find($id);
-        $visit->getMedia()->find($idMedia)->delete();
-        return redirect()->back();
+        $internship = Internship::findOrFail($id);
+        $internship->getMedia()->find($idMedia)->delete();
     }
 }
