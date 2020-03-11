@@ -20,6 +20,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //life cycle
 Route::post('/editLifecycleCell','LifeCycleController@ModifyLifeCycleCell');
 Route::post('/editLifecycleTitle','LifeCycleController@ModifyContractStateTitle');
-
-//Visits
-Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
