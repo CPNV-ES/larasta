@@ -20,6 +20,8 @@
     "/js/wishesMatrix.js": "/js/wishesMatrix.js",
     "/js/utils.js": "/js/utils.js",
     "/js/logbook.js": "/js/logbook.js",
+    "/js/uploadfile.js": "/js/uploadfile.js",
+    "/js/my.js": "/js/my.js",
     "/css/minimal.css": "/css/minimal.css",
     "/css/bootstrap.css": "/css/bootstrap.css",
     "/css/bootstrap.css.map": "/css/bootstrap.css.map",
@@ -27,5 +29,7 @@
     "/js/bootstrap.js": "/js/bootstrap.js",
     "/js/bootstrap.js.map": "/js/bootstrap.js.map",
     "/js/jquery.js": "/js/jquery.js",
+    "/css/dropzone.min.css": "/css/dropzone.min.css",
+    "/js/dropzone.min.js": "/js/dropzone.min.js",
     "/js/jquery.dataTables.js": "/js/jquery.dataTables.js"
 }

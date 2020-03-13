@@ -10,8 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'InternshipsController@index');
+Route::get('/', 'InternshipsController@index')->name("index");
 
 Route::post('/', 'InternshipsController@changeFilter');
 
@@ -34,6 +33,9 @@ Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
 Route::get('/internships/{iid}/new','InternshipsController@createInternship');
 
 Route::post('/internships/{iid}/create','InternshipsController@addInternship');
+//
+Route::post('/internships/{id}/files',"InternshipsController@storeFile")->name("internship.storeFile");
+Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
 
 Route::get('/admin','AdminController@index')->middleware('admin');
 
@@ -88,11 +90,13 @@ Route::post('/synchro/modify', 'SynchroController@modify');
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
 Route::post('/visits','VisitsController@filter');
-Route::get('/visits/{rid}/manage','VisitsController@manage');
+Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
 Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
+Route::post('/visits/{id}/files',"VisitsController@storeFile")->name("visit.storeFile");
+Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
 
 // WishesMatrix
 Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');
@@ -131,3 +135,4 @@ Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
 
 //Mailling
 Route::get('/mailing','MailingController@mailling');
+

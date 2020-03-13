@@ -1,7 +1,7 @@
 @extends ('layout')
-@section ('page_specific_css')
+@push ('page_specific_css')
 <link rel="stylesheet" href="/css/lifeCycle.css">
-@stop
+@endpush
 @section ('content')
 <div class="container-fluid">
     <div class="body simple-box" id="view">
@@ -71,6 +71,6 @@
     </div>
 </div>
 @stop
-@section ('page_specific_js')
+@push ('page_specific_js')
 <script src="js/cyclelife.js"></script>
-@stop
+@endpush

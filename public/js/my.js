@@ -1,11 +1,10 @@
-<<<<<<< HEAD
 // my global js (if any)
 var Utils={};
 
 HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
 //adds and include an element into another
 Element.prototype.addElement = function(type, className = ""){
-=======
+
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -92,7 +91,6 @@ Element.prototype.addElement = function(type, className = ""){
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-<<<<<<< HEAD
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -110,9 +108,6 @@ __webpack_require__(10);
 __webpack_require__(11);
 __webpack_require__(12);
 module.exports = __webpack_require__(13);
-=======
-/******/ ({
->>>>>>> feature/logbook_web_client
 
 /***/ "./resources/assets/js/my.js":
 /*!***********************************!*\
@@ -133,26 +128,20 @@ Element.prototype.addElement = function (type) {
 
 <<<<<<< HEAD
 >>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
+=======
+>>>>>>> feature/upload_file
     var newElement = document.createElement(type); //create
     this.appendChild(newElement); //append to parent
     newElement.setAttribute('class', className); //set class name
     return newElement;
 };
 
-<<<<<<< HEAD
 
 document.addEventListener("DOMContentLoaded", ()=>{
     //filters toggler (author: nicolas maitre)
     if(window.filtersBoxButton && window.expandedfilters){
         var icon = filtersBoxButton.querySelector("i");
         filtersBoxButton.addEventListener("click", function(ev){
-=======
-document.addEventListener("DOMContentLoaded", function () {
-    //filters toggler (author: nicolas maitre)
-    if (window.filtersBoxButton && window.expandedfilters) {
-        var icon = filtersBoxButton.querySelector("i");
-        filtersBoxButton.addEventListener("click", function (ev) {
->>>>>>> 0263f2e007edba320a45237935a5fd2b7d344c3e
             expandedfilters.classList.toggle("d-none");
             //toggle arrow
             icon.classList.toggle("down");
@@ -160,7 +149,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-<<<<<<< HEAD
 /**
  * Create a Tag "a" with a mailto and execute it
  * @param to array or string with emails
@@ -174,26 +162,6 @@ Utils.sendMail = function(to) {
     link.href = `mailto:${to}`;
     link.click();
 };
-=======
-=======
-  newElement.setAttribute('class', className); //set class name
-
-  return newElement;
-};
-
-document.addEventListener("DOMContentLoaded", function () {
-  //filters toggler (author: nicolas maitre)
-  if (window.filtersBoxButton && window.expandedfilters) {
-    var icon = filtersBoxButton.querySelector("i");
-    filtersBoxButton.addEventListener("click", function (ev) {
-      expandedfilters.classList.toggle("d-none"); //toggle arrow
-
-      icon.classList.toggle("down");
-      icon.classList.toggle("up");
-    });
-  }
-});
->>>>>>> feature/logbook_web_client
 
 /***/ }),
 
@@ -374,3 +342,5 @@ module.exports = __webpack_require__(/*! C:\git\larasta\resources\assets\sass\in
 =======
 /******/ });
 >>>>>>> feature/logbook_web_client
+=======
+>>>>>>> feature/upload_file

@@ -13,12 +13,11 @@ namespace App\Http\Controllers;
 
 // Requests
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreFileRequest;
 
 //Models
 use App\Visit;
-use App\Internship;
 use App\Remark;
-use App\Evaluation;
 use App\Person;
 use App\Visitsstate;
 
@@ -27,6 +26,7 @@ use CPNVEnvironment\Environment;
 
 // Other
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 use DateTime;
 
 /*
@@ -49,30 +49,27 @@ class VisitsController extends Controller
      * */
     public function index()
     {
-
         /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = Environment::currentUser()->getId();
-
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
-
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome=Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','<',now()); })->get();
+            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
+            {
+                $query->where('classMaster_id',$id)->where('moment','>',now()->toDateTimeString()); 
+            })->get();
             //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitPast=Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','>=',now());})->get();
-            //Eloquent query to gets all the teacher
-            $person=Person::whereHas('mcof')->get();
-
-
+            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('moment','<=', now()->toDateTimeString());
+            })->get();
+            $person = Person::whereHas('mcof')->get();
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [
                     'id' => $id,
                     'persons' => $person,
-                    'visitPast' => $visitPast,
+                    'visitsPast' => $visitsPast,
                     'visitsToCome' => $visitsToCome,
                     'message' => $this->message
                 ]
@@ -92,20 +89,19 @@ class VisitsController extends Controller
         if (Environment::currentUser()->getLevel() >= 1){
 
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome=Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','<',now()); })->get();
+            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('moment','>',now()); })->get();
                 //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitPast=Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','>=',now());})->get();
+            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('moment','<=',now());})->get();
             //Eloquent query to gets all the teacher
-            $person=Person::whereHas('mcof')->get();
-
+            $person = Person::whereHas('mcof')->get(); 
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [
                     'id' => $id,
                     'persons' => $person,
-                    'visitPast' => $visitPast,
+                    'visitsPast' => $visitsPast,
                     'visitsToCome' => $visitsToCome,
                     'message' => $this->message
                 ]
@@ -132,23 +128,20 @@ class VisitsController extends Controller
         if (Environment::currentUser()->getLevel() >= 1){
 
             // Try to know if a visit exist
-            $visits=Visit::find($rid)
-            ->get();
-
+            $visits=Visit::find($rid);
             // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
             // return the user to his/her of visit
-            foreach($visits as $visit){
-                if(isset($visit->id) == 1)
+                if(isset($visits->id) == 1)
                 {
 
                     // Gets info from intern's responsible
-                    $mails = $visit->internship->responsible->contactinfo->where('contacttypes_id','1');
+                    $mails = $visits->internship->responsible->contactinfo->where('contacttypes_id','1');
 
                     // Gets info from intern's responsible
-                    $locals = $visit->internship->responsible->contactinfo->where('contacttypes_id','2');
+                    $locals = $visits->internship->responsible->contactinfo->where('contacttypes_id','2');
 
                     // Gets info from intern's responsible
-                    $mobiles = $visit->internship->responsible->contactinfo->where('contacttypes_id','3');
+                    $mobiles = $visits->internship->responsible->contactinfo->where('contacttypes_id','3');
  
                     /*
                      * Get status name of visit for the select input.
@@ -167,25 +160,20 @@ class VisitsController extends Controller
                      * 3. remark(s)
                      * */
                     $history = Remark::where('remarkOn_id', "=", $rid)->orderby('remarkDate', "DESC")->get(); 
-                    
-                    /* $history = Remark::select("remarkType", "remarkDate", "remarkText", "remarkOn_id", "author")
-                        ->where('remarkOn_id', "=", $rid)
-                        ->orderby('remarkDate', "DESC")
-                        ->get(); */
-                    /*
-                     * Gets evaluation from the visit (ID).
-                     * */
-                    $eval = $visit->evaluation->first();
 
+                    /*
+                     * Gets media associate from the visit (ID).
+                     * */
+                    $medias = $visits->getMedia();
                     return view('visits/manage')->with(
                         [
-                            'visit' => $visit,
+                            'visit' => $visits,
                             'mails' => $mails,
                             'locals' => $locals,
                             'mobiles' => $mobiles,
                             'visitstate' => $visitstate,
                             'history' => $history,
-                            'eval' => $eval
+                            'medias' => $medias
                         ]
                     );
                 }
@@ -195,7 +183,6 @@ class VisitsController extends Controller
                 {
                     return redirect('/visits')->with('status', "Visite pas trouvée");
                 }
-            }
         }
 
         //If not teacher or superuser, we redirect him/her to home page
@@ -341,4 +328,14 @@ class VisitsController extends Controller
         }
     }
 
+    public function storeFile(StoreFileRequest $request, $id)
+    {
+        $visit = Visit::find($id);
+        $visit->addMediaFromRequest('file')->toMediaCollection();
+    }
+    public function deleteFile($id,$idMedia)
+    {
+        $visit = Visit::find($id);
+        $visit->getMedia()->find($idMedia)->delete();
+    }
 }

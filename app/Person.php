@@ -15,7 +15,6 @@ class Person extends Model
     public $timestamps = false;
 
     protected $table = 'persons';
-
     protected $fillable = [
         'firstname',
         'lastname',

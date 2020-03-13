@@ -5,9 +5,9 @@
 -->
 @extends ('layout')
 
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" type="text/css" href="/css/documents.css">
-@stop
+@endpush
 
 @section ('content')
     <a href="/reconstages">Reconduction page</a>

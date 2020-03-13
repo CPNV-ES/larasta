@@ -1,12 +1,12 @@
 @extends ('layout')
 
-@section('page_specific_css')
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/internships.css">
-@endsection
+@endpush
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/internships.js"></script>
-@stop
+@endpush
 
 @section ('content')
     <div id="filtersBoxButton">

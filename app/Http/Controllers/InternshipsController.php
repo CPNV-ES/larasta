@@ -14,7 +14,7 @@ use CPNVEnvironment\InternshipFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Requests\StoreFileRequest;
 
 class InternshipsController extends Controller
 {
@@ -208,7 +208,7 @@ class InternshipsController extends Controller
         date_default_timezone_set('Europe/Zurich');
 
         $internship = Internship::find($internshipId);
-
+        $medias = $internship->getMedia();
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -228,10 +228,8 @@ class InternshipsController extends Controller
             ->orderby('remarkDate', 'desc')
             ->get();
 
-        return view('internships/internshipview')
-            ->with('visits', $visits)
-            ->with('remarks', $remarks)
-            ->with('internship', $internship);
+
+        return view('internships/internshipview', compact('visits','remarks','internship','medias'));
     }
 
     public function edit($internshipId)
@@ -241,7 +239,7 @@ class InternshipsController extends Controller
 
             $internship = Internship::find($internshipId);
             $contractStates = Contractstate::all();
-
+            $medias = $internship->getMedia();
             $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
 
             $lcycles = [$internship->contractstate->id];
@@ -282,7 +280,8 @@ class InternshipsController extends Controller
                 ->with('visits', $visits)
                 ->with('remarks', $remarks)
                 ->with('internship', $internship)
-                ->with('contractStates', $contractStates);
+                ->with('contractStates', $contractStates)
+                ->with('medias', $medias);
         } else {
             abort(404);
         }
@@ -505,5 +504,16 @@ class InternshipsController extends Controller
         $newInternship->admin_id = $request->input('admin');
         $newInternship->save();
         return redirect('entreprise/' . $iid . '')->with('message', 'Creation Réussie');
+    }
+
+    public function storeFile(StoreFileRequest $request, $id)
+    {
+        $internship = Internship::findOrFail($id);
+        $internship->addMediaFromRequest('file')->toMediaCollection();
+    }
+    public function deleteFile($id,$idMedia)
+    {
+        $internship = Internship::findOrFail($id);
+        $internship->getMedia()->find($idMedia)->delete();
     }
 }

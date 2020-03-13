@@ -24,6 +24,6 @@
     </div>
 @stop
 
-@section('page_specific_css')
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/mpmenu.css">
-@stop
+@endpush
