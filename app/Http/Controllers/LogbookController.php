@@ -20,6 +20,9 @@ class LogbookController extends Controller
             abort(404, "internship not found");
         }
         $student = Person::fromId($internship->intern_id);
+        if($internship->externalLogbook){
+            return view('logbook/external')->with(compact("internship", "student"));
+        }
         $activityTypes = Activitytype::get();
         $complianceConditions = json_encode([
             "min_words_per_hour" => Logbook::MIN_WORDS_PER_HOUR,
@@ -113,38 +116,6 @@ class LogbookController extends Controller
             }
             if (isset($params->to)) {
                 $eloqRequest->where($key, "<=", $params->to);
-            }
-        }
-    }
-    private function getDayPatchedWithConditionsCompliance($day)
-    {
-        $activitiesCount = 0;
-        $hoursCount = 0;
-        $notEnoughWordsPerHour = false;
-        foreach ($day as $activityKey => $activity) {
-            $activitiesCount++;
-            $hoursCount+=$activity->duration;
-            //activity compliance
-            if ($activity->duration != 0) {
-                $wordsPerHour = str_word_count($activity->activityDescription) / $activity->duration;
-                if ($wordsPerHour < Logbook::MIN_WORDS_PER_HOUR) {
-                    $notEnoughWordsPerHour = true;
-                    $day[$activityKey]["extra"]["conditionsCompliance"] = [
-                        "level" => 10,
-                        "message" => Logbook::COMPLIANCE_LEVELS[10]
-                    ];
-                }
-            }
-            //day compliance
-            $complianceLevel = 0;
-            if($notEnoughWordsPerHour){
-                $complianceLevel = 10;
-            }
-            if($activitiesCount < Logbook::MIN_ACTIVITIES_PER_DAY){
-                $complianceLevel = 20;
-            }
-            if($hoursCount < Logbook::MIN_HOURS_PER_DAY){
-                $complianceLevel = 30;
             }
         }
     }

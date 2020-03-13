@@ -12,13 +12,9 @@ class InternshipsTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('internships')->delete();
-        
-        \DB::table('internships')->insert(array (
-            0 => 
-            array (
+        $migrationArray = array(
+            0 =>
+            array(
                 'admin_id' => 54,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 28,
@@ -33,8 +29,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 57,
             ),
-            1 => 
-            array (
+            1 =>
+            array(
                 'admin_id' => 53,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 32,
@@ -48,9 +44,10 @@ class InternshipsTableSeeder extends Seeder
                 'parent_id' => NULL,
                 'previous_id' => NULL,
                 'responsible_id' => 53,
+                'externalLogbook' => 1,
             ),
-            2 => 
-            array (
+            2 =>
+            array(
                 'admin_id' => 48,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 34,
@@ -65,8 +62,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 48,
             ),
-            3 => 
-            array (
+            3 =>
+            array(
                 'admin_id' => 45,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 37,
@@ -81,8 +78,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 84,
             ),
-            4 => 
-            array (
+            4 =>
+            array(
                 'admin_id' => 45,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 37,
@@ -97,8 +94,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 84,
             ),
-            5 => 
-            array (
+            5 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 38,
@@ -113,8 +110,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 81,
             ),
-            6 => 
-            array (
+            6 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 38,
@@ -129,8 +126,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 80,
             ),
-            7 => 
-            array (
+            7 =>
+            array(
                 'admin_id' => 61,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 39,
@@ -145,8 +142,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 61,
             ),
-            8 => 
-            array (
+            8 =>
+            array(
                 'admin_id' => 72,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 42,
@@ -161,8 +158,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 97,
             ),
-            9 => 
-            array (
+            9 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 44,
@@ -177,8 +174,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 82,
             ),
-            10 => 
-            array (
+            10 =>
+            array(
                 'admin_id' => 56,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 46,
@@ -193,8 +190,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 56,
             ),
-            11 => 
-            array (
+            11 =>
+            array(
                 'admin_id' => 77,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 47,
@@ -209,8 +206,8 @@ class InternshipsTableSeeder extends Seeder
                 'previous_id' => NULL,
                 'responsible_id' => 77,
             ),
-            12 => 
-            array (
+            12 =>
+            array(
                 'admin_id' => 54,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 28,
@@ -226,8 +223,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 25,
                 'responsible_id' => 57,
             ),
-            13 => 
-            array (
+            13 =>
+            array(
                 'admin_id' => 74,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 25,
@@ -242,8 +239,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 74,
             ),
-            14 => 
-            array (
+            14 =>
+            array(
                 'admin_id' => 74,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 25,
@@ -258,8 +255,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 38,
                 'responsible_id' => 74,
             ),
-            15 => 
-            array (
+            15 =>
+            array(
                 'admin_id' => 43,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 26,
@@ -274,8 +271,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 78,
             ),
-            16 => 
-            array (
+            16 =>
+            array(
                 'admin_id' => 43,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 26,
@@ -290,8 +287,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 40,
                 'responsible_id' => 78,
             ),
-            17 => 
-            array (
+            17 =>
+            array(
                 'admin_id' => 75,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 27,
@@ -306,8 +303,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 75,
             ),
-            18 => 
-            array (
+            18 =>
+            array(
                 'admin_id' => 63,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 29,
@@ -322,8 +319,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 66,
             ),
-            19 => 
-            array (
+            19 =>
+            array(
                 'admin_id' => 63,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 29,
@@ -338,8 +335,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 44,
                 'responsible_id' => 66,
             ),
-            20 => 
-            array (
+            20 =>
+            array(
                 'admin_id' => 60,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 30,
@@ -354,8 +351,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 68,
             ),
-            21 => 
-            array (
+            21 =>
+            array(
                 'admin_id' => 68,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 30,
@@ -370,8 +367,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 46,
                 'responsible_id' => 156,
             ),
-            22 => 
-            array (
+            22 =>
+            array(
                 'admin_id' => 53,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 32,
@@ -386,8 +383,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 26,
                 'responsible_id' => 53,
             ),
-            23 => 
-            array (
+            23 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 33,
@@ -402,8 +399,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 79,
             ),
-            24 => 
-            array (
+            24 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 33,
@@ -418,8 +415,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 49,
                 'responsible_id' => 79,
             ),
-            25 => 
-            array (
+            25 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 35,
@@ -434,8 +431,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 62,
             ),
-            26 => 
-            array (
+            26 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 35,
@@ -448,10 +445,10 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'internshipDescription' => '',
                 'parent_id' => NULL,
                 'previous_id' => NULL,
-                'responsible_id' => 62,
+                'responsible_id' => 62
             ),
-            27 => 
-            array (
+            27 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 35,
@@ -466,8 +463,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 52,
                 'responsible_id' => 150,
             ),
-            28 => 
-            array (
+            28 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 35,
@@ -482,8 +479,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 53,
                 'responsible_id' => 148,
             ),
-            29 => 
-            array (
+            29 =>
+            array(
                 'admin_id' => 49,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 36,
@@ -498,8 +495,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 69,
             ),
-            30 => 
-            array (
+            30 =>
+            array(
                 'admin_id' => 49,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 36,
@@ -514,8 +511,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 56,
                 'responsible_id' => 69,
             ),
-            31 => 
-            array (
+            31 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 37,
@@ -530,8 +527,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 28,
                 'responsible_id' => 70,
             ),
-            32 => 
-            array (
+            32 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 37,
@@ -546,8 +543,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 29,
                 'responsible_id' => 70,
             ),
-            33 => 
-            array (
+            33 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 38,
@@ -568,8 +565,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 31,
                 'responsible_id' => 80,
             ),
-            34 => 
-            array (
+            34 =>
+            array(
                 'admin_id' => 59,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 40,
@@ -584,8 +581,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => NULL,
                 'responsible_id' => 58,
             ),
-            35 => 
-            array (
+            35 =>
+            array(
                 'admin_id' => 59,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 40,
@@ -600,8 +597,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 64,
                 'responsible_id' => 58,
             ),
-            36 => 
-            array (
+            36 =>
+            array(
                 'admin_id' => 71,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 41,
@@ -616,8 +613,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => NULL,
                 'responsible_id' => 47,
             ),
-            37 => 
-            array (
+            37 =>
+            array(
                 'admin_id' => 71,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 41,
@@ -632,8 +629,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 66,
                 'responsible_id' => 47,
             ),
-            38 => 
-            array (
+            38 =>
+            array(
                 'admin_id' => 72,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 42,
@@ -648,8 +645,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 33,
                 'responsible_id' => 73,
             ),
-            39 => 
-            array (
+            39 =>
+            array(
                 'admin_id' => 51,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 43,
@@ -664,8 +661,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => NULL,
                 'responsible_id' => 44,
             ),
-            40 => 
-            array (
+            40 =>
+            array(
                 'admin_id' => 51,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 43,
@@ -680,8 +677,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 69,
                 'responsible_id' => 44,
             ),
-            41 => 
-            array (
+            41 =>
+            array(
                 'admin_id' => 44,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 45,
@@ -696,8 +693,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => NULL,
                 'responsible_id' => 44,
             ),
-            42 => 
-            array (
+            42 =>
+            array(
                 'admin_id' => 44,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 45,
@@ -712,8 +709,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 71,
                 'responsible_id' => 44,
             ),
-            43 => 
-            array (
+            43 =>
+            array(
                 'admin_id' => 56,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 46,
@@ -728,8 +725,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 35,
                 'responsible_id' => 56,
             ),
-            44 => 
-            array (
+            44 =>
+            array(
                 'admin_id' => 77,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 47,
@@ -744,8 +741,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 36,
                 'responsible_id' => 109,
             ),
-            45 => 
-            array (
+            45 =>
+            array(
                 'admin_id' => 64,
                 'beginDate' => '2014-02-01 00:00:00',
                 'companies_id' => 48,
@@ -760,8 +757,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => NULL,
                 'responsible_id' => 64,
             ),
-            46 => 
-            array (
+            46 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 38,
@@ -776,8 +773,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 30,
                 'responsible_id' => 81,
             ),
-            47 => 
-            array (
+            47 =>
+            array(
                 'admin_id' => 64,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 48,
@@ -792,8 +789,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 75,
                 'responsible_id' => 64,
             ),
-            48 => 
-            array (
+            48 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 38,
@@ -809,8 +806,8 @@ Le process est défini; Le workflow comporte plusieurs chemins possibles et une 
                 'previous_id' => NULL,
                 'responsible_id' => 98,
             ),
-            49 => 
-            array (
+            49 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2014-09-02 00:00:00',
                 'companies_id' => 44,
@@ -825,8 +822,8 @@ Le process est défini; Le workflow comporte plusieurs chemins possibles et une 
                 'previous_id' => 34,
                 'responsible_id' => 82,
             ),
-            50 => 
-            array (
+            50 =>
+            array(
                 'admin_id' => 105,
                 'beginDate' => '2014-09-01 00:00:00',
                 'companies_id' => 66,
@@ -846,8 +843,8 @@ Technologie à choix',
                 'previous_id' => NULL,
                 'responsible_id' => 106,
             ),
-            51 => 
-            array (
+            51 =>
+            array(
                 'admin_id' => 44,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 45,
@@ -862,8 +859,8 @@ Technologie à choix',
                 'previous_id' => 72,
                 'responsible_id' => 44,
             ),
-            52 => 
-            array (
+            52 =>
+            array(
                 'admin_id' => 109,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 47,
@@ -878,8 +875,8 @@ Technologie à choix',
                 'previous_id' => 74,
                 'responsible_id' => 109,
             ),
-            53 => 
-            array (
+            53 =>
+            array(
                 'admin_id' => 51,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 43,
@@ -894,8 +891,8 @@ Technologie à choix',
                 'previous_id' => 70,
                 'responsible_id' => 44,
             ),
-            54 => 
-            array (
+            54 =>
+            array(
                 'admin_id' => 155,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 46,
@@ -910,8 +907,8 @@ Technologie à choix',
                 'previous_id' => 73,
                 'responsible_id' => 56,
             ),
-            55 => 
-            array (
+            55 =>
+            array(
                 'admin_id' => 74,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 25,
@@ -926,8 +923,8 @@ Technologie à choix',
                 'previous_id' => 39,
                 'responsible_id' => 74,
             ),
-            56 => 
-            array (
+            56 =>
+            array(
                 'admin_id' => 63,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 29,
@@ -942,8 +939,8 @@ Technologie à choix',
                 'previous_id' => 45,
                 'responsible_id' => 66,
             ),
-            57 => 
-            array (
+            57 =>
+            array(
                 'admin_id' => 47,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 41,
@@ -958,8 +955,8 @@ Technologie à choix',
                 'previous_id' => 67,
                 'responsible_id' => 47,
             ),
-            58 => 
-            array (
+            58 =>
+            array(
                 'admin_id' => 64,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 48,
@@ -974,8 +971,8 @@ Technologie à choix',
                 'previous_id' => 82,
                 'responsible_id' => 64,
             ),
-            59 => 
-            array (
+            59 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 38,
@@ -991,8 +988,8 @@ Le process est défini; Le workflow comporte plusieurs chemins possibles et une 
                 'previous_id' => 84,
                 'responsible_id' => 98,
             ),
-            60 => 
-            array (
+            60 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 44,
@@ -1007,8 +1004,8 @@ Le process est défini; Le workflow comporte plusieurs chemins possibles et une 
                 'previous_id' => 85,
                 'responsible_id' => 82,
             ),
-            61 => 
-            array (
+            61 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 40,
@@ -1023,8 +1020,8 @@ Le process est défini; Le workflow comporte plusieurs chemins possibles et une 
                 'previous_id' => 65,
                 'responsible_id' => 58,
             ),
-            62 => 
-            array (
+            62 =>
+            array(
                 'admin_id' => 54,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 28,
@@ -1040,8 +1037,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 37,
                 'responsible_id' => 57,
             ),
-            63 => 
-            array (
+            63 =>
+            array(
                 'admin_id' => 53,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 32,
@@ -1056,8 +1053,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 48,
                 'responsible_id' => 53,
             ),
-            64 => 
-            array (
+            64 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 35,
@@ -1072,8 +1069,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 54,
                 'responsible_id' => 148,
             ),
-            65 => 
-            array (
+            65 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 33,
@@ -1088,8 +1085,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 50,
                 'responsible_id' => 79,
             ),
-            66 => 
-            array (
+            66 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 37,
@@ -1104,8 +1101,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 58,
                 'responsible_id' => 70,
             ),
-            67 => 
-            array (
+            67 =>
+            array(
                 'admin_id' => 182,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 26,
@@ -1115,7 +1112,7 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'grossSalary' => 1230,
                 'id' => 113,
                 'intern_id' => 143,
-            'internshipDescription' => 'Sur le site de Marcelin à Morges se côtoient plusieurs écoles : CEPM, Gymnase de Morges, Agrilogie et CEMEF. Le CEPM (Centre d’enseignement professionnel de Morges) est un centre d’enseignement des professions dans le domaine de la construction.
+                'internshipDescription' => 'Sur le site de Marcelin à Morges se côtoient plusieurs écoles : CEPM, Gymnase de Morges, Agrilogie et CEMEF. Le CEPM (Centre d’enseignement professionnel de Morges) est un centre d’enseignement des professions dans le domaine de la construction.
 Le service informatique du CEPM s’occupe de tout le parc informatique Windows du site de Marcelin, qui comporte environ 650 ordinateurs (500 Windows et 150 Macs), une infrastructure VMware sur des serveurs ESX, un réseau câblé Gigabit avec des switches Cisco et un réseau Wireless avec l’équipement Ruckus et maintenance des ordinateurs ainsi que déploiement des applications avec Impero.
 Le stagiaire collabore avec une personne du service IT qui est employé à 100% et les tâches sont les suivantes :
 •	Développement d’applications en PHP, MySQL, C#, Java (Android), LDAP (AD)
@@ -1134,8 +1131,8 @@ Le stagiaire a un bureau à sa disposition et travaille dans un environnement ag
                 'previous_id' => 41,
                 'responsible_id' => 78,
             ),
-            68 => 
-            array (
+            68 =>
+            array(
                 'admin_id' => 60,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 30,
@@ -1150,8 +1147,8 @@ Le stagiaire a un bureau à sa disposition et travaille dans un environnement ag
                 'previous_id' => 47,
                 'responsible_id' => 156,
             ),
-            69 => 
-            array (
+            69 =>
+            array(
                 'admin_id' => 61,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 39,
@@ -1180,8 +1177,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 32,
                 'responsible_id' => 61,
             ),
-            70 => 
-            array (
+            70 =>
+            array(
                 'admin_id' => 166,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 50,
@@ -1197,8 +1194,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => NULL,
                 'responsible_id' => 166,
             ),
-            71 => 
-            array (
+            71 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 35,
@@ -1213,8 +1210,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 55,
                 'responsible_id' => 150,
             ),
-            72 => 
-            array (
+            72 =>
+            array(
                 'admin_id' => 89,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 55,
@@ -1229,8 +1226,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => NULL,
                 'responsible_id' => 92,
             ),
-            73 => 
-            array (
+            73 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 37,
@@ -1245,8 +1242,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 60,
                 'responsible_id' => 70,
             ),
-            74 => 
-            array (
+            74 =>
+            array(
                 'admin_id' => NULL,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 70,
@@ -1265,8 +1262,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => NULL,
                 'responsible_id' => 146,
             ),
-            75 => 
-            array (
+            75 =>
+            array(
                 'admin_id' => 147,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 71,
@@ -1283,8 +1280,8 @@ Migration de postes',
                 'previous_id' => NULL,
                 'responsible_id' => 174,
             ),
-            76 => 
-            array (
+            76 =>
+            array(
                 'admin_id' => 147,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 71,
@@ -1301,8 +1298,8 @@ Migration de postes',
                 'previous_id' => NULL,
                 'responsible_id' => 174,
             ),
-            77 => 
-            array (
+            77 =>
+            array(
                 'admin_id' => 72,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 42,
@@ -1317,8 +1314,8 @@ Migration de postes',
                 'previous_id' => 68,
                 'responsible_id' => 154,
             ),
-            78 => 
-            array (
+            78 =>
+            array(
                 'admin_id' => 190,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 42,
@@ -1333,8 +1330,8 @@ Migration de postes',
                 'previous_id' => 131,
                 'responsible_id' => 154,
             ),
-            79 => 
-            array (
+            79 =>
+            array(
                 'admin_id' => 155,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 46,
@@ -1349,8 +1346,8 @@ Migration de postes',
                 'previous_id' => 98,
                 'responsible_id' => 56,
             ),
-            80 => 
-            array (
+            80 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 38,
@@ -1371,8 +1368,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 103,
                 'responsible_id' => 80,
             ),
-            81 => 
-            array (
+            81 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 38,
@@ -1387,8 +1384,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => NULL,
                 'responsible_id' => 171,
             ),
-            82 => 
-            array (
+            82 =>
+            array(
                 'admin_id' => 160,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 74,
@@ -1404,8 +1401,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => NULL,
                 'responsible_id' => 159,
             ),
-            83 => 
-            array (
+            83 =>
+            array(
                 'admin_id' => 161,
                 'beginDate' => '2015-02-01 00:00:00',
                 'companies_id' => 75,
@@ -1420,8 +1417,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => NULL,
                 'responsible_id' => 161,
             ),
-            84 => 
-            array (
+            84 =>
+            array(
                 'admin_id' => 184,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 50,
@@ -1437,8 +1434,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 116,
                 'responsible_id' => 178,
             ),
-            85 => 
-            array (
+            85 =>
+            array(
                 'admin_id' => 161,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 75,
@@ -1453,8 +1450,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => NULL,
                 'responsible_id' => 161,
             ),
-            86 => 
-            array (
+            86 =>
+            array(
                 'admin_id' => 51,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 43,
@@ -1469,8 +1466,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 96,
                 'responsible_id' => 44,
             ),
-            87 => 
-            array (
+            87 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 44,
@@ -1485,8 +1482,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 104,
                 'responsible_id' => 82,
             ),
-            88 => 
-            array (
+            88 =>
+            array(
                 'admin_id' => 89,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 55,
@@ -1501,8 +1498,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 121,
                 'responsible_id' => 92,
             ),
-            89 => 
-            array (
+            89 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 37,
@@ -1517,8 +1514,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 122,
                 'responsible_id' => 191,
             ),
-            90 => 
-            array (
+            90 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 37,
@@ -1533,8 +1530,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 112,
                 'responsible_id' => 191,
             ),
-            91 => 
-            array (
+            91 =>
+            array(
                 'admin_id' => 147,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 71,
@@ -1551,8 +1548,8 @@ Migration de postes',
                 'previous_id' => 128,
                 'responsible_id' => 174,
             ),
-            92 => 
-            array (
+            92 =>
+            array(
                 'admin_id' => 47,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 41,
@@ -1567,8 +1564,8 @@ Migration de postes',
                 'previous_id' => 101,
                 'responsible_id' => 47,
             ),
-            93 => 
-            array (
+            93 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 33,
@@ -1583,8 +1580,8 @@ Migration de postes',
                 'previous_id' => 111,
                 'responsible_id' => 79,
             ),
-            94 => 
-            array (
+            94 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 35,
@@ -1599,8 +1596,8 @@ Migration de postes',
                 'previous_id' => 109,
                 'responsible_id' => 148,
             ),
-            95 => 
-            array (
+            95 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 35,
@@ -1615,8 +1612,8 @@ Migration de postes',
                 'previous_id' => 119,
                 'responsible_id' => 150,
             ),
-            96 => 
-            array (
+            96 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 39,
@@ -1645,8 +1642,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 115,
                 'responsible_id' => 185,
             ),
-            97 => 
-            array (
+            97 =>
+            array(
                 'admin_id' => 60,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 30,
@@ -1661,8 +1658,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 114,
                 'responsible_id' => 156,
             ),
-            98 => 
-            array (
+            98 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 38,
@@ -1677,8 +1674,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 103,
                 'responsible_id' => 98,
             ),
-            99 => 
-            array (
+            99 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 38,
@@ -1699,8 +1696,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 134,
                 'responsible_id' => 80,
             ),
-            100 => 
-            array (
+            100 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 38,
@@ -1715,8 +1712,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 137,
                 'responsible_id' => 171,
             ),
-            101 => 
-            array (
+            101 =>
+            array(
                 'admin_id' => 54,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 28,
@@ -1732,8 +1729,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 107,
                 'responsible_id' => 57,
             ),
-            102 => 
-            array (
+            102 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 40,
@@ -1748,8 +1745,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 105,
                 'responsible_id' => 58,
             ),
-            103 => 
-            array (
+            103 =>
+            array(
                 'admin_id' => 64,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 48,
@@ -1764,8 +1761,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 102,
                 'responsible_id' => 64,
             ),
-            104 => 
-            array (
+            104 =>
+            array(
                 'admin_id' => 182,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 26,
@@ -1780,8 +1777,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 113,
                 'responsible_id' => 78,
             ),
-            105 => 
-            array (
+            105 =>
+            array(
                 'admin_id' => 63,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 29,
@@ -1796,8 +1793,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 100,
                 'responsible_id' => 63,
             ),
-            106 => 
-            array (
+            106 =>
+            array(
                 'admin_id' => 53,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 32,
@@ -1812,8 +1809,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 108,
                 'responsible_id' => 53,
             ),
-            107 => 
-            array (
+            107 =>
+            array(
                 'admin_id' => 44,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 45,
@@ -1828,8 +1825,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 93,
                 'responsible_id' => 44,
             ),
-            108 => 
-            array (
+            108 =>
+            array(
                 'admin_id' => 183,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 84,
@@ -1844,8 +1841,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 183,
             ),
-            109 => 
-            array (
+            109 =>
+            array(
                 'admin_id' => 184,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 50,
@@ -1861,8 +1858,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 116,
                 'responsible_id' => 178,
             ),
-            110 => 
-            array (
+            110 =>
+            array(
                 'admin_id' => 160,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 74,
@@ -1878,8 +1875,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => NULL,
                 'responsible_id' => 159,
             ),
-            111 => 
-            array (
+            111 =>
+            array(
                 'admin_id' => 74,
                 'beginDate' => '2015-09-01 00:00:00',
                 'companies_id' => 25,
@@ -1894,8 +1891,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 99,
                 'responsible_id' => 74,
             ),
-            112 => 
-            array (
+            112 =>
+            array(
                 'admin_id' => 51,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 43,
@@ -1910,8 +1907,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 161,
                 'responsible_id' => 44,
             ),
-            113 => 
-            array (
+            113 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 38,
@@ -1926,8 +1923,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 178,
                 'responsible_id' => 98,
             ),
-            114 => 
-            array (
+            114 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 38,
@@ -1942,8 +1939,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 178,
                 'responsible_id' => 98,
             ),
-            115 => 
-            array (
+            115 =>
+            array(
                 'admin_id' => 65,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 38,
@@ -1964,8 +1961,8 @@ L’équipe est souvent très prise. C’est pourquoi le triangle des compétenc
                 'previous_id' => 179,
                 'responsible_id' => 236,
             ),
-            116 => 
-            array (
+            116 =>
+            array(
                 'admin_id' => 160,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 74,
@@ -1981,8 +1978,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 192,
                 'responsible_id' => 159,
             ),
-            117 => 
-            array (
+            117 =>
+            array(
                 'admin_id' => 147,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 71,
@@ -1999,8 +1996,8 @@ Migration de postes',
                 'previous_id' => 169,
                 'responsible_id' => 177,
             ),
-            118 => 
-            array (
+            118 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 39,
@@ -2029,8 +2026,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 176,
                 'responsible_id' => 185,
             ),
-            119 => 
-            array (
+            119 =>
+            array(
                 'admin_id' => 60,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 30,
@@ -2045,8 +2042,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 177,
                 'responsible_id' => 156,
             ),
-            120 => 
-            array (
+            120 =>
+            array(
                 'admin_id' => 155,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 46,
@@ -2061,8 +2058,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 133,
                 'responsible_id' => 56,
             ),
-            121 => 
-            array (
+            121 =>
+            array(
                 'admin_id' => 184,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 50,
@@ -2078,8 +2075,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 191,
                 'responsible_id' => 178,
             ),
-            122 => 
-            array (
+            122 =>
+            array(
                 'admin_id' => 47,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 41,
@@ -2094,8 +2091,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 171,
                 'responsible_id' => 47,
             ),
-            123 => 
-            array (
+            123 =>
+            array(
                 'admin_id' => 54,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 28,
@@ -2111,8 +2108,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 181,
                 'responsible_id' => 57,
             ),
-            124 => 
-            array (
+            124 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 44,
@@ -2127,8 +2124,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 162,
                 'responsible_id' => 82,
             ),
-            125 => 
-            array (
+            125 =>
+            array(
                 'admin_id' => 89,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 55,
@@ -2143,8 +2140,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 163,
                 'responsible_id' => 92,
             ),
-            126 => 
-            array (
+            126 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 35,
@@ -2159,8 +2156,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 173,
                 'responsible_id' => 150,
             ),
-            127 => 
-            array (
+            127 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 35,
@@ -2175,8 +2172,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 173,
                 'responsible_id' => 148,
             ),
-            128 => 
-            array (
+            128 =>
+            array(
                 'admin_id' => 53,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 32,
@@ -2191,8 +2188,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 186,
                 'responsible_id' => 53,
             ),
-            129 => 
-            array (
+            129 =>
+            array(
                 'admin_id' => 44,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 45,
@@ -2207,8 +2204,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 187,
                 'responsible_id' => 44,
             ),
-            130 => 
-            array (
+            130 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 40,
@@ -2223,8 +2220,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 182,
                 'responsible_id' => 58,
             ),
-            131 => 
-            array (
+            131 =>
+            array(
                 'admin_id' => 63,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 29,
@@ -2239,8 +2236,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 185,
                 'responsible_id' => 224,
             ),
-            132 => 
-            array (
+            132 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 37,
@@ -2255,8 +2252,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 167,
                 'responsible_id' => 191,
             ),
-            133 => 
-            array (
+            133 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 37,
@@ -2271,8 +2268,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 168,
                 'responsible_id' => 191,
             ),
-            134 => 
-            array (
+            134 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 33,
@@ -2287,8 +2284,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 172,
                 'responsible_id' => 79,
             ),
-            135 => 
-            array (
+            135 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 38,
@@ -2303,8 +2300,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 30,
                 'responsible_id' => 81,
             ),
-            136 => 
-            array (
+            136 =>
+            array(
                 'admin_id' => NULL,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 69,
@@ -2319,8 +2316,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 162,
             ),
-            137 => 
-            array (
+            137 =>
+            array(
                 'admin_id' => 225,
                 'beginDate' => '2016-02-01 00:00:00',
                 'companies_id' => 90,
@@ -2335,8 +2332,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 225,
             ),
-            138 => 
-            array (
+            138 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 35,
@@ -2351,8 +2348,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 214,
                 'responsible_id' => 148,
             ),
-            139 => 
-            array (
+            139 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 35,
@@ -2367,8 +2364,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 214,
                 'responsible_id' => 148,
             ),
-            140 => 
-            array (
+            140 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 35,
@@ -2383,8 +2380,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => NULL,
                 'responsible_id' => 148,
             ),
-            141 => 
-            array (
+            141 =>
+            array(
                 'admin_id' => 234,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 47,
@@ -2399,8 +2396,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 95,
                 'responsible_id' => 234,
             ),
-            142 => 
-            array (
+            142 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 39,
@@ -2429,8 +2426,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => NULL,
                 'responsible_id' => 185,
             ),
-            143 => 
-            array (
+            143 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 39,
@@ -2459,8 +2456,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => NULL,
                 'responsible_id' => 185,
             ),
-            144 => 
-            array (
+            144 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 38,
@@ -2475,8 +2472,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => NULL,
                 'responsible_id' => 98,
             ),
-            145 => 
-            array (
+            145 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 38,
@@ -2491,8 +2488,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => NULL,
                 'responsible_id' => 98,
             ),
-            146 => 
-            array (
+            146 =>
+            array(
                 'admin_id' => 147,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 71,
@@ -2509,8 +2506,8 @@ Migration de postes',
                 'previous_id' => 204,
                 'responsible_id' => 177,
             ),
-            147 => 
-            array (
+            147 =>
+            array(
                 'admin_id' => 232,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 28,
@@ -2526,8 +2523,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 211,
                 'responsible_id' => 57,
             ),
-            148 => 
-            array (
+            148 =>
+            array(
                 'admin_id' => 231,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 29,
@@ -2542,8 +2539,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 221,
                 'responsible_id' => 224,
             ),
-            149 => 
-            array (
+            149 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 33,
@@ -2558,8 +2555,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 225,
                 'responsible_id' => 79,
             ),
-            150 => 
-            array (
+            150 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 40,
@@ -2574,8 +2571,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 220,
                 'responsible_id' => 58,
             ),
-            151 => 
-            array (
+            151 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 38,
@@ -2590,8 +2587,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 228,
                 'responsible_id' => 81,
             ),
-            152 => 
-            array (
+            152 =>
+            array(
                 'admin_id' => 160,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 74,
@@ -2607,8 +2604,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 203,
                 'responsible_id' => 159,
             ),
-            153 => 
-            array (
+            153 =>
+            array(
                 'admin_id' => 182,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 26,
@@ -2623,8 +2620,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 184,
                 'responsible_id' => 78,
             ),
-            154 => 
-            array (
+            154 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 43,
@@ -2639,8 +2636,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 198,
                 'responsible_id' => 44,
             ),
-            155 => 
-            array (
+            155 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 43,
@@ -2655,8 +2652,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 198,
                 'responsible_id' => 44,
             ),
-            156 => 
-            array (
+            156 =>
+            array(
                 'admin_id' => 146,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 70,
@@ -2666,15 +2663,15 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'grossSalary' => 1230,
                 'id' => 252,
                 'intern_id' => 220,
-            'internshipDescription' => 'En fonction du stagiaire, développement PHP, gestion réseau (cisco), paramétrages réseaux / wifi / … chez des clients finaux.
+                'internshipDescription' => 'En fonction du stagiaire, développement PHP, gestion réseau (cisco), paramétrages réseaux / wifi / … chez des clients finaux.
 Support aux utilisateurs interne. Administration Linux.
 Cela n’est pas figé et cela peut évoluer en fonction des affinités des stagiaires.',
                 'parent_id' => NULL,
                 'previous_id' => 127,
                 'responsible_id' => 146,
             ),
-            157 => 
-            array (
+            157 =>
+            array(
                 'admin_id' => 162,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 69,
@@ -2693,8 +2690,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 230,
                 'responsible_id' => 162,
             ),
-            158 => 
-            array (
+            158 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 37,
@@ -2709,8 +2706,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 222,
                 'responsible_id' => 191,
             ),
-            159 => 
-            array (
+            159 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 37,
@@ -2725,8 +2722,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 223,
                 'responsible_id' => 191,
             ),
-            160 => 
-            array (
+            160 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 38,
@@ -2741,8 +2738,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 137,
                 'responsible_id' => 158,
             ),
-            161 => 
-            array (
+            161 =>
+            array(
                 'admin_id' => 239,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 92,
@@ -2757,8 +2754,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => NULL,
                 'responsible_id' => 238,
             ),
-            162 => 
-            array (
+            162 =>
+            array(
                 'admin_id' => 183,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 84,
@@ -2773,8 +2770,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 189,
                 'responsible_id' => 183,
             ),
-            163 => 
-            array (
+            163 =>
+            array(
                 'admin_id' => 189,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 86,
@@ -2784,13 +2781,13 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'grossSalary' => 1230,
                 'id' => 261,
                 'intern_id' => 201,
-            'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients',
+                'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients',
                 'parent_id' => NULL,
                 'previous_id' => NULL,
                 'responsible_id' => 189,
             ),
-            164 => 
-            array (
+            164 =>
+            array(
                 'admin_id' => 47,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 41,
@@ -2805,8 +2802,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 210,
                 'responsible_id' => 47,
             ),
-            165 => 
-            array (
+            165 =>
+            array(
                 'admin_id' => 60,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 30,
@@ -2821,8 +2818,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 206,
                 'responsible_id' => 156,
             ),
-            166 => 
-            array (
+            166 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2016-09-01 00:00:00',
                 'companies_id' => 38,
@@ -2837,8 +2834,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 199,
                 'responsible_id' => 98,
             ),
-            167 => 
-            array (
+            167 =>
+            array(
                 'admin_id' => 96,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 60,
@@ -2858,8 +2855,8 @@ plus des framework mobile de Microsoft, Apple et Android.',
                 'previous_id' => NULL,
                 'responsible_id' => 96,
             ),
-            168 => 
-            array (
+            168 =>
+            array(
                 'admin_id' => 71,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 41,
@@ -2874,8 +2871,8 @@ plus des framework mobile de Microsoft, Apple et Android.',
                 'previous_id' => 210,
                 'responsible_id' => 47,
             ),
-            169 => 
-            array (
+            169 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 35,
@@ -2890,8 +2887,8 @@ plus des framework mobile de Microsoft, Apple et Android.',
                 'previous_id' => 234,
                 'responsible_id' => 148,
             ),
-            170 => 
-            array (
+            170 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 35,
@@ -2906,8 +2903,8 @@ plus des framework mobile de Microsoft, Apple et Android.',
                 'previous_id' => 235,
                 'responsible_id' => 148,
             ),
-            171 => 
-            array (
+            171 =>
+            array(
                 'admin_id' => 278,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 38,
@@ -2935,8 +2932,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 256,
                 'responsible_id' => 158,
             ),
-            172 => 
-            array (
+            172 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 38,
@@ -2951,8 +2948,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 239,
                 'responsible_id' => 285,
             ),
-            173 => 
-            array (
+            173 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 38,
@@ -2967,8 +2964,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 240,
                 'responsible_id' => 285,
             ),
-            174 => 
-            array (
+            174 =>
+            array(
                 'admin_id' => 271,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 104,
@@ -2978,13 +2975,13 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'grossSalary' => 1230,
                 'id' => 274,
                 'intern_id' => 268,
-            'internshipDescription' => 'Activités de développement chez NagraStar aux Etats-Unis (Denver, CO)',
+                'internshipDescription' => 'Activités de développement chez NagraStar aux Etats-Unis (Denver, CO)',
                 'parent_id' => NULL,
                 'previous_id' => NULL,
                 'responsible_id' => 321,
             ),
-            175 => 
-            array (
+            175 =>
+            array(
                 'admin_id' => 234,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 47,
@@ -2999,8 +2996,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 236,
                 'responsible_id' => 234,
             ),
-            176 => 
-            array (
+            176 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 37,
@@ -3015,8 +3012,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 254,
                 'responsible_id' => 191,
             ),
-            177 => 
-            array (
+            177 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 37,
@@ -3031,8 +3028,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 255,
                 'responsible_id' => 191,
             ),
-            178 => 
-            array (
+            178 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 43,
@@ -3047,8 +3044,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 249,
                 'responsible_id' => 44,
             ),
-            179 => 
-            array (
+            179 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 43,
@@ -3063,8 +3060,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 250,
                 'responsible_id' => 44,
             ),
-            180 => 
-            array (
+            180 =>
+            array(
                 'admin_id' => 160,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 74,
@@ -3080,8 +3077,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 247,
                 'responsible_id' => 159,
             ),
-            181 => 
-            array (
+            181 =>
+            array(
                 'admin_id' => 231,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 29,
@@ -3096,8 +3093,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 243,
                 'responsible_id' => 224,
             ),
-            182 => 
-            array (
+            182 =>
+            array(
                 'admin_id' => 189,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 86,
@@ -3107,13 +3104,13 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'grossSalary' => 1230,
                 'id' => 283,
                 'intern_id' => 244,
-            'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients',
+                'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients',
                 'parent_id' => NULL,
                 'previous_id' => 261,
                 'responsible_id' => 189,
             ),
-            183 => 
-            array (
+            183 =>
+            array(
                 'admin_id' => 232,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 28,
@@ -3129,8 +3126,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 242,
                 'responsible_id' => 57,
             ),
-            184 => 
-            array (
+            184 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 33,
@@ -3145,8 +3142,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 244,
                 'responsible_id' => 79,
             ),
-            185 => 
-            array (
+            185 =>
+            array(
                 'admin_id' => 146,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 70,
@@ -3156,15 +3153,15 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'grossSalary' => 1230,
                 'id' => 288,
                 'intern_id' => 248,
-            'internshipDescription' => 'En fonction du stagiaire, développement PHP, gestion réseau (cisco), paramétrages réseaux / wifi / … chez des clients finaux.
+                'internshipDescription' => 'En fonction du stagiaire, développement PHP, gestion réseau (cisco), paramétrages réseaux / wifi / … chez des clients finaux.
 Support aux utilisateurs interne. Administration Linux.
 Cela n’est pas figé et cela peut évoluer en fonction des affinités des stagiaires.',
                 'parent_id' => NULL,
                 'previous_id' => 252,
                 'responsible_id' => 146,
             ),
-            186 => 
-            array (
+            186 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 40,
@@ -3179,8 +3176,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 245,
                 'responsible_id' => 58,
             ),
-            187 => 
-            array (
+            187 =>
+            array(
                 'admin_id' => 182,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 26,
@@ -3195,8 +3192,8 @@ Cela n’est pas figé et cela peut évoluer en fonction des affinités des stag
                 'previous_id' => 184,
                 'responsible_id' => 78,
             ),
-            188 => 
-            array (
+            188 =>
+            array(
                 'admin_id' => 275,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 50,
@@ -3213,8 +3210,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 209,
                 'responsible_id' => 283,
             ),
-            189 => 
-            array (
+            189 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 44,
@@ -3229,8 +3226,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 212,
                 'responsible_id' => 82,
             ),
-            190 => 
-            array (
+            190 =>
+            array(
                 'admin_id' => 89,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 55,
@@ -3245,8 +3242,8 @@ Bon niveau d\'anglais nécessaire (école internationale)',
                 'previous_id' => 213,
                 'responsible_id' => 92,
             ),
-            191 => 
-            array (
+            191 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 39,
@@ -3275,8 +3272,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => NULL,
                 'responsible_id' => 186,
             ),
-            192 => 
-            array (
+            192 =>
+            array(
                 'admin_id' => 278,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 38,
@@ -3304,8 +3301,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => NULL,
                 'responsible_id' => 158,
             ),
-            193 => 
-            array (
+            193 =>
+            array(
                 'admin_id' => 273,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 94,
@@ -3320,8 +3317,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => NULL,
                 'responsible_id' => 273,
             ),
-            194 => 
-            array (
+            194 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 35,
@@ -3336,8 +3333,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 269,
                 'responsible_id' => 62,
             ),
-            195 => 
-            array (
+            195 =>
+            array(
                 'admin_id' => 279,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 97,
@@ -3352,8 +3349,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => NULL,
                 'responsible_id' => 279,
             ),
-            196 => 
-            array (
+            196 =>
+            array(
                 'admin_id' => 161,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 75,
@@ -3368,8 +3365,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => NULL,
                 'responsible_id' => 284,
             ),
-            197 => 
-            array (
+            197 =>
+            array(
                 'admin_id' => 190,
                 'beginDate' => '2017-02-01 00:00:00',
                 'companies_id' => 42,
@@ -3384,8 +3381,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 132,
                 'responsible_id' => 280,
             ),
-            198 => 
-            array (
+            198 =>
+            array(
                 'admin_id' => 286,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 98,
@@ -3408,8 +3405,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => NULL,
                 'responsible_id' => 296,
             ),
-            199 => 
-            array (
+            199 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 35,
@@ -3424,8 +3421,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 270,
                 'responsible_id' => 62,
             ),
-            200 => 
-            array (
+            200 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 44,
@@ -3440,8 +3437,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 294,
                 'responsible_id' => 82,
             ),
-            201 => 
-            array (
+            201 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 43,
@@ -3456,8 +3453,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 279,
                 'responsible_id' => 44,
             ),
-            202 => 
-            array (
+            202 =>
+            array(
                 'admin_id' => 189,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 86,
@@ -3467,13 +3464,13 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'grossSalary' => 1230,
                 'id' => 312,
                 'intern_id' => 242,
-            'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients',
+                'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients',
                 'parent_id' => NULL,
                 'previous_id' => 283,
                 'responsible_id' => 189,
             ),
-            203 => 
-            array (
+            203 =>
+            array(
                 'admin_id' => 231,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 29,
@@ -3488,8 +3485,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 282,
                 'responsible_id' => 224,
             ),
-            204 => 
-            array (
+            204 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 38,
@@ -3499,7 +3496,7 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'grossSalary' => 1230,
                 'id' => 315,
                 'intern_id' => 248,
-            'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
+                'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
 
 This job requires autonomous and result oriented skills in a dynamic and “AGILE” work environment where initiative and innovation are encouraged 
 
@@ -3532,8 +3529,8 @@ Education and experience
                 'previous_id' => 299,
                 'responsible_id' => 285,
             ),
-            205 => 
-            array (
+            205 =>
+            array(
                 'admin_id' => 278,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 99,
@@ -3548,8 +3545,8 @@ Education and experience
                 'previous_id' => 317,
                 'responsible_id' => 158,
             ),
-            206 => 
-            array (
+            206 =>
+            array(
                 'admin_id' => 146,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 70,
@@ -3559,15 +3556,15 @@ Education and experience
                 'grossSalary' => 1230,
                 'id' => 319,
                 'intern_id' => 257,
-            'internshipDescription' => 'En fonction du stagiaire, développement PHP, gestion réseau (cisco), paramétrages réseaux / wifi / … chez des clients finaux.
+                'internshipDescription' => 'En fonction du stagiaire, développement PHP, gestion réseau (cisco), paramétrages réseaux / wifi / … chez des clients finaux.
 Support aux utilisateurs interne. Administration Linux.
 Cela n’est pas figé et cela peut évoluer en fonction des affinités des stagiaires.',
                 'parent_id' => NULL,
                 'previous_id' => 288,
                 'responsible_id' => 146,
             ),
-            207 => 
-            array (
+            207 =>
+            array(
                 'admin_id' => 232,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 28,
@@ -3583,8 +3580,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 285,
                 'responsible_id' => 57,
             ),
-            208 => 
-            array (
+            208 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 37,
@@ -3599,8 +3596,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 277,
                 'responsible_id' => 191,
             ),
-            209 => 
-            array (
+            209 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 37,
@@ -3615,8 +3612,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 276,
                 'responsible_id' => 191,
             ),
-            210 => 
-            array (
+            210 =>
+            array(
                 'admin_id' => 294,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 41,
@@ -3631,8 +3628,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 268,
                 'responsible_id' => 47,
             ),
-            211 => 
-            array (
+            211 =>
+            array(
                 'admin_id' => 161,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 75,
@@ -3647,8 +3644,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 305,
                 'responsible_id' => 284,
             ),
-            212 => 
-            array (
+            212 =>
+            array(
                 'admin_id' => 160,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 74,
@@ -3664,8 +3661,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 281,
                 'responsible_id' => 159,
             ),
-            213 => 
-            array (
+            213 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 33,
@@ -3680,8 +3677,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 287,
                 'responsible_id' => 79,
             ),
-            214 => 
-            array (
+            214 =>
+            array(
                 'admin_id' => 234,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 47,
@@ -3696,8 +3693,8 @@ Beaucoup d\'interventions chez le client pour installer, dépanner, améliorer l
                 'previous_id' => 275,
                 'responsible_id' => 234,
             ),
-            215 => 
-            array (
+            215 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 39,
@@ -3726,8 +3723,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 298,
                 'responsible_id' => 186,
             ),
-            216 => 
-            array (
+            216 =>
+            array(
                 'admin_id' => 190,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 42,
@@ -3742,8 +3739,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 306,
                 'responsible_id' => 280,
             ),
-            217 => 
-            array (
+            217 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 43,
@@ -3758,8 +3755,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 280,
                 'responsible_id' => 44,
             ),
-            218 => 
-            array (
+            218 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 40,
@@ -3774,8 +3771,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 289,
                 'responsible_id' => 58,
             ),
-            219 => 
-            array (
+            219 =>
+            array(
                 'admin_id' => 271,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 104,
@@ -3790,8 +3787,8 @@ Préparation de vidéoconférence depuis différents systèmes (téléphone Cisc
                 'previous_id' => 274,
                 'responsible_id' => 321,
             ),
-            220 => 
-            array (
+            220 =>
+            array(
                 'admin_id' => 288,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 101,
@@ -3820,8 +3817,8 @@ Notre équipe sera là pour vous former sur Wordpress et répondre à vos questi
                 'previous_id' => NULL,
                 'responsible_id' => 288,
             ),
-            221 => 
-            array (
+            221 =>
+            array(
                 'admin_id' => 289,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 102,
@@ -3836,8 +3833,8 @@ Notre équipe sera là pour vous former sur Wordpress et répondre à vos questi
                 'previous_id' => NULL,
                 'responsible_id' => 289,
             ),
-            222 => 
-            array (
+            222 =>
+            array(
                 'admin_id' => 290,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 103,
@@ -3873,8 +3870,8 @@ Attitude :
                 'previous_id' => NULL,
                 'responsible_id' => 290,
             ),
-            223 => 
-            array (
+            223 =>
+            array(
                 'admin_id' => 163,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 38,
@@ -3884,7 +3881,7 @@ Attitude :
                 'grossSalary' => 1230,
                 'id' => 340,
                 'intern_id' => 258,
-            'internshipDescription' => 'Le stagiaire sera pleinement intégré à l’équipe réseau de Nagra à Cheseaux dans un environnement international en mutation avec en point de mire le développement de service Cloud , l’automatisation et la virtualisation des fonction réseau (NFV).
+                'internshipDescription' => 'Le stagiaire sera pleinement intégré à l’équipe réseau de Nagra à Cheseaux dans un environnement international en mutation avec en point de mire le développement de service Cloud , l’automatisation et la virtualisation des fonction réseau (NFV).
 
 Il s’occupera :
 ·        Du traitement des requêtes (Principalement des demandes d’ouverture d’accès sur nos firewalls, de création de VPN et de patch) et des incidents.  
@@ -3899,8 +3896,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => NULL,
                 'responsible_id' => 285,
             ),
-            224 => 
-            array (
+            224 =>
+            array(
                 'admin_id' => 293,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 83,
@@ -3915,8 +3912,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => NULL,
                 'responsible_id' => 325,
             ),
-            225 => 
-            array (
+            225 =>
+            array(
                 'admin_id' => 145,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 31,
@@ -3926,13 +3923,13 @@ Le stagiaire recevra dans l’équipe :
                 'grossSalary' => 1230,
                 'id' => 344,
                 'intern_id' => 264,
-            'internshipDescription' => 'Entre autre: le site de l\'école est à refaire complètement en y ajoutant les informations concernant le système qualité (accès - documents - etc...)',
+                'internshipDescription' => 'Entre autre: le site de l\'école est à refaire complètement en y ajoutant les informations concernant le système qualité (accès - documents - etc...)',
                 'parent_id' => NULL,
                 'previous_id' => NULL,
                 'responsible_id' => 145,
             ),
-            226 => 
-            array (
+            226 =>
+            array(
                 'admin_id' => 182,
                 'beginDate' => '2017-09-01 00:00:00',
                 'companies_id' => 26,
@@ -3947,8 +3944,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => NULL,
                 'responsible_id' => 78,
             ),
-            227 => 
-            array (
+            227 =>
+            array(
                 'admin_id' => 85,
                 'beginDate' => '2017-09-27 00:00:00',
                 'companies_id' => 40,
@@ -3963,8 +3960,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => 289,
                 'responsible_id' => 297,
             ),
-            228 => 
-            array (
+            228 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 35,
@@ -3979,8 +3976,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => 303,
                 'responsible_id' => 148,
             ),
-            229 => 
-            array (
+            229 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 35,
@@ -3995,8 +3992,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => 309,
                 'responsible_id' => 62,
             ),
-            230 => 
-            array (
+            230 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 43,
@@ -4011,8 +4008,8 @@ Le stagiaire recevra dans l’équipe :
                 'previous_id' => 311,
                 'responsible_id' => 44,
             ),
-            231 => 
-            array (
+            231 =>
+            array(
                 'admin_id' => 189,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 86,
@@ -4022,15 +4019,15 @@ Le stagiaire recevra dans l’équipe :
                 'grossSalary' => 1230,
                 'id' => 353,
                 'intern_id' => 306,
-            'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients
+                'internshipDescription' => 'Développement PhP (Framework Yii), javascript, html, éventuellement GUI (QtCreator). Linux est un plus. Maintenance de postes clients
 
 Une prime peut être ajoutée au dernier salaire en fonction de la performance (entre 500.- et 1500.-)',
                 'parent_id' => NULL,
                 'previous_id' => 312,
                 'responsible_id' => 189,
             ),
-            232 => 
-            array (
+            232 =>
+            array(
                 'admin_id' => 231,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 29,
@@ -4045,8 +4042,8 @@ Une prime peut être ajoutée au dernier salaire en fonction de la performance (
                 'previous_id' => 313,
                 'responsible_id' => 224,
             ),
-            233 => 
-            array (
+            233 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 38,
@@ -4056,7 +4053,7 @@ Une prime peut être ajoutée au dernier salaire en fonction de la performance (
                 'grossSalary' => 1230,
                 'id' => 355,
                 'intern_id' => 302,
-            'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
+                'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
 
 This job requires autonomous and result oriented skills in a dynamic and “AGILE” work environment where initiative and innovation are encouraged 
 
@@ -4089,8 +4086,8 @@ Education and experience
                 'previous_id' => 315,
                 'responsible_id' => 285,
             ),
-            234 => 
-            array (
+            234 =>
+            array(
                 'admin_id' => 278,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 99,
@@ -4118,8 +4115,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => 317,
                 'responsible_id' => 158,
             ),
-            235 => 
-            array (
+            235 =>
+            array(
                 'admin_id' => 232,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 28,
@@ -4135,8 +4132,8 @@ Demandent des stagiaires curieux et désireux d\'apprendre!',
                 'previous_id' => 320,
                 'responsible_id' => 57,
             ),
-            236 => 
-            array (
+            236 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 37,
@@ -4153,8 +4150,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 322,
                 'responsible_id' => 191,
             ),
-            237 => 
-            array (
+            237 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 37,
@@ -4171,8 +4168,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 323,
                 'responsible_id' => 191,
             ),
-            238 => 
-            array (
+            238 =>
+            array(
                 'admin_id' => 294,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 41,
@@ -4187,8 +4184,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 324,
                 'responsible_id' => 47,
             ),
-            239 => 
-            array (
+            239 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 33,
@@ -4203,8 +4200,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 328,
                 'responsible_id' => 79,
             ),
-            240 => 
-            array (
+            240 =>
+            array(
                 'admin_id' => 234,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 47,
@@ -4219,8 +4216,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 329,
                 'responsible_id' => 234,
             ),
-            241 => 
-            array (
+            241 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 39,
@@ -4252,8 +4249,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 331,
                 'responsible_id' => 186,
             ),
-            242 => 
-            array (
+            242 =>
+            array(
                 'admin_id' => 323,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 42,
@@ -4268,8 +4265,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 332,
                 'responsible_id' => 280,
             ),
-            243 => 
-            array (
+            243 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 43,
@@ -4284,8 +4281,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 333,
                 'responsible_id' => 44,
             ),
-            244 => 
-            array (
+            244 =>
+            array(
                 'admin_id' => 288,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 102,
@@ -4314,8 +4311,8 @@ Notre équipe sera là pour vous former sur Wordpress et répondre à vos questi
                 'previous_id' => 337,
                 'responsible_id' => 288,
             ),
-            245 => 
-            array (
+            245 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 38,
@@ -4325,7 +4322,7 @@ Notre équipe sera là pour vous former sur Wordpress et répondre à vos questi
                 'grossSalary' => 1230,
                 'id' => 378,
                 'intern_id' => 317,
-            'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
+                'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
 
 This job requires autonomous and result oriented skills in a dynamic and “AGILE” work environment where initiative and innovation are encouraged 
 
@@ -4357,8 +4354,8 @@ Education and experience
                 'previous_id' => 340,
                 'responsible_id' => 285,
             ),
-            246 => 
-            array (
+            246 =>
+            array(
                 'admin_id' => 271,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 104,
@@ -4373,8 +4370,8 @@ Education and experience
                 'previous_id' => 335,
                 'responsible_id' => 321,
             ),
-            247 => 
-            array (
+            247 =>
+            array(
                 'admin_id' => 279,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 97,
@@ -4389,8 +4386,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 279,
             ),
-            248 => 
-            array (
+            248 =>
+            array(
                 'admin_id' => 327,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 109,
@@ -4405,8 +4402,8 @@ Education and experience
                 'previous_id' => 232,
                 'responsible_id' => 331,
             ),
-            249 => 
-            array (
+            249 =>
+            array(
                 'admin_id' => 50,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 44,
@@ -4421,8 +4418,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 82,
             ),
-            250 => 
-            array (
+            250 =>
+            array(
                 'admin_id' => 324,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 105,
@@ -4432,7 +4429,7 @@ Education and experience
                 'grossSalary' => 1230,
                 'id' => 384,
                 'intern_id' => NULL,
-            'internshipDescription' => 'Le stagiaire pourrait avoir des interactions avec l’ensemble des équipes du département du marché Suisse (Infrastructure, Applications, Business Intelligence,…) et pourrait notamment toucher aux activités suivantes :
+                'internshipDescription' => 'Le stagiaire pourrait avoir des interactions avec l’ensemble des équipes du département du marché Suisse (Infrastructure, Applications, Business Intelligence,…) et pourrait notamment toucher aux activités suivantes :
 ·         Support applicatif niveau 0-1
 ·         Préparation des machines pour les nouveaux arrivants
 ·         Gestion des assets IT
@@ -4444,8 +4441,8 @@ Et plus selon l’intérêt et les capacités.',
                 'previous_id' => NULL,
                 'responsible_id' => 324,
             ),
-            251 => 
-            array (
+            251 =>
+            array(
                 'admin_id' => 278,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 99,
@@ -4473,8 +4470,8 @@ Develop a web application based on the Yii 2 framework (mandatory) according to 
                 'previous_id' => NULL,
                 'responsible_id' => 158,
             ),
-            252 => 
-            array (
+            252 =>
+            array(
                 'admin_id' => 60,
                 'beginDate' => '2018-02-01 00:00:00',
                 'companies_id' => 30,
@@ -4500,8 +4497,8 @@ Il est possible de suivre un/des cours offert par le sfp durant le stage',
                 'previous_id' => 263,
                 'responsible_id' => 156,
             ),
-            253 => 
-            array (
+            253 =>
+            array(
                 'admin_id' => 330,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 110,
@@ -4511,7 +4508,7 @@ Il est possible de suivre un/des cours offert par le sfp durant le stage',
                 'grossSalary' => 1230,
                 'id' => 388,
                 'intern_id' => 299,
-            'internshipDescription' => 'Le Gymnase de Renens se constitue de deux sites distincts. L’un à Provence (Lausanne) et l’autre à Renens. Les deux sites accueilleront ensemble dès août 2017 plus de 2000 élèves, 170 maîtres ainsi qu’une vingtaine de collaborateurs administratifs, faisant de lui le plus grand Gymnase vaudois. 
+                'internshipDescription' => 'Le Gymnase de Renens se constitue de deux sites distincts. L’un à Provence (Lausanne) et l’autre à Renens. Les deux sites accueilleront ensemble dès août 2017 plus de 2000 élèves, 170 maîtres ainsi qu’une vingtaine de collaborateurs administratifs, faisant de lui le plus grand Gymnase vaudois. 
 Le stagiaire effectuera les tâches suivantes :
 ·        Résoudre les problèmes intervenant dans les salles de cours
 ·        Aider les utilisateurs à l’utilisation du matériel mis à disposition
@@ -4523,8 +4520,8 @@ Le stagiaire effectuera les tâches suivantes :
                 'previous_id' => NULL,
                 'responsible_id' => 329,
             ),
-            254 => 
-            array (
+            254 =>
+            array(
                 'admin_id' => 178,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 80,
@@ -4568,8 +4565,8 @@ Relations internes / externes au service :
                 'previous_id' => NULL,
                 'responsible_id' => 332,
             ),
-            255 => 
-            array (
+            255 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 35,
@@ -4584,8 +4581,8 @@ Relations internes / externes au service :
                 'previous_id' => 348,
                 'responsible_id' => 148,
             ),
-            256 => 
-            array (
+            256 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 35,
@@ -4600,8 +4597,8 @@ Relations internes / externes au service :
                 'previous_id' => 350,
                 'responsible_id' => 62,
             ),
-            257 => 
-            array (
+            257 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 43,
@@ -4616,8 +4613,8 @@ Relations internes / externes au service :
                 'previous_id' => 352,
                 'responsible_id' => 44,
             ),
-            258 => 
-            array (
+            258 =>
+            array(
                 'admin_id' => 232,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 28,
@@ -4637,8 +4634,8 @@ Le stagiaire a la possibilité de réaliser durant son stage un projet lié à l
                 'previous_id' => 358,
                 'responsible_id' => 57,
             ),
-            259 => 
-            array (
+            259 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 37,
@@ -4666,8 +4663,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 359,
                 'responsible_id' => 191,
             ),
-            260 => 
-            array (
+            260 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 37,
@@ -4684,8 +4681,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 360,
                 'responsible_id' => 191,
             ),
-            261 => 
-            array (
+            261 =>
+            array(
                 'admin_id' => 294,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 41,
@@ -4700,8 +4697,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 361,
                 'responsible_id' => 47,
             ),
-            262 => 
-            array (
+            262 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 33,
@@ -4716,8 +4713,8 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'previous_id' => 364,
                 'responsible_id' => 79,
             ),
-            263 => 
-            array (
+            263 =>
+            array(
                 'admin_id' => 234,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 47,
@@ -4727,13 +4724,13 @@ En plus du salaire, les repas de midi ainsi que l\'accès à une salle de fitnes
                 'grossSalary' => 1230,
                 'id' => 400,
                 'intern_id' => 314,
-            'internshipDescription' => 'L’Université de Lausanne dispose d’un environnement hétérogène (MacOs et Windows). Le support informatique est prodigué aux chercheurs des différents départements de la Faculté de Biologie et de Médecine. Le stage comprend du support 1er et 2ème niveau (installation, dépannage logiciel et matériel) ainsi qu’un mini projet à discuter au début du stage en fonction des différents intérêts du stagiaire.',
+                'internshipDescription' => 'L’Université de Lausanne dispose d’un environnement hétérogène (MacOs et Windows). Le support informatique est prodigué aux chercheurs des différents départements de la Faculté de Biologie et de Médecine. Le stage comprend du support 1er et 2ème niveau (installation, dépannage logiciel et matériel) ainsi qu’un mini projet à discuter au début du stage en fonction des différents intérêts du stagiaire.',
                 'parent_id' => NULL,
                 'previous_id' => 365,
                 'responsible_id' => 234,
             ),
-            264 => 
-            array (
+            264 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 39,
@@ -4765,8 +4762,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 366,
                 'responsible_id' => 186,
             ),
-            265 => 
-            array (
+            265 =>
+            array(
                 'admin_id' => 323,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 42,
@@ -4781,8 +4778,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 367,
                 'responsible_id' => 280,
             ),
-            266 => 
-            array (
+            266 =>
+            array(
                 'admin_id' => 271,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 104,
@@ -4797,8 +4794,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 379,
                 'responsible_id' => 321,
             ),
-            267 => 
-            array (
+            267 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 38,
@@ -4808,7 +4805,7 @@ Vos avantages seront les suivants :
                 'grossSalary' => 1230,
                 'id' => 407,
                 'intern_id' => 303,
-            'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
+                'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
 
 This job requires autonomous and result oriented skills in a dynamic and “AGILE” work environment where initiative and innovation are encouraged 
 
@@ -4840,8 +4837,8 @@ Education and experience
                 'previous_id' => 378,
                 'responsible_id' => 285,
             ),
-            268 => 
-            array (
+            268 =>
+            array(
                 'admin_id' => 286,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 98,
@@ -4864,8 +4861,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 296,
             ),
-            269 => 
-            array (
+            269 =>
+            array(
                 'admin_id' => 279,
                 'beginDate' => '2018-05-10 00:00:00',
                 'companies_id' => 97,
@@ -4880,8 +4877,8 @@ Education and experience
                 'previous_id' => 380,
                 'responsible_id' => 279,
             ),
-            270 => 
-            array (
+            270 =>
+            array(
                 'admin_id' => 335,
                 'beginDate' => '2018-07-01 00:00:00',
                 'companies_id' => 112,
@@ -4896,8 +4893,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 335,
             ),
-            271 => 
-            array (
+            271 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 38,
@@ -4907,7 +4904,7 @@ Education and experience
                 'grossSalary' => 1230,
                 'id' => 425,
                 'intern_id' => 305,
-            'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
+                'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
 
 This job requires autonomous and result oriented skills in a dynamic and “AGILE” work environment where initiative and innovation are encouraged 
 
@@ -4939,8 +4936,8 @@ Education and experience
                 'previous_id' => 355,
                 'responsible_id' => 285,
             ),
-            272 => 
-            array (
+            272 =>
+            array(
                 'admin_id' => 231,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 29,
@@ -4955,8 +4952,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 224,
             ),
-            273 => 
-            array (
+            273 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 38,
@@ -4971,8 +4968,8 @@ Education and experience
                 'previous_id' => 228,
                 'responsible_id' => 81,
             ),
-            274 => 
-            array (
+            274 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 43,
@@ -4987,8 +4984,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 44,
             ),
-            275 => 
-            array (
+            275 =>
+            array(
                 'admin_id' => 339,
                 'beginDate' => '2018-09-01 00:00:00',
                 'companies_id' => 114,
@@ -5003,8 +5000,8 @@ Education and experience
                 'previous_id' => NULL,
                 'responsible_id' => 339,
             ),
-            276 => 
-            array (
+            276 =>
+            array(
                 'admin_id' => 273,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 94,
@@ -5033,8 +5030,8 @@ Compétences requises:
                 'previous_id' => 300,
                 'responsible_id' => 273,
             ),
-            277 => 
-            array (
+            277 =>
+            array(
                 'admin_id' => 362,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 44,
@@ -5049,8 +5046,8 @@ Compétences requises:
                 'previous_id' => 383,
                 'responsible_id' => 82,
             ),
-            278 => 
-            array (
+            278 =>
+            array(
                 'admin_id' => 330,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 110,
@@ -5060,7 +5057,7 @@ Compétences requises:
                 'grossSalary' => 1230,
                 'id' => 433,
                 'intern_id' => NULL,
-            'internshipDescription' => 'Le Gymnase de Renens se constitue de deux sites distincts. L’un à Provence (Lausanne) et l’autre à Renens. Les deux sites accueilleront ensemble dès août 2017 plus de 2000 élèves, 170 maîtres ainsi qu’une vingtaine de collaborateurs administratifs, faisant de lui le plus grand Gymnase vaudois. 
+                'internshipDescription' => 'Le Gymnase de Renens se constitue de deux sites distincts. L’un à Provence (Lausanne) et l’autre à Renens. Les deux sites accueilleront ensemble dès août 2017 plus de 2000 élèves, 170 maîtres ainsi qu’une vingtaine de collaborateurs administratifs, faisant de lui le plus grand Gymnase vaudois. 
 Le stagiaire effectuera les tâches suivantes :
 ·        Résoudre les problèmes intervenant dans les salles de cours
 ·        Aider les utilisateurs à l’utilisation du matériel mis à disposition
@@ -5072,8 +5069,8 @@ Le stagiaire effectuera les tâches suivantes :
                 'previous_id' => 388,
                 'responsible_id' => 329,
             ),
-            279 => 
-            array (
+            279 =>
+            array(
                 'admin_id' => 178,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 80,
@@ -5117,8 +5114,8 @@ Relations internes / externes au service :
                 'previous_id' => 389,
                 'responsible_id' => 332,
             ),
-            280 => 
-            array (
+            280 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 35,
@@ -5133,8 +5130,8 @@ Relations internes / externes au service :
                 'previous_id' => 391,
                 'responsible_id' => 62,
             ),
-            281 => 
-            array (
+            281 =>
+            array(
                 'admin_id' => 232,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 28,
@@ -5154,8 +5151,8 @@ Le stagiaire a la possibilité de réaliser durant son stage un projet lié à l
                 'previous_id' => 395,
                 'responsible_id' => 57,
             ),
-            282 => 
-            array (
+            282 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 37,
@@ -5185,8 +5182,8 @@ Bon niveau d\'anglais conseillé',
                 'previous_id' => 396,
                 'responsible_id' => 191,
             ),
-            283 => 
-            array (
+            283 =>
+            array(
                 'admin_id' => 169,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 37,
@@ -5205,8 +5202,8 @@ Bon niveau d\'anglais conseillé',
                 'previous_id' => 397,
                 'responsible_id' => 191,
             ),
-            284 => 
-            array (
+            284 =>
+            array(
                 'admin_id' => 294,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 41,
@@ -5221,8 +5218,8 @@ Bon niveau d\'anglais conseillé',
                 'previous_id' => 398,
                 'responsible_id' => 47,
             ),
-            285 => 
-            array (
+            285 =>
+            array(
                 'admin_id' => 79,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 33,
@@ -5237,8 +5234,8 @@ Bon niveau d\'anglais conseillé',
                 'previous_id' => 399,
                 'responsible_id' => 79,
             ),
-            286 => 
-            array (
+            286 =>
+            array(
                 'admin_id' => 234,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 47,
@@ -5248,13 +5245,13 @@ Bon niveau d\'anglais conseillé',
                 'grossSalary' => 1230,
                 'id' => 441,
                 'intern_id' => NULL,
-            'internshipDescription' => 'L’Université de Lausanne dispose d’un environnement hétérogène (MacOs et Windows). Le support informatique est prodigué aux chercheurs des différents départements de la Faculté de Biologie et de Médecine. Le stage comprend du support 1er et 2ème niveau (installation, dépannage logiciel et matériel) ainsi qu’un mini projet à discuter au début du stage en fonction des différents intérêts du stagiaire.',
+                'internshipDescription' => 'L’Université de Lausanne dispose d’un environnement hétérogène (MacOs et Windows). Le support informatique est prodigué aux chercheurs des différents départements de la Faculté de Biologie et de Médecine. Le stage comprend du support 1er et 2ème niveau (installation, dépannage logiciel et matériel) ainsi qu’un mini projet à discuter au début du stage en fonction des différents intérêts du stagiaire.',
                 'parent_id' => NULL,
                 'previous_id' => 400,
                 'responsible_id' => 234,
             ),
-            287 => 
-            array (
+            287 =>
+            array(
                 'admin_id' => 323,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 42,
@@ -5269,8 +5266,8 @@ Bon niveau d\'anglais conseillé',
                 'previous_id' => 402,
                 'responsible_id' => 280,
             ),
-            288 => 
-            array (
+            288 =>
+            array(
                 'admin_id' => 286,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 98,
@@ -5293,8 +5290,8 @@ Bon niveau d\'anglais conseillé',
                 'previous_id' => 421,
                 'responsible_id' => 296,
             ),
-            289 => 
-            array (
+            289 =>
+            array(
                 'admin_id' => 186,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 39,
@@ -5326,8 +5323,8 @@ Vos avantages seront les suivants :
                 'previous_id' => 401,
                 'responsible_id' => 186,
             ),
-            290 => 
-            array (
+            290 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 38,
@@ -5337,7 +5334,7 @@ Vos avantages seront les suivants :
                 'grossSalary' => 1230,
                 'id' => 448,
                 'intern_id' => NULL,
-            'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
+                'internshipDescription' => 'Your mission within the Content & Access Security (CAS) Product Unit will be to streamline the secure device and system ordering processes through the implementation of efficient, simple and robust workflows. 
 
 This job requires autonomous and result oriented skills in a dynamic and “AGILE” work environment where initiative and innovation are encouraged 
 
@@ -5369,8 +5366,8 @@ Education and experience
                 'previous_id' => 425,
                 'responsible_id' => 285,
             ),
-            291 => 
-            array (
+            291 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 38,
@@ -5385,8 +5382,8 @@ Education and experience
                 'previous_id' => 428,
                 'responsible_id' => 81,
             ),
-            292 => 
-            array (
+            292 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 43,
@@ -5401,8 +5398,8 @@ Education and experience
                 'previous_id' => 392,
                 'responsible_id' => 44,
             ),
-            293 => 
-            array (
+            293 =>
+            array(
                 'admin_id' => 237,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 43,
@@ -5417,8 +5414,8 @@ Education and experience
                 'previous_id' => 429,
                 'responsible_id' => 44,
             ),
-            294 => 
-            array (
+            294 =>
+            array(
                 'admin_id' => 62,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 35,
@@ -5433,8 +5430,8 @@ Education and experience
                 'previous_id' => 390,
                 'responsible_id' => 62,
             ),
-            295 => 
-            array (
+            295 =>
+            array(
                 'admin_id' => 231,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 29,
@@ -5449,8 +5446,8 @@ Education and experience
                 'previous_id' => 427,
                 'responsible_id' => 224,
             ),
-            296 => 
-            array (
+            296 =>
+            array(
                 'admin_id' => 363,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 116,
@@ -5460,14 +5457,14 @@ Education and experience
                 'grossSalary' => 1230,
                 'id' => 454,
                 'intern_id' => NULL,
-            'internshipDescription' => 'Participation à l\'exploitation de l\'infrastructure UC (Unified communication) comprenant plus de 10’000 postes de téléphones IP.
+                'internshipDescription' => 'Participation à l\'exploitation de l\'infrastructure UC (Unified communication) comprenant plus de 10’000 postes de téléphones IP.
 Soutient à l’équipe de support dans les dépannages, traitement des demandes de changements et intervention sur place en cas de nécessité.',
                 'parent_id' => NULL,
                 'previous_id' => NULL,
                 'responsible_id' => 363,
             ),
-            297 => 
-            array (
+            297 =>
+            array(
                 'admin_id' => 335,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 112,
@@ -5491,8 +5488,8 @@ Il devra assister les utilisateurs , implémenter et maintenir nos serveurs phys
                 'previous_id' => 424,
                 'responsible_id' => 335,
             ),
-            298 => 
-            array (
+            298 =>
+            array(
                 'admin_id' => 164,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 38,
@@ -5509,8 +5506,8 @@ Support de deuxième niveau aux utilisateurs, installation, configuration, maint
                 'previous_id' => NULL,
                 'responsible_id' => 364,
             ),
-            299 => 
-            array (
+            299 =>
+            array(
                 'admin_id' => 330,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 110,
@@ -5520,7 +5517,7 @@ Support de deuxième niveau aux utilisateurs, installation, configuration, maint
                 'grossSalary' => 1230,
                 'id' => 460,
                 'intern_id' => NULL,
-            'internshipDescription' => 'Le Gymnase de Renens se constitue de deux sites distincts. L’un à Provence (Lausanne) et l’autre à Renens. Les deux sites accueilleront ensemble dès août 2017 plus de 2000 élèves, 170 maîtres ainsi qu’une vingtaine de collaborateurs administratifs, faisant de lui le plus grand Gymnase vaudois. 
+                'internshipDescription' => 'Le Gymnase de Renens se constitue de deux sites distincts. L’un à Provence (Lausanne) et l’autre à Renens. Les deux sites accueilleront ensemble dès août 2017 plus de 2000 élèves, 170 maîtres ainsi qu’une vingtaine de collaborateurs administratifs, faisant de lui le plus grand Gymnase vaudois. 
 Le stagiaire effectuera les tâches suivantes :
 ·        Résoudre les problèmes intervenant dans les salles de cours
 ·        Aider les utilisateurs à l’utilisation du matériel mis à disposition
@@ -5532,8 +5529,8 @@ Le stagiaire effectuera les tâches suivantes :
                 'previous_id' => 299,
                 'responsible_id' => 329,
             ),
-            300 => 
-            array (
+            300 =>
+            array(
                 'admin_id' => 178,
                 'beginDate' => '2019-02-01 00:00:00',
                 'companies_id' => 80,
@@ -5577,8 +5574,15 @@ Relations internes / externes au service :
                 'previous_id' => 319,
                 'responsible_id' => 332,
             ),
-        ));
-        
-        
+        );
+        foreach ($migrationArray as $key => $value) {
+            if(!isset($value["externalLogbook"])){
+                $migrationArray[$key]["externalLogbook"]=0;
+            }
+        }
+
+        \DB::table('internships')->delete();
+
+        \DB::table('internships')->insert($migrationArray);
     }
 }
