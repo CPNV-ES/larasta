@@ -75,9 +75,11 @@
                 <td class="col-md-2">Etat</td>
                 <td>
                     <select name="stateDescription">
+                        <option selected="selected" value="{{ $actualState->id }}">
+                            {{$actualState->stateDescription}}
+                        </option>
                         @foreach($contractStates as $state)
-                            <option value="{{ $state->id }}"
-                                    @if ($internship->contractstate_id == $state->id) selected @endif>
+                            <option value="{{ $state->id }}">
                                 {{ $state->stateDescription }}
                             </option>
                         @endforeach

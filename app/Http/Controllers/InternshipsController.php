@@ -239,9 +239,8 @@ class InternshipsController extends Controller
 
             $internship = Internship::find($internshipId);
             $medias = $internship->getMedia();
-            $actualStates = $internship->contractstate;
-            $disponibleStates = $internship->contractstate->contractStates;
-            $contractStates = $actualStates->merge($disponibleStates);
+            $actualState = $internship->contractstate;
+            $contractStates = $internship->contractstate->contractStates;
             $responsibles = DB::table('persons')
                 ->select(
                     'id',
@@ -276,7 +275,8 @@ class InternshipsController extends Controller
                 ->with('remarks', $remarks)
                 ->with('internship', $internship)
                 ->with('contractStates', $contractStates)
-                ->with('medias', $medias);
+                ->with('medias', $medias)
+                ->with('actualState', $actualState);
         } else {
             abort(404);
         }
