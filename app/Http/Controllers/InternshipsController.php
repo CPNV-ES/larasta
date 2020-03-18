@@ -238,15 +238,10 @@ class InternshipsController extends Controller
         if (env('USER_LEVEL') >= 1) {
 
             $internship = Internship::find($internshipId);
-            $contractStates = Contractstate::all();
             $medias = $internship->getMedia();
-            $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
-
-            $lcycles = [$internship->contractstate->id];
-            foreach ($lifecycles->get()->toArray() as $value) {
-                array_push($lcycles, $value->to_id);
-            }
-
+            $actualStates = $internship->contractstate;
+            $disponibleStates = $internship->contractstate->contractStates;
+            $contractStates = $actualStates->merge($disponibleStates);
             $responsibles = DB::table('persons')
                 ->select(
                     'id',
