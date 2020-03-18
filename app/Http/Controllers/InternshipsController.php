@@ -8,6 +8,7 @@ use App\Lifecycles;
 use App\Company;
 use App\Internship;
 use App\Person;
+use App\Visitsstate;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -235,56 +236,49 @@ class InternshipsController extends Controller
     public function edit($internshipId)
     {
         date_default_timezone_set('Europe/Zurich');
-        if (env('USER_LEVEL') >= 1) {
-
-            $internship = Internship::find($internshipId);
-            $contractStates = Contractstate::all();
-            $medias = $internship->getMedia();
-            $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
-
-            $lcycles = [$internship->contractstate->id];
-            foreach ($lifecycles->get()->toArray() as $value) {
-                array_push($lcycles, $value->to_id);
-            }
-
-            $responsibles = DB::table('persons')
-                ->select(
-                    'id',
-                    'firstname',
-                    'lastname')
-                ->where('role', '=', 2)
-                ->where('company_id', '=', $internship->company->id);
-
-            $visits = DB::table('visits')
-                ->select(
-                    'id',
-                    'moment',
-                    'confirmed',
-                    'number',
-                    'grade')
-                ->where('internships_id', '=', $internshipId)
-                ->get();
-
-            $remarks = DB::table('remarks')
-                ->select(
-                    'remarkDate',
-                    'author',
-                    'remarkText')
-                ->where('remarkType', '=', 5)
-                ->where('remarkOn_id', '=', $internshipId)
-                ->orderby('remarkDate', 'desc')
-                ->get();
-
-            return view('internships/internshipedit')
-                ->with('responsibles', $responsibles)
-                ->with('visits', $visits)
-                ->with('remarks', $remarks)
-                ->with('internship', $internship)
-                ->with('contractStates', $contractStates)
-                ->with('medias', $medias);
-        } else {
+        if (env('USER_LEVEL') <= 1)        
             abort(404);
+
+        $internship = Internship::find($internshipId);
+        $contractStates = Contractstate::all();
+        $medias = $internship->getMedia();
+        $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
+
+        $lcycles = [$internship->contractstate->id];
+        foreach ($lifecycles->get()->toArray() as $value) {
+            array_push($lcycles, $value->to_id);
         }
+
+        $responsibles = DB::table('persons')
+            ->select(
+                'id',
+                'firstname',
+                'lastname')
+            ->where('role', '=', 2)
+            ->where('company_id', '=', $internship->company->id);
+
+        $visits = DB::table('visits')
+            ->select(
+                'id',
+                'moment',
+                'confirmed',
+                'number',
+                'grade')
+            ->where('internships_id', '=', $internshipId)
+            ->get();
+
+        $remarks = DB::table('remarks')
+            ->select(
+                'remarkDate',
+                'author',
+                'remarkText')
+            ->where('remarkType', '=', 5)
+            ->where('remarkOn_id', '=', $internshipId)
+            ->orderby('remarkDate', 'desc')
+            ->get();
+
+        $visitsStates = Visitsstate::all(); 
+        return view('internships/internshipedit')->with(compact('responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates'));
     }
 
     /**
