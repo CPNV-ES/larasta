@@ -437,6 +437,9 @@ class InternshipsController extends Controller
         $Internshipcompany = Company::find($iid);
         $companyPersons = Person::all()->where('company_id', $iid);
         $lastInternship = Internship::where('companies_id', $iid)->orderBy('endDate', 'desc')->first();
+        if(is_null($lastInternship)){
+            $lastInternship = new Internship;
+        }
         //date variable
         $todaydate = Carbon::now();
         //actual year
