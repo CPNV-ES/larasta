@@ -132,23 +132,6 @@
                     <td>N°</td>
                     <td colspan="2">Note</td>
                 </tr>
-                <tr id="addVisit">
-                    <td colspan="5">
-                        <button class="btn btn-primary" type="button" onclick="visits();">Ajouter une visite</button>
-                        <script type="text/javascript">
-                            function visits() {
-                                var tr = document.getElementById("addVisit");
-                                tr.innerHTML = "<td><input name='visitDate' type='date' value='{{ date("Y-m-d") }}' required/><input name='visitTime' type='time' value='{{ date("H:i") }}' required/></td><td><select name='visitState'><option value='0' selected>Non-confirmé</option><option value='1'>Confirmé</option></select></td><td><input name='visitNumber' type='number' required/></td><td><input name='grade' type='number' min='1' max='6' step='0.5'/></td><td><button class='btn btn-warning' onclick='addVisits();' type='submit'>Valider la visite</button></td>";
-                            }
-                        </script>
-                    </td>
-                </tr>
-                <script type="text/javascript">
-                    function addVisits() {
-                        var form = document.getElementById("visitsForm");
-                        form.setAttribute("action", "/internships/{{$internship->id}}/addVisit");
-                    }
-                </script>
                 @foreach ($visits->toArray() as $row=>$value)
                     <tr>
                         <input name="visitID{{ $row }}" type="hidden" value="{{ $value->id }}"/>
