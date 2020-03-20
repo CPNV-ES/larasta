@@ -348,25 +348,6 @@ class InternshipsController extends Controller
         );
     }
 
-    public function addVisit($iid)
-    {
-        if (env('USER_LEVEL') >= 1) {
-            if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade'])) {
-                if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL)) {
-                    DB::table('visits')
-                        ->insertGetId(
-                            ['moment' => $_GET['visitDate'] . " " . $_GET['visitTime'] . ":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
-                }
-            }
-
-            return redirect()->action(
-                'InternshipsController@edit', ['iid' => $iid]
-            );
-        } else {
-            abort(404);
-        }
-    }
-
     public function updateVisit($iid)
     {
         if (env('USER_LEVEL') >= 1) {
