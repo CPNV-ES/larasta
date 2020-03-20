@@ -286,6 +286,7 @@ class VisitsController extends Controller
             $state = $request->input('state');
             $date = $request->upddate;
             $date .= " ".$request->updtime;
+            $note = $request->grade;
             $mail = $request->has('checkm');
 
             /*
@@ -296,6 +297,7 @@ class VisitsController extends Controller
                     'visitsstates_id' => $state,
                     'moment' => $date,
                     'mailstate' => $mail,
+                    'grade' => $note,
                 ]);
 
             /*

@@ -22,6 +22,7 @@
                 <th class="col-md-2">Entreprise</th>
                 <th class="col-md-1">Date de la visite</th>
                 <th class="col-md-1">Heure de la visite</th>
+                <th class="col-md-1">Note</th>
                 <th class="col-md-1">Date de début de stage</th>
                 <th class="col-md-1">Date de fin de stage</th>
                 <th class="col-md-1">email</th>
@@ -51,6 +52,10 @@
                     <div id="houredit" class="hidden hidea">
                         <input type="time" name="updtime" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
                     </div>
+                </td>
+                <td class="col-md-1">
+                    {{ $visit->grade }}
+                    <input type="number" name="grade" max="6" min="1" value="{{ $visit->grade }}">
                 </td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
