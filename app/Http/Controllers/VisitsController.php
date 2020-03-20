@@ -286,6 +286,7 @@ class VisitsController extends Controller
             $state = $request->input('state');
             $date = $request->upddate;
             $date .= " ".$request->updtime;
+            $note = $request->grade;
             $mail = $request->has('checkm');
 
             /*
@@ -296,6 +297,7 @@ class VisitsController extends Controller
                     'visitsstates_id' => $state,
                     'moment' => $date,
                     'mailstate' => $mail,
+                    'grade' => $note,
                 ]);
 
             /*
@@ -303,17 +305,6 @@ class VisitsController extends Controller
              * */
             $date = date('d M Y', strtotime($request->upddate));
             $hour = date('H:i:s', strtotime($request->updtime));
-
-            /*
-             * Insert new remark row as a log in Remark.
-             * */
-            Remark::insert([
-                'remarkType' => 4,
-                'remarkOn_id' => $id,
-                'remarkDate' => date('Y-m-d H:i:s'),
-                'author' => Environment::currentUser()->getInitials(),
-                'remarkText' => "Date fixée: ".$date." à ".$hour
-            ]);
 
             /*
              * Finally it redirects user to his/her list.
@@ -326,6 +317,15 @@ class VisitsController extends Controller
         {
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
+    }
+
+    public function addRemarks(Request $request)
+    {
+        $type = 4; // Type 4 = visit remark
+        $on = $request->id;
+        $text = $request->remark;
+        RemarksController::addRemark($type, $on, $text);
+        return back();
     }
 
     public function storeFile(StoreFileRequest $request, $id)

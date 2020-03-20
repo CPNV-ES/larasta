@@ -22,6 +22,7 @@
                 <th class="col-md-2">Entreprise</th>
                 <th class="col-md-1">Date de la visite</th>
                 <th class="col-md-1">Heure de la visite</th>
+                <th class="col-md-1">Note</th>
                 <th class="col-md-1">Date de début de stage</th>
                 <th class="col-md-1">Date de fin de stage</th>
                 <th class="col-md-1">email</th>
@@ -51,6 +52,10 @@
                     <div id="houredit" class="hidden hidea">
                         <input type="time" name="updtime" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
                     </div>
+                </td>
+                <td class="col-md-1">
+                    {{ $visit->grade }}
+                    <input type="number" name="grade" max="6" min="1" value="{{ $visit->grade }}">
                 </td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
@@ -135,11 +140,12 @@
         </table>
         @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
         @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
-            <form method="post" action="/remarks/add" class="col-md-12 text-left">
+            <form method="post" action="/visits/remarks" class="col-md-12 text-left">
                 {{ csrf_field() }}
                 <fieldset>
                     <legend>Ajouter une remarque</legend>
-                    <textarea type="text" name="newremtext"></textarea>
+                    <textarea type="text" name="remark"></textarea>
+                    <input type="hidden" name="id" value="{{$visit->id}}"/>
                     <input type="submit" value="Ok"/>
                 </fieldset>
             </form>
