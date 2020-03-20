@@ -122,12 +122,13 @@
     @if (isset($visits))
         <hr/>
         <form id="visitsForm" action="/internships/{{$internship->id}}/updateVisit" method="get">
-            <table class="table text-left larastable">
+            <table class="table larastable">
                 <tr>
-                    <th colspan="5">Visites</th>
+                    <th colspan="6">Visites</th>
                 </tr>
                 <tr>
                     <td>Date et heure</td>
+                    <td>Mail envoyé ?</td>
                     <td>Etat</td>
                     <td>N°</td>
                     <td colspan="2">Note</td>
@@ -140,6 +141,9 @@
                                    value="{{ strftime("%G-%m-%d", strtotime($value->moment)) }}" required/>
                             <input name="visitTime{{ $row }}" type="time"
                                    value="{{ strftime("%H:%M", strtotime($value->moment)) }}" required/>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="mailstate" {{ $value->mailstate ? "checked" : "" }}/>
                         </td>
                         <td>
                             <select name='visitState{{ $row }}'>
