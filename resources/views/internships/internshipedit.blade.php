@@ -125,7 +125,7 @@
         <hr/>
         <h1>Visite(s)</h1>
         <div class="col-12">
-            <form id="visitsForm" action="/internships/{{$internship->id}}/updateVisit" method="get">
+        <form id="visitsForm" action="{{ route('visit.updateVisits', ['id' => $internship]) }}" method="get">
                 <table class="table larastable">
                     <thead>
                         <th>N° visite</th>

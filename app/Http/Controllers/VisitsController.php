@@ -355,4 +355,32 @@ class VisitsController extends Controller
 
         return redirect()->back();
     }
+    
+    public function updateVisits($id, Request $request)
+    {
+        if (env('USER_LEVEL') < 2) 
+            abort(404);
+
+        $numberOfLoops = count($request->visitsstates_id);
+        for( $index = 0; $index < $numberOfLoops; $index++) {
+            $visit = Visit::findOrFail($request->id[$index]);
+
+            !empty($request->confirmed[$index]) ? $confirmed = true : $confirmed = false;
+            !empty($request->mailstate[$index]) ? $mailstate = true : $mailstate = false;
+            $day = $request->day[$index];
+            $hour = $request->hour[$index];
+
+            $visit->moment = date('Y-m-d H:i:s', strtotime("$day $hour"));
+            $visit->grade = $request->grade[$index];
+            $visit->number = $request->number[$index];
+            $visit->visitsstates_id = $request->visitsstates_id[$index];
+            $visit->confirmed = $confirmed;
+            $visit->mailstate = $mailstate;
+            $visit->internships_id = $id;   
+
+            $visit->save();
+        }
+
+        return redirect()->back();
+    }
 }
