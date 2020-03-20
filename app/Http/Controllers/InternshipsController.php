@@ -8,6 +8,7 @@ use App\Lifecycles;
 use App\Company;
 use App\Internship;
 use App\Person;
+use App\Visit;
 use App\Visitsstate;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
@@ -343,39 +344,32 @@ class InternshipsController extends Controller
         );
     }
 
-    public function updateVisit($iid)
+    public function updateVisit($id, Request $request)
     {
         if (env('USER_LEVEL') < 2) 
             abort(404);
-                
-        for ($i = 0; ; $i++) {
-            if (isset($_GET['visitID' . $i])) {
-                if (($_GET['visitDate' . $i] != NULL) && ($_GET['visitTime' . $i] != NULL) && ($_GET['visitState' . $i] != NULL) && ($_GET['visitNumber' . $i] != NULL)) {
-                    DB::table('visits')
-                        ->where("id", "=", $_GET['visitID' . $i])
-                        ->update(
-                            ['moment' => $_GET['visitDate' . $i] . " " . $_GET['visitTime' . $i] . ":00",
-                                'confirmed' => $_GET['visitState' . $i],
-                                'number' => $_GET['visitNumber' . $i],
-                                'internships_id' => $iid,
-                                'grade' => $_GET['grade' . $i] ? $_GET['grade' . $i] : NULL]);
-                }
-            } else {
-                break;
-            }
+
+        $numberOfLoops = count($request->visitsstates_id);
+        for( $index = 0; $index < $numberOfLoops; $index++) {
+            $visit = Visit::findOrFail($request->id[$index]);
+
+            !empty($request->confirmed[$index]) ? $confirmed = true : $confirmed = false;
+            !empty($request->mailstate[$index]) ? $mailstate = true : $mailstate = false;
+            $day = $request->day[$index];
+            $hour = $request->hour[$index];
+
+            $visit->moment = date('Y-m-d H:i:s', strtotime("$day $hour"));
+            $visit->grade = $request->grade[$index];
+            $visit->number = $request->number[$index];
+            $visit->visitsstates_id = $request->visitsstates_id[$index];
+            $visit->confirmed = $confirmed;
+            $visit->mailstate = $mailstate;
+            $visit->internships_id = $id;   
+
+            $visit->save();
         }
 
-        if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade'])) {
-            if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL)) {
-                DB::table('visits')
-                    ->insertGetId(
-                        ['moment' => $_GET['visitDate'] . " " . $_GET['visitTime'] . ":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
-            }
-        }
-
-        return redirect()->action(
-            'InternshipsController@view', ['iid' => $iid]
-        );
+        return redirect()->back();
     }
 
     /**
