@@ -14,6 +14,7 @@ namespace App\Http\Controllers;
 // Requests
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFileRequest;
+use App\Http\Requests\VisitRequest;
 
 //Models
 use App\Visit;
@@ -337,5 +338,21 @@ class VisitsController extends Controller
     {
         $visit = Visit::find($id);
         $visit->getMedia()->find($idMedia)->delete();
+    }
+    
+    public function store($id,VisitRequest $request)
+    {
+        $visit = new Visit;
+        $request->confirmed ? $confirmed = true : $confirmed = false;
+        $request->mailstate ? $mailstate = true : $mailstate = false;
+        $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
+
+        $visit->fill($request->all());
+        $visit->confirmed = $confirmed;
+        $visit->mailstate = $mailstate;
+        $visit->internships_id = $id;    
+        $visit->save();
+
+        return redirect()->back();
     }
 }
