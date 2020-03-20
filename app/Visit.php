@@ -16,6 +16,12 @@ class Visit extends Model implements HasMedia
      */
     protected $dates = ['moment'];
 
+    protected $fillable = [
+        'moment',
+        'number',
+        'grade',
+        'visitsstates_id',
+    ];
     /**
      * Relation with the Evaluation model
      */
