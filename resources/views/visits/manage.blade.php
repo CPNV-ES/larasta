@@ -140,11 +140,12 @@
         </table>
         @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
         @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
-            <form method="post" action="/remarks/add" class="col-md-12 text-left">
+            <form method="post" action="/visits/remarks" class="col-md-12 text-left">
                 {{ csrf_field() }}
                 <fieldset>
                     <legend>Ajouter une remarque</legend>
-                    <textarea type="text" name="newremtext"></textarea>
+                    <textarea type="text" name="remark"></textarea>
+                    <input type="hidden" name="id" value="{{$visit->id}}"/>
                     <input type="submit" value="Ok"/>
                 </fieldset>
             </form>

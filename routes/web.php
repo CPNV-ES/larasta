@@ -92,6 +92,7 @@ Route::get('/visits','VisitsController@index');
 Route::post('/visits','VisitsController@filter');
 Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
 Route::post('/visits/create','VisitsController@create');
+Route::post('/visits/remarks','VisitsController@addRemarks');
 Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
