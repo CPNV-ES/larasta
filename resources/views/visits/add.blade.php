@@ -1,5 +1,5 @@
 
-<h1>Créer une nouvelle visite</h1>
+<h1>Nouvelle visite</h1>
 @if($errors->any())
     @foreach ($errors->all() as $error)
         {{ $error }}
