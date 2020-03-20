@@ -125,7 +125,7 @@
         <hr/>
         <h1>Visite(s)</h1>
         <div class="col-12">
-            <form id="visitsForm" action="/internships/{{$internship->id}}/updateVisit" method="get">
+        <form id="visitsForm" action="{{ route('visit.updateVisits', ['id' => $internship]) }}" method="get">
                 <table class="table larastable">
                     <thead>
                         <th>N° visite</th>
@@ -137,16 +137,17 @@
                         <th>État de la visite</th>
                     </thead>
                     <tbody>
-                        @foreach ($visits as $visit)
+                        @foreach ($visits as $key => $visit)
                             <tr>
-                                <td><input type="number" min="1" name="number" value="{{$visit->number}}" required/></td>
-                                <td><input type="date" name="day" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
-                                <td><input type="time" name="hour" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
-                                <td><input type="checkbox" name="mailstate" {{ $visit->mailstate ? "checked" : "" }}/></td>
-                                <td><input type="checkbox" name="confirmed" {{ $visit->confirmed ? "checked" : "" }}/></td>
-                                <td><input type="number" min="1" max="6" step="0.5" name="grade" value="{{ $visit->grade }}" required/></td>
+                                <input type="hidden" name="id[{{ $key }}]" value="{{$visit->id}}"/>
+                                <td><input type="number" min="1" name="number[{{ $key }}]" value="{{$visit->number}}" required/></td>
+                                <td><input type="date" name="day[{{ $key }}]" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
+                                <td><input type="time" name="hour[{{ $key }}]" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
+                                <td><input type="checkbox" name="mailstate[{{ $key }}]" {{ $visit->mailstate ? "checked" : "" }}/></td>
+                                <td><input type="checkbox" name="confirmed[{{ $key }}]" {{ $visit->confirmed ? "checked" : "" }}/></td>
+                                <td><input type="number" min="1" max="6" step="0.5" name="grade[{{ $key }}]" value="{{ $visit->grade }}" required/></td>
                                 <td>
-                                    <select name="visitsstates_id" required>
+                                    <select name="visitsstates_id[{{ $key }}]" required>
                                         @foreach ($visitsStates as $visitstate)
                                             <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
                                         @endforeach

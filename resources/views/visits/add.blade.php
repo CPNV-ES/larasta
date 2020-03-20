@@ -6,7 +6,7 @@
     @endforeach
 @endif
 <div class="col-12">
-    <form method="post" action="{{ route( 'visite.create' , [ 'id' => $internship ]) }}">
+    <form method="post" action="{{ route( 'visit.create' , [ 'id' => $internship ]) }}">
         {{ csrf_field() }}
         <table class="table text-center larastable">
             <thead>

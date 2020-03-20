@@ -273,7 +273,7 @@ class InternshipsController extends Controller
             ->get();
 
         $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates'));
+        return view('internships/internshipedit')->with(compact('actualState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates'));
     }
 
     /**
@@ -340,41 +340,6 @@ class InternshipsController extends Controller
         }
         return redirect()->action(
             'InternshipsController@edit', ['iid' => $request->id]
-        );
-    }
-
-    public function updateVisit($iid)
-    {
-        if (env('USER_LEVEL') < 2) 
-            abort(404);
-                
-        for ($i = 0; ; $i++) {
-            if (isset($_GET['visitID' . $i])) {
-                if (($_GET['visitDate' . $i] != NULL) && ($_GET['visitTime' . $i] != NULL) && ($_GET['visitState' . $i] != NULL) && ($_GET['visitNumber' . $i] != NULL)) {
-                    DB::table('visits')
-                        ->where("id", "=", $_GET['visitID' . $i])
-                        ->update(
-                            ['moment' => $_GET['visitDate' . $i] . " " . $_GET['visitTime' . $i] . ":00",
-                                'confirmed' => $_GET['visitState' . $i],
-                                'number' => $_GET['visitNumber' . $i],
-                                'internships_id' => $iid,
-                                'grade' => $_GET['grade' . $i] ? $_GET['grade' . $i] : NULL]);
-                }
-            } else {
-                break;
-            }
-        }
-
-        if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade'])) {
-            if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL)) {
-                DB::table('visits')
-                    ->insertGetId(
-                        ['moment' => $_GET['visitDate'] . " " . $_GET['visitTime'] . ":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
-            }
-        }
-
-        return redirect()->action(
-            'InternshipsController@view', ['iid' => $iid]
         );
     }
 
