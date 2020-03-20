@@ -33,8 +33,8 @@
                     <th class="col-3">Nom</th>
                     <th class="col-2">Prénom</th>
                     <th class="col-2">Entreprise</th>
-                    <th class="col-1">Date de début</th>
-                    <th class="col-1">Date de fin</th>
+                    <th class="col-1">Date</th>
+                    <th class="col-1">Heure</th>
                     <th class="col-1">Etat de la visite</th>
                     <th class="col-1">Email</th>
                     <th class="col-1">Note</th>
@@ -46,8 +46,8 @@
                         <td class="col-3">{{ $visit->internship->student->firstname }}</td>
                         <td class="col-2">{{ $visit->internship->student->lastname }}</td>
                         <td class="col-2">{!! $visit->internship->company->companyName !!}</td>
-                        <td class="col-1 text-center">{{ (new DateTime($visit->internship->beginDate))->format('d M Y') }}</td>
-                        <td class="col-1 text-center">{{ (new DateTime($visit->internship->endDate))->format('d M Y') }}</td>
+                        <td class="col-1 text-center">{{ (new DateTime($visit->moment))->format('d M Y') }}</td>
+                        <td class="col-1 text-center">{{ (new DateTime($visit->moment))->format('H:i:s') }}</td>
                         <td class="col-1">{{ $visit->visitsstate->stateName }}</td>
                         <td class="col-1 text-center">
                             @if($visit->mailstate == 1)
@@ -80,8 +80,8 @@
                         <th class="col-3">Nom</th>
                         <th class="col-2">Prénom</th>
                         <th class="col-2">Entreprise</th>
-                        <th class="col-1">Date de début</th>
-                        <th class="col-1">Date de fin</th>
+                        <th class="col-1">Date</th>
+                        <th class="col-1">Heure</th>
                         <th class="col-1">Etat de la visite</th>
                         <th class="col-1">Email</th>
                         <th class="col-1">Note</th>
@@ -93,8 +93,8 @@
                             <td class="col-3">{{ $visit->internship->student->firstname }}</td>
                             <td class="col-2">{{ $visit->internship->student->lastname }}</td>
                             <td class="col-2">{!! $visit->internship->company->companyName !!}</td>
-                            <td class="col-1 text-center">{{ (new DateTime($visit->internship->beginDate))->format('d M Y') }}</td>
-                            <td class="col-1 text-center">{{ (new DateTime($visit->internship->endDate))->format('d M Y') }}</td>
+                            <td class="col-1 text-center">{{ (new DateTime($visit->moment))->format('d M Y') }}</td>
+                            <td class="col-1 text-center">{{ (new DateTime($visit->moment))->format('H:i:s') }}</td>
                             <td class="col-1">{{ $visit->visitsstate->stateName }}</td>
                             <td class="col-1 text-center">
                                 @if($visit->mailstate == 1)
