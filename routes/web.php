@@ -24,7 +24,7 @@ Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editIn
 
 Route::get('/internships/{iid}/update','InternshipsController@update')->name("updateInternships");
 
-Route::post('/internships/{iid}/addVisit','InternshipsController@addVisit')->name('InternshipsAddVisit');
+Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visite.create');
 
 Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit');
 
