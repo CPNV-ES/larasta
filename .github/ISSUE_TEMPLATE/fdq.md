@@ -1,6 +1,6 @@
 ---
-name: Custom issue template
-about: " "
+name: FDQ
+about: " Feuille de Quête"
 title: ''
 labels: ''
 assignees: ''
