@@ -137,3 +137,7 @@ Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
 //Mailling
 Route::get('/mailing','MailingController@mailling');
 
+//GitHub
+Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
+
