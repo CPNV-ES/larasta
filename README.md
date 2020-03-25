@@ -2,6 +2,18 @@
 
 "Stage" application with laravel.
 
+## Requirement
+* composer
+* npm
+* PHP 7.4 or later
+* On php.ini you must have to enable the following modules :
+  * curl
+  * fileinfo
+  * gd2
+  * mbstring
+  * exif
+  * pdo_mysql
+
 ## Set up development
 
 ### 1. Clone the repository
@@ -32,7 +44,7 @@ Go to your project folder and run the installation of laravel dependencies.
 cd /path/to/your/local/clone/of/larasta
 
 # install composer dependencies
-composer install
+composer i
 
 # install the npm dependencies
 npm i
