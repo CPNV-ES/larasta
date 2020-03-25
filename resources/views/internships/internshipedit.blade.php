@@ -116,67 +116,50 @@
     
     <hr/>
     @if (env('USER_LEVEL') > 1)
-        @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship->id])])
+        @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
-    @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id , "medias" => $medias])
+    @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
+    @include('visits.add',compact('internship','visitsStates'))
     {{-- Visits --}}
     @if (isset($visits))
         <hr/>
-        <form id="visitsForm" action="/internships/{{$internship->id}}/updateVisit" method="get">
-            <table class="table text-left larastable">
-                <tr>
-                    <th colspan="5">Visites</th>
-                </tr>
-                <tr>
-                    <td>Date et heure</td>
-                    <td>Etat</td>
-                    <td>N°</td>
-                    <td colspan="2">Note</td>
-                </tr>
-                <tr id="addVisit">
-                    <td colspan="5">
-                        <button class="btn btn-primary" type="button" onclick="visits();">Ajouter une visite</button>
-                        <script type="text/javascript">
-                            function visits() {
-                                var tr = document.getElementById("addVisit");
-                                tr.innerHTML = "<td><input name='visitDate' type='date' value='{{ date("Y-m-d") }}' required/><input name='visitTime' type='time' value='{{ date("H:i") }}' required/></td><td><select name='visitState'><option value='0' selected>Non-confirmé</option><option value='1'>Confirmé</option></select></td><td><input name='visitNumber' type='number' required/></td><td><input name='grade' type='number' min='1' max='6' step='0.5'/></td><td><button class='btn btn-warning' onclick='addVisits();' type='submit'>Valider la visite</button></td>";
-                            }
-                        </script>
-                    </td>
-                </tr>
-                <script type="text/javascript">
-                    function addVisits() {
-                        var form = document.getElementById("visitsForm");
-                        form.setAttribute("action", "/internships/{{$internship->id}}/addVisit");
-                    }
-                </script>
-                @foreach ($visits->toArray() as $row=>$value)
-                    <tr>
-                        <input name="visitID{{ $row }}" type="hidden" value="{{ $value->id }}"/>
-                        <td>
-                            <input name="visitDate{{ $row }}" type="date"
-                                   value="{{ strftime("%G-%m-%d", strtotime($value->moment)) }}" required/>
-                            <input name="visitTime{{ $row }}" type="time"
-                                   value="{{ strftime("%H:%M", strtotime($value->moment)) }}" required/>
-                        </td>
-                        <td>
-                            <select name='visitState{{ $row }}'>
-                                <option value='0' {{ $value->confirmed == 0 ? "selected" : "" }}>Non-confirmé</option>
-                                <option value='1' {{ $value->confirmed == 1 ? "selected" : "" }}>Confirmé</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input name='visitNumber{{ $row }}' type='number' value="{{ $value->number }}" required/>
-                        </td>
-                        <td colspan="2">
-                            <input name='grade{{ $row }}' type='number' min='1' max='6' step='0.5'
-                                   value="{{ $value->grade }}"/>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-            <button class="btn btn-warning" type="submit">Valider toutes les visites</button>
-        </form>
+        <h1>Visite(s)</h1>
+        <div class="col-12">
+        <form id="visitsForm" action="{{ route('visit.updateVisits', ['id' => $internship]) }}" method="get">
+                <table class="table larastable">
+                    <thead>
+                        <th>N° visite</th>
+                        <th>Jour</th>
+                        <th>Heure</th>
+                        <th>Mail envoyé?</th>
+                        <th>Confirmé?</th>
+                        <th>Note</th>
+                        <th>État de la visite</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($visits as $key => $visit)
+                            <tr>
+                                <input type="hidden" name="id[{{ $key }}]" value="{{$visit->id}}"/>
+                                <td><input type="number" min="1" name="number[{{ $key }}]" value="{{$visit->number}}" required/></td>
+                                <td><input type="date" name="day[{{ $key }}]" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
+                                <td><input type="time" name="hour[{{ $key }}]" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
+                                <td><input type="checkbox" name="mailstate[{{ $key }}]" {{ $visit->mailstate ? "checked" : "" }}/></td>
+                                <td><input type="checkbox" name="confirmed[{{ $key }}]" {{ $visit->confirmed ? "checked" : "" }}/></td>
+                                <td><input type="number" min="1" max="6" step="0.5" name="grade[{{ $key }}]" value="{{ $visit->grade }}" required/></td>
+                                <td>
+                                    <select name="visitsstates_id[{{ $key }}]" required>
+                                        @foreach ($visitsStates as $visitstate)
+                                            <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <button class="btn btn-warning" type="submit">Valider toutes les visites</button>
+            </form>
+        </div>
     @endif
 
     {{-- Remarks --}}

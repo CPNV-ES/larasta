@@ -14,6 +14,7 @@ namespace App\Http\Controllers;
 // Requests
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFileRequest;
+use App\Http\Requests\VisitRequest;
 
 //Models
 use App\Visit;
@@ -337,5 +338,49 @@ class VisitsController extends Controller
     {
         $visit = Visit::find($id);
         $visit->getMedia()->find($idMedia)->delete();
+    }
+    
+    public function store($id,VisitRequest $request)
+    {
+        $visit = new Visit;
+        $request->confirmed ? $confirmed = true : $confirmed = false;
+        $request->mailstate ? $mailstate = true : $mailstate = false;
+        $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
+
+        $visit->fill($request->all());
+        $visit->confirmed = $confirmed;
+        $visit->mailstate = $mailstate;
+        $visit->internships_id = $id;    
+        $visit->save();
+
+        return redirect()->back();
+    }
+    
+    public function updateVisits($id, Request $request)
+    {
+        if (env('USER_LEVEL') < 2) 
+            abort(404);
+
+        $numberOfLoops = count($request->visitsstates_id);
+        for( $index = 0; $index < $numberOfLoops; $index++) {
+            $visit = Visit::findOrFail($request->id[$index]);
+
+            !empty($request->confirmed[$index]) ? $confirmed = true : $confirmed = false;
+            !empty($request->mailstate[$index]) ? $mailstate = true : $mailstate = false;
+            $day = $request->day[$index];
+            $hour = $request->hour[$index];
+
+            $visit->moment = date('Y-m-d H:i:s', strtotime("$day $hour"));
+            $visit->grade = $request->grade[$index];
+            $visit->number = $request->number[$index];
+            $visit->visitsstates_id = $request->visitsstates_id[$index];
+            $visit->confirmed = $confirmed;
+            $visit->mailstate = $mailstate;
+            $visit->internships_id = $id;   
+
+            $visit->save();
+        }
+
+        return redirect()->back();
     }
 }
