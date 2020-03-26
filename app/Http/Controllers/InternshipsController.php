@@ -209,7 +209,7 @@ class InternshipsController extends Controller
         date_default_timezone_set('Europe/Zurich');
 
         $internship = Internship::find($internshipId);
-        $medias = $internship->getMedia();
+        $medias = $internship->getMedia('documents');
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -241,7 +241,7 @@ class InternshipsController extends Controller
 
         $internship = Internship::find($internshipId);
         $contractStates = Contractstate::all();
-        $medias = $internship->getMedia();
+        $medias = $internship->getMedia('documents');
         $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
         $actualState = $internship->contractstate;
 
@@ -442,11 +442,19 @@ class InternshipsController extends Controller
         $newInternship->save();
         return redirect('entreprise/' . $iid . '')->with('message', 'Creation Réussie');
     }
-
-    public function storeFile(StoreFileRequest $request, $id)
+    public function storeLogbookFile(StoreFileRequest $request, $internshipId){
+        $internship = Internship::findOrFail($internshipId);
+        $oldMedia = $internship->getMedia('externalLogbook')->first();
+        $internship->addMediaFromRequest('file')->toMediaCollection('externalLogbook');
+        if($oldMedia){
+            $oldMedia->delete();
+        }
+        return back();
+    }
+    public function storeFile(StoreFileRequest $request, $id, $collection = 'documents')
     {
         $internship = Internship::findOrFail($id);
-        $internship->addMediaFromRequest('file')->toMediaCollection();
+        $internship->addMediaFromRequest('file')->toMediaCollection($collection);
     }
     public function deleteFile($id,$idMedia)
     {

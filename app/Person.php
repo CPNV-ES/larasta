@@ -14,7 +14,8 @@ class Person extends Model
 
     public $timestamps = false;
 
-    protected $table = 'persons';
+    protected $table = 'persons'; //TODO: Bravo, vraiment, très utile. "People" en anglais au cas ou.
+
     protected $fillable = [
         'firstname',
         'lastname',

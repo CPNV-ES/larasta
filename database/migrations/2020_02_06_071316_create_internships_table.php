@@ -26,8 +26,8 @@ class CreateInternshipsTable extends Migration {
 			$table->integer('parent_id')->nullable()->index('FKParent')->comment('The internship this one is based on');
 			$table->text('internshipDescription')->nullable();
 			$table->integer('grossSalary')->nullable()->default(1230)->comment('Dès 2017, tarifs « état de Vaud »:\n1er stage 1230.- , 2ème stage 1625.-');
-			$table->dateTime('contractGenerated')->default('0000-01-01 00:00:00')->comment('Indicates that the contract has been generated and accepted by the user
-');
+			$table->dateTime('contractGenerated')->default('0000-01-01 00:00:00')->comment('Indicates that the contract has been generated and accepted by the user');
+			$table->boolean('externalLogbook')->default(false)->comment('Indicates if the logbook is external or internal');
 		});
 	}
 

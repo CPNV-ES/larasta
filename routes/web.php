@@ -112,6 +112,7 @@ Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 // Logbook
 Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
 Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
+Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
