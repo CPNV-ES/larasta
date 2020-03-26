@@ -1,10 +1,10 @@
 @extends ('layout')
 
-@section('page_specific_css')
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/logbook.css">
-@endsection
+@endpush
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/logbook.js"></script>
     
     <!--vars passed at page load-->
@@ -15,13 +15,13 @@
         var COMPLIANCE_LEVELS = COMPLIANCE_CONDITIONS.levels;
         //var routes = {} //couldn't manage to use dynamic routes without added dev
     </script>
-@endsection
+@endpush
 
-@section('sidemenu')
+@push('sidemenu')
     @include("logbook/_sideMenuInfos", ["modeBtnAction" => "review", "internshipId" => $internship->id])
-@endsection
+@endpush
 
-@section ('content')
+@section('content')
     <h1>Stage de {{$student->full_name}}</h1>
     <h2>{{$internship->company->companyName}}</h2>
     <div class="logbookContainer">
