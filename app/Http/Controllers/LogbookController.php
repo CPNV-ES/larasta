@@ -15,13 +15,15 @@ class LogbookController extends Controller
 {
     public function index($internshipId)
     {
-        $internship = Internship::fromId($internshipId);
-        if(!$internship){
-            abort(404, "internship not found");
-        }
+        $internship = Internship::findOrFail($internshipId);
         $student = Person::fromId($internship->intern_id);
         if($internship->externalLogbook){
-            return view('logbook/external')->with(compact("internship", "student"));
+            $logbookFileUrl = false;
+            $media = $internship->getMedia('externalLogbook')->first();
+            if($media){
+                $logbookFileUrl = $media->getUrl();
+            }
+            return view('logbook/external')->with(compact("internship", "student", "logbookFileUrl"));
         }
         $activityTypes = Activitytype::get();
         $complianceConditions = json_encode([

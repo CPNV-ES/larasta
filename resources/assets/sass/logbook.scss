@@ -26,7 +26,7 @@ $calendarHeight: 600px;
 .colorNotEnoughHours {
   color: $notEnoughHoursColor;
 }
-.bgNotEnoughActivities{
+.bgNotEnoughActivities {
   background-color: $notEnoughActivitiesColor;
 }
 .colorNotEnoughActivities {
@@ -173,7 +173,7 @@ $calendarHeight: 600px;
     &:active {
       scale: 0.8;
     }
-    &:disabled{
+    &:disabled {
       scale: 1;
       opacity: 0.4;
       color: black;
@@ -352,8 +352,8 @@ $calendarHeight: 600px;
     line-height: 20px;
     padding: 0;
     height: 20px;
-}
-  p{    
+  }
+  p {
     display: inline-block;
     width: 100px;
     line-height: 20px;
@@ -549,4 +549,42 @@ $calendarHeight: 600px;
 }
 .activityWindowSubmit {
   right: 20px;
+}
+
+/*external logbook*/
+#externalLogbookPreview {
+  width: 100%;
+  min-height: calc(100vh - 200px);
+  height: 500px;
+}
+$dropzoneHeight: 100px;
+#fileDropzone {
+  border: 3px solid #666;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  width: 100%;
+  max-width: 300px;
+  height: $dropzoneHeight;
+  display: inline-block;
+  position: relative;
+  background-color: #ccc;
+  border-style: dashed;
+  overflow: hidden;
+}
+#dropzoneFileName{
+  line-height: $dropzoneHeight - 10px;
+}
+#fileDropzone.dragOver{
+  border-color: green;
+  background-color: lightgreen;
+}
+#fileInput {
+  position: absolute;
+  right: -100%;
+  top: 0;
+  width: 200%;
+  height: 100%;
+  text-align: right;
 }
