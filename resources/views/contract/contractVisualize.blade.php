@@ -13,7 +13,7 @@
 
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/tinymce/tinymce.js"></script>
     <script>
         tinymce.init({
@@ -21,4 +21,4 @@
             height: "600"
         });
     </script>
-@stop
+@endpush

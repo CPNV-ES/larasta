@@ -1,7 +1,7 @@
 @extends ('layout')
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" href="/css/interships.css">
-@stop
+@endpush
 @section ('content')
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -63,7 +63,7 @@
 </div>
 <div>
 @stop
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/remark.js"></script>
     <script src="/js/visit.js"></script>
-@stop
+@endpush

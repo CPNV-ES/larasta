@@ -124,16 +124,13 @@
                 <h3>Stages</h3>
                 <div class="table-responsive">
                     @include ('internships.internshipslist',['iships' => $iships]) <br />
-                    <a href="/newinternship/{{ $company[0]->id }}"><button type="button" class="">Créer un nouveau stage</button></a>
+                    <br>
+                    @foreach ($company as $companies)
+                        <a href="/internships/{{$companies->id}}/new" class="underline-none">
+                            <button type="button" class="btn-success small text-white">Créer une stage</button>
+                        </a>
+                    @endforeach
                 </div>
-            </div>
-            <div class="col-lg-8 col-lg-offset-2 ">
-            <br>
-            @foreach ($company as $companies)
-                <a href="/internships/{{$companies->id}}/new" class="underline-none">
-                    <button type="button" class="btn-success small text-white">Créer une stage</button>
-                </a>
-            @endforeach
             </div>
         </div>
         <div class="row content-box">
@@ -263,7 +260,7 @@
 </div>
 
 @stop
-@section('page_specific_js')
+@push('page_specific_js')
     <script src="/js/entreprise.js"></script>
-@stop
+@endpush
 

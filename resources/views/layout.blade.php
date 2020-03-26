@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="/css/minimal.css">
     <!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
     <script src="/js/utils.js"></script>
+    <link rel="stylesheet" href="/css/dropzone.min.css">
     <script src="/js/ckeditor.js"></script>
+    <script src="/js/dropzone.min.js"></script>
 
-    @yield('page_specific_css')
+    @stack('page_specific_css')
 </head>
 <body class="{{(isset($_COOKIE['sidemenu_state']) && $_COOKIE['sidemenu_state'] == 'open')?'sidemenu-open':''}}">
     @if (!empty($message))
@@ -70,10 +72,10 @@
     <div id="windowsContainer">
         @yield ('windows')
     </div>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/jquery.dataTables.js"></script>
+    <script src="/js/appjs.js"></script>
+    @stack('page_specific_js')
 </body>
-<script src="/js/jquery.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script src="/js/jquery.dataTables.js"></script>
-<script src="/js/appjs.js"></script>
-@yield('page_specific_js')
 </html>

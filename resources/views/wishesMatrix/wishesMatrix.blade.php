@@ -1,7 +1,7 @@
 @extends ('layout')
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" href="/css/wishesMatrix.css"/>
-@stop
+@endpush
 @section ('content')
     <!-- Display messages if the user doesn't have the correct rights -->
     <div class="alert-info hidden"></div>
@@ -158,6 +158,6 @@
 
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/wishesMatrix.js"></script>
-@stop
+@endpush

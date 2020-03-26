@@ -1,13 +1,13 @@
 @extends ('layout')
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" href="/css/visits.css">
-@stop
+@endpush
 @section ('content')
     {{-- Link to intern's profile--}}
     <h3 class="test">
         <a href="/visits/" class="btn btn-success"><span class="arrow">&lt;</span></a> Visite de stage n°{{$visit->id}} de <a href="#">{{$visit->internship->student->lastname}}, {{$visit->internship->student->firstname}}</a></h3>
     <br>
-    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
+    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left ">
         {{ csrf_field() }}
         @foreach($mails as $mail)
         <input type="hidden" name="email" value="{{$mail->value}}">
@@ -15,13 +15,14 @@
         <input type="hidden" name="visit" value="{{$visit->id}}">
         <input type="hidden" name="firstn" value="{{$visit->internship->responsible->firstname}}">
         <input type="hidden" name="lastn" value="{{$visit->internship->responsible->lastname}}">
-        <table class="larastable table table-bordered col-md-10">
+        <table class="larastable table table-bordered col-md-12">
             <tr>
                 <th class="col-md-1">Prénom de l'élève</th>
                 <th class="col-md-1">Nom de l'élève</th>
                 <th class="col-md-2">Entreprise</th>
                 <th class="col-md-1">Date de la visite</th>
                 <th class="col-md-1">Heure de la visite</th>
+                <th class="col-md-1">Note</th>
                 <th class="col-md-1">Date de début de stage</th>
                 <th class="col-md-1">Date de fin de stage</th>
                 <th class="col-md-1">email</th>
@@ -52,6 +53,10 @@
                         <input type="time" name="updtime" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
                     </div>
                 </td>
+                <td class="col-md-1">
+                    {{ $visit->grade }}
+                    <input type="number" name="grade" max="6" min="1" value="{{ $visit->grade }}">
+                </td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">
@@ -80,7 +85,7 @@
         <div>
             <p id="info" class="hidden hidea"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>
             <button id="up" class="btn-info hidden hidea" type="submit">Enregistrer</button>
-            <a id="cancel_a" class="btn-info hidden hidea">Annuler</a>
+            <button id="cancel_a" type="button" class="btn-info hidden hidea">Annuler</button>
         </div>
     </form>
 
@@ -133,11 +138,14 @@
                 </td>
             </tr>
         </table>
-            <form method="post" action="/remarks/add" class="col-md-12 text-left">
+        @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
+        @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
+            <form method="post" action="/visits/remarks" class="col-md-12 text-left">
                 {{ csrf_field() }}
                 <fieldset>
                     <legend>Ajouter une remarque</legend>
-                    <textarea type="text" name="newremtext"></textarea>
+                    <textarea type="text" name="remark"></textarea>
+                    <input type="hidden" name="id" value="{{$visit->id}}"/>
                     <input type="submit" value="Ok"/>
                 </fieldset>
             </form>
@@ -166,7 +174,7 @@
         </table>
     </div>
 @stop
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/remark.js"></script>
     <script src="/js/visit.js"></script>
-@stop
+@endpush

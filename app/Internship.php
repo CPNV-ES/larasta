@@ -3,16 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Internship extends Model
+class Internship extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     public $timestamps = false;
 
     protected $fillable = [
         'id',
         'intern_id'
     ];
-
 
     /**
      * Eloquent will automatically convert this column of the model in Carbon dates

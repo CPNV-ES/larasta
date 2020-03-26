@@ -8,13 +8,14 @@ use App\Lifecycles;
 use App\Company;
 use App\Internship;
 use App\Person;
+use App\Visitsstate;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Requests\StoreFileRequest;
 
 class InternshipsController extends Controller
 {
@@ -208,7 +209,7 @@ class InternshipsController extends Controller
         date_default_timezone_set('Europe/Zurich');
 
         $internship = Internship::find($internshipId);
-
+        $medias = $internship->getMedia();
         $visits = DB::table('visits')
             ->select(
                 'moment',
@@ -228,64 +229,51 @@ class InternshipsController extends Controller
             ->orderby('remarkDate', 'desc')
             ->get();
 
-        return view('internships/internshipview')
-            ->with('visits', $visits)
-            ->with('remarks', $remarks)
-            ->with('internship', $internship);
+
+        return view('internships/internshipview', compact('visits','remarks','internship','medias'));
     }
 
     public function edit($internshipId)
     {
         date_default_timezone_set('Europe/Zurich');
-        if (env('USER_LEVEL') >= 1) {
-
-            $internship = Internship::find($internshipId);
-            $contractStates = Contractstate::all();
-
-            $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
-
-            $lcycles = [$internship->contractstate->id];
-            foreach ($lifecycles->get()->toArray() as $value) {
-                array_push($lcycles, $value->to_id);
-            }
-
-            $responsibles = DB::table('persons')
-                ->select(
-                    'id',
-                    'firstname',
-                    'lastname')
-                ->where('role', '=', 2)
-                ->where('company_id', '=', $internship->company->id);
-
-            $visits = DB::table('visits')
-                ->select(
-                    'id',
-                    'moment',
-                    'confirmed',
-                    'number',
-                    'grade')
-                ->where('internships_id', '=', $internshipId)
-                ->get();
-
-            $remarks = DB::table('remarks')
-                ->select(
-                    'remarkDate',
-                    'author',
-                    'remarkText')
-                ->where('remarkType', '=', 5)
-                ->where('remarkOn_id', '=', $internshipId)
-                ->orderby('remarkDate', 'desc')
-                ->get();
-
-            return view('internships/internshipedit')
-                ->with('responsibles', $responsibles)
-                ->with('visits', $visits)
-                ->with('remarks', $remarks)
-                ->with('internship', $internship)
-                ->with('contractStates', $contractStates);
-        } else {
+        if (env('USER_LEVEL') <= 1)        
             abort(404);
+
+        $internship = Internship::find($internshipId);
+        $contractStates = Contractstate::all();
+        $medias = $internship->getMedia();
+        $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
+        $actualState = $internship->contractstate;
+
+        $lcycles = [$internship->contractstate->id];
+        foreach ($lifecycles->get()->toArray() as $value) {
+            array_push($lcycles, $value->to_id);
         }
+
+        $responsibles = DB::table('persons')
+            ->select(
+                'id',
+                'firstname',
+                'lastname')
+            ->where('role', '=', 2)
+            ->where('company_id', '=', $internship->company->id);
+
+        $visits = DB::table('visits')            
+            ->where('internships_id', '=', $internshipId)
+            ->get();
+
+        $remarks = DB::table('remarks')
+            ->select(
+                'remarkDate',
+                'author',
+                'remarkText')
+            ->where('remarkType', '=', 5)
+            ->where('remarkOn_id', '=', $internshipId)
+            ->orderby('remarkDate', 'desc')
+            ->get();
+
+        $visitsStates = Visitsstate::all(); 
+        return view('internships/internshipedit')->with(compact('actualState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates'));
     }
 
     /**
@@ -355,61 +343,6 @@ class InternshipsController extends Controller
         );
     }
 
-    public function addVisit($iid)
-    {
-        if (env('USER_LEVEL') >= 1) {
-            if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade'])) {
-                if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL)) {
-                    DB::table('visits')
-                        ->insertGetId(
-                            ['moment' => $_GET['visitDate'] . " " . $_GET['visitTime'] . ":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
-                }
-            }
-
-            return redirect()->action(
-                'InternshipsController@edit', ['iid' => $iid]
-            );
-        } else {
-            abort(404);
-        }
-    }
-
-    public function updateVisit($iid)
-    {
-        if (env('USER_LEVEL') >= 1) {
-            for ($i = 0; ; $i++) {
-                if (isset($_GET['visitID' . $i])) {
-                    if (($_GET['visitDate' . $i] != NULL) && ($_GET['visitTime' . $i] != NULL) && ($_GET['visitState' . $i] != NULL) && ($_GET['visitNumber' . $i] != NULL)) {
-                        DB::table('visits')
-                            ->where("id", "=", $_GET['visitID' . $i])
-                            ->update(
-                                ['moment' => $_GET['visitDate' . $i] . " " . $_GET['visitTime' . $i] . ":00",
-                                    'confirmed' => $_GET['visitState' . $i],
-                                    'number' => $_GET['visitNumber' . $i],
-                                    'internships_id' => $iid,
-                                    'grade' => $_GET['grade' . $i] ? $_GET['grade' . $i] : NULL]);
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            if (isset($_GET['visitDate']) && isset($_GET['visitTime']) && isset($_GET['visitState']) && isset($_GET['visitNumber']) && isset($_GET['grade'])) {
-                if (($_GET['visitDate'] != NULL) && ($_GET['visitTime'] != NULL) && ($_GET['visitState'] != NULL) && ($_GET['visitNumber'] != NULL)) {
-                    DB::table('visits')
-                        ->insertGetId(
-                            ['moment' => $_GET['visitDate'] . " " . $_GET['visitTime'] . ":00", 'confirmed' => $_GET['visitState'], 'number' => $_GET['visitNumber'], 'internships_id' => $iid, 'grade' => $_GET['grade'] ? $_GET['grade'] : NULL]);
-                }
-            }
-
-            return redirect()->action(
-                'InternshipsController@view', ['iid' => $iid]
-            );
-        } else {
-            abort(404);
-        }
-    }
-
     /**
      * add manually a new remark on InternshipsEdit page
      * @param Request $request GET informations
@@ -443,6 +376,9 @@ class InternshipsController extends Controller
         $Internshipcompany = Company::find($iid);
         $companyPersons = Person::all()->where('company_id', $iid);
         $lastInternship = Internship::where('companies_id', $iid)->orderBy('endDate', 'desc')->first();
+        if(is_null($lastInternship)){
+            $lastInternship = new Internship;
+        }
         //date variable
         $todaydate = Carbon::now();
         //actual year
@@ -505,5 +441,16 @@ class InternshipsController extends Controller
         $newInternship->admin_id = $request->input('admin');
         $newInternship->save();
         return redirect('entreprise/' . $iid . '')->with('message', 'Creation Réussie');
+    }
+
+    public function storeFile(StoreFileRequest $request, $id)
+    {
+        $internship = Internship::findOrFail($id);
+        $internship->addMediaFromRequest('file')->toMediaCollection();
+    }
+    public function deleteFile($id,$idMedia)
+    {
+        $internship = Internship::findOrFail($id);
+        $internship->getMedia()->find($idMedia)->delete();
     }
 }

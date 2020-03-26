@@ -16,9 +16,9 @@ Display an array with all elements
 
 @extends ('../layout')
 
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" href="/css/travelTime.css">
-@stop
+@endpush
 
 @section ('content')
 
@@ -76,6 +76,6 @@ Display an array with all elements
 
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/travelTime.js"></script>
-@stop
+@endpush

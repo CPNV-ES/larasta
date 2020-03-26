@@ -21,10 +21,10 @@
     </div>
 @stop
 
-@section('page_specific_css')
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/mpmenu.css">
     <link rel="stylesheet" href="/css/mailing.css">
-@stop
-@section('page_specific_js')
+@endpush
+@push('page_specific_js')
     <script src="/js/mailing.js"></script>
-@stop
+@endpush
