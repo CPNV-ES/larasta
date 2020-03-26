@@ -86,7 +86,7 @@ class ReconStagesController extends Controller
             
             /* Create new internship with old value */
             $new = new Internship();
-            $new->companies_id = $old->companie->id;
+            $new->companies_id = $old->company->id;
             $new->beginDate = $newInternshipDate1;
             $new->endDate = $newInternshipDate2;
             $new->responsible_id = $old->responsible->id;
@@ -96,7 +96,7 @@ class ReconStagesController extends Controller
             $new->previous_id = $value;
             $new->internshipDescription = $old->internshipDescription;
             $new->grossSalary = $salary;
-            $new->contractGenerated = 0;
+            $new->contractGenerated = "0000-01-01 00:00:00";
             $new->save();
         }
 
