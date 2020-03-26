@@ -2171,3 +2171,197 @@ The links have been created.
  DEBUG [4de07f94] 	   json not null, `responsive_images` json not n' at line 1                    
  DEBUG [4de07f94] 	                                                                               
  DEBUG [4de07f94] 	
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-03-27 00:55:01 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [38559958] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.mycpnv.ch
+ DEBUG [38559958] Command: /usr/bin/env mkdir -p /tmp
+  INFO [38559958] Finished in 0.475 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-Larasta-production-Killian.sh 0.0%
+  INFO Uploading /tmp/git-ssh-Larasta-production-Killian.sh 100.0%
+  INFO [1cb0e7db] Running /usr/bin/env chmod 700 /tmp/git-ssh-Larasta-production-Killian.sh as larasta@larasta.mycpnv.ch
+ DEBUG [1cb0e7db] Command: /usr/bin/env chmod 700 /tmp/git-ssh-Larasta-production-Killian.sh
+  INFO [1cb0e7db] Finished in 0.110 seconds with exit status 0 (successful).
+  INFO [2603c8eb] Running /usr/bin/env git ls-remote git@github.com:CPNV-ES/larasta.git HEAD as larasta@larasta.mycpnv.ch
+ DEBUG [2603c8eb] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-Larasta-production-Killian.sh" ; /usr/bin/env git ls-remote git@github.com:CPNV-ES/larasta.git HEAD )
+ DEBUG [2603c8eb] 	abc3ad703bfeb59b5be2daf97865622b49be22db	HEAD
+  INFO [2603c8eb] Finished in 1.568 seconds with exit status 0 (successful).
+  INFO [aa7afc21] Running /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/shared ~/larasta.mycpnv.ch/releases as larasta@larasta.mycpnv.ch
+ DEBUG [aa7afc21] Command: /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/shared ~/larasta.mycpnv.ch/releases
+  INFO [aa7afc21] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [0c5c3cdf] Running /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/shared/storage/app ~/larasta.mycpnv.ch/shared/storage/framework/cache ~/larasta.mycpnv.ch/shared/storage/framework/sessions ~/larasta.mycpnv.ch/shared/storage/framework/views ~/larasta.mycpnv.ch/shared/storage/logs as larasta@larasta.mycpnv.ch
+ DEBUG [0c5c3cdf] Command: /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/shared/storage/app ~/larasta.mycpnv.ch/shared/storage/framework/cache ~/larasta.mycpnv.ch/shared/storage/framework/sessions ~/larasta.mycpnv.ch/shared/storage/framework/views ~/larasta.mycpnv.ch/shared/storage/logs
+  INFO [0c5c3cdf] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [9e02fd8c] Running [ -f ~/larasta.mycpnv.ch/current/REVISION ] as larasta@larasta.mycpnv.ch
+ DEBUG [9e02fd8c] Command: [ -f ~/larasta.mycpnv.ch/current/REVISION ]
+ DEBUG [9e02fd8c] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [7dcebc9d] Running /usr/bin/env cat ~/larasta.mycpnv.ch/current/REVISION 2>/dev/null as larasta@larasta.mycpnv.ch
+ DEBUG [7dcebc9d] Command: /usr/bin/env cat ~/larasta.mycpnv.ch/current/REVISION 2>/dev/null
+ DEBUG [7dcebc9d] 	b47d09ac99bde8ab19c4aa5a8797cfd801fd53ec
+ DEBUG [7dcebc9d] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [bc081794] Running if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [bc081794] Command: if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi
+ DEBUG [bc081794] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [43a223a7] Running /usr/bin/env mkdir -p storage/app as larasta@larasta.mycpnv.ch
+ DEBUG [43a223a7] Command: cd ~/larasta.mycpnv.ch/shared && /usr/bin/env mkdir -p storage/app
+  INFO [43a223a7] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [98caa7a0] Running if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [98caa7a0] Command: if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi
+ DEBUG [98caa7a0] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [23624c3d] Running /usr/bin/env mkdir -p storage/framework/cache as larasta@larasta.mycpnv.ch
+ DEBUG [23624c3d] Command: cd ~/larasta.mycpnv.ch/shared && /usr/bin/env mkdir -p storage/framework/cache
+  INFO [23624c3d] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [4ef32d70] Running if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [4ef32d70] Command: if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi
+ DEBUG [4ef32d70] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [cdb4e9ed] Running /usr/bin/env mkdir -p storage/framework/sessions as larasta@larasta.mycpnv.ch
+ DEBUG [cdb4e9ed] Command: cd ~/larasta.mycpnv.ch/shared && /usr/bin/env mkdir -p storage/framework/sessions
+  INFO [cdb4e9ed] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [abc9f092] Running if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [abc9f092] Command: if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi
+ DEBUG [abc9f092] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [b63dbad1] Running /usr/bin/env mkdir -p storage/framework/views as larasta@larasta.mycpnv.ch
+ DEBUG [b63dbad1] Command: cd ~/larasta.mycpnv.ch/shared && /usr/bin/env mkdir -p storage/framework/views
+  INFO [b63dbad1] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [5b63e350] Running if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [5b63e350] Command: if test ! -d ~/larasta.mycpnv.ch/shared; then echo "Directory does not exist '~/larasta.mycpnv.ch/shared'" 1>&2; false; fi
+ DEBUG [5b63e350] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [926da934] Running /usr/bin/env mkdir -p storage/logs as larasta@larasta.mycpnv.ch
+ DEBUG [926da934] Command: cd ~/larasta.mycpnv.ch/shared && /usr/bin/env mkdir -p storage/logs
+  INFO [926da934] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [b6aef416] Running [ -f ~/larasta.mycpnv.ch/repo/HEAD ] as larasta@larasta.mycpnv.ch
+ DEBUG [b6aef416] Command: [ -f ~/larasta.mycpnv.ch/repo/HEAD ]
+ DEBUG [b6aef416] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO The repository mirror is at ~/larasta.mycpnv.ch/repo
+ DEBUG [8d3fc1ce] Running if test ! -d ~/larasta.mycpnv.ch/repo; then echo "Directory does not exist '~/larasta.mycpnv.ch/repo'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [8d3fc1ce] Command: if test ! -d ~/larasta.mycpnv.ch/repo; then echo "Directory does not exist '~/larasta.mycpnv.ch/repo'" 1>&2; false; fi
+ DEBUG [8d3fc1ce] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [5726bf95] Running /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/larasta.git as larasta@larasta.mycpnv.ch
+ DEBUG [5726bf95] Command: cd ~/larasta.mycpnv.ch/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-Larasta-production-Killian.sh" ; /usr/bin/env git remote set-url origin git@github.com:CPNV-ES/larasta.git )
+  INFO [5726bf95] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [6d89b5cc] Running /usr/bin/env git remote update --prune as larasta@larasta.mycpnv.ch
+ DEBUG [6d89b5cc] Command: cd ~/larasta.mycpnv.ch/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-Larasta-production-Killian.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [6d89b5cc] 	Fetching origin
+ DEBUG [6d89b5cc] 	From github.com:CPNV-ES/larasta
+   b47d09a..c131f04  feature/Capistrano -> feature/Capistrano
+  INFO [6d89b5cc] Finished in 1.545 seconds with exit status 0 (successful).
+ DEBUG [8b262b83] Running if test ! -d ~/larasta.mycpnv.ch/repo; then echo "Directory does not exist '~/larasta.mycpnv.ch/repo'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [8b262b83] Command: if test ! -d ~/larasta.mycpnv.ch/repo; then echo "Directory does not exist '~/larasta.mycpnv.ch/repo'" 1>&2; false; fi
+ DEBUG [8b262b83] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [f0948f14] Running /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/releases/20200326235505 as larasta@larasta.mycpnv.ch
+ DEBUG [f0948f14] Command: cd ~/larasta.mycpnv.ch/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-Larasta-production-Killian.sh" ; /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/releases/20200326235505 )
+  INFO [f0948f14] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [0a07265c] Running /usr/bin/env git archive feature/Capistrano | /usr/bin/env tar -x -f - -C ~/larasta.mycpnv.ch/releases/20200326235505 as larasta@larasta.mycpnv.ch
+ DEBUG [0a07265c] Command: cd ~/larasta.mycpnv.ch/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-Larasta-production-Killian.sh" ; /usr/bin/env git archive feature/Capistrano | /usr/bin/env tar -x -f - -C ~/larasta.mycpnv.ch/releases/20200326235505 )
+  INFO [0a07265c] Finished in 0.384 seconds with exit status 0 (successful).
+ DEBUG [e71f2a1c] Running if test ! -d ~/larasta.mycpnv.ch/repo; then echo "Directory does not exist '~/larasta.mycpnv.ch/repo'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [e71f2a1c] Command: if test ! -d ~/larasta.mycpnv.ch/repo; then echo "Directory does not exist '~/larasta.mycpnv.ch/repo'" 1>&2; false; fi
+ DEBUG [e71f2a1c] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [08df90b4] Running /usr/bin/env git rev-list --max-count=1 feature/Capistrano as larasta@larasta.mycpnv.ch
+ DEBUG [08df90b4] Command: cd ~/larasta.mycpnv.ch/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-Larasta-production-Killian.sh" ; /usr/bin/env git rev-list --max-count=1 feature/Capistrano )
+ DEBUG [08df90b4] 	c131f048347f28fbd25cfb2cf0c22cbf8548ac29
+ DEBUG [08df90b4] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [14242075] Running if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [14242075] Command: if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi
+ DEBUG [14242075] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [9c2044dc] Running /usr/bin/env echo "c131f048347f28fbd25cfb2cf0c22cbf8548ac29" > REVISION as larasta@larasta.mycpnv.ch
+ DEBUG [9c2044dc] Command: cd ~/larasta.mycpnv.ch/releases/20200326235505 && /usr/bin/env echo "c131f048347f28fbd25cfb2cf0c22cbf8548ac29" > REVISION
+  INFO [9c2044dc] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [b453d41c] Running /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/releases/20200326235505/storage ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework as larasta@larasta.mycpnv.ch
+ DEBUG [b453d41c] Command: /usr/bin/env mkdir -p ~/larasta.mycpnv.ch/releases/20200326235505/storage ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework
+  INFO [b453d41c] Finished in 0.099 seconds with exit status 0 (successful).
+ DEBUG [8170d3d6] Running [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/app ] as larasta@larasta.mycpnv.ch
+ DEBUG [8170d3d6] Command: [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/app ]
+ DEBUG [8170d3d6] Finished in 0.099 seconds with exit status 1 (failed).
+ DEBUG [e630f82f] Running [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/app ] as larasta@larasta.mycpnv.ch
+ DEBUG [e630f82f] Command: [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/app ]
+ DEBUG [e630f82f] Finished in 0.109 seconds with exit status 0 (successful).
+  INFO [25dfad07] Running /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/app as larasta@larasta.mycpnv.ch
+ DEBUG [25dfad07] Command: /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/app
+  INFO [25dfad07] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [ee468ac3] Running /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/app ~/larasta.mycpnv.ch/releases/20200326235505/storage/app as larasta@larasta.mycpnv.ch
+ DEBUG [ee468ac3] Command: /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/app ~/larasta.mycpnv.ch/releases/20200326235505/storage/app
+  INFO [ee468ac3] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [8a759012] Running [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache ] as larasta@larasta.mycpnv.ch
+ DEBUG [8a759012] Command: [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache ]
+ DEBUG [8a759012] Finished in 0.098 seconds with exit status 1 (failed).
+ DEBUG [f7f7f622] Running [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache ] as larasta@larasta.mycpnv.ch
+ DEBUG [f7f7f622] Command: [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache ]
+ DEBUG [f7f7f622] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [f1e8242b] Running /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache as larasta@larasta.mycpnv.ch
+ DEBUG [f1e8242b] Command: /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache
+  INFO [f1e8242b] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [e5c502d3] Running /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/framework/cache ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache as larasta@larasta.mycpnv.ch
+ DEBUG [e5c502d3] Command: /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/framework/cache ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/cache
+  INFO [e5c502d3] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [6b7e3e5e] Running [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions ] as larasta@larasta.mycpnv.ch
+ DEBUG [6b7e3e5e] Command: [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions ]
+ DEBUG [6b7e3e5e] Finished in 0.099 seconds with exit status 1 (failed).
+ DEBUG [65469a19] Running [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions ] as larasta@larasta.mycpnv.ch
+ DEBUG [65469a19] Command: [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions ]
+ DEBUG [65469a19] Finished in 0.109 seconds with exit status 0 (successful).
+  INFO [d15f9582] Running /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions as larasta@larasta.mycpnv.ch
+ DEBUG [d15f9582] Command: /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions
+  INFO [d15f9582] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [cca087e3] Running /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/framework/sessions ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions as larasta@larasta.mycpnv.ch
+ DEBUG [cca087e3] Command: /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/framework/sessions ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/sessions
+  INFO [cca087e3] Finished in 0.109 seconds with exit status 0 (successful).
+ DEBUG [fc0f5367] Running [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views ] as larasta@larasta.mycpnv.ch
+ DEBUG [fc0f5367] Command: [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views ]
+ DEBUG [fc0f5367] Finished in 0.099 seconds with exit status 1 (failed).
+ DEBUG [86adc5d8] Running [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views ] as larasta@larasta.mycpnv.ch
+ DEBUG [86adc5d8] Command: [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views ]
+ DEBUG [86adc5d8] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [6929cf3c] Running /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views as larasta@larasta.mycpnv.ch
+ DEBUG [6929cf3c] Command: /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views
+  INFO [6929cf3c] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [5b37cd86] Running /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/framework/views ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views as larasta@larasta.mycpnv.ch
+ DEBUG [5b37cd86] Command: /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/framework/views ~/larasta.mycpnv.ch/releases/20200326235505/storage/framework/views
+  INFO [5b37cd86] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [4e2ddd00] Running [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs ] as larasta@larasta.mycpnv.ch
+ DEBUG [4e2ddd00] Command: [ -L ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs ]
+ DEBUG [4e2ddd00] Finished in 0.099 seconds with exit status 1 (failed).
+ DEBUG [0126650b] Running [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs ] as larasta@larasta.mycpnv.ch
+ DEBUG [0126650b] Command: [ -d ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs ]
+ DEBUG [0126650b] Finished in 0.098 seconds with exit status 0 (successful).
+  INFO [f07f604c] Running /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs as larasta@larasta.mycpnv.ch
+ DEBUG [f07f604c] Command: /usr/bin/env rm -rf ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs
+  INFO [f07f604c] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [eb758b9a] Running /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/logs ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs as larasta@larasta.mycpnv.ch
+ DEBUG [eb758b9a] Command: /usr/bin/env ln -s ~/larasta.mycpnv.ch/shared/storage/logs ~/larasta.mycpnv.ch/releases/20200326235505/storage/logs
+  INFO [eb758b9a] Finished in 0.098 seconds with exit status 0 (successful).
+ DEBUG [3a615ca8] Running if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [3a615ca8] Command: if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi
+ DEBUG [3a615ca8] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [b4f690af] Running php -d allow_url_fopen=true ~/larasta.mycpnv.ch/shared/composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader as larasta@larasta.mycpnv.ch
+ DEBUG [b4f690af] Command: cd ~/larasta.mycpnv.ch/releases/20200326235505 && php -d allow_url_fopen=true ~/larasta.mycpnv.ch/shared/composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader
+  INFO [b4f690af] Finished in 21.321 seconds with exit status 0 (successful).
+ DEBUG [7ffb5907] Running if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [7ffb5907] Command: if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi
+ DEBUG [7ffb5907] Finished in 0.110 seconds with exit status 0 (successful).
+  INFO [2011ee36] Running /usr/bin/env php artisan storage:link --env=production as larasta@larasta.mycpnv.ch
+ DEBUG [2011ee36] Command: cd ~/larasta.mycpnv.ch/releases/20200326235505 && /usr/bin/env php artisan storage:link --env=production
+ DEBUG [2011ee36] 	The [/home/larasta/larasta.mycpnv.ch/releases/20200326235505/public/storage] link has been connected to [/home/larasta/larasta.mycpnv.ch/releases/20200326235505/storage/app/public].
+The links have been created.
+  INFO [2011ee36] Finished in 0.362 seconds with exit status 0 (successful).
+  INFO [b3e2c424] Running /usr/bin/env cp ~/larasta.mycpnv.ch/shared/.env ~/larasta.mycpnv.ch/releases/20200326235505/.env as larasta@larasta.mycpnv.ch
+ DEBUG [b3e2c424] Command: /usr/bin/env cp ~/larasta.mycpnv.ch/shared/.env ~/larasta.mycpnv.ch/releases/20200326235505/.env
+  INFO [b3e2c424] Finished in 0.109 seconds with exit status 0 (successful).
+ DEBUG [f12ddae7] Running if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi as larasta@larasta.mycpnv.ch
+ DEBUG [f12ddae7] Command: if test ! -d ~/larasta.mycpnv.ch/releases/20200326235505; then echo "Directory does not exist '~/larasta.mycpnv.ch/releases/20200326235505'" 1>&2; false; fi
+ DEBUG [f12ddae7] Finished in 0.099 seconds with exit status 0 (successful).
+  INFO [81aca80f] Running /usr/bin/env php artisan migrate --force --env=production as larasta@larasta.mycpnv.ch
+ DEBUG [81aca80f] Command: cd ~/larasta.mycpnv.ch/releases/20200326235505 && /usr/bin/env php artisan migrate --force --env=production
+ DEBUG [81aca80f] 	
+ DEBUG [81aca80f] 	In Connection.php line 669:
+                                                                               
+ DEBUG [81aca80f] 	  SQLSTATE[HY000]: General error: 1273 Unknown collation: 'utf8mb4' (SQL: sel  
+  ect * from information_schema.tables where table_schema = larasta_db and ta  
+  ble_name = migrations and table_type = 'BASE TABLE')                         
+ DEBUG [81aca80f] 	                                                                               
+
+ DEBUG [81aca80f] 	In MySqlConnector.php line 56:
+                                                                     
+ DEBUG [81aca80f] 	  SQLSTATE[HY000]: General error: 1273 Unknown collation: 'utf8mb4'  
+                                                                     
+ DEBUG [81aca80f] 	
