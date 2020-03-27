@@ -1,3 +1,4 @@
+/*this script requires the utils.js script*/
 var TIME_SLIDE_TRANSITION_LENGTH = 300;
 var COMPLIANCE_LEVELS_CLASSES = {
     ok: "logbookOk",
@@ -64,6 +65,8 @@ async function boot(ev) {
     seekCalendarLastYear.addEventListener("click", evt => { switchTime("last", "year"); });
     seekCalendarNextYear.addEventListener("click", evt => { switchTime("next", "year"); });
     seekDateInput.addEventListener("input", onSeekValue);
+    //parameters
+    chkShowWeekends.addEventListener("input", evt => { setWeekendVisibility(chkShowWeekends.checked) });
     //history
     window.addEventListener("popstate", onPopState);
     //window categories
@@ -77,32 +80,32 @@ async function boot(ev) {
     resetTime();
     /*load activity if reference. Search for ?activity=id*/
     const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.has("activity")){
+    if (urlParams.has("activity")) {
         var activityId = urlParams.get("activity");
         console.log("boot load activity ", activityId);
         loadAndDisplayActivity(activityId, true);
     }
 }
-function onPopState(evt){
+function onPopState(evt) {
     console.log("pop state", evt);
-    if(!evt.state){
+    if (!evt.state) {
         window.location = evt.target;
     }
-    if(evt.state.activityId){
+    if (evt.state.activityId) {
         loadAndDisplayActivity(evt.state.activityId, true);
-    }else{
-        hideActivityWindow({},true);
+    } else {
+        hideActivityWindow({}, true);
     }
 }
-async function loadAndDisplayActivity(activityId, preventHistory = false){
-    if(activities[activityId]){
+async function loadAndDisplayActivity(activityId, preventHistory = false) {
+    if (activities[activityId]) {
         var rawActivity = activities[activityId].object;
-    }else{
+    } else {
         var loader = Utils.addLoader(document.body);
-        var rawActivity = await Utils.callApi(`/api/internships/logbook/activities/${activityId}`);
+        var rawActivity = await Utils.callApi(ROUTES.getActivity(activityId));
         loader.remove();
     }
-    if(!rawActivity){
+    if (!rawActivity) {
         console.warn("undefined activity");
         Utils.infoBox("Couldn't load activity :(");
         return;
@@ -143,9 +146,8 @@ function changeWeek(week, { force = false, animation = true } = {}) {
             days: {}
         };
         //init week
-        for (var indDay = 0; indDay < 5; indDay++) {
-            var dayStamp =
-                week.first.getTime() + indDay * (1000 * 60 * 60 * 24);
+        for (var indDay = 0; indDay < 7; indDay++) {
+            var dayStamp = week.first.getTime() + indDay * (1000 * 60 * 60 * 24);
             var date = new Date(dayStamp);
             var adapter = buildDayAdapter(weekContainer, date);
             weeks[week.id].days[date.toISOString()] = {
@@ -172,7 +174,7 @@ function changeWeek(week, { force = false, animation = true } = {}) {
         year: "numeric"
     });
     currentDatesDisplay.textContent = `Semaine du ${firstDateStr} au ${lastDateStr}`;
-    seekCalendarMonthDisplay.textContent = week.first.toLocaleDateString("fr-FR", {month: "long"}).capitalise();
+    seekCalendarMonthDisplay.textContent = week.first.toLocaleDateString("fr-FR", { month: "long" }).capitalise();
     seekCalendarYearDisplay.textContent = week.first.getFullYear();
     //animation
     if (!oldWeekObj) {
@@ -250,7 +252,7 @@ async function loadActivities(weekId) {
     var toStr = weekObj.week.last.toISOString();
 
     var newActivities = await Utils.callApi(
-        `/api/internships/${internshipId}/logbook/activities`,
+        ROUTES.getActivities(),
         { query: { entryDate: { from: fromStr, to: toStr } } }
     );
 
@@ -307,13 +309,13 @@ function onNewActivity(rawActivity, weekId = false) {
     //display
     displayActivity(activity);
 }
-function objectifyActivity(rawActivity){
+function objectifyActivity(rawActivity) {
     var activity = Object.assign(rawActivity);
     //objectify date
     activity.date = new Date(activity.entryDate);
     //activity type
     if (!activity.activitytype) {
-        activity.activitytype = activityTypes[activity.activitytypes_id];
+        activity.activitytype = activityTypes.find(activityType => activityType.id == activity.activitytypes_id);
     }
     //duration
     activity.duration = parseFloat(activity.duration);
@@ -368,6 +370,7 @@ function buildDayAdapter(parent, date) {
     });
 
     //data
+    element.classList.add(date.toLocaleDateString("en", { weekday: "long" }).toLowerCase());
     dateDisplay.textContent = `${date
         .toLocaleDateString("fr-FR", { weekday: "long" })
         .capitalise()} ${date.getDate()}.${date.getRightMonth()}`;
@@ -572,10 +575,10 @@ function openEditActivity(activity) {
 function openViewActivity(activity, preventHistory = false) {
     console.log("open view activity window", activity);
     //history
-    if(!preventHistory){
-        history.pushState({activityId:activity.id}, `Activité "${activity.activitytype.typeActivityDescription}"`, `?activity=${activity.id}`);
-    }else{
-        history.replaceState({activityId:activity.id}, `Activité "${activity.activitytype.typeActivityDescription}"`, `?activity=${activity.id}`);        
+    if (!preventHistory) {
+        history.pushState({ activityId: activity.id }, `Activité "${activity.activitytype.typeActivityDescription}"`, `?activity=${activity.id}`);
+    } else {
+        history.replaceState({ activityId: activity.id }, `Activité "${activity.activitytype.typeActivityDescription}"`, `?activity=${activity.id}`);
     }
     //display data
     activityWindowTimeDisplay.textContent = getPrettyTime(activity.duration);
@@ -623,15 +626,15 @@ function displayActivityWindow(mode = "view") {
     //display
     activityWindow.classList.remove("none");
 }
-function hideActivityWindow(evt, preventHistory=false) {
+function hideActivityWindow(evt, preventHistory = false) {
     activityWindow.classList.add("none");
     //history
     const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.has("activity")){
-        if(preventHistory){
-            history.replaceState({activityId: false}, "Logbook", "?");
-        }else{
-            history.pushState({activityId: false}, "Logbook", "?");
+    if (urlParams.has("activity")) {
+        if (preventHistory) {
+            history.replaceState({ activityId: false }, "Logbook", "?");
+        } else {
+            history.pushState({ activityId: false }, "Logbook", "?");
         }
     }
 }
@@ -650,8 +653,18 @@ function displaySeekCalendar(evt) {
 }
 function hideSeekCalendar(evt) {
     seekCalendar.classList.add("none");
-    if(evt.type == "keydown")
+    if (evt.type == "keydown")
         calendarModeBtn.focus();
+}
+function setWeekendVisibility(isVisible) {
+    //change style
+    if (isVisible) {
+        calendarSection.classList.add("withWeekend")
+    } else {
+        calendarSection.classList.remove("withWeekend")
+    }
+    //set cookie
+    Cookies.set("logbookShowWeekend", isVisible ? "yes" : "no");
 }
 
 async function onActivitySave() {
@@ -660,7 +673,7 @@ async function onActivitySave() {
     var hours = parseInt(activityWindowHoursInput.value);
     var minutes = parseInt(activityWindowMinutesInput.value);
     var duration = hours + minutes / 60;
-    
+
     var activitytypes_id = activityWindowActivityTypeInput.value;
     var activitytype = [...activityTypes].find(object => {
         return object.id == activitytypes_id;
@@ -676,7 +689,7 @@ async function onActivitySave() {
         //edit
         //api call
         let result = await Utils.callApi(
-            `/api/internships/logbook/activities/${displayedActivity.id}`,
+            ROUTES.putActivity(displayedActivity.id),
             { method: "PUT", body: activityData }
         );
         loader.remove();
@@ -686,7 +699,7 @@ async function onActivitySave() {
             return;
         }
         var activity = displayedActivity;
-        if(activities[activity.id]){
+        if (activities[activity.id]) {
             //update display
             var activity = activities[displayedActivity.id].object;
             activity.activitytype = activitytype;
@@ -702,7 +715,7 @@ async function onActivitySave() {
         activityData.entryDate = newActivityDate.toSimpleISOString();
 
         let result = await Utils.callApi(
-            `/api/internships/${internshipId}/logbook/activities/`,
+            ROUTES.postActivity(),
             { method: "POST", body: activityData }
         );
         loader.remove();
@@ -728,7 +741,7 @@ async function deleteActivity(activityId) {
     }
     var loader = Utils.addLoader(activityWindow, "dark");
     let result = await Utils.callApi(
-        `/api/internships/logbook/activities/${activityId}`,
+        ROUTES.deleteActivity(activityId),
         { method: "DELETE" }
     );
     loader.remove();
@@ -740,9 +753,9 @@ async function deleteActivity(activityId) {
     }
     if (!activities[activityId]) {
         console.warn("activity not loaded, skipping dependancy removal", activityId);
-    }else{
+    } else {
         var activityRef = activities[activityId];
-    
+
         //remove adapters
         activityRef.adapters.forEach(adapter => {
             adapter.element.remove();
