@@ -5,9 +5,9 @@
 -->
 @extends ('layout')
 
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" type="text/css" href="/css/documents.css">
-@stop
+@endpush
 
 @section ('content')
     <h1>Eleves à reconduire</h1>
@@ -31,7 +31,7 @@
             <tbody>
                 @foreach ($internships as $internship)
                     <tr class="{{ strtolower($internship->student->initials) }}">
-                        <td><input name="company" value="{{ $internship->companie->id }}" type="hidden">{{ $internship->companie->companyName }}</td>
+                        <td><input name="company" value="{{ $internship->company->id }}" type="hidden">{{ $internship->company->companyName }}</td>
                         <td>{{ $internship->beginDate->toFormattedDateString() }}</td>
                         <td>{{ $internship->endDate->toFormattedDateString() }}</td>
                         <td>{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</td>
@@ -52,6 +52,6 @@
 
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="js/reconstages.js"></script>
-@stop
+@endpush

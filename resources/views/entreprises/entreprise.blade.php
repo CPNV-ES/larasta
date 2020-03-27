@@ -8,7 +8,11 @@
 @extends ('layout')
 
 @section ('content')
-
+@if(session('message'))
+    <div class="alert alert-success">
+      {{session('message')}}
+    </div>
+@endif
 <div class="container-fluid">
     @if($user->getLevel() >= 2)
     <form method="post" action="/entreprise/{{Request::segment(2)}}/save">
@@ -119,7 +123,13 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h3>Stages</h3>
                 <div class="table-responsive">
-                    @include ('internships.internshipslist',['iships' => $iships])
+                    @include ('internships.internshipslist',['iships' => $iships]) <br />
+                    <br>
+                    @foreach ($company as $companies)
+                        <a href="/internships/{{$companies->id}}/new" class="underline-none">
+                            <button type="button" class="btn-success small text-white">Créer une stage</button>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -250,7 +260,7 @@
 </div>
 
 @stop
-@section('page_specific_js')
+@push('page_specific_js')
     <script src="/js/entreprise.js"></script>
-@stop
+@endpush
 

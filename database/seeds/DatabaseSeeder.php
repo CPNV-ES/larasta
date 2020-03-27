@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    //TODO delete sql from database dir
     /**
      * Run the database seeds.
      *
@@ -11,6 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(ContractstatesTableSeeder::class);
+        $this->call(LifecyclesTableSeeder::class);
+        $this->call(ContractsTableSeeder::class);
+        $this->call(ContacttypesTableSeeder::class);
+        $this->call(ActivitytypesTableSeeder::class);
+        $this->call(ParamsTableSeeder::class);
+        $this->call(VisitsstatesTableSeeder::class);
     }
 }

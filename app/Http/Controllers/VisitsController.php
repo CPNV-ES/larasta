@@ -13,18 +13,21 @@ namespace App\Http\Controllers;
 
 // Requests
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreFileRequest;
+use App\Http\Requests\VisitRequest;
 
 //Models
 use App\Visit;
-use App\Internship;
 use App\Remark;
-use App\Evaluation;
+use App\Person;
+use App\Visitsstate;
 
 // Intranet env
 use CPNVEnvironment\Environment;
 
 // Other
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 use DateTime;
 
 /*
@@ -49,45 +52,58 @@ class VisitsController extends Controller
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = Environment::currentUser()->getId();
-
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
-
-            // Query gets all visits from teacher ID.
-            $internships = Internship::join('companies', 'companies_id', '=', 'companies.id')
-                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-                ->join('persons as student', 'intern_id', '=', 'student.id')
-                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-                ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
-                ->join('visits', 'internships.id', '=', 'visits.internships_id')
-                ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
-                ->select('beginDate',
-                    'endDate',
-                    'companyName',
-                    'intresp.firstname as irespfirstname',
-                    'intresp.lastname as iresplastname',
-                    'student.firstname as studentfirstname',
-                    'student.lastname as studentlastname',
-                    'mc.intranetUserId as mcid',
-                    'mc.initials as mcini',
-                    'visitsstates.stateName as state',
-                    'visits.mailstate',
-                    'visits.id as id')
-                ->where('classMaster_id', $id)
-                ->orderBy('visits.id', 'DESC')
-                ->get();
-
-            /*
-            $state = DB::table('visitsstates')
-                ->get();
-            */
-
+            //Eloquent query gets all the visits from teacher ID that are in the past
+            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
+            {
+                $query->where('classMaster_id',$id)->where('moment','>',now()->toDateTimeString()); 
+            })->get();
+            //Eloquent query gets all the visits from teacher ID that are in the future
+            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('moment','<=', now()->toDateTimeString());
+            })->get();
+            $person = Person::whereHas('mcof')->get();
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [
-                    'internships' => $internships,
-                    //'state' => $state,
+                    'id' => $id,
+                    'persons' => $person,
+                    'visitsPast' => $visitsPast,
+                    'visitsToCome' => $visitsToCome,
+                    'message' => $this->message
+                ]
+            );
+        }
+
+        //If not teacher or superuser, we redirect him/her to home page
+        else
+        {
+            return redirect('/')->with('status', "You don't have the permission to access this function.");
+        }
+    }
+
+    public function filter(Request $request){
+    
+        $id = $request->input('teacher');
+        if (Environment::currentUser()->getLevel() >= 1){
+
+            //Eloquent query gets all the visits from teacher ID that are in the past
+            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('moment','>',now()); })->get();
+                //Eloquent query gets all the visits from teacher ID that are in the future
+            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('moment','<=',now());})->get();
+            //Eloquent query to gets all the teacher
+            $person = Person::whereHas('mcof')->get(); 
+            // Returns all details to his/her in visits' main page
+            return view('visits/visits')->with(
+                [
+                    'id' => $id,
+                    'persons' => $person,
+                    'visitsPast' => $visitsPast,
+                    'visitsToCome' => $visitsToCome,
                     'message' => $this->message
                 ]
             );
@@ -113,109 +129,61 @@ class VisitsController extends Controller
         if (Environment::currentUser()->getLevel() >= 1){
 
             // Try to know if a visit exist
-            $result = Internship::join('persons', 'internships.responsible_id' ,'=', 'persons.id')
-                ->join('visits', 'internships.id' ,'=', 'visits.internships_id')
-                ->select('internships.responsible_id as id')
-                ->where('visits.id', $rid)
-                ->first();
-
+            $visits=Visit::find($rid);
             // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
             // return the user to his/her of visit
-            if(isset($result->id) == 1)
-            {
-                // Query get a specify visit
-                $internship = Visit::join('internships', 'visits.internships_id', '=', 'internships.id')
-                    ->join('persons', 'internships.intern_id', '=', 'persons.id')
-                    ->join('companies', 'internships.companies_id', '=', 'companies.id')
-                    ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
-                    ->select('visits.id',
-                        'internships_id',
-                        'visitsstates_id',
-                        'companyName',
-                        'beginDate',
-                        'endDate',
-                        'moment',
-                        'firstname',
-                        'lastname',
-                        'stateName',
-                        'mailstate',
-                        'internships.responsible_id',
-                        'grade')
-                    ->where('visits.id', $rid)
-                    ->first();
+                if(isset($visits->id) == 1)
+                {
 
-                // Gets info from intern's responsible
-                $mail = Internship::join('persons', 'internships.responsible_id' ,'=', 'persons.id')
-                    ->join('contactinfos', 'persons.id', '=', 'contactinfos.persons_id')
-                    ->select('value', 'responsible_id', 'contacttypes_id')
-                    ->where('responsible_id', "=", $internship->responsible_id)
-                    ->where('contacttypes_id', '=', 1)
-                    ->first();
+                    // Gets info from intern's responsible
+                    $mails = $visits->internship->responsible->contactinfo->where('contacttypes_id','1');
 
-                // Gets info from intern's responsible
-                $local = Internship::join('persons', 'internships.responsible_id' ,'=', 'persons.id')
-                    ->join('contactinfos', 'persons.id', '=', 'contactinfos.persons_id')
-                    ->select('value', 'responsible_id', 'contacttypes_id')
-                    ->where('responsible_id', "=", $internship->responsible_id)
-                    ->where('contacttypes_id', '=', 2)
-                    ->first();
+                    // Gets info from intern's responsible
+                    $locals = $visits->internship->responsible->contactinfo->where('contacttypes_id','2');
 
-                // Gets info from intern's responsible
-                $mobile = Internship::join('persons', 'internships.responsible_id' ,'=', 'persons.id')
-                    ->join('contactinfos', 'persons.id', '=', 'contactinfos.persons_id')
-                    ->select('value', 'responsible_id', 'contacttypes_id')
-                    ->where('responsible_id', "=", $internship->responsible_id)
-                    ->where('contacttypes_id', '=', 3)
-                    ->first();
+                    // Gets info from intern's responsible
+                    $mobiles = $visits->internship->responsible->contactinfo->where('contacttypes_id','3');
+ 
+                    /*
+                     * Get status name of visit for the select input.
+                     * It musts be under 3, which means that the visit has to be closed by an "Evaluation".
+                     * statusName
+                     * 1. En préparation
+                     * 2. Confirmée
+                     * 3. Effectuée
+                     *  */
+                    $visitstate = Visitsstate::get();
+                    /*
+                     * Gets remarks about the visit
+                     * It returns all remarks about the visit by its ID.
+                     * 1. Date
+                     * 2. Author
+                     * 3. remark(s)
+                     * */
+                    $history = Remark::where('remarkOn_id', "=", $rid)->orderby('remarkDate', "DESC")->get(); 
 
-                /*
-                 * Get status name of visit for the select input.
-                 * It musts be under 3, which means that the visit has to be closed by an "Evaluation".
-                 * statusName
-                 * 1. En préparation
-                 * 2. Confirmée
-                 * 3. Effectuée
-                 *  */
-                $visitstate = DB::table('visitsstates')
-                    ->get();
-
-                /*
-                 * Gets remarks about the visit
-                 * It returns all remarks about the visit by its ID.
-                 * 1. Date
-                 * 2. Author
-                 * 3. remark(s)
-                 * */
-                $history = Remark::select("remarkType", "remarkDate", "remarkText", "remarkOn_id", "author")
-                    ->where('remarkOn_id', "=", $rid)
-                    ->orderby('remarkDate', "DESC")
-                    ->get();
-
-                /*
-                 * Gets evaluation from the visit (ID).
-                 * */
-                $eval = Evaluation::where('visit_id', $rid)
-                    ->select('visit_id as id')
-                    ->first();
-
-                return view('visits/manage')->with(
-                    [
-                        'internship' => $internship,
-                        'mail' => $mail,
-                        'local' => $local,
-                        'mobile' => $mobile,
-                        'visitstate' => $visitstate,
-                        'history' => $history,
-                        'eval' => $eval
-                    ]
-                );
-            }
-
-            //If it's not a teacher or superuser, we redirect him/her to visits' main page.
-            else
-            {
-                return redirect('/visits')->with('status', "Visite pas trouvée");
-            }
+                    /*
+                     * Gets media associate from the visit (ID).
+                     * */
+                    $medias = $visits->getMedia();
+                    return view('visits/manage')->with(
+                        [
+                            'visit' => $visits,
+                            'mails' => $mails,
+                            'locals' => $locals,
+                            'mobiles' => $mobiles,
+                            'visitstate' => $visitstate,
+                            'history' => $history,
+                            'medias' => $medias
+                        ]
+                    );
+                }
+            
+                //If it's not a teacher or superuser, we redirect him/her to visits' main page.
+                else
+                {
+                    return redirect('/visits')->with('status', "Visite pas trouvée");
+                }
         }
 
         //If not teacher or superuser, we redirect him/her to home page
@@ -319,6 +287,7 @@ class VisitsController extends Controller
             $state = $request->input('state');
             $date = $request->upddate;
             $date .= " ".$request->updtime;
+            $note = $request->grade;
             $mail = $request->has('checkm');
 
             /*
@@ -329,6 +298,7 @@ class VisitsController extends Controller
                     'visitsstates_id' => $state,
                     'moment' => $date,
                     'mailstate' => $mail,
+                    'grade' => $note,
                 ]);
 
             /*
@@ -336,17 +306,6 @@ class VisitsController extends Controller
              * */
             $date = date('d M Y', strtotime($request->upddate));
             $hour = date('H:i:s', strtotime($request->updtime));
-
-            /*
-             * Insert new remark row as a log in Remark.
-             * */
-            Remark::insert([
-                'remarkType' => 4,
-                'remarkOn_id' => $id,
-                'remarkDate' => date('Y-m-d H:i:s'),
-                'author' => Environment::currentUser()->getInitials(),
-                'remarkText' => "Date fixée: ".$date." à ".$hour
-            ]);
 
             /*
              * Finally it redirects user to his/her list.
@@ -361,4 +320,67 @@ class VisitsController extends Controller
         }
     }
 
+    public function addRemarks(Request $request)
+    {
+        $type = 4; // Type 4 = visit remark
+        $on = $request->id;
+        $text = $request->remark;
+        RemarksController::addRemark($type, $on, $text);
+        return back();
+    }
+
+    public function storeFile(StoreFileRequest $request, $id)
+    {
+        $visit = Visit::find($id);
+        $visit->addMediaFromRequest('file')->toMediaCollection();
+    }
+    public function deleteFile($id,$idMedia)
+    {
+        $visit = Visit::find($id);
+        $visit->getMedia()->find($idMedia)->delete();
+    }
+    
+    public function store($id,VisitRequest $request)
+    {
+        $visit = new Visit;
+        $request->confirmed ? $confirmed = true : $confirmed = false;
+        $request->mailstate ? $mailstate = true : $mailstate = false;
+        $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
+
+        $visit->fill($request->all());
+        $visit->confirmed = $confirmed;
+        $visit->mailstate = $mailstate;
+        $visit->internships_id = $id;    
+        $visit->save();
+
+        return redirect()->back();
+    }
+    
+    public function updateVisits($id, Request $request)
+    {
+        if (env('USER_LEVEL') < 2) 
+            abort(404);
+
+        $numberOfLoops = count($request->visitsstates_id);
+        for( $index = 0; $index < $numberOfLoops; $index++) {
+            $visit = Visit::findOrFail($request->id[$index]);
+
+            !empty($request->confirmed[$index]) ? $confirmed = true : $confirmed = false;
+            !empty($request->mailstate[$index]) ? $mailstate = true : $mailstate = false;
+            $day = $request->day[$index];
+            $hour = $request->hour[$index];
+
+            $visit->moment = date('Y-m-d H:i:s', strtotime("$day $hour"));
+            $visit->grade = $request->grade[$index];
+            $visit->number = $request->number[$index];
+            $visit->visitsstates_id = $request->visitsstates_id[$index];
+            $visit->confirmed = $confirmed;
+            $visit->mailstate = $mailstate;
+            $visit->internships_id = $id;   
+
+            $visit->save();
+        }
+
+        return redirect()->back();
+    }
 }

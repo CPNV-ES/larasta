@@ -11,11 +11,11 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Faker\Provider\DateTime;
-use App\Contractstates;
+use App\Contractstate;
 use App\Internship;
 use Carbon\Carbon;
 use App\Params;
-use App\Persons;
+use App\Person;
 
 class ReconStagesController extends Controller
 {
@@ -30,7 +30,7 @@ class ReconStagesController extends Controller
 
     /* Get the contract */
     public function getContract($value) {
-        $contractStates = Contractstates::all();
+        $contractStates = Contractstate::all();
         foreach ($contractStates as $contract) {
             if ($contract->openForRenewal === $value) {
                 $states[] = $contract->id;
@@ -86,7 +86,7 @@ class ReconStagesController extends Controller
             
             /* Create new internship with old value */
             $new = new Internship();
-            $new->companies_id = $old->companie->id;
+            $new->companies_id = $old->company->id;
             $new->beginDate = $newInternshipDate1;
             $new->endDate = $newInternshipDate2;
             $new->responsible_id = $old->responsible->id;
@@ -96,7 +96,7 @@ class ReconStagesController extends Controller
             $new->previous_id = $value;
             $new->internshipDescription = $old->internshipDescription;
             $new->grossSalary = $salary;
-            $new->contractGenerated = 0;
+            $new->contractGenerated = "0000-01-01 00:00:00";
             $new->save();
         }
 

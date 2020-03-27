@@ -14,9 +14,7 @@ Prise en charge le ..., par ...
 
 (Terminé, le ...)
 
-# Exécution
-
-## Tests
+# Tests
 
 (Terminés, le ...)
 
@@ -31,4 +29,3 @@ Prise en charge le ..., par ...
 # Documentation
 
 (Mise à jour, le ...)
-

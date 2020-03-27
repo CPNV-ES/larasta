@@ -47,7 +47,7 @@ class TravelTimeController extends Controller
                 $maxPIndex = min(($pBlock+1)*$this->limitElementGoogle-1,$persons->count()-1);
                 $maxCIndex = min(($cBlock+1)*$this->limitElementGoogle-1,$companies->count()-1);
                 error_log("Persons ".($pBlock*$this->limitElementGoogle)." to $maxPIndex");
-                error_log("Companies ".($cBlock*$this->limitElementGoogle)." to $maxCIndex");
+                error_log("Company ".($cBlock*$this->limitElementGoogle)." to $maxCIndex");
             }
         return "calculé";
 
@@ -151,7 +151,7 @@ class TravelTimeController extends Controller
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
-                sleep(1);
+                sleep(1); //TODO: wtf
             }
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ class TravelTimeController extends Controller
         {
             try
             {
-                switch (true)
+                switch (true) //TODO WHAT IN THE ACTUAL HECK
                 {
                     case $time == 0:
                         $colors[$key] = "";
@@ -313,8 +313,8 @@ class TravelTimeController extends Controller
                         $colors[$key] = "";
                         break;
                 }
-            } catch (\Exception $e)
-            {
+            } catch (Exception $e){
+                //merci pour ce block de catch très utile Kevin.
             }
         }
         return $colors;

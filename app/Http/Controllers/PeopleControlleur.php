@@ -17,7 +17,7 @@ namespace App\Http\Controllers;
 
 use App\Contactinfos;
 use Illuminate\Http\Request;
-use App\Persons;
+use App\Person;
 use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +33,7 @@ class PeopleControlleur extends Controller
         // Get the user right
         $user = Environment::currentUser();
 
-        $persons = Persons::where('obsolete', 0)
+        $persons = Person::where('obsolete', 0)
             ->orderBy('firstname', 'asc')
             ->get();
         // return all value to view
@@ -59,7 +59,7 @@ class PeopleControlleur extends Controller
         $filtersCategory = $request->input('filterCategory');
         $filterName = $request->input('filterName');
         $filterObsolete = $request->input('filterObsolete');
-
+        
         // Verify if all checkboks are not selected
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 
@@ -67,7 +67,7 @@ class PeopleControlleur extends Controller
         $user = Environment::currentUser();
 
         // Apply scope form Model Persons and get data
-        $persons = Persons::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
+        $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
 
         // return all value to view with the value of filters
         return view('listPeople/people')->with(
@@ -119,7 +119,7 @@ class PeopleControlleur extends Controller
     {
         $personid = $request->input('peopleid');
         $newcompany = $request->input('dpdCompany');
-        $person = Persons::find($personid);
+        $person = Person::find($personid);
         $person->company_id = $newcompany;
         $person->save();
         return $this->info($personid);
@@ -152,7 +152,7 @@ class PeopleControlleur extends Controller
         // Read Contact info from DB
         $contacts = DB::table('contactinfos')
             ->join('contacttypes', 'contacttypes.id', '=', 'contactinfos.contacttypes_id')
-            ->select('contactinfos.id','icon','value')
+            ->select('contactinfos.id','iconName','value')
             ->where('persons_id','=',$id)
             ->get();
 
@@ -161,7 +161,7 @@ class PeopleControlleur extends Controller
             ->select('id','contactTypeDescription')
             ->get();
 
-        // Read Companies from DB
+        // Read Company from DB
         $companies = DB::table('companies')
             ->select('id','companyName')
             ->get();

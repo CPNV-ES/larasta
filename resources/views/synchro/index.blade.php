@@ -1,4 +1,5 @@
-@extends ('layout') @section ('content')
+@extends ('layout') 
+@section ('content')
 
 <div class="row">
 	<div class="">
@@ -85,10 +86,10 @@
 
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/synchro.js"></script>
-@stop
+@endpush
 
-@section ('page_specific_css')
+@push ('page_specific_css')
 	<link rel="stylesheet" href="/css/synchro.css">
-@stop
+@endpush

@@ -5,9 +5,9 @@
 -->
 @extends ('layout')
 
-@section ('page_specific_css')
+@push ('page_specific_css')
     <link rel="stylesheet" type="text/css" href="/css/documents.css">
-@stop
+@endpush
 
 @section ('content')
     <a href="/reconstages">Reconduction page</a>
@@ -31,7 +31,7 @@
             @foreach ($last as $value)
             <!-- Les données sont reprises tel que sur la page précédentes mais on y affiche uniquement ceux qui on été traité sur la page précédente. -->
                 <tr class="{{ strtolower($value->student->initials) }}">
-                    <td>{{ $value->companie->companyName }}</td>
+                    <td>{{ $value->company->companyName }}</td>
                     <td>{{ $value->beginDate->toFormattedDateString() }}</td>
                     <td>{{ $value->endDate->toFormattedDateString() }}</td>
                     <td>{{ $value->responsible->firstname }} {{ $value->responsible->lastname }}</td>

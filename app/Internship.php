@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Internship extends Model
+class Internship extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     public $timestamps = false;
 
     protected $fillable = [
@@ -13,14 +16,13 @@ class Internship extends Model
         'intern_id'
     ];
 
-
     /**
-     * Eloquent will automaticaly convert this colums of the model in Carbon dates
+     * Eloquent will automatically convert this column of the model in Carbon dates
      */
     protected $dates = ['beginDate', 'endDate'];
 
     /**
-     * Relation with the vilit model
+     * Relation with the Visit model
      */
     public function visit()
     {
@@ -28,42 +30,49 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrive the companies
+     * Relation with the Companies model
      */
-    public function companie()
+    public function company()
     {
-        return $this->belongsTo('App\Companies', 'companies_id');
+        return $this->belongsTo('App\Company', 'companies_id');
     }
 
     /**
-     * Relation to retrive the student
+     * Relation with the Person model : student
      */
     public function student()
     {
-        return $this->belongsTo('App\Persons', 'intern_id');
+        return $this->belongsTo('App\Person', 'intern_id');
     }
 
     /**
-     * Relation to retrive the internship master
+     * Relation with the Person model : internship master
      */
     public function responsible()
     {
-        return $this->belongsTo('App\Persons', 'responsible_id');
+        return $this->belongsTo('App\Person', 'responsible_id');
     }
 
     /**
-     * Relation to retrive the internship admin
+     * Relation with the Person model : internship admin
      */
     public function admin()
     {
-        return $this->belongsTo('App\Persons', 'admin_id');
+        return $this->belongsTo('App\Person', 'admin_id');
     }
 
     /**
-     * Relation with the contractstates model
+     * Relation with the Contractstates model
      */
     public function contractstate()
     {
-        return $this->belongsTo('App\Contractstates', 'contractstate_id');
+        return $this->belongsTo('App\Contractstate');
+    }
+
+    static function fromId($internshipId)
+    {
+        return self::where("id", $internshipId)
+        ->with("company")
+        ->first();
     }
 }

@@ -3,7 +3,7 @@
 
 @section ('content')
     <div class="text-left">
-        <a href="/about">
+        <a href="/admin/snapshot">
             <button class="btn btn-default btn-tile">Snapshots</button>
         </a>
         <a href="/synchro">
@@ -15,12 +15,15 @@
         <a href="/about">
             <button class="btn btn-default btn-tile">Editer les contrats</button>
         </a><br>
-        <a href="/editGrid">
-            <button class="btn btn-default btn-tile">Editer la grille d'évaluation</button>
+        <a href="/editlifecycle">
+            <button class="btn btn-default btn-tile">Editer le cycle de vie</button>
+        </a>
+        <a href="/mailing">
+            <button class="btn btn-default btn-tile">Mailing</button>
         </a>
     </div>
 @stop
 
-@section('page_specific_css')
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/mpmenu.css">
-@stop
+@endpush

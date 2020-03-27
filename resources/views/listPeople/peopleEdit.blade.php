@@ -78,7 +78,7 @@
         <!-- Contacts -->
 
             @foreach($contacts as $contact)      <!-- View all contacts for one people -->
-            <div class="glyphicon glyphicon-{{ $contact->icon }} col-md-1 text-right smallpadding"></div>
+            <div class="fa fa-{{ $contact->iconName }} col-md-1 text-right smallpadding"></div>
             <div class="col-md-3 text-left smallpadding">{{ $contact->value }}</div>
             <div class="col-md-8 text-left smallpadding">&nbsp;
                 <form method="post" action="/contact/delete" class="popupfield col-md-2">

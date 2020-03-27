@@ -1,28 +1,44 @@
-@extends ('layout')
 
-@section ('content')
-    <h1>Créer une nouvelle visite</h1>
-    <div class="container">
-        <div class="col-md-4 col-md-offset-4">
-            <form id='textedit' method="post" action="/visits/create">
-                {{ csrf_field() }}
-                <fieldset>
-                    <label for="ex1">number</label>
-                    <input type="text" class="form-control" name="number"/>
-                    <label for="ex1">date</label>
-                    <input type="datetime-local" class="form-control" name="date"/>
-                    <label for="ex1">stage</label>
-                    <select>
-                        @foreach ($internships as $internship)
-                                    <option value="{{$internship->id}}">{{$internship->id}}</option>
-                        @endforeach
-                    </select>
-                    <input type="text" class="form-control" name="internship"/>
-                    <br>
-                    <input type="submit" class="btn btn-primary" value="Créer"/>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-
-@stop
+<h1>Nouvelle visite</h1>
+@if($errors->any())
+    @foreach ($errors->all() as $error)
+        {{ $error }}
+    @endforeach
+@endif
+<div class="col-12">
+    <form method="post" action="{{ route( 'visit.create' , [ 'id' => $internship ]) }}">
+        {{ csrf_field() }}
+        <table class="table text-center larastable">
+            <thead>
+                <th>N° visite</th>
+                <th>Jour</th>
+                <th>Heure</th>
+                <th>Mail envoyé?</th>
+                <th>Confirmé?</th>
+                <th>Note</th>
+                <th>État de la visite</th>
+                <th>Créer</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="number" min="1" name="number" value="1" required/></td>
+                    <td><input type="date" name="day"/></td>
+                    <td><input type="time" name="hour"/></td>
+                    <td><input type="checkbox" name="mailstate"/></td>
+                    <td><input type="checkbox" name="confirmed"/></td>
+                    <td><input type="number" min="1" max="6" step="0.5" name="grade" value="1" required/></td>
+                    <td>
+                        <select name="visitsstates_id" required>
+                            @foreach ($visitsStates as $visitstate)
+                                <option value="{{$visitstate->id}}">{{ $visitstate->stateName }}</option>                                    
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <button type="submit">créer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

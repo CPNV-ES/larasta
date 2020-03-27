@@ -33,6 +33,6 @@
     <button id="cmdedit" class="btn-info col-md-2">Editer</button>
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/remark.js"></script>
-@stop
+@endpush

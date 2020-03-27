@@ -2,6 +2,18 @@
 
 "Stage" application with laravel.
 
+## Requirement
+* composer
+* npm
+* PHP 7.4 or later
+* On php.ini you must have to enable the following modules :
+  * curl
+  * fileinfo
+  * gd2
+  * mbstring
+  * exif
+  * pdo_mysql
+
 ## Set up development
 
 ### 1. Clone the repository
@@ -32,10 +44,17 @@ Go to your project folder and run the installation of laravel dependencies.
 cd /path/to/your/local/clone/of/larasta
 
 # install composer dependencies
-composer install
+composer i
 
 # install the npm dependencies
-cd public && npm i
+npm i
+```
+
+To create all js and css files
+
+```bash
+# install the npm dependencies
+npm run dev
 ```
 
 ### 4. Set up your application key
@@ -53,9 +72,16 @@ php artisan key:generate
 
 ### 5. Create and seed the database
 
-- Drop schema `app_internships` on your server
-- Synchronize (i.e: create) schema using `database/Stages v2.mwb` with Workbench
-- Execute script `database/testdata.sql`
+In terminal, use the next command to create database with required data:
+```
+php artisan mysql:createdb app_internships2
+php artisan migrate --seed
+```
+
+if you want add test data:
+```
+php artisan db:seed --class="TestDataSeeder"
+```
 
 ### 6. Fix some file system details
 
@@ -84,24 +110,6 @@ USER_LEVEL=1
 ```
 
 Then use the static method `Environment::currentUser()` in your code
-
-### 8. Add the Intranet API key (optional)
-If you plan on synchronising your local database with the Intranet (persons), you need the application key and the secret.
-Add 2 environment variables in the ``.env`` file of the project:
-
-```
-API_KEY=...
-API_SECRET=...
-```
-
-### 9. GoogleMap API key (optional - suspended)
-If you plan on using the distance matrix function, you must provide the GoogleMap API key:
-
-```
-API_GOOGLE_MAP=AIzaSyBRFbQtojevcenB9g0knU6W_9kL0eWu4Vo
-```
-
-**WARNING**: Google has change the API access policy some time in 2018. This code is no longer functional as is, it must be adapted to the new API.
 
 ### 10. PHP version
 There are some issues between the version of Laravel used in this project and the most recents PHP versions. The PHP version used with the project should be PHP 7.2.

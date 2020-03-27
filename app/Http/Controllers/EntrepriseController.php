@@ -5,6 +5,8 @@
  */
 
 namespace App\Http\Controllers;
+
+use App\Internship;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +27,7 @@ class EntrepriseController extends Controller
         $company = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->join('contracts', 'contracts_id','=', 'contracts.id')
-            ->select('companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
+            ->select('companies.id', 'companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
             ->where('companies.id',$id)
             ->get();
 
@@ -44,38 +46,13 @@ class EntrepriseController extends Controller
             ->where('company_id','=',$id)
             ->get();
 
-        $iships = DB::table('internships')
-            ->join('companies', 'companies_id', '=', 'companies.id')
-            ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-            ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-            ->join('persons as student', 'intern_id', '=', 'student.id')
-            ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-            ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-            ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
-            ->select(
-                'internships.id',
-                'beginDate',
-                'endDate',
-                'companyName',
-                'admresp.firstname as arespfirstname',
-                'admresp.lastname as aresplastname',
-                'intresp.firstname as irespfirstname',
-                'intresp.lastname as iresplastname',
-                'student.firstname as studentfirstname',
-                'student.lastname as studentlastname',
-                'mc.intranetUserId as mcid',
-                'mc.initials as mcini',
-                'contractstate_id',
-                'stateDescription')
-            ->where('companies_id', $id)
-            ->get();
+        $iships = Internship::where('companies_id',$id)->get();
 
         $remarks = DB::table('remarks')
             ->select('id','remarkDate','author','remarkText')
             ->where('remarkType',1)
             ->where('remarkOn_id', $id)
             ->get();
-
 
         return view('/entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'persons' => $persons, 'contacts' => $contacts,  'iships'=>$iships, 'remarks'=>$remarks, 'message'=>$msg, 'contracts' => $eType]);
     }

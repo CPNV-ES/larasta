@@ -1,73 +1,163 @@
-<!-- ///////////////////////////////////              -->
-<!-- Benjamin Delacombaz                              -->
-<!-- Wishes Matrix layout                             -->
-<!-- Version 0.7                                      -->
-<!-- Created 18.12.2017                               -->
-<!-- Last edit 23.01.2017 by Benjamin Delacombaz      -->
-
-
 @extends ('layout')
-@section ('page_specific_css')
-    <link rel="stylesheet" href="/css/wishesMatrix.css" />
-@stop
+@push ('page_specific_css')
+    <link rel="stylesheet" href="/css/wishesMatrix.css"/>
+@endpush
 @section ('content')
-    <div class="alert-info hidden">
-        <!-- Info if user doesn't have the good right -->
-    </div>
+    <!-- Display messages if the user doesn't have the correct rights -->
+    <div class="alert-info hidden"></div>
+
     <h1>Matrice des souhaits</h1>
     <div class="col-md-9">
         <table id="WishesMatrixTable" class="table-bordered col-md-11">
+            {{-- Display flocks --}}
             <tr>
                 <th></th>
-                <!-- Add each persons where initials is ok -->
-                @foreach ($persons as $person)
-                    @if ($person->initials!="")
-                        <!-- Add access class for authoized to edit a col -->
-                        @if ($person->initials == $currentUser->getInitials()) 
-                            <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
-                        @else
-                            <th value="{{ $person->id }}">{{ $person->initials }}</th>   
-                        @endif
-                    @endif
+                @foreach ($flocks as $flock)
+                    {{-- The colspan of a flock is the number of students of the flock --}}
+                    <th colspan="{{ $flock->students->count() }}">{{ $flock->flockName }}</th>
                 @endforeach
             </tr>
-            @foreach ($companies as $companie)
-                <tr>
-                    <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
-                    <!-- Create the clickable case for each person -->
-                    @foreach ($persons as $person)
-                        @if ($person->initials!="")
-                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                            @if ($currentUser->getLevel() != 0)
-                                <td class="clickableCase locked teacher">
-                            @else
-                                <td class="clickableCase">
-                            @endif
-                            <!-- Add for each persons in the table her wish -->
-                                @foreach ($wishes[$person->id] as $wish)
-                                    <!-- if wish company is equal to the current company display the rank -->
-                                    @if($wish->id == $companie->id)
-                                        {{ $wish->rank }}
-                                    @endif
-                                @endforeach
-                            </td>
-                        @endif
+
+            {{-- Display the students from the flocks --}}
+            <tr>
+                <th></th>
+                @foreach ($flocks as $flock)
+                    @foreach($flock->students as $student)
+                        {{-- Display the initials of the student --}}
+                        {{-- Add the class access to cases of belonging to the user --}}
+                        <th
+                                @if ($student->id == $currentUser->id)
+                                class="access"
+                                @endif
+                        >
+                            <a href="/listPeople/{{ $student->id }}/info">
+                                @if ($student->initials!="")
+                                    {{ $student->initials }}
+                                @else
+                                    ???
+                                @endif
+                            </a>
+                        </th>
                     @endforeach
-                </tr>
+                @endforeach
+            </tr>
+
+            {{-- Display the internships and their wishes --}}
+            @foreach ($parentInternships as $internship)
+                {{-- Display a group only if at least one internship is disponible --}}
+                @if($placesQuantities[$internship->id] >= 1 )
+                    <tr data-internship-id="{{ $internship->id }}">
+                        <td>
+                            {{-- Display the company of the internship, with a link to the first available internship --}}
+                            <a href="/internships/{{ $childIds[$internship->id] }}/view">
+                                {{ $internship->company->companyName }}
+
+                                {{-- Display the number of available internships, if that number is greater than 1 --}}
+                                @if($placesQuantities[$internship->id] > 1)
+                                    ({{ $placesQuantities[$internship->id] }})
+                                @endif
+                            </a>
+                        </td>
+
+                        {{-- Create the clickable case for each person --}}
+                        @foreach ($flocks as $flock)
+                            @foreach ($flock->students as $student)
+                                {{-- If the student has a wish associated to the internship, get the wish --}}
+                                @php
+                                    $currentWish = $student->wishes->where('internship.id', $internship->id)->first();
+                                    $tdClasses = " ";
+                                    if($currentUser->isTeacher) {
+                                        $tdClasses .= "clickableCase locked teacher ";
+                                    } elseif ($currentUser->id == $student->id) {
+                                        $tdClasses .= "clickableCase currentStudent ";
+                                    }
+                                    if(!is_null($currentWish) && $currentWish->application >= 1) {
+                                        $tdClasses .= "postulationRequest ";
+                                    }
+                                @endphp
+                                <td
+                                        class="{{ $tdClasses }}"
+
+                                        @if (!is_null($currentWish))
+                                        data-wish-id="{{ $currentWish->id }}"
+                                        @else
+                                        data-wish-id=""
+                                        @endif
+                                        data-student-id="{{ $student->id }}"
+                                        data-internship-id="{{ $internship->id }}"
+                                >
+                                    @if (!is_null($currentWish) && $currentWish->rank > 0)
+                                        {{ $currentWish->rank }}
+                                    @endif
+                                </td>
+                            @endforeach
+                        @endforeach
+                    </tr>
+                @endif
             @endforeach
         </table>
-        @if ($currentUser->getLevel() != 0)
-            <img id="lockTable" src="/images/padlock_32x32.png"/>
+
+        {{-- Lock table button --}}
+        @if ($currentUser->isTeacher)
+            <img id="lockTable" src="/images/padlock_32x32.png" alt="unlock"/>
+
+            <form id="postulationsForm" action="/wishesPostulations" method="post">
+                {{-- Necessary in order to validate the POST--}}
+                {{ csrf_field() }}
+
+                {{-- data --}}
+                <textarea id="postulations" name="postulations" hidden></textarea>
+
+                <button type="submit">Enregistrer les postulations</button>
+            </form>
         @endif
     </div>
-    <!-- Check if current user is not a student -->
-    @if ($currentUser->getLevel() != 0)
-        <a href="/traveltime/{{$currentUserFlockId}}/load" class="col-md-3">Travel time</a>
-        <label>Modifiable jusqu'au</label> <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
+
+    {{-- Parameters modification --}}
+    @if ($currentUser->isTeacher)
+        <form action="/wishesMatrix" method="post">
+            {{-- Necessary in order to validate the POST--}}
+            {{ csrf_field() }}
+
+            {{-- Limit date for modifications --}}
+            <label for="dateEndChoices">Modifiable jusqu'au</label>
+            <input id="dateEndChoices" name="dateEndWishes" placeholder="AAAA-MM-DD" type="date"
+                   value="{{ $dateEndWishes }}"/>
+
+            {{-- Year selection --}}
+            <label for="flockYear">Année à afficher</label>
+            <select id="flockYear" name="flockYear">
+                @foreach($flockYears as $year)
+                    {{-- default selected year is the displayed year --}}
+                    <option value="{{ $year }}"
+                            @if($year == $selectedYear)
+                            selected
+                            @endif
+                    >{{ $year }}
+                    </option>
+                @endforeach
+            </select>
+
+            <button type="submit">Enregistrer les paramètres</button>
+        </form>
     @endif
-    <button id="save">Enregistrer</button>
+
+    {{-- Save choices, students only --}}
+    {{-- Check if current user is a student --}}
+    @if ($currentUser->isStudent)
+        <form id="choicesForm" action="/updateWishes" method="post">
+            {{-- Necessary in order to validate the POST--}}
+            {{ csrf_field() }}
+
+            {{-- data --}}
+            <textarea id="choices" name="choices" hidden></textarea>
+
+            <button type="submit">Enregistrer</button>
+        </form>
+    @endif
+
 @stop
 
-@section ('page_specific_js')
+@push ('page_specific_js')
     <script src="/js/wishesMatrix.js"></script>
-@stop
+@endpush

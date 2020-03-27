@@ -10,24 +10,39 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'InternshipsController@index');
+Route::get('/', 'InternshipsController@index')->name("index");
 
 Route::post('/', 'InternshipsController@changeFilter');
 
+Route::get('/newinternship/{id}', 'InternshipsController@showForm');
+
+Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
+
 Route::get('/internships/{iid}/view','InternshipsController@view');
 
-Route::get('/internships/{iid}/edit','InternshipsController@edit');
+Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
-Route::get('/internships/{iid}/update','InternshipsController@update');
+Route::get('/internships/{iid}/update','InternshipsController@update')->name("updateInternships");
 
-Route::get('/internships/{iid}/addVisit','InternshipsController@addVisit');
+Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
 
-Route::get('/internships/{iid}/updateVisit','InternshipsController@updateVisit');
+Route::get('/internships/{id}/updateVisits','VisitsController@updateVisits')->name('visit.updateVisits');
 
-Route::get('/internships/{iid}/addRemark','InternshipsController@addRemark');
+Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
 
-Route::get('/admin', 'AdminController@index');
+Route::get('/internships/{iid}/new','InternshipsController@createInternship');
+
+Route::post('/internships/{iid}/create','InternshipsController@addInternship');
+//
+Route::post('/internships/{id}/files',"InternshipsController@storeFile")->name("internship.storeFile");
+Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
+
+Route::get('/admin','AdminController@index')->middleware('admin');
+
+Route::get('/admin/snapshot', 'snapshotController@showSnapshot');
+Route::get('/admin/snapshot/take', 'snapshotController@takeDbSnapshot')->name('snapshot.take');
+Route::post('/admin/snapshot/upload', 'snapshotController@upload')->name('snapshot.upload');
+Route::post('/admin/snapshot/reload', 'snapshotController@reload')->name('snapshot.reload');
 
 Route::get('/about', function () {
     return view('about');
@@ -60,67 +75,44 @@ Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
 
 
 // Quentin N - Contract generation
-Route::get('/contract/{iid}', 'ContractController@generateContract');
+Route::get('/contract/{id}', 'ContractController@generateContract');
 
-Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
+Route::post('/contract/{id}/view', 'ContractController@visualizeContract')->name("viewContract");
 
-Route::post('/contract/{iid}/save', 'ContractController@saveContract');
+Route::post('/contract/{id}/save', 'ContractController@saveContract')->name("saveContract");
 
-Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
+Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
 // Steven
-
 Route::get('/synchro', 'SynchroController@index');
-
 Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-Route::post('/visits', 'VisitsController@changeFilter');
-Route::get('/visits/{rid}/manage','VisitsController@manage');
+Route::post('/visits','VisitsController@filter');
+Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
 Route::post('/visits/create','VisitsController@create');
+Route::post('/visits/remarks','VisitsController@addRemarks');
 Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
 Route::post('/visits/{id}/update', 'VisitsController@update');
+Route::post('/visits/{id}/files',"VisitsController@storeFile")->name("visit.storeFile");
+Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
 
-// Add by Benjamin Delacombaz 12.12.2017 10:40
-Route::get('/wishesMatrix', 'WishesMatrixController@index');
-// Add by Benjamin Delacombaz 21.01.2018
+// WishesMatrix
+Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');
 Route::post('/wishesMatrix', 'WishesMatrixController@save');
+Route::post('/updateWishes', 'WishesMatrixController@saveWishes');
+Route::post('/wishesPostulations', 'WishesMatrixController@saveWishespostulations');
 
 // Kevin
 Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
 Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
-
-/**
- * Bastien - Evaluation grid
- * 
- * All the routes to interact with the evaluation Grid (edition)
- * Grouped by the /evalgrid prefix
- */
-Route::prefix('evalgrid')->group(function () {
-
-    /**
-     * Home page of the section (just for dev)
-     */
-    Route::get('evalgrid', 'EvalController@index')->name('evalGridHome');
-    /**
-     * Create a new evaluation linked to a visit
-     * @param visit the visit id
-     */
-    Route::get('neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+')->name('newEvalGrid');
-    /**
-     * Display an evaluation grid for edition or reading
-     * @param mode 'readonly' or 'edit'
-     * @param gridID the id of the grid we want to edit. OPTIONAL parameter (we can also pass the id by the session with the 'activeEditedGrid' key)
-     */
-    Route::get('grid/{mode}/{gridID}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+'])->name('editEvalGrid');
-    /**
-     * Edit the values of the grid fields (see the controller method for more infos)
-     */
-    Route::post('grid/save/{gridID}', 'EvalController@saveNewGridDatas')->where(['gridID' => '[0-9]+'])->name('saveNewGridDatas');
-});
+// Logbook
+Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
+Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
+Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
@@ -137,14 +129,12 @@ Route::post('/contact/delete','PeopleControlleur@deleteContact');
 Route::post('/contact/add','PeopleControlleur@addContact');
 Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
 
-//
+//Life cicle
+Route::get('/editlifecycle','LifeCycleController@index');
 
+Route::post('/addlifecycle','LifeCycleController@addEmptyContractState');
+Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
 
-//Julien - Grille d'évaluation - Modélisation
-Route::get('/editGrid', 'EditGridController@index');
-Route::post('/editGrid/editCriteria', 'EditGridController@editCriteria');
-Route::post('/editGrid/editSection', 'EditGridController@editSection');
-Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
-Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
-Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
-Route::post('/editGrid/addSection', 'EditGridController@addSection');
+//Mailling
+Route::get('/mailing','MailingController@mailling');
+
