@@ -50,6 +50,13 @@ composer i
 npm i
 ```
 
+To create all js and css files
+
+```bash
+# install the npm dependencies
+npm run dev
+```
+
 ### 4. Set up your application key
 When the dependencies are installed you must duplicate the ``.env.example`` file and rename it to ``.env``.
 
