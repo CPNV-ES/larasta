@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+
 use App\Http\Controllers\Controller;
+use App\User;
+
+
 use Socialite;
 
 class AuthController extends Controller
@@ -31,10 +37,9 @@ class AuthController extends Controller
         }
 
         $authUser = $this->findOrCreateUser($user);
-
         Auth::login($authUser, true);
 
-        return Redirect::to('home');
+        return Redirect::to('/');
     }
 
     /**
@@ -55,5 +60,10 @@ class AuthController extends Controller
             'github_id' => $githubUser->id,
             'avatar' => $githubUser->avatar
         ]);
+    }
+
+    public function logoutUser(){
+        Auth::logout();
+        return Redirect::to('/');
     }
 }

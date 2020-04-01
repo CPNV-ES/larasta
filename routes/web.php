@@ -139,5 +139,6 @@ Route::get('/mailing','MailingController@mailling');
 
 //GitHub
 Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
+Route::get('auth/callback', 'Auth\AuthController@handleProviderCallback');
+Route::post('auth/logout', 'Auth\AuthController@logoutUser');
 
