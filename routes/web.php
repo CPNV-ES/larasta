@@ -26,7 +26,7 @@ Route::get('/internships/{iid}/update','InternshipsController@update')->name("up
 
 Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
 
-Route::get('/internships/{id}/updateVisits','VisitsController@updateVisits')->name('visit.updateVisits');
+Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
 
 Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
 
