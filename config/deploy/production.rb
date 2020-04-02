@@ -72,6 +72,17 @@ server "larasta.mycpnv.ch",
      auth_methods: %w(publickey password)
    }
 
+namespace :laravel do
+     desc "Run Laravel Artisan seed task."
+     task :seed do
+      on roles(:db), in: :sequence, wait: 5 do
+          within release_path  do
+              execute :php, "artisan db:seed"
+          end
+      end
+  end
+end
+  
 SSHKit.config.command_map[:composer] = "php -d allow_url_fopen=true #{shared_path.join('composer')}"
 
 Rake::Task['laravel:optimize'].clear_actions rescue nil
