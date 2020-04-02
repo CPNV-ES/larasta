@@ -55,7 +55,7 @@ Date.prototype.getWeek = function() {
 
     var dayLengthStamp = 24 * 60 * 60 * 1000;
     var firstDayStamp = currentStamp - currentDayIndex * dayLengthStamp;
-    var lastDayStamp = currentStamp + (6 - currentDayIndex) * dayLengthStamp;
+    var lastDayStamp = currentStamp + (7 - currentDayIndex) * dayLengthStamp;
     var lastWorkStamp = lastDayStamp - 2 * dayLengthStamp;
 
     var firstDayDate = new Date(firstDayStamp).getAbsoluteDate();

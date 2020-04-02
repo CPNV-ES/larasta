@@ -273,7 +273,7 @@ $calendarHeight: 600px;
 
 /*calendar*/
 
-.calendarSection {
+#calendarSection {
   border: 1px solid #666;
   margin-top: 15px;
 }
@@ -410,6 +410,17 @@ $calendarHeight: 600px;
   vertical-align: top;
   margin: 5px;
   height: 100%;
+  &.saturday,
+  &.sunday {
+    display: none;
+  }
+}
+#calendarSection.withWeekend .dayAdapter {
+  width: calc(100% / 7 - 10px);
+  &.saturday,
+  &.sunday {
+    display: inline-block;
+  }
 }
 
 .dayAdapterHeader {

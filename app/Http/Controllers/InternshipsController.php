@@ -456,9 +456,9 @@ class InternshipsController extends Controller
         $internship = Internship::findOrFail($id);
         $internship->addMediaFromRequest('file')->toMediaCollection($collection);
     }
-    public function deleteFile($id,$idMedia)
+    public function deleteFile($id,$idMedia, $collection = 'documents')
     {
         $internship = Internship::findOrFail($id);
-        $internship->getMedia()->find($idMedia)->delete();
+        $internship->getMedia($collection)->find($idMedia)->delete();
     }
 }

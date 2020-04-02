@@ -13,9 +13,20 @@
         var activityTypes = {!! $activityTypes !!};
         var COMPLIANCE_CONDITIONS = {!! $complianceConditions !!}
         var COMPLIANCE_LEVELS = COMPLIANCE_CONDITIONS.levels;
-        //var routes = {} //couldn't manage to use dynamic routes without added dev
+
+        var ROUTES = {
+            getActivity(activityId) { return `/api/internships/logbook/activities/${activityId}` },
+            getActivities() { return `/api/internships/${internshipId}/logbook/activities` },
+            postActivity() { return `/api/internships/${internshipId}/logbook/activities` },
+            putActivity(activityId) { return `/api/internships/logbook/activities/${activityId}` },
+            deleteActivity(activityId) { return `/api/internships/logbook/activities/${activityId}` }
+        };
     </script>
 @endpush
+
+@php
+    $logbookShowWeekend = (isset($_COOKIE['logbookShowWeekend']) && $_COOKIE['logbookShowWeekend'] == "yes");
+@endphp
 
 @push('sidemenu')
     @include("logbook/_sideMenuInfos", ["modeBtnAction" => "review", "internshipId" => $internship->id])
@@ -32,7 +43,7 @@
                 <button id="todayNewActivityBtn" title="Créer une activité (Alt+N)">+</button>
             </div>
         </div>
-        <div class="calendarSection">
+        <div  id="calendarSection" class="{{$logbookShowWeekend ? 'withWeekend' : ''}}">
             <div class="calendarHeader">
                 <button id="todayTimeBtn">Aujourd'hui</button>
                 <button id="lastTimeBtn">&lt;</button>
@@ -58,6 +69,9 @@
                         <button id="seekCalendarNextYear">&gt;</button>
                     </div>
                     <input id="seekDateInput" type="date"/>
+                    <br/>
+                    <input type="checkbox" id="chkShowWeekends" {{$logbookShowWeekend ? 'checked' : ''}}/>
+                    <label for="chkShowWeekends">Weekends</label>
                 </div>
             </div>
             <div class="calendarBody">
