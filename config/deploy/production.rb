@@ -95,3 +95,4 @@ Rake::Task['laravel:optimize'].clear_actions rescue nil
             execute :php, "artisan db:seed"
         end
     end
+  end
