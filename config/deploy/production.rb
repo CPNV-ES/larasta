@@ -71,17 +71,6 @@ server "larasta.mycpnv.ch",
      forward_agent: false,
      auth_methods: %w(publickey password)
    }
-
-namespace :laravel do
-     desc "Run Laravel Artisan seed task."
-     task :seed do
-      on roles(:db), in: :sequence, wait: 5 do
-          within release_path  do
-              execute :php, "artisan db:seed"
-          end
-      end
-  end
-end
   
 SSHKit.config.command_map[:composer] = "php -d allow_url_fopen=true #{shared_path.join('composer')}"
 
@@ -91,7 +80,7 @@ Rake::Task['laravel:optimize'].clear_actions rescue nil
 
    after 'composer:run' , 'copy_dotenv'
    after 'composer:run' , 'laravel:migrate'
-   after 'laravel:migrate' , 'laravel:seed'
+   after 'laravel:migrate' , 'seed_database'
    after "deploy:updated", "deploy:cleanup"
 
    task :copy_dotenv do
@@ -99,3 +88,10 @@ Rake::Task['laravel:optimize'].clear_actions rescue nil
       execute :cp, "#{shared_path}/.env #{release_path}/.env"
     end
   end
+
+  task :seed_database do
+    on roles(:db), in: :sequence, wait: 5 do
+        within release_path  do
+            execute :php, "artisan db:seed"
+        end
+    end
