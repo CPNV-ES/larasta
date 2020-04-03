@@ -90,9 +90,10 @@ Rake::Task['laravel:optimize'].clear_actions rescue nil
   end
 
   task :seed_database do
-    on roles(:db), in: :sequence, wait: 5 do
+    on roles(:all) do
         within release_path  do
             execute :php, "artisan db:seed"
+            execute :php, "artisan db:seed --class='TestDataSeeder'"
         end
     end
   end
