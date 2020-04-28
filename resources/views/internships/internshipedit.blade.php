@@ -115,7 +115,7 @@
     </form>
     
     <hr/>
-    @if (env('USER_LEVEL') > 1)
+    @if (Auth::user()->role > 1)
         @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])

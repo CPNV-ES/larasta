@@ -25,3 +25,5 @@ yarn-error.log
 /public/package-lock.json
 /public/package.json
 /public/composer.lock
+config/larasta_rsa
+config/larasta_rsa.pub

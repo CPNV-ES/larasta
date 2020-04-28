@@ -358,7 +358,7 @@ class VisitsController extends Controller
     
     public function updateVisits($id, Request $request)
     {
-        if (env('USER_LEVEL') < 2) 
+        if (Auth::user()->role < 2) 
             abort(404);
 
         $numberOfLoops = count($request->visitsstates_id);
