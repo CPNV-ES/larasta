@@ -66,10 +66,12 @@
                 <td><a href="/documents"><img alt="Documents" src="/images/documents.png">Documents</a></td>
             </tr>
             @yield ('sidemenu_table')
-            @if (Auth::user()->role > 1)
-                <tr>
-                    <td><a href="/admin"><img alt="mp" src="/images/MP.png">Admin</a></td>
-                </tr>
+            @if (Auth::check())
+                @if (Auth::user()->role > 1)
+                    <tr>
+                        <td><a href="/admin"><img alt="mp" src="/images/MP.png">Admin</a></td>
+                    </tr>
+                @endif
             @endif
         </table>
         @yield ('sidemenu')

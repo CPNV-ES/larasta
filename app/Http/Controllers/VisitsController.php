@@ -27,6 +27,7 @@ use CPNVEnvironment\Environment;
 
 // Other
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use DateTime;
 
