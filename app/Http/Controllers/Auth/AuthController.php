@@ -20,7 +20,15 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('github')->redirect();
+        if(env('USER_ID'))
+        {
+            $this->localLogin(env('USER_ID'));
+            return Redirect::to('/');
+        }
+        else
+        {
+            return Socialite::driver('github')->redirect();
+        }
     }
 
     /**
@@ -63,6 +71,13 @@ class AuthController extends Controller
         ]);
     }
 
+    public function localLogin($id){
+        $user = new \stdClass();
+        $user->id = $id;
+        $authUser = $this->findOrCreateUser($user);
+        Auth::login($authUser, true);
+    }
+    
     public function logoutUser(){
         Auth::logout();
         return Redirect::to('/');
