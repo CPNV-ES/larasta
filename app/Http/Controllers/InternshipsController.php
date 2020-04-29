@@ -15,6 +15,7 @@ use CPNVEnvironment\InternshipFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreFileRequest;
 
 class InternshipsController extends Controller
@@ -236,7 +237,7 @@ class InternshipsController extends Controller
     public function edit($internshipId)
     {
         date_default_timezone_set('Europe/Zurich');
-        if (env('USER_LEVEL') <= 1)        
+        if (Auth::user()->role <= 1)        
             abort(404);
 
         $internship = Internship::find($internshipId);
@@ -280,7 +281,7 @@ class InternshipsController extends Controller
     public function update(Request $request, $id)
     {
 
-        if (env('USER_LEVEL') < 1){
+        if (Auth::user()->role < 1){
             abort(404);
             return;
         }

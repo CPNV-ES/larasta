@@ -27,6 +27,7 @@ use CPNVEnvironment\Environment;
 
 // Other
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use DateTime;
 
@@ -358,7 +359,7 @@ class VisitsController extends Controller
     
     public function updateVisit($id, VisitRequest $request)
     {
-        if (env('USER_LEVEL') < 2) 
+        if (Auth::user()->role < 2) 
             abort(404);
             
         $visit = Visit::findOrFail($request->id);
