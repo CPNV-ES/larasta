@@ -70,7 +70,7 @@ class AuthController extends Controller
             'role'  => 1
         ]);
     }
-
+    //TODO required initial , required to bind with a person 
     public function localLogin($id){
         $user = new \stdClass();
         $user->id = $id;
