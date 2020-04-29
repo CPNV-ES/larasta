@@ -240,15 +240,9 @@ class InternshipsController extends Controller
             abort(404);
 
         $internship = Internship::find($internshipId);
-        $contractStates = Contractstate::all();
         $medias = $internship->getMedia('documents');
-        $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
+        $contractStates =  $internship->contractstate->contractStates;
         $actualState = $internship->contractstate;
-
-        $lcycles = [$internship->contractstate->id];
-        foreach ($lifecycles->get()->toArray() as $value) {
-            array_push($lcycles, $value->to_id);
-        }
 
         $responsibles = DB::table('persons')
             ->select(
