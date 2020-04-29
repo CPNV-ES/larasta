@@ -17,6 +17,11 @@ class Company extends Model
         return $this->hasMany('App\Internship', 'companies_id');
     }
 
+    public function person()
+    {
+        return $this->has('App\Person', 'company_id');
+    }
+
     /**
      * @description A contract belong to company
      * @return the contract of company

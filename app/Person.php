@@ -30,6 +30,11 @@ class Person extends Model
     {
         return $this->belongsTo('App\Location');
     }
+    
+    public function company()
+    {
+        return $this->belongsTo('App\company', 'company_id');
+    }
 
     /**
      * Relation to the internship of the student

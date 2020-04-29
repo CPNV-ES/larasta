@@ -35,16 +35,16 @@
         </div>
 
         <div class="row">
-            @if (isset($person->companyName))
+            @if (isset($person->company->companyName))
                 <h5 class="titlebar">Entreprise / Etablissement</h5>
-                <div>{{ $person->companyName }}</div>
+                <div>{{ $person->company->companyName }}</div>
                 <form id="frmCompany" method="post" action="/listPeople/changeCompany" class="popupfield">
                     {{ csrf_field() }}
                     <input type="hidden" name="peopleid" value="{{ $person->id }}">
                     <label for="dpdCompany">Changer à </label>
-                    <select id="dpdCompany" name="dpdCompany" value="$person->company_id">
+                    <select id="dpdCompany" name="dpdCompany" value="$person->company->id">
                         @foreach($companies as $company)
-                            @if($company->id == $person->company_id)
+                            @if($company->id == $person->company->id)
                                 <option value="{{ $company->id }}" selected>{{ $company->companyName }}</option>
                             @else
                                 <option value="{{ $company->id }}">{{ $company->companyName }}</option>
@@ -78,7 +78,7 @@
         <!-- Contacts -->
 
             @foreach($contacts as $contact)      <!-- View all contacts for one people -->
-            <div class="fa fa-{{ $contact->iconName }} col-md-1 text-right smallpadding"></div>
+            <div class="fa fa-{{ $contact->icon }} col-md-1 text-right smallpadding"></div>
             <div class="col-md-3 text-left smallpadding">{{ $contact->value }}</div>
             <div class="col-md-8 text-left smallpadding">&nbsp;
                 <form method="post" action="/contact/delete" class="popupfield col-md-2">
