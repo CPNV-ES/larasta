@@ -52,10 +52,10 @@ class VisitsController extends Controller
     public function index()
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
-        $id = Environment::currentUser()->getId();
+        $id = Environment::currentUser()->getId(); //TODO to replace by Auth::user()
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
             //Eloquent query gets all the visits from teacher ID that are in the past
             $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
             {
@@ -88,7 +88,7 @@ class VisitsController extends Controller
     public function filter(Request $request){
     
         $id = $request->input('teacher');
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             //Eloquent query gets all the visits from teacher ID that are in the past
             $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id){
@@ -127,7 +127,7 @@ class VisitsController extends Controller
 
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             // Try to know if a visit exist
             $visits=Visit::find($rid);
@@ -203,7 +203,7 @@ class VisitsController extends Controller
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
             /*
              * Query Update that updates mail & visit status
              * */
@@ -223,7 +223,7 @@ class VisitsController extends Controller
                 'remarkType' => 4,
                 'remarkOn_id' => $id,
                 'remarkDate' => $date->format('Y-m-d H:i:s'),
-                'author' => Environment::currentUser()->getInitials(),
+                'author' => Environment::currentUser()->getInitials(), //TODO to replace by Auth::user()
                 'remarkText' => "Email envoyé au responsable à ".$date->format('d M Y')." à ".$date->format('H:i:s')
             ]);
 
@@ -250,7 +250,7 @@ class VisitsController extends Controller
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             /*
              * delete row by visit's current ID
@@ -276,7 +276,7 @@ class VisitsController extends Controller
      * */
     public function update(Request $request, $id)
     {
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             /*
              * Initialize variables to update the visit
