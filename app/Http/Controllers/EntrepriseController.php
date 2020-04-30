@@ -10,6 +10,7 @@ use App\Internship;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EntrepriseController extends Controller
 {
@@ -22,7 +23,7 @@ class EntrepriseController extends Controller
      */
     public function index($id, $msg=null){
 
-        $user = Environment::currentUser();
+        $user = Auth::user()->person;
 
         $company = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')

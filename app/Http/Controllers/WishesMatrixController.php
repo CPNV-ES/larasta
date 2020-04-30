@@ -11,6 +11,7 @@ use App\Remark;
 use App\Wish;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 use function GuzzleHttp\json_encode;
 
@@ -27,7 +28,7 @@ class WishesMatrixController extends Controller
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
-        $currentUserId = Environment::currentUser()->getId();
+        $currentUserId = Auth::user()->person->id;
         $currentUser = Person::find($currentUserId);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -136,7 +137,7 @@ class WishesMatrixController extends Controller
 
 
         // Do only if user is not student
-        if (Environment::currentUser()->getLevel() > 0) {
+        if (Auth::user()->role > 0) {
             // Save the date
             if (isset($data['dateEndWishes'])) {
                 // get the date saved in the database
@@ -182,10 +183,10 @@ class WishesMatrixController extends Controller
      */
     public function saveWishes(Request $request)
     {
-        $currentUser = Environment::currentUser();
+        $currentUser = Auth::user()->person;
 
         // Only students should be able to save their wishes
-        if ($currentUser->getLevel() != 0) {
+        if (Auth::user()->role != 0) {
             return redirect('/wishesMatrix');
         }
 
@@ -284,10 +285,10 @@ class WishesMatrixController extends Controller
 
     public function saveWishesPostulations(Request $request)
     {
-        $currentUser = Environment::currentUser();
+        $currentUser = Auth::user()->person;
 
         // Only teachers should be allowed modify postulations
-        if ($currentUser->getLevel() <= 0) {
+        if (Auth::user()->role <= 0) {
             return redirect('/wishesMatrix');
         }
 

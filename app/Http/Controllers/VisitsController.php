@@ -27,6 +27,7 @@ use CPNVEnvironment\Environment;
 
 // Other
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use DateTime;
 
@@ -51,10 +52,10 @@ class VisitsController extends Controller
     public function index()
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
-        $id = Environment::currentUser()->getId();
+        $id = Auth::user()->person->id;
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
             //Eloquent query gets all the visits from teacher ID that are in the past
             $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
             {
@@ -87,7 +88,7 @@ class VisitsController extends Controller
     public function filter(Request $request){
     
         $id = $request->input('teacher');
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             //Eloquent query gets all the visits from teacher ID that are in the past
             $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id){
@@ -126,7 +127,7 @@ class VisitsController extends Controller
 
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             // Try to know if a visit exist
             $visits=Visit::find($rid);
@@ -202,7 +203,7 @@ class VisitsController extends Controller
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
             /*
              * Query Update that updates mail & visit status
              * */
@@ -222,7 +223,7 @@ class VisitsController extends Controller
                 'remarkType' => 4,
                 'remarkOn_id' => $id,
                 'remarkDate' => $date->format('Y-m-d H:i:s'),
-                'author' => Environment::currentUser()->getInitials(),
+                'author' => Auth::user()->person->initials,
                 'remarkText' => "Email envoyé au responsable à ".$date->format('d M Y')." à ".$date->format('H:i:s')
             ]);
 
@@ -249,7 +250,7 @@ class VisitsController extends Controller
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             /*
              * delete row by visit's current ID
@@ -275,7 +276,7 @@ class VisitsController extends Controller
      * */
     public function update(Request $request, $id)
     {
-        if (Environment::currentUser()->getLevel() >= 1){
+        if (Auth::user()->role >= 1){
 
             /*
              * Initialize variables to update the visit
@@ -356,31 +357,22 @@ class VisitsController extends Controller
         return redirect()->back();
     }
     
-    public function updateVisits($id, Request $request)
+    public function updateVisit($id, VisitRequest $request)
     {
-        if (env('USER_LEVEL') < 2) 
+        if (Auth::user()->role < 2) 
             abort(404);
+            
+        $visit = Visit::findOrFail($request->id);
 
-        $numberOfLoops = count($request->visitsstates_id);
-        for( $index = 0; $index < $numberOfLoops; $index++) {
-            $visit = Visit::findOrFail($request->id[$index]);
+        $request->confirmed ? $confirmed = true : $confirmed = false;
+        $request->mailstate ? $mailstate = true : $mailstate = false;
+        $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
+        
+        $visit->fill($request->all());
+        $visit->confirmed = $confirmed;
+        $visit->mailstate = $mailstate;
+        $visit->internships_id = $id;   
 
-            !empty($request->confirmed[$index]) ? $confirmed = true : $confirmed = false;
-            !empty($request->mailstate[$index]) ? $mailstate = true : $mailstate = false;
-            $day = $request->day[$index];
-            $hour = $request->hour[$index];
-
-            $visit->moment = date('Y-m-d H:i:s', strtotime("$day $hour"));
-            $visit->grade = $request->grade[$index];
-            $visit->number = $request->number[$index];
-            $visit->visitsstates_id = $request->visitsstates_id[$index];
-            $visit->confirmed = $confirmed;
-            $visit->mailstate = $mailstate;
-            $visit->internships_id = $id;   
-
-            $visit->save();
-        }
-
-        return redirect()->back();
+        $visit->save();
     }
 }

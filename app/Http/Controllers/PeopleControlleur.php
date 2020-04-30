@@ -15,23 +15,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Contactinfos;
+use App\Contacttypes;
+use App\Internship;
 use Illuminate\Http\Request;
 use App\Person;
 use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PeopleControlleur extends Controller
 {
     /**
-    /* Get all peoples and return in the view
+     * Get all peoples and return in the view
      * Passing first filter for teacher (0->student, 1->teacher, 2->company)
      * Passing first filter for Obsolete (0->desactivate, 1->activate)
      */
     public function index()
     {
         // Get the user right
-        $user = Environment::currentUser();
+        $user = Auth::user()->person;
 
         $persons = Person::where('obsolete', 0)
             ->orderBy('firstname', 'asc')
@@ -64,7 +68,7 @@ class PeopleControlleur extends Controller
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 
         // Get the user right
-        $user = Environment::currentUser();
+        $user = Auth::user()->person; 
 
         // Apply scope form Model Persons and get data
         $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
@@ -133,107 +137,36 @@ class PeopleControlleur extends Controller
     public function info($id)
     {
         // Get the user right
-        $user = Environment::currentUser();
+        $user = Auth::user()->person;
 
         // Read Person from DB
-        $person = DB::table('persons')
-            ->select('persons.id','firstname','lastname','role','obsolete','persons.location_id','company_id', 'companyName')
-            ->leftJoin('companies','persons.company_id', '=', 'companies.id')
-            ->where('persons.id','=',$id)
-            ->get()->first();
-
+        $person = Person::find($id);
+        
         // Read Adresse from DB
-        $adress = DB::table('persons')
-            ->join('locations', 'persons.location_id', '=', 'locations.id')
-            ->select('address1','address2','postalCode','city','lat','lng')
-            ->where('persons.id','=',$id)
-            ->get()->first();
+        $adress =  Person::find($id)->location;
 
         // Read Contact info from DB
-        $contacts = DB::table('contactinfos')
-            ->join('contacttypes', 'contacttypes.id', '=', 'contactinfos.contacttypes_id')
-            ->select('contactinfos.id','iconName','value')
-            ->where('persons_id','=',$id)
-            ->get();
+        $contacts = Contactinfos::where('persons_id', $id)->get();
 
         // Read Contact types from DB
-        $contacttypes = DB::table('contacttypes')
-            ->select('id','contactTypeDescription')
-            ->get();
+        $contacttypes = Contacttypes::all();
 
         // Read Company from DB
-        $companies = DB::table('companies')
-            ->select('id','companyName')
-            ->get();
+        $companies = Company::all();
 
         // select the internships in which the person was involved, based on role
         switch ($person->role)
         {
             case 0: // Student
-                $iship = DB::table('internships')
-                    ->join('companies', 'companies_id', '=', 'companies.id')
-                    ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-                    ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-                    ->join('persons as student', 'intern_id', '=', 'student.id')
-                    ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-                    ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-                    ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
-                    ->select(
-                        'internships.id',
-                        'beginDate',
-                        'endDate',
-                        'companyName',
-                        'grossSalary',
-                        'mc.initials as mcini',
-                        'previous_id',
-                        'internshipDescription',
-                        'admresp.firstname as arespfirstname',
-                        'admresp.lastname as aresplastname',
-                        'intresp.firstname as irespfirstname',
-                        'intresp.lastname as iresplastname',
-                        'student.firstname as studentfirstname',
-                        'student.lastname as studentlastname',
-                        'contractstate_id',
-                        'contractGenerated',
-                        'stateDescription')
-                    ->where('internships.intern_id','=', $id)
-                    ->get();                break;
-            case 1: // teacher, TODO
+                $iship = Internship::where('intern_id', $id)->get();
+                break;
+            case 1: //TODO teacher          
                 break;
 
             case 2: // company
-                $iship = DB::table('internships')
-                    ->join('companies', 'companies_id', '=', 'companies.id')
-                    ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
-                    ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
-                    ->join('persons as student', 'intern_id', '=', 'student.id')
-                    ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-                    ->join('flocks', 'student.flock_id', '=', 'flocks.id')
-                    ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
-                    ->select(
-                        'internships.id',
-                        'beginDate',
-                        'endDate',
-                        'companyName',
-                        'grossSalary',
-                        'mc.initials as mcini',
-                        'previous_id',
-                        'internshipDescription',
-                        'admresp.firstname as arespfirstname',
-                        'admresp.lastname as aresplastname',
-                        'intresp.firstname as irespfirstname',
-                        'intresp.lastname as iresplastname',
-                        'student.firstname as studentfirstname',
-                        'student.lastname as studentlastname',
-                        'contractstate_id',
-                        'contractGenerated',
-                        'stateDescription')
-                    ->where('admresp.id','=', $id)
-                    ->orWhere('admresp.id','=', $id)
-                    ->get();
+                $iship = Internship::where('responsible_id', $id)->get();
                 break;
         }
-
         // return all values in view
         return view('listPeople/peopleEdit')->with(
             [

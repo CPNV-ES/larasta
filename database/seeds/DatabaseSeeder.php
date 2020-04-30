@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ActivitytypesTableSeeder::class);
         $this->call(ParamsTableSeeder::class);
         $this->call(VisitsstatesTableSeeder::class);
+
     }
 }

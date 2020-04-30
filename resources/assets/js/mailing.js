@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll(".responsible").forEach((responsible) => {
         if(responsible.getAttribute("email") == "[]"){
-            responsible.classList.add("d-none");
+            responsible.innerHTML += " (pas d'email)";
         }
     });
 
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         HiddenItems(showDeletedEnterprises,".enterprise.d-none", "d-none");
     });
-
+    showDeletedEnterprises.click();
 
     //remove d-none of element and count the number of hidden to message
     function showCancelButtom(element, elemClass, classToAddOrRemove, message, classElemToCount) {
@@ -80,6 +80,15 @@ document.addEventListener("DOMContentLoaded", function() {
             emails=[...emails,...JSON.parse(responsible.getAttribute("email"))];
         });
         //show email application
-        Utils.sendMail(emails);
+        sendMail(emails);
     });
 });
+function sendMail(to) {
+    if (Array.isArray(to)) {
+        to = to.join(";");
+    }
+    //compatible with chrome and firefox
+    var link = document.createElement("a");
+    link.href = `mailto:${to}`;
+    link.click();
+};

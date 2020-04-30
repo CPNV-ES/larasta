@@ -14,6 +14,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use CPNVEnvironment\Environment;
+use Illuminate\Support\Facades\Auth;
 
 class MinRequiredLevel implements Rule
 {
@@ -48,14 +49,14 @@ class MinRequiredLevel implements Rule
         if ($this->needle != null) {
             // If the needle correspond to the field value, we check the authorisation
             if ($this->needle == $value) {
-                return Environment::currentUser()->getLevel() >= $this->level;
+                return Auth::user()->role >= $this->level;
             } else {
                 return true;
             }
 
         // if we have no needle, just check the level
         } else {
-            return Environment::currentUser()->getLevel() >= $this->level;
+            return Auth::user()->role >= $this->level;
         }
 
         return false;

@@ -7,7 +7,7 @@
 
 @section ('content')
     <link rel="stylesheet" href="/css/entreprises.css" />
-    @if($user->getLevel() >= 2)
+    @if(Auth::user()->role >= 2)
         <br>
         <div class="header container text-left">
             <!--<div class="row">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Remark;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RemarksController extends Controller
 {
@@ -24,7 +25,7 @@ class RemarksController extends Controller
         $n->remarkOn_id = $on;
         $n->remarkDate = date('Y-m-d H:i:s');
         $n->remarkText = $text;
-        $n->author = Environment::currentUser()->getInitials();
+        $n->author = Auth::user()->person->initials;
         $n->save();
     }
 

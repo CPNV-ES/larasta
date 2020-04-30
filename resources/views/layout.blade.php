@@ -32,6 +32,18 @@
     <button id="sidemenuToggler" title="toggle menu"></button>
     <div id="sidemenu" class="simple-box container-fluid text-center">
         <table class="table table-striped text-left larastable">
+            @if (Auth::check())
+            <form action="/auth/logout" method="POST">
+            @csrf
+                <tr>
+                    <td><img alt="Icone" width="25" heigth="25" src="{{Auth::user()->avatar}}">{{Auth::user()->name}}<button type="submit">Logout</button></td>
+                </tr>
+            </form>
+            @else
+                <tr>
+                    <td><a href="/auth/github"><img alt="Github" width="25" heigth="25" src="/images/github.png">Login with GitHub</a></td>
+                </tr>
+            @endif
             <tr>
                 <td><a href="/listPeople"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
             </tr>
@@ -54,10 +66,12 @@
                 <td><a href="/documents"><img alt="Documents" src="/images/documents.png">Documents</a></td>
             </tr>
             @yield ('sidemenu_table')
-            @if (CPNVEnvironment\Environment::currentUser()->getLevel() > 1)
-                <tr>
-                    <td><a href="/admin"><img alt="mp" src="/images/MP.png">Admin</a></td>
-                </tr>
+            @if (Auth::check())
+                @if (Auth::user()->role > 1)
+                    <tr>
+                        <td><a href="/admin"><img alt="mp" src="/images/MP.png">Admin</a></td>
+                    </tr>
+                @endif
             @endif
         </table>
         @yield ('sidemenu')

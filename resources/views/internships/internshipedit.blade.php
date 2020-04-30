@@ -1,3 +1,6 @@
+@push('page_specific_css')    
+    <link rel="stylesheet" href="/css/internships.css">
+@endpush
 @extends ('layout')
 @section ('content')
     {{-- Title --}}
@@ -115,7 +118,7 @@
     </form>
     
     <hr/>
-    @if (env('USER_LEVEL') > 1)
+    @if (Auth::user()->role > 1)
         @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
@@ -125,40 +128,41 @@
         <hr/>
         <h1>Visite(s)</h1>
         <div class="col-12">
-        <form id="visitsForm" action="{{ route('visit.updateVisits', ['id' => $internship]) }}" method="get">
-                <table class="table larastable">
-                    <thead>
-                        <th>N° visite</th>
-                        <th>Jour</th>
-                        <th>Heure</th>
-                        <th>Mail envoyé?</th>
-                        <th>Confirmé?</th>
-                        <th>Note</th>
-                        <th>État de la visite</th>
-                    </thead>
-                    <tbody>
-                        @foreach ($visits as $key => $visit)
-                            <tr>
-                                <input type="hidden" name="id[{{ $key }}]" value="{{$visit->id}}"/>
-                                <td><input type="number" min="1" name="number[{{ $key }}]" value="{{$visit->number}}" required/></td>
-                                <td><input type="date" name="day[{{ $key }}]" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
-                                <td><input type="time" name="hour[{{ $key }}]" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
-                                <td><input type="checkbox" name="mailstate[{{ $key }}]" {{ $visit->mailstate ? "checked" : "" }}/></td>
-                                <td><input type="checkbox" name="confirmed[{{ $key }}]" {{ $visit->confirmed ? "checked" : "" }}/></td>
-                                <td><input type="number" min="1" max="6" step="0.5" name="grade[{{ $key }}]" value="{{ $visit->grade }}" required/></td>
-                                <td>
-                                    <select name="visitsstates_id[{{ $key }}]" required>
-                                        @foreach ($visitsStates as $visitstate)
-                                            <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
-                                        @endforeach
-                                    </select>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <button class="btn btn-warning" type="submit">Valider toutes les visites</button>
-            </form>
+            <div class='error none'>
+                Une erreur inconnue est survenue, veuillez raffraîchir la page...
+            </div>
+            <table id="visitsForm" class="table larastable">
+                <thead>
+                    <th>N° visite</th>
+                    <th>Jour</th>
+                    <th>Heure</th>
+                    <th>Mail envoyé?</th>
+                    <th>Confirmé?</th>
+                    <th>Note</th>
+                    <th>État de la visite</th>
+                </thead>
+                <tbody>
+                    @foreach ($visits as $key => $visit)
+                        <tr>
+                            <input type="hidden" name="route" value="{{ route('visit.update', ['id' => $internship]) }}"/>
+                            <input type="hidden" name="id" value="{{$visit->id}}"/>
+                            <td><input type="number" min="1" name="number" value="{{$visit->number}}" required/></td>
+                            <td><input type="date" name="day" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
+                            <td><input type="time" name="hour" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
+                            <td><input type="checkbox" name="mailstate" {{ $visit->mailstate ? "checked" : "" }}/></td>
+                            <td><input type="checkbox" name="confirmed" {{ $visit->confirmed ? "checked" : "" }}/></td>
+                            <td><input type="number" min="1" max="6" step="0.5" name="grade" value="{{ $visit->grade }}" required/></td>
+                            <td>
+                                <select name="visitsstates_id" required>
+                                    @foreach ($visitsStates as $visitstate)
+                                        <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     @endif
 

@@ -97,19 +97,21 @@ After cloning, some files/folders have bad access attributes. let's take the blu
 chmod -R 777 *
 ```
 
-### 7. Simulate intranet login
+### 7. Login
 
 For your tests, you will want to try working as different users with different privilege levels
 
 You can do that using the ``.env`` file, adding the following keys:
 
 ```
-USER_ID=1234
-USER_INITIALS='ABC'
-USER_LEVEL=1
+USER_ID=1
 ```
 
-Then use the static method `Environment::currentUser()` in your code
+The default admin user as the id 1, If you want to change is privilege. You have to modify it directly in the database.
+
+To get the information of the authentified user use this method `Auth::user()` in your code.
+
+The github authentication only work on the swisscenter server.
 
 ### 10. PHP version
 There are some issues between the version of Laravel used in this project and the most recents PHP versions. The PHP version used with the project should be PHP 7.2.

@@ -15,6 +15,7 @@ use CPNVEnvironment\InternshipFilter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreFileRequest;
 
 class InternshipsController extends Controller
@@ -156,7 +157,7 @@ class InternshipsController extends Controller
             ->join('flocks', 'student.flock_id', '=', 'flocks.id')
             ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
             ->select('internships.id')
-            ->where('mc.intranetUserId', '=', $me = Environment::currentUser()->getId())
+            ->where('mc.intranetUserId', '=', $me = Auth::user()->person->id)
             ->orderBy('internships.id', 'asc')
             ->get();
         $res = array();
@@ -195,7 +196,7 @@ class InternshipsController extends Controller
             ->where([
                 ['beginDate', '<=', date('Y-m-d')],
                 ['endDate', '>=', date('Y-m-d')],
-                ['mc.intranetUserId', '=', Environment::currentUser()->getId()]
+                ['mc.intranetUserId', '=', Auth::user()->person->id]
             ])
             ->orderBy('internships.id', 'asc')
             ->get();
@@ -236,19 +237,13 @@ class InternshipsController extends Controller
     public function edit($internshipId)
     {
         date_default_timezone_set('Europe/Zurich');
-        if (env('USER_LEVEL') <= 1)        
+        if (Auth::user()->role <= 1)        
             abort(404);
 
         $internship = Internship::find($internshipId);
-        $contractStates = Contractstate::all();
         $medias = $internship->getMedia('documents');
-        $lifecycles = DB::table('lifecycles')->select('to_id')->where('from_id', '=', $internship->contractstate->id);
+        $contractStates =  $internship->contractstate->contractStates;
         $actualState = $internship->contractstate;
-
-        $lcycles = [$internship->contractstate->id];
-        foreach ($lifecycles->get()->toArray() as $value) {
-            array_push($lcycles, $value->to_id);
-        }
 
         $responsibles = DB::table('persons')
             ->select(
@@ -286,7 +281,7 @@ class InternshipsController extends Controller
     public function update(Request $request, $id)
     {
 
-        if (env('USER_LEVEL') < 1){
+        if (Auth::user()->role < 1){
             abort(404);
             return;
         }

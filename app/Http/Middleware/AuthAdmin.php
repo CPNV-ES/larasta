@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 // Intranet env
 use CPNVEnvironment\Environment;
+use Illuminate\Support\Facades\Auth;
 
 class AuthAdmin
 {
@@ -17,7 +18,7 @@ class AuthAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Environment::currentUser()->getLevel() >= 2){
+        if (Auth::user()->role > 1){
             //continue and use the controller
             return $next($request);
         }else{
