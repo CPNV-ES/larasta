@@ -20,6 +20,7 @@ namespace App\Http\Controllers;
 */
 use App\IntranetConnection as Connection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use CPNVEnvironment\Environment;
 use App\Person;
 use App\Flock;
@@ -316,7 +317,7 @@ class SynchroController extends Controller
     public function index()
     {
         /// Should be at > 0 in a production environment
-        if (Environment::currentUser()->getLevel() < 5)
+        if (Auth::user()->person->role < 5)
         {
             $this->getDatas();
 

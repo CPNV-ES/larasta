@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use App\Person;
 use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PeopleControlleur extends Controller
 {
@@ -34,7 +35,7 @@ class PeopleControlleur extends Controller
     public function index()
     {
         // Get the user right
-        $user = Environment::currentUser(); //TODO use auth:user
+        $user = Auth::user()->person;
 
         $persons = Person::where('obsolete', 0)
             ->orderBy('firstname', 'asc')
@@ -67,7 +68,7 @@ class PeopleControlleur extends Controller
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 
         // Get the user right
-        $user = Environment::currentUser(); //TODO use auth:user
+        $user = Auth::user()->person; 
 
         // Apply scope form Model Persons and get data
         $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
@@ -136,7 +137,7 @@ class PeopleControlleur extends Controller
     public function info($id)
     {
         // Get the user right
-        $user = Environment::currentUser(); //TODO to replace by Auth::user()
+        $user = Auth::user()->person;
 
         // Read Person from DB
         $person = Person::find($id);

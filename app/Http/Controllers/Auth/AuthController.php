@@ -41,7 +41,7 @@ class AuthController extends Controller
         try {
             $user = Socialite::driver('github')->user();
         } catch (Exception $e) {
-            return Redirect::to('auth/github');
+            return Redirect::to('/auth/github');
         }
 
         $authUser = $this->findOrCreateUser($user);
@@ -67,10 +67,10 @@ class AuthController extends Controller
             'email' => $githubUser->email,
             'github_id' => $githubUser->id,
             'avatar' => $githubUser->avatar,
-            'role'  => 1
+            'role' => 0
         ]);
     }
-    //TODO required initial , required to bind with a person 
+    
     public function localLogin($id){
         $user = new \stdClass();
         $user->id = $id;

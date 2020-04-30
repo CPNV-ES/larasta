@@ -24,7 +24,8 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'larasta.admin@cpnv.ch',
                 'avatar' => 'https://avatars2.githubusercontent.com/u/7465241?s=400&u=8f09d78acd01a658af4d919fa518029c2b20b688&v=4',
-                'role' => 3
+                'role' => 3,
+                'person_id' => 365
             ),
         ));
         

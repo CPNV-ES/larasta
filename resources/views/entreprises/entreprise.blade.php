@@ -14,7 +14,7 @@
     </div>
 @endif
 <div class="container-fluid">
-    @if($user->getLevel() >= 2)
+    @if(Auth::user()->role >= 2)
     <form method="post" action="/entreprise/{{Request::segment(2)}}/save">
         {{ csrf_field() }}
 
@@ -142,7 +142,7 @@
             </div>
         </div>
     </div>
-    @if($user->getLevel() >= 2)
+    @if(Auth::user()->role >= 2)
         <div class="body simple-box hidden" id="field">
             @foreach ($company as $companie)
                 <div class="title row">
@@ -246,7 +246,7 @@
                         </div>
                         <div class="hidden" id="newRemark">
                             <input value="{{Request::segment(2)}}" id="id" hidden>
-                            <input value="{{$user->getInitials()}}" id="initials" hidden>
+                            <input value="{{$user->initials}}" id="initials" hidden>
                             <input value="{{(new DateTime(now()))->format('d.M.y')}}" id="date" hidden>
                             <input type="text" name="newOne" id="remarksText"/>
                             <button type="button" value="Ajouter"  onclick="remarkAdd()">Ajouter</button>

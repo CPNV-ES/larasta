@@ -36,6 +36,11 @@ class Person extends Model
         return $this->belongsTo('App\company', 'company_id');
     }
 
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
+
     /**
      * Relation to the internship of the student
      */

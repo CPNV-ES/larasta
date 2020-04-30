@@ -29,7 +29,7 @@
 
         <div id="people_Name" class="row">
             <span>{{ $person->firstname }} {{ $person->lastname }}</span>
-        @if (($user->getLevel() >= 2))  <!-- View button only for teacher -->
+        @if ((Auth::user()->role >= 2))  <!-- View button only for teacher -->
             <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn btn-success people-btn_desactive">Modifier</button>
             @endif
         </div>

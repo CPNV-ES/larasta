@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 class EntreprisesController extends Controller
@@ -19,7 +20,7 @@ class EntreprisesController extends Controller
      */
     public function index()
     {
-        $user = Environment::currentUser();
+        $user = Auth::user()->person;
 
         $companies = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
@@ -76,7 +77,7 @@ class EntreprisesController extends Controller
             ->select('id', 'contractType')
             ->get();
 
-        $user = Environment::currentUser();
+        $user = Auth::user()->person;
 
         return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type,  'contracts' => $eType]);
     }

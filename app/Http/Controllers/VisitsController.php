@@ -52,7 +52,7 @@ class VisitsController extends Controller
     public function index()
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
-        $id = Environment::currentUser()->getId(); //TODO to replace by Auth::user()
+        $id = Auth::user()->person->id;
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Auth::user()->role >= 1){
@@ -223,7 +223,7 @@ class VisitsController extends Controller
                 'remarkType' => 4,
                 'remarkOn_id' => $id,
                 'remarkDate' => $date->format('Y-m-d H:i:s'),
-                'author' => Environment::currentUser()->getInitials(), //TODO to replace by Auth::user()
+                'author' => Auth::user()->person->initials,
                 'remarkText' => "Email envoyé au responsable à ".$date->format('d M Y')." à ".$date->format('H:i:s')
             ]);
 

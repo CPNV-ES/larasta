@@ -12,6 +12,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use CPNVEnvironment\Environment;
 use App\Evaluation;
 
@@ -28,13 +29,13 @@ class StoreEvalGridRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Environment::currentUser()->getLevel() > 0) {
+        if (Auth::user()->role > 0) {
             // If the user is a teacher or admin the request is authored
             return true;
-        } elseif (Environment::currentUser()->getLevel() == 0) {
+        } elseif (Auth::user()->role == 0) {
             // If the user is a studend, we check if is this eval
             // Check if this eval belongs to this user
-            if (Evaluation::find($this->route('gridID'))->visit->internship->intern_id == Environment::currentUser()->getId()) {
+            if (Evaluation::find($this->route('gridID'))->visit->internship->intern_id == Auth::user()->person->id) {
                 return true;
             }
         }
