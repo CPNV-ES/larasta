@@ -3,7 +3,7 @@ lock "~> 3.12.1"
 
 set :application, "Larasta"
 set :repo_url, "git@github.com:CPNV-ES/larasta.git"
-set :branch, "feature/Capistrano"
+set :branch, "master"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
