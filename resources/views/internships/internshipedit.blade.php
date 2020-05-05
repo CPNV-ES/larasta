@@ -93,6 +93,14 @@
                 <td class="col-md-2">Salaire</td>
                 <td><input type="number" name="grossSalary" value="{{$internship->grossSalary}}"/></td>
             </tr>
+            <tr>
+                <td class="col-md-2">
+                    <label for="externalLogbookCheckbox">Journal de bord externe<label>
+                </td>
+                <td>
+                    <input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" autocomplete="off" {{$internship->externalLogbook ? "checked" : ""}}/>
+                </td>
+            </tr>
             @if (isset($internship->previous_id))
                 <tr>
                     <td class="col-md-2" colspan="3">
