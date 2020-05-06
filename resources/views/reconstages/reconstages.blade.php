@@ -11,7 +11,7 @@
 
 @section ('content')
     <h1>Eleves à reconduire</h1>
-    <form method="POST" action="reconstages/reconmade">
+    <form method="POST" action="{{route('reconstage.reconducted')}}">
         {{ csrf_field() }}
         <table class="reconduction">
             <thead>
