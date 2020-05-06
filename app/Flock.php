@@ -26,7 +26,7 @@ class Flock extends Model
         return $this->belongsTo('App\Person', 'classMaster_id');
     }
 
-    public function getYearsOfFlocksOnInternship()
+    public function getStartYearsOfFlocksOnInternship()
     {
         $today = Carbon::now();
         //interships of the flock of the previous year 
@@ -51,7 +51,7 @@ class Flock extends Model
 
         if ( $today->between($augustPreviousYear, $january) )
             $flocksInInternship = array($previousYear);
-        else 
+        else if ( $february->between($august, $july) && !$today->between($august, $januaryNextYear) )
             array_push( $flocksInInternship, $previousYear );
 
         return $flocksInInternship;
@@ -59,7 +59,7 @@ class Flock extends Model
 
     public function getFlockHasToGoOnInternships()
     {
-        $flocksInInternship = $this->getYearsOfFlocksOnInternship();
+        $flocksInInternship = $this->getStartYearsOfFlocksOnInternship();
         if(count($flocksInInternship)>1)
             $listOfFlocks = self::where('startYear',substr($flocksInInternship[0],2,4))->orwhere('startYear',substr($flocksInInternship[1],2,4))->get();
         else
