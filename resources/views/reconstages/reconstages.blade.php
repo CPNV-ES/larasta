@@ -7,7 +7,7 @@
 
 @push ('page_specific_css')
     <link rel="stylesheet" type="text/css" href="/css/documents.css">
-    <link rel="stylesheet" type="text/css" href="/css/reconstage.css">
+    <link rel="stylesheet" type="text/css" href="/css/recon.css">
 @endpush
 
 @section ('content')
@@ -60,5 +60,5 @@
 @stop
 
 @push ('page_specific_js')
-    <script src="js/reconstages.js"></script>
+    <script src="/js/reconstages.js"></script>
 @endpush
