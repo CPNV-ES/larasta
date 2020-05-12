@@ -47,7 +47,6 @@ class ReconStagesController extends Controller
         
         foreach ($request->internships as $value) {
             $i++;
-            $chosen[] = $value;
 
             $old = Internship::find($value);
             $old->contractstate_id = 13;
@@ -75,8 +74,8 @@ class ReconStagesController extends Controller
         }
 
         $internships = Internship::orderBy('id', 'desc')->take($i)->get();
-        $selected = Internship::all()->whereIn('id', $chosen);
-        return view('reconstages.reconmade')->with(compact('selected', 'internships'));
+        
+        return view('reconstages.reconmade')->with(compact('internships'));
     }
 
     //get params by name and show the first
