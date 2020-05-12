@@ -53,7 +53,7 @@
         <label for="endDate">Fin du prochain stage :</label>
         <input type="date" name="endDate" value="{{array_last($datesOfNextInternship)}}"/>
         
-        <div class="checkBox"><input type="checkbox" id="check">Select All</div>
+        <div class="checkBox"><input type="checkbox" id="check">Tout sélectionner</div>
     </form>
     
 
