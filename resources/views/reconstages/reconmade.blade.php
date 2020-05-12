@@ -30,13 +30,13 @@
 
             @foreach ($last as $value)
             <!-- Les données sont reprises tel que sur la page précédentes mais on y affiche uniquement ceux qui on été traité sur la page précédente. -->
-                <tr class="{{ strtolower($value->student->initials) }}">
+                <tr> 
                     <td>{{ $value->company->companyName }}</td>
                     <td>{{ $value->beginDate->toFormattedDateString() }}</td>
                     <td>{{ $value->endDate->toFormattedDateString() }}</td>
-                    <td>{{ $value->responsible->firstname }} {{ $value->responsible->lastname }}</td>
+                    <td>@isset($value->responsible){{ $value->responsible->firstname}} {{ $value->responsible->lastname }}@endisset</td>
                     <td>{{ $value->admin->firstname }} {{ $value->admin->lastname }}</td>
-                    <td>{{ $value->student->firstname }} {{ $value->student->lastname }}</td>
+                    <td>@isset($value->student){{ $value->student->firstname }} {{ $value->student->lastname }}@endisset</td>
                     <td>{{ $value->grossSalary }}</td>
                     <td>{{ $value->contractstate->stateDescription }}</td>
                 </tr>

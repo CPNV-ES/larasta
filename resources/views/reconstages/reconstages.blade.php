@@ -7,10 +7,12 @@
 
 @push ('page_specific_css')
     <link rel="stylesheet" type="text/css" href="/css/documents.css">
+    <link rel="stylesheet" type="text/css" href="/css/reconstage.css">
 @endpush
 
 @section ('content')
     <h1>Eleves à reconduire</h1>
+
     <form method="POST" action="{{route('reconstage.reconducted')}}">
         {{ csrf_field() }}
         <table class="reconduction">
@@ -24,10 +26,9 @@
                     <th>Stagiaire</th>
                     <th>Salaire</th>
                     <th>Etat</th>
-                    <th>puces</th>
+                    <th data-toggle="tooltip" data-placement="top" title="stage à reconduire?">reconduire</th>
                 </tr>
-            </thead>
-            
+            </thead>            
             <tbody>
                 @foreach ($internships as $internship)
                     <tr class="{{ strtolower($internship->student->initials) }}">
@@ -42,10 +43,16 @@
                         <td><input class="checkList" name="internships[]" value="{{ $internship->id }}" type="checkbox"></td>
                     </tr>
                 @endforeach
-            </tbody>
-        
+            </tbody>        
         </table>
+        
         <button class="btn btn-primary" id="reconduire" type="submit">Reconduire</button>
+        
+        <label for="beginDate">Début du prochain stage :</label>
+        <input type="date" name="beginDate" value="{{array_first($datesOfNextInternship)}}"/> | 
+        <label for="endDate">Fin du prochain stage :</label>
+        <input type="date" name="endDate" value="{{array_last($datesOfNextInternship)}}"/>
+        
         <div class="checkBox"><input type="checkbox" id="check">Select All</div>
     </form>
     
