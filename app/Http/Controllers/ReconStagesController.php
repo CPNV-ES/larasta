@@ -49,7 +49,7 @@ class ReconStagesController extends Controller
             $i++;
 
             $old = Internship::find($value);
-            $old->contractstate_id = 13;
+            $old->contractstate_id = Contractstate::where('stateDescription','Effectué')->first()->id;
             $old->save();
             
             $salary = Params::getParamByName('internship1Salary')->paramValueInt;
@@ -65,7 +65,7 @@ class ReconStagesController extends Controller
             $new->responsible_id = $old->responsible->id;
             $new->admin_id = $old->admin->id;
             $new->intern_id = null;
-            $new->contractstate_id = 2;
+            $new->contractstate_id = Contractstate::where('stateDescription','Reconduit')->first()->id;
             $new->previous_id = $value;
             $new->internshipDescription = $old->internshipDescription;
             $new->grossSalary = $salary;
