@@ -18,31 +18,31 @@
     <form action="{{route('updateInternships',$internship->id)}}" method="get">
         <input type="hidden" name="id" value="{{ $internship->id }}">
         <table class="table text-left larastable">
-            <tr>
-                <td class="col-md-2">Du</td>
+            <tr scope="row">
+                <td scope="col-6">Du</td>
                 <td>
                     <input type="date" name="beginDate"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
                            required/>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Au</td>
+            <tr scope="row">
+                <td>Au</td>
                 <td>
                     <input type="date" name="endDate"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->endDate)) }}"
                            required/>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Description</td>
-                <td>
-                    <div id="description">{!! $internship->internshipDescription !!}</div>
-                    <textarea style="display: none" name="description" id="txtDescription"></textarea>
+            <tr scope="row">
+                <td>Description</td>
+                <td class="Description">
+                    <textarea name="description" id="description" hidden>{!! $internship->internshipDescription !!}</textarea>
+                    <div class="FieldDescription" data-name="description" id="txtDescription">{!! $internship->internshipDescription !!}</div>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Responsable administratif</td>
+            <tr scope="row">
+                <td>Responsable administratif</td>
                 <td>
                     <select name="aresp">
                         @foreach($responsibles->get()->toArray() as $admin)
@@ -53,8 +53,8 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Responsable</td>
+            <tr scope="row">
+                <td>Responsable</td>
                 <td>
                     <select name="intresp">
                         @foreach($responsibles->get()->toArray() as $responsible)
@@ -65,8 +65,8 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Maître de classe</td>
+            <tr scope="row">
+                <td>Maître de classe</td>
                 <td>
                     {{-- Display the teacher, if the internship is attributed --}}
                     @if (isset($internship->student))
@@ -74,8 +74,8 @@
                     @endif
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Etat</td>
+            <tr scope="row">
+                <td>Etat</td>
                 <td>
                     <select name="stateDescription">
                         <option selected="selected" value="{{ $actualState->id }}">
@@ -89,13 +89,13 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Salaire</td>
+            <tr scope="row">
+                <td>Salaire</td>
                 <td><input type="number" name="grossSalary" value="{{$internship->grossSalary}}"/></td>
             </tr>
             @if (isset($internship->previous_id))
                 <tr>
-                    <td class="col-md-2" colspan="3">
+                    <td>
                         <a href="/internships/{{ $internship->previous_id }}/edit">Stage précédent</a>
                     </td>
                 </tr>
