@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
 
-    Route::get('/internships/{iid}/view','InternshipsController@view');
+    Route::get('/internships/{iid}/view','InternshipsController@view')->name('internship');
 
     Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
@@ -118,8 +118,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
 
     // Nicolas - Stages
-    Route::get('/reconstages', 'ReconStagesController@index');
-    Route::post('/reconstages/reconmade', 'ReconStagesController@reconducted');
+    Route::get('/reconstages', 'ReconStagesController@index')->name('reconstage.index');
+    Route::post('/reconstages/reconducted', 'ReconStagesController@reconducted')->name('reconstage.reconducted');
     // Nicolas - Documents
     Route::get('/documents', 'DocumentsController@index');
 

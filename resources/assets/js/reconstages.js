@@ -35,5 +35,6 @@ $(document).ready(function(){
             $('#reconduire').css('display', 'none');
         }
     });
-
+    
+    check.click();
  });
