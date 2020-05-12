@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 td = false;
                 return;
             }
+            txtDescription
             if(td){ //already displayed
                 return;
             }
@@ -29,7 +30,37 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     });
-    
+    //init tinymce for Description textarea
+    tinymce.init({
+        selector: '#txtDescription',
+        inline: true,
+        max_width: 500,
+        skin: 'oxide-dark',
+        init_instance_callback: function (editor) {
+            editor.on('Change', AddRemarksDescription);
+        }
+    });
+    var InitialValueDescription = description.innerText;
+    var tdDescription = false;
+    var div = table.querySelector(".FieldDescription")
+    function AddRemarksDescription(){
+        var content = tinymce.activeEditor.getContent()
+        description.innerText  = content;
+        if(content === InitialValueDescription && tdDescription){ //no modif
+            tdDescription.remove();
+            tdDescription = false;
+            return;
+        }
+        if(tdDescription){ //already displayed
+            return;
+        }
+        tdDescription = div.parentElement.parentNode.addElement("td");
+        var inputRemark = tdDescription.addElement("input", {
+                type:"text", 
+                name:`remark_${div.dataset.name}`, 
+                placeholder: "Pourquoi?"     
+        });
+    }
     //-------------------------------------------------
     //  show update visit button when 
     //-------------------------------------------------
