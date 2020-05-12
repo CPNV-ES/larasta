@@ -50,6 +50,8 @@ class ReconStagesController extends Controller
             $chosen[] = $value;
 
             $old = Internship::find($value);
+            $old->contractstate_id = 13;
+            $old->save();
             
             $salary = Params::getParamByName('internship1Salary')->paramValueInt;
             if ($currentMonth >= $february && $currentMonth <= $july) {
@@ -72,9 +74,9 @@ class ReconStagesController extends Controller
             $new->save();
         }
 
-        $last = Internship::orderBy('id', 'desc')->take($i)->get();
+        $internships = Internship::orderBy('id', 'desc')->take($i)->get();
         $selected = Internship::all()->whereIn('id', $chosen);
-        return view('reconstages.reconmade')->with(compact('selected', 'last'));
+        return view('reconstages.reconmade')->with(compact('selected', 'internships'));
     }
 
     //get params by name and show the first
