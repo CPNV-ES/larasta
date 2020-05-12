@@ -102,15 +102,15 @@ class Internship extends Model implements HasMedia
 
         if ( $today->between($augustPreviousYear, $january) )
         {
-            $nextInternship = array($february, $july);
+            $nextInternship = array($february->toDateString(), $july->toDateString());
         }
         else if ( $today->between($february, $july) )
         {
-            $nextInternship = array($august, $januaryNextYear);
+            $nextInternship = array($august->toDateString(), $januaryNextYear->toDateString());
         }
         else if ( $today->between($august, $januaryNextYear) )
         {
-            $nextInternship = array($februaryNextYear, $julyNextYear);
+            $nextInternship = array($februaryNextYear->toDateString(), $julyNextYear->toDateString());
         }
 
         return $nextInternship;

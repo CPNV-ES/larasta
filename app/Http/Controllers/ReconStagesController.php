@@ -35,27 +35,32 @@ class ReconStagesController extends Controller
     public function reconducted(Request $request)
     {
         $i = 0;
+        $beginDate = Carbon::parse($request->input("beginDate"));
+        $endDate = Carbon::parse($request->input("endDate"));
+
+        $currentMonth = $beginDate->month;
+        $february = new Carbon('first day of february');
+        $february = $february->month;
+
+        $july = new Carbon('last day of july');
+        $july = $july->month;
+        
         foreach ($request->internships as $value) {
             $i++;
             $chosen[] = $value;
 
-            $datesOfNextInternship = Internship::getDatesOfNextInternship();
-            $newInternshipDate1 = array_first($datesOfNextInternship);
-            $newInternshipDate2 = array_last($datesOfNextInternship);
-
             $old = Internship::find($value);
-            $oldMonth = Carbon::createFromFormat('Y-m-d H:i:s', $old->beginDate);
-
+            
             $salary = Params::getParamByName('internship1Salary')->paramValueInt;
-            if ($oldMonth->month > 9) {
+            if ($currentMonth >= $february && $currentMonth <= $july) {
                 $salary = Params::getParamByName('internship2Salary')->paramValueInt;
             }
 
             /* Create new internship with old value */
             $new = new Internship();
             $new->companies_id = $old->company->id;
-            $new->beginDate = $newInternshipDate1;
-            $new->endDate = $newInternshipDate2;
+            $new->beginDate = $beginDate;
+            $new->endDate = $endDate;
             $new->responsible_id = $old->responsible->id;
             $new->admin_id = $old->admin->id;
             $new->intern_id = null;
