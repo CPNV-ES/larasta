@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/dropzone.min.css">
     <script src="/js/ckeditor.js"></script>
     <script src="/js/dropzone.min.js"></script>
+    <script src="/js/tinymce/tinymce.js"></script>
 
     @stack('page_specific_css')
 </head>
