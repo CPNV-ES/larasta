@@ -132,9 +132,9 @@
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
     @include('visits.add',compact('internship','visitsStates'))
     {{-- Visits --}}
+    <hr/>
+    <h1>Visite(s) <span class="buttonNewVisit">+</span></h1> 
     @if (isset($visits))
-        <hr/>
-        <h1>Visite(s)</h1>
         <div class="col-12">
             <div class='error none'>
                 Une erreur inconnue est survenue, veuillez raffraîchir la page...
