@@ -132,13 +132,12 @@
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
     {{-- Visits --}}
     <hr/>
-    <h1>Visite(s) <span class="buttonNewVisit">+</span></h1> 
-    <hr> 
-    <div class="showNewVisit">
+    <h1>Visite(s) <span class="buttonNewVisit pointer">+</span></h1> 
+    <div id="showNewVisit" class="pointer none">
         <div class="focus">
             @include('visits.add',compact('internship','visitsStates'))
         </div>
-        <div class="darken"></div>
+        <div class="darken-background"></div>
     </div>
     @if (isset($visits))
         <div class="col-12">
