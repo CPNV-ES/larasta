@@ -130,10 +130,16 @@
         @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
-    @include('visits.add',compact('internship','visitsStates'))
     {{-- Visits --}}
     <hr/>
     <h1>Visite(s) <span class="buttonNewVisit">+</span></h1> 
+    <hr> 
+    <div class="showNewVisit">
+        <div class="focus">
+            @include('visits.add',compact('internship','visitsStates'))
+        </div>
+        <div class="darken"></div>
+    </div>
     @if (isset($visits))
         <div class="col-12">
             <div class='error none'>
@@ -215,6 +221,7 @@
             </table>
         </form>
     @endif
+
 @endsection
 @push ('page_specific_js')
     <script src="/js/internshipsEdit.js"></script>
