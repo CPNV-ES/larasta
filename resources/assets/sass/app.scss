@@ -153,8 +153,12 @@ button {
   height: 90px;
   display: block;
 }
-
+//don't use it to get pointer because a global event has linked on...
 .clickable-row {
+  cursor: pointer;
+}
+
+.pointer {
   cursor: pointer;
 }
 
@@ -297,4 +301,28 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   opacity: 0;
   z-index: 20;
   font-size: 16px;
+}
+
+// create a background on the page front all elements
+.darken-background
+{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  text-align: center;
+  overflow-y: scroll;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+// class to put element front of .darken-background
+.focus {
+  cursor: context-menu;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 10px;
+  box-shadow: 0 0 10px black; 
+  background: #ebebeb; 
 }

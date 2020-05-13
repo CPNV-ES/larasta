@@ -130,11 +130,16 @@
         @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
-    @include('visits.add',compact('internship','visitsStates'))
     {{-- Visits --}}
+    <hr/>
+    <h1>Visite(s) <span class="buttonNewVisit pointer">+</span></h1> 
+    <div id="showNewVisit" class="pointer none">
+        <div class="focus">
+            @include('visits.add',compact('internship','visitsStates'))
+        </div>
+        <div class="darken-background"></div>
+    </div>
     @if (isset($visits))
-        <hr/>
-        <h1>Visite(s)</h1>
         <div class="col-12">
             <div class='error none'>
                 Une erreur inconnue est survenue, veuillez raffraîchir la page...
@@ -215,6 +220,7 @@
             </table>
         </form>
     @endif
+
 @endsection
 @push ('page_specific_js')
     <script src="/js/internshipsEdit.js"></script>
