@@ -17,6 +17,7 @@
     <script src="/js/ckeditor.js"></script>
     <script src="/js/dropzone.min.js"></script>
     <script src="/js/tinymce/tinymce.js"></script>
+    <script src="/js/class/FieldsRemarks.js"></script>
 
     @stack('page_specific_css')
 </head>
