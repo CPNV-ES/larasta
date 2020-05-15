@@ -2,65 +2,23 @@ document.addEventListener("DOMContentLoaded", function() {
     //-------------------------------------------------
     //  add remarks dynamically 
     //-------------------------------------------------
-    //get the first table in form
-    var table = document.querySelector("form table");
-
-    //get all inputs, selects in our table
-    var inputs = table.querySelectorAll("input, select");
-
-    //when we change value on inputs we add input remark
-    inputs.forEach(function(elem){
-        var td = false;
-        var initialValue = elem.value;
-        elem.addEventListener("change", function(ev){
-            if(elem.value === initialValue && td){ //no modif
-                td.remove();
-                td = false;
-                return;
-            }
-            txtDescription
-            if(td){ //already displayed
-                return;
-            }
-            td = elem.parentElement.parentNode.addElement("td");
-            var inputRemark = td.addElement("input", {
-                type:"text", 
-                name:`remark_${elem.name}`, 
-                placeholder: "Pourquoi?"
-            });
-        });
-    });
     //init tinymce for Description textarea
+    var fieldsRemarks = new FieldsRemarks('remark')
+    fieldsRemarks.addRemarks();
+    
     tinymce.init({
         selector: '#txtDescription',
         inline: true,
         max_width: 500,
         skin: 'oxide-dark',
         init_instance_callback: function (editor) {
-            editor.on('Change', AddRemarksDescription);
+            editor.on('focusout', function(){
+                description.value = tinymce.activeEditor.getContent()
+                var event = new Event('change');
+                description.dispatchEvent(event);
+            });
         }
     });
-    var InitialValueDescription = description.innerText;
-    var tdDescription = false;
-    var div = table.querySelector(".FieldDescription")
-    function AddRemarksDescription(){
-        var content = tinymce.activeEditor.getContent()
-        description.innerText  = content;
-        if(content === InitialValueDescription && tdDescription){ //no modif
-            tdDescription.remove();
-            tdDescription = false;
-            return;
-        }
-        if(tdDescription){ //already displayed
-            return;
-        }
-        tdDescription = div.parentElement.parentNode.addElement("td");
-        var inputRemark = tdDescription.addElement("input", {
-                type:"text", 
-                name:`remark_${div.dataset.name}`, 
-                placeholder: "Pourquoi?"     
-        });
-    }
     //-------------------------------------------------
     //  show update visit button when 
     //-------------------------------------------------

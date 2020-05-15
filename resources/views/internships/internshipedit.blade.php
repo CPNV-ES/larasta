@@ -21,7 +21,7 @@
             <tr scope="row">
                 <td scope="col-6">Du</td>
                 <td>
-                    <input type="date" name="beginDate"
+                    <input type="date" name="beginDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
                            required/>
                 </td>
@@ -29,7 +29,7 @@
             <tr scope="row">
                 <td>Au</td>
                 <td>
-                    <input type="date" name="endDate"
+                    <input type="date" name="endDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->endDate)) }}"
                            required/>
                 </td>
@@ -37,14 +37,14 @@
             <tr scope="row">
                 <td>Description</td>
                 <td class="Description">
-                    <textarea name="description" id="description" hidden>{!! $internship->internshipDescription !!}</textarea>
-                    <div class="FieldDescription" data-name="description" id="txtDescription">{!! $internship->internshipDescription !!}</div>
+                    <textarea name="description" id="description" class="remark" hidden>{!! $internship->internshipDescription !!}</textarea>
+                    <div class="FieldDescription" id="txtDescription">{!! $internship->internshipDescription !!}</div>
                 </td>
             </tr>
             <tr scope="row">
                 <td>Responsable administratif</td>
                 <td>
-                    <select name="aresp">
+                    <select name="aresp" class="remark">
                         @foreach($responsibles->get()->toArray() as $admin)
                             <option value="{{ $admin->id }}"
                                     @if ($internship->admin->id == $admin->id) selected @endif>
@@ -56,7 +56,7 @@
             <tr scope="row">
                 <td>Responsable</td>
                 <td>
-                    <select name="intresp">
+                    <select name="intresp" class="remark">
                         @foreach($responsibles->get()->toArray() as $responsible)
                             <option value="{{ $responsible->id }}"
                                     @if ($internship->responsible->id == $responsible->id) selected @endif>
@@ -77,7 +77,7 @@
             <tr scope="row">
                 <td>Etat</td>
                 <td>
-                    <select name="stateDescription">
+                    <select name="stateDescription" class="remark">
                         <option selected="selected" value="{{ $actualState->id }}">
                             {{$actualState->stateDescription}}
                         </option>
@@ -91,7 +91,7 @@
             </tr>
             <tr scope="row">
                 <td>Salaire</td>
-                <td><input type="number" name="grossSalary" value="{{$internship->grossSalary}}"/></td>
+                <td><input type="number" name="grossSalary" class="remark" value="{{$internship->grossSalary}}"/></td>
             </tr>
             @if (isset($internship->previous_id))
                 <tr>
