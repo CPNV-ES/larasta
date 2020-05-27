@@ -37,13 +37,13 @@
             <tr scope="row">
                 <td>Description</td>
                 <td class="Description">
-                    <textarea name="description" id="description" class="remark">{!! $internship->internshipDescription !!}</textarea>
+                    <textarea name="internshipDescription" id="description" class="remark">{!! $internship->internshipDescription !!}</textarea>
                 </td>
             </tr>
             <tr scope="row">
                 <td>Responsable administratif</td>
                 <td>
-                    <select name="aresp" class="remark">
+                    <select name="admin_id" class="remark">
                         @foreach($responsibles->get()->toArray() as $admin)
                             <option value="{{ $admin->id }}"
                                     @if ($internship->admin->id == $admin->id) selected @endif>
@@ -55,7 +55,7 @@
             <tr scope="row">
                 <td>Responsable</td>
                 <td>
-                    <select name="intresp" class="remark">
+                    <select name="responsible_id" class="remark">
                         @foreach($responsibles->get()->toArray() as $responsible)
                             <option value="{{ $responsible->id }}"
                                     @if ($internship->responsible->id == $responsible->id) selected @endif>
@@ -76,7 +76,7 @@
             <tr scope="row">
                 <td>Etat</td>
                 <td>
-                    <select name="stateDescription" class="remark">
+                    <select name="contractstate_id" class="remark">
                         <option selected="selected" value="{{ $actualState->id }}">
                             {{$actualState->stateDescription}}
                         </option>
