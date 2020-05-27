@@ -2,22 +2,17 @@ document.addEventListener("DOMContentLoaded", function() {
     //-------------------------------------------------
     //  add remarks dynamically 
     //-------------------------------------------------
-    //init tinymce for Description textarea
     var fieldsRemarks = new FieldsRemarks('remark')
     fieldsRemarks.addRemarks();
     
-    tinymce.init({
-        selector: '#txtDescription',
-        inline: true,
-        max_width: 500,
-        skin: 'oxide-dark',
-        init_instance_callback: function (editor) {
-            editor.on('focusout', function(){
-                description.value = tinymce.activeEditor.getContent()
-                var event = new Event('change');
-                description.dispatchEvent(event);
-            });
-        }
+    var simplemde = new SimpleMDE({ 
+        toolbar: ["heading", "heading-2", "heading-3", "|", "bold", "italic", "quote", "|", "unordered-list" , "ordered-list", "|", "table", "link", "|", "preview" , "side-by-side", "fullscreen"],
+        element: document.getElementById("description") 
+    });
+    simplemde.codemirror.on('change', function(){
+        description.value = simplemde.value();
+        var event = new Event('change');
+        description.dispatchEvent(event);
     });
     //-------------------------------------------------
     //  show update visit button when 

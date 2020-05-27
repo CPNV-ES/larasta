@@ -37,8 +37,7 @@
             <tr scope="row">
                 <td>Description</td>
                 <td class="Description">
-                    <textarea name="description" id="description" class="remark" hidden>{!! $internship->internshipDescription !!}</textarea>
-                    <div class="FieldDescription" id="txtDescription">{!! $internship->internshipDescription !!}</div>
+                    <textarea name="description" id="description" class="remark">{!! $internship->internshipDescription !!}</textarea>
                 </td>
             </tr>
             <tr scope="row">
