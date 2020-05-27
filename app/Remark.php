@@ -18,7 +18,8 @@ class Remark extends Model
         "remark_intresp" => "Le responsable du stage, %s, a été modifié pour %s.",
         "remark_stateDescription" => "L'état du stage, %s, a été modifié pour %s.",
         "remark_grossSalary" => "Le salaire du stage, %s, a été modifié pour %s.",
-        "remark_externalLogbook" => "Le type de journal de stage, %s, a été modifié pour %s."
+        "remark_externalLogbook" => "Le type de journal de stage, %s, a été modifié pour %s.",
+        "remark_internshipDescription" => "La description a été mise à jour."
     ];
 
     /**

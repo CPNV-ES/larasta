@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreFileRequest;
+use App\Remark;
 
 class InternshipsController extends Controller
 {
@@ -281,58 +282,21 @@ class InternshipsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         if (Auth::user()->role < 1){
             abort(404);
             return;
         }
-        $listOfRemarks = [
-            "remark_beginDate" => "La date de début de stage, (BEFORE), a été modifiée pour (ACTUAL).",
-            "remark_endDate" => "La date de fin de stage, (BEFORE), a été modifiée pour (ACTUAL).",
-            "remark_aresp" => "Le Responsable administratif du stage, (BEFORE), a été modifié pour (ACTUAL).",
-            "remark_intresp" => "Le responsable du stage, (BEFORE), a été modifié pour (ACTUAL).",
-            "remark_stateDescription" => "L'état du stage, (BEFORE), a été modifié pour (ACTUAL).",
-            "remark_grossSalary" => "Le salaire du stage, (BEFORE), a été modifié pour (ACTUAL).",
-            "remark_externalLogbook" => "Le type de journal de stage, (BEFORE), a été modifié pour (ACTUAL)."
-        ];
 
         //update insternship by id
         $internship = Internship::find($id);
-        $internship->beginDate = $request->beginDate;
-        $internship->endDate = $request->endDate;
-        $internship->internshipDescription = $request->description;
-        $internship->admin_id = $request->aresp;
-        $internship->responsible_id = $request->intresp;
-        $internship->contractstate_id = $request->stateDescription;
-        $internship->grossSalary = $request->grossSalary;
+        $internshipOld = $internship->replicate();
+
         $internship->externalLogbook = ($request->externalLogbook == "on");
-        // dd($internship->externalLogbook);
+        $internship->fill($request->all());
         $internship->save();
+
+        Remark::addMultipleWithDetails($request, $internshipOld, $internship);
         
-        $patterns[0] = '(\(ACTUAL\))';
-        $patterns[1] = '(\(BEFORE\))';
-        $textRegex = "([A-Za-z0-9]+)";
-        //search all keys on request (exemple: "id" is $key and 5664 is $data)
-        foreach ($request->request as $key => $data) {
-            //check if the name of request begin by "remark_"
-            if (!preg_match("#^remark_$textRegex$#", $key)) {
-                continue;
-            }
-            //customized remarks
-            
-            $replacements[0] = '00000';
-            $replacements[1] = '11111';
-
-            if($listOfRemarks[$key] == null)
-                $request->remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
-            else
-                $request->remark = preg_replace($patterns, $replacements, $listOfRemarks[$key],);
-
-            if (isset($data))
-                $request->remark .= " Raison: $data";
-
-            self::addRemarks($request);
-        }
         return redirect()->action(
             'InternshipsController@edit', ['iid' => $request->id]
         );
