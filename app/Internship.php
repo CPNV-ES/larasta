@@ -14,7 +14,14 @@ class Internship extends Model implements HasMedia
 
     protected $fillable = [
         'id',
-        'intern_id'
+        'intern_id',
+        "beginDate",
+        "endDate",
+        "internshipDescription",
+        "admin_id",
+        "responsible_id",
+        "contractstate_id",
+        "grossSalary",
     ];
 
     /**
