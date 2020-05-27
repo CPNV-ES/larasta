@@ -30,11 +30,8 @@ mix .copy('resources/assets/js/utils.js', 'public/js')
     .js('resources/assets/js/synchro.js', 'public/js')
     .js('resources/assets/js/visit.js', 'public/js')
     .js('resources/assets/js/appjs.js', 'public/js')
-<<<<<<< HEAD
     .copy('resources/assets/js/class/FieldsRemarks.js', 'public/js/class')
-=======
     .js('resources/assets/js/reconmade.js', 'public/js')
->>>>>>> 3fa849cb69ada421cffea32313a5d638678b759e
     .copy('resources/assets/js/logbook.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/recon.scss', 'public/css')
