@@ -57,7 +57,8 @@ mix .copy('resources/assets/js/utils.js', 'public/js')
     .copy('node_modules/dropzone/dist/min/dropzone.min.css','public/css')
     .copy('node_modules/dropzone/dist/min/dropzone.min.js','public/js')
     .copy('node_modules/datatables/media/js/jquery.dataTables.js','public/js')
-    .copy('node_modules/tinymce/tinymce.js','public/js/tinymce')
-    .copyDirectory('node_modules/tinymce/plugins', 'public/js/tinymce/plugins')
-    .copyDirectory('node_modules/tinymce/skins', 'public/js/tinymce/skins')
-    .copyDirectory('node_modules/tinymce/themes', 'public/js/tinymce/themes');
+    .copy('node_modules/simplemde/dist/simplemde.min.css','public/css')
+    .copy('node_modules/simplemde/dist/simplemde.min.js','public/js')
+    .copy('node_modules/showdown/dist/showdown.min.js','public/js')
+    .copy('node_modules/showdown/dist/showdown.min.js.map','public/js')
+
