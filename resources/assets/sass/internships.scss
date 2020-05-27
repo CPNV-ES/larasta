@@ -16,6 +16,7 @@
   font-size: 18px;
 }
 
+<<<<<<< HEAD
 .Description *[contentEditable="true"]:focus,
 .Description *[contentEditable="true"]:hover {
   outline: 2px solid #2276d2;
@@ -33,3 +34,25 @@
 }
 
 
+=======
+.buttonNewVisit{
+  width: 40px;
+  height: 40px;
+  background: #e0e0e0;
+  border-radius: 100%;
+  border: solid 1px #aaa;
+  display: inline-block;
+  transition: 0.2s;
+  user-select: none;
+
+  &:hover{
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+    border: solid 1px #e0e0e0;
+    color: #e0e0e0;
+  }
+  &:active{
+    box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5);
+  }
+}
+>>>>>>> 3fa849cb69ada421cffea32313a5d638678b759e

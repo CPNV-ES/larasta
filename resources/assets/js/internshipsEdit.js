@@ -15,7 +15,23 @@ document.addEventListener("DOMContentLoaded", function() {
         description.dispatchEvent(event);
     });
     //-------------------------------------------------
-    //  show update visit button when 
+    //  show create new visit section
+    //-------------------------------------------------
+    
+    document.querySelector(".buttonNewVisit").addEventListener("click", (event) => {
+        showNewVisit.classList.remove("none")
+    });
+
+    //-------------------------------------------------
+    //  remove create new visit section
+    //-------------------------------------------------
+
+    document.querySelector(".darken-background").addEventListener("click", (event) => {
+        showNewVisit.classList.add("none")
+    });
+
+    //-------------------------------------------------
+    //  update visite on changes
     //-------------------------------------------------
     visitsForm.querySelectorAll('tr').forEach( elem => {
         elem.addEventListener('change', async  event => {

@@ -287,15 +287,17 @@ class InternshipsController extends Controller
             return;
         }
         //update insternship by id
-        $internships = Internship::find($id);
-        $internships->beginDate = $request->beginDate;
-        $internships->endDate = $request->endDate;
-        $internships->internshipDescription = $request->description;
-        $internships->admin_id = $request->aresp;
-        $internships->responsible_id = $request->intresp;
-        $internships->contractstate_id = $request->stateDescription;
-        $internships->grossSalary = $request->grossSalary;
-        $internships->save();
+        $internship = Internship::find($id);
+        $internship->beginDate = $request->beginDate;
+        $internship->endDate = $request->endDate;
+        $internship->internshipDescription = $request->description;
+        $internship->admin_id = $request->aresp;
+        $internship->responsible_id = $request->intresp;
+        $internship->contractstate_id = $request->stateDescription;
+        $internship->grossSalary = $request->grossSalary;
+        $internship->externalLogbook = ($request->externalLogbook == "on");
+        // dd($internship->externalLogbook);
+        $internship->save();
 
         $textRegex = "([A-Za-z0-9]+)";
         //search all keys on request (exemple: "id" is $key and 5664 is $data)
@@ -323,6 +325,9 @@ class InternshipsController extends Controller
                     break;
                 case "remark_grossSalary":
                     $request->remark = "Le salaire du stage a été modifié. ";
+                    break;
+                case "remark_externalLogbook":
+                    $request->remark = "Le type de journal de stage a été modifié. ";
                     break;
                 default:
                     //show which field has been changed
