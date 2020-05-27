@@ -285,6 +285,16 @@ class InternshipsController extends Controller
             abort(404);
             return;
         }
+        $listOfRemarks = [
+            "remark_beginDate" => "La date de début de stage, (BEFORE), a été modifiée pour (ACTUAL).",
+            "remark_endDate" => "La date de fin de stage, (BEFORE), a été modifiée pour (ACTUAL).",
+            "remark_aresp" => "Le Responsable administratif du stage, (BEFORE), a été modifié pour (ACTUAL).",
+            "remark_intresp" => "Le responsable du stage, (BEFORE), a été modifié pour (ACTUAL).",
+            "remark_stateDescription" => "L'état du stage, (BEFORE), a été modifié pour (ACTUAL).",
+            "remark_grossSalary" => "Le salaire du stage, (BEFORE), a été modifié pour (ACTUAL).",
+            "remark_externalLogbook" => "Le type de journal de stage, (BEFORE), a été modifié pour (ACTUAL)."
+        ];
+
         //update insternship by id
         $internship = Internship::find($id);
         $internship->beginDate = $request->beginDate;
@@ -297,7 +307,9 @@ class InternshipsController extends Controller
         $internship->externalLogbook = ($request->externalLogbook == "on");
         // dd($internship->externalLogbook);
         $internship->save();
-
+        
+        $patterns[0] = '(\(ACTUAL\))';
+        $patterns[1] = '(\(BEFORE\))';
         $textRegex = "([A-Za-z0-9]+)";
         //search all keys on request (exemple: "id" is $key and 5664 is $data)
         foreach ($request->request as $key => $data) {
@@ -306,35 +318,17 @@ class InternshipsController extends Controller
                 continue;
             }
             //customized remarks
-            switch ($key) {
-                case "remark_beginDate":
-                    $request->remark = "La date de début de stage a été modifiée. ";
-                    break;
-                case "remark_endDate":
-                    $request->remark = "La date de fin de stage a été modifiée. ";
-                    break;
-                case "remark_aresp":
-                    $request->remark = "Le Responsable administratif du stage a été modifié. ";
-                    break;
-                case "remark_intresp":
-                    $request->remark = "Le responsable du stage a été modifié. ";
-                    break;
-                case "remark_stateDescription":
-                    $request->remark = "L'état du stage a été modifié.  ";
-                    break;
-                case "remark_grossSalary":
-                    $request->remark = "Le salaire du stage a été modifié. ";
-                    break;
-                case "remark_externalLogbook":
-                    $request->remark = "Le type de journal de stage a été modifié. ";
-                    break;
-                default:
-                    //show which field has been changed
-                    $request->remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
-                    break;
-            }
+            
+            $replacements[0] = '00000';
+            $replacements[1] = '11111';
+
+            if($listOfRemarks[$key] == null)
+                $request->remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
+            else
+                $request->remark = preg_replace($patterns, $replacements, $listOfRemarks[$key],);
+
             if (isset($data))
-                $request->remark .= "Raison: $data";
+                $request->remark .= " Raison: $data";
 
             self::addRemarks($request);
         }
