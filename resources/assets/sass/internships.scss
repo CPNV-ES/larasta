@@ -16,6 +16,23 @@
   font-size: 18px;
 }
 
+.Description *[contentEditable="true"]:focus,
+.Description *[contentEditable="true"]:hover {
+  outline: 2px solid #2276d2;
+}
+
+.Description{
+  max-width: 400px;
+}
+
+.FieldDescription{
+  width: 80%; 
+  //overflow: hidden;
+  background-color: white;
+  border: 1px solid grey;
+}
+
+
 .buttonNewVisit{
   width: 40px;
   height: 40px;

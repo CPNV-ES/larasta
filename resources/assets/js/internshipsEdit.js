@@ -2,34 +2,18 @@ document.addEventListener("DOMContentLoaded", function() {
     //-------------------------------------------------
     //  add remarks dynamically 
     //-------------------------------------------------
-    //get the first table in form
-    var table = document.querySelector("form table");
-
-    //get all inputs, selects in our table
-    var inputs = table.querySelectorAll("input, select");
-
-    //when we change value on inputs we add input remark
-    inputs.forEach(function(elem){
-        var td = false;
-        var initialValue = elem.value;
-        elem.addEventListener("change", function(ev){
-            if(elem.value === initialValue && td){ //no modif
-                td.remove();
-                td = false;
-                return;
-            }
-            if(td){ //already displayed
-                return;
-            }
-            td = elem.parentElement.parentNode.addElement("td");
-            var inputRemark = td.addElement("input", {
-                type:"text", 
-                name:`remark_${elem.name}`, 
-                placeholder: "Pourquoi?"
-            });
-        });
-    });
+    var fieldsRemarks = new FieldsRemarks('remark')
+    fieldsRemarks.addRemarks();
     
+    var simplemde = new SimpleMDE({ 
+        toolbar: ["heading", "heading-2", "heading-3", "|", "bold", "italic", "quote", "|", "unordered-list" , "ordered-list", "|", "table", "link", "|", "preview" , "side-by-side", "fullscreen"],
+        element: document.getElementById("description") 
+    });
+    simplemde.codemirror.on('change', function(){
+        description.value = simplemde.value();
+        var event = new Event('change');
+        description.dispatchEvent(event);
+    });
     //-------------------------------------------------
     //  show create new visit section
     //-------------------------------------------------

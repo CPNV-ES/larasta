@@ -210,6 +210,7 @@ class InternshipsController extends Controller
         date_default_timezone_set('Europe/Zurich');
 
         $internship = Internship::find($internshipId);
+        $internship->internshipDescription = htmlentities($internship->internshipDescription);
         $medias = $internship->getMedia('documents');
         $visits = DB::table('visits')
             ->select(
