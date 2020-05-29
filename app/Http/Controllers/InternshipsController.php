@@ -243,7 +243,7 @@ class InternshipsController extends Controller
         $internship = Internship::find($internshipId);
         $medias = $internship->getMedia('documents');
         $contractStates =  $internship->contractstate->contractStates;
-        $actualState = $internship->contractstate;
+        $currentState = $internship->contractstate;
 
         $responsibles = DB::table('persons')
             ->select(
@@ -266,9 +266,11 @@ class InternshipsController extends Controller
             ->where('remarkOn_id', '=', $internshipId)
             ->orderby('remarkDate', 'desc')
             ->get();
-
+        
+        $yearStudents = Person::all();
+        
         $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('actualState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates'));
+        return view('internships/internshipedit')->with(compact('currentState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates', 'yearStudents'));
     }
 
     /**
@@ -280,7 +282,6 @@ class InternshipsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         if (Auth::user()->role < 1){
             abort(404);
             return;
@@ -295,7 +296,15 @@ class InternshipsController extends Controller
         $internship->contractstate_id = $request->stateDescription;
         $internship->grossSalary = $request->grossSalary;
         $internship->externalLogbook = ($request->externalLogbook == "on");
-        // dd($internship->externalLogbook);
+        if($request->internId){
+            $intern = Person::find($request->internId); 
+            //$internship->student = $intern;*/ //marche pas jsp pk
+            //$internship->intern = $intern; //marche pas jsp pk
+            $internship->intern_id = $intern->id;
+        }else{
+            //$internship->student = null;
+            $internship->intern_id = null;
+        }
         $internship->save();
 
         $textRegex = "([A-Za-z0-9]+)";
