@@ -25,7 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
-    Route::get('/internships/{iid}/update','InternshipsController@update')->name("updateInternships");
+    Route::put('/internships/{iid}','InternshipsController@update')->name("updateInternships");
 
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
 

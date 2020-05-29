@@ -5,9 +5,21 @@
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
+    <form action="{{route('updateInternships',$internship->id)}}" method="post">
+        @method("PUT")
+        @csrf
     <h2 class="text-left">Stage
-        @if (isset($internship->student))
-            de {{ $internship->student->firstname }} {{ $internship->student->lastname }}
+        @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
+        de
+            <select name="internId" autocomplete="off">
+                <option value="0" {{(!isset($internship->student) ? "selected" : "")}}>Non attribué</option>
+                @foreach($yearStudents as $student)
+                    {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}
+                    <option value="{{$student->id}}" {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}>{{$student->fullName}}</option>
+                @endforeach
+            </select>
+        @elseif (isset($internship->student))
+            de {{ $internship->student->fullName}}
         @else
             non attribué
         @endif
@@ -15,7 +27,6 @@
     </h2>
 
     {{-- Internship information --}}
-    <form action="{{route('updateInternships',$internship->id)}}" method="get">
         <input type="hidden" name="id" value="{{ $internship->id }}">
         <table class="table text-left larastable">
             <tr scope="row">
@@ -77,8 +88,8 @@
                 <td>Etat</td>
                 <td>
                     <select name="contractstate_id" class="remark">
-                        <option selected="selected" value="{{ $actualState->id }}">
-                            {{$actualState->stateDescription}}
+                        <option selected="selected" value="{{ $currentState->id }}">
+                            {{$currentState->stateDescription}}
                         </option>
                         @foreach($contractStates as $state)
                             <option value="{{ $state->id }}">
