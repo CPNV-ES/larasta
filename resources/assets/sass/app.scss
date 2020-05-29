@@ -313,7 +313,7 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   left: 0;
   text-align: center;
   overflow-y: scroll;
-  z-index: 1;
+  z-index: 21;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -321,7 +321,7 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 .focus {
   cursor: context-menu;
   position: relative;
-  z-index: 2;
+  z-index: 22;
   padding-bottom: 10px;
   box-shadow: 0 0 10px black; 
   background: #ebebeb; 
