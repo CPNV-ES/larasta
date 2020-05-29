@@ -16,7 +16,10 @@
     <link rel="stylesheet" href="/css/dropzone.min.css">
     <script src="/js/ckeditor.js"></script>
     <script src="/js/dropzone.min.js"></script>
-
+    <script src="/js/class/FieldsRemarks.js"></script>
+    <link rel="stylesheet" href="/css/simplemde.min.css">
+    <script src="/js/simplemde.min.js"></script>
+    <script src="/js/showdown.min.js"></script>
     @stack('page_specific_css')
 </head>
 <body class="{{(isset($_COOKIE['sidemenu_state']) && $_COOKIE['sidemenu_state'] == 'open')?'sidemenu-open':''}}">

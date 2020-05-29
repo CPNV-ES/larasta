@@ -5,9 +5,21 @@
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
+    <form action="{{route('updateInternships',$internship->id)}}" method="post">
+        @method("PUT")
+        @csrf
     <h2 class="text-left">Stage
-        @if (isset($internship->student))
-            de {{ $internship->student->firstname }} {{ $internship->student->lastname }}
+        @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
+        de
+            <select name="internId" autocomplete="off">
+                <option value="0" {{(!isset($internship->student) ? "selected" : "")}}>Non attribué</option>
+                @foreach($yearStudents as $student)
+                    {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}
+                    <option value="{{$student->id}}" {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}>{{$student->fullName}}</option>
+                @endforeach
+            </select>
+        @elseif (isset($internship->student))
+            de {{ $internship->student->fullName}}
         @else
             non attribué
         @endif
@@ -15,36 +27,34 @@
     </h2>
 
     {{-- Internship information --}}
-    <form action="{{route('updateInternships',$internship->id)}}" method="get">
         <input type="hidden" name="id" value="{{ $internship->id }}">
         <table class="table text-left larastable">
-            <tr>
-                <td class="col-md-2">Du</td>
+            <tr scope="row">
+                <td scope="col-6">Du</td>
                 <td>
-                    <input type="date" name="beginDate"
+                    <input type="date" name="beginDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
                            required/>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Au</td>
+            <tr scope="row">
+                <td>Au</td>
                 <td>
-                    <input type="date" name="endDate"
+                    <input type="date" name="endDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->endDate)) }}"
                            required/>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Description</td>
-                <td>
-                    <div id="description">{!! $internship->internshipDescription !!}</div>
-                    <textarea style="display: none" name="description" id="txtDescription"></textarea>
+            <tr scope="row">
+                <td>Description</td>
+                <td class="Description">
+                    <textarea name="internshipDescription" id="description" class="remark">{!! $internship->internshipDescription !!}</textarea>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Responsable administratif</td>
+            <tr scope="row">
+                <td>Responsable administratif</td>
                 <td>
-                    <select name="aresp">
+                    <select name="admin_id" class="remark">
                         @foreach($responsibles->get()->toArray() as $admin)
                             <option value="{{ $admin->id }}"
                                     @if ($internship->admin->id == $admin->id) selected @endif>
@@ -53,10 +63,10 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Responsable</td>
+            <tr scope="row">
+                <td>Responsable</td>
                 <td>
-                    <select name="intresp">
+                    <select name="responsible_id" class="remark">
                         @foreach($responsibles->get()->toArray() as $responsible)
                             <option value="{{ $responsible->id }}"
                                     @if ($internship->responsible->id == $responsible->id) selected @endif>
@@ -65,8 +75,8 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Maître de classe</td>
+            <tr scope="row">
+                <td>Maître de classe</td>
                 <td>
                     {{-- Display the teacher, if the internship is attributed --}}
                     @if (isset($internship->student))
@@ -74,12 +84,12 @@
                     @endif
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-2">Etat</td>
+            <tr scope="row">
+                <td>Etat</td>
                 <td>
-                    <select name="stateDescription">
-                        <option selected="selected" value="{{ $actualState->id }}">
-                            {{$actualState->stateDescription}}
+                    <select name="contractstate_id" class="remark">
+                        <option selected="selected" value="{{ $currentState->id }}">
+                            {{$currentState->stateDescription}}
                         </option>
                         @foreach($contractStates as $state)
                             <option value="{{ $state->id }}">
@@ -89,13 +99,21 @@
                     </select>
                 </td>
             </tr>
+            <tr scope="row">
+                <td>Salaire</td>
+                <td><input type="number" name="grossSalary" class="remark" value="{{$internship->grossSalary}}"/></td>
+            </tr>
             <tr>
-                <td class="col-md-2">Salaire</td>
-                <td><input type="number" name="grossSalary" value="{{$internship->grossSalary}}"/></td>
+                <td class="col-md-2">
+                    <label for="externalLogbookCheckbox">Journal de bord externe<label>
+                </td>
+                <td>
+                    <input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" autocomplete="off" {{$internship->externalLogbook ? "checked" : ""}}/>
+                </td>
             </tr>
             @if (isset($internship->previous_id))
                 <tr>
-                    <td class="col-md-2" colspan="3">
+                    <td>
                         <a href="/internships/{{ $internship->previous_id }}/edit">Stage précédent</a>
                     </td>
                 </tr>
@@ -122,11 +140,16 @@
         @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
-    @include('visits.add',compact('internship','visitsStates'))
     {{-- Visits --}}
+    <hr/>
+    <h1>Visite(s) <span class="buttonNewVisit pointer">+</span></h1> 
+    <div id="showNewVisit" class="pointer none">
+        <div class="focus">
+            @include('visits.add',compact('internship','visitsStates'))
+        </div>
+        <div class="darken-background"></div>
+    </div>
     @if (isset($visits))
-        <hr/>
-        <h1>Visite(s)</h1>
         <div class="col-12">
             <div class='error none'>
                 Une erreur inconnue est survenue, veuillez raffraîchir la page...
@@ -207,6 +230,7 @@
             </table>
         </form>
     @endif
+
 @endsection
 @push ('page_specific_js')
     <script src="/js/internshipsEdit.js"></script>

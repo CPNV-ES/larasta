@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreFileRequest;
+use App\Remark;
 
 class InternshipsController extends Controller
 {
@@ -210,6 +211,7 @@ class InternshipsController extends Controller
         date_default_timezone_set('Europe/Zurich');
 
         $internship = Internship::find($internshipId);
+        $internship->internshipDescription = htmlentities($internship->internshipDescription);
         $medias = $internship->getMedia('documents');
         $visits = DB::table('visits')
             ->select(
@@ -243,7 +245,7 @@ class InternshipsController extends Controller
         $internship = Internship::find($internshipId);
         $medias = $internship->getMedia('documents');
         $contractStates =  $internship->contractstate->contractStates;
-        $actualState = $internship->contractstate;
+        $currentState = $internship->contractstate;
 
         $responsibles = DB::table('persons')
             ->select(
@@ -266,9 +268,11 @@ class InternshipsController extends Controller
             ->where('remarkOn_id', '=', $internshipId)
             ->orderby('remarkDate', 'desc')
             ->get();
-
+        
+        $yearStudents = Person::all();
+        
         $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('actualState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates'));
+        return view('internships/internshipedit')->with(compact('currentState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates', 'yearStudents'));
     }
 
     /**
@@ -280,59 +284,31 @@ class InternshipsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         if (Auth::user()->role < 1){
             abort(404);
             return;
         }
+
         //update insternship by id
-        $internships = Internship::find($id);
-        $internships->beginDate = $request->beginDate;
-        $internships->endDate = $request->endDate;
-        $internships->internshipDescription = $request->description;
-        $internships->admin_id = $request->aresp;
-        $internships->responsible_id = $request->intresp;
-        $internships->contractstate_id = $request->stateDescription;
-        $internships->grossSalary = $request->grossSalary;
-        $internships->save();
+        $internship = Internship::find($id);
+        $internshipOld = $internship->replicate();
 
-        $textRegex = "([A-Za-z0-9]+)";
-        //search all keys on request (exemple: "id" is $key and 5664 is $data)
-        foreach ($request->request as $key => $data) {
-            //check if the name of request begin by "remark_"
-            if (!preg_match("#^remark_$textRegex$#", $key)) {
-                continue;
-            }
-            //customized remarks
-            switch ($key) {
-                case "remark_beginDate":
-                    $request->remark = "La date de début de stage a été modifiée. ";
-                    break;
-                case "remark_endDate":
-                    $request->remark = "La date de fin de stage a été modifiée. ";
-                    break;
-                case "remark_aresp":
-                    $request->remark = "Le Responsable administratif du stage a été modifié. ";
-                    break;
-                case "remark_intresp":
-                    $request->remark = "Le responsable du stage a été modifié. ";
-                    break;
-                case "remark_stateDescription":
-                    $request->remark = "L'état du stage a été modifié.  ";
-                    break;
-                case "remark_grossSalary":
-                    $request->remark = "Le salaire du stage a été modifié. ";
-                    break;
-                default:
-                    //show which field has been changed
-                    $request->remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
-                    break;
-            }
-            if (isset($data))
-                $request->remark .= "Raison: $data";
-
-            self::addRemarks($request);
+        $internship->externalLogbook = ($request->externalLogbook == "on");
+        $internship->fill($request->all());
+        
+        if($request->internId){
+            $intern = Person::find($request->internId); 
+            //$internship->student = $intern;*/ //marche pas jsp pk
+            //$internship->intern = $intern; //marche pas jsp pk
+            $internship->intern_id = $intern->id;
+        }else{
+            //$internship->student = null;
+            $internship->intern_id = null;
         }
+        $internship->save();
+
+        Remark::addMultipleWithDetails($request, $internshipOld, $internship);
+        
         return redirect()->action(
             'InternshipsController@edit', ['iid' => $request->id]
         );

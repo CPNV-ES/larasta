@@ -150,3 +150,6 @@
         </div>
     @endif @endif
 @stop
+@push ('page_specific_js')
+    <script src="/js/internships.js"></script>
+@endpush

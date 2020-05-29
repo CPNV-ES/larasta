@@ -1,0 +1,10 @@
+tbody > tr 
+{
+    &:hover td{
+        background-color: #ebebeb;
+    }
+}
+#summary tbody > tr
+{
+    cursor: pointer;
+}
