@@ -40,6 +40,6 @@ class tree extends Command
     {
         system("php artisan storage:link");
         Storage::makeDirectory("/snapshots");
-        system("echo tree initialization complete!");
+        $this->info("Structure created!");
     }
 }
