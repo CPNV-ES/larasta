@@ -85,10 +85,10 @@ php artisan db:seed --class="TestDataSeeder"
 
 ### 6. Fix some file system details
 
-Laravel accesses a storage directory through a link. You must create it from the app's directory with
+Laravel accesses a storage directory through a link and backup locations. Initialise it with:
 
 ```
-php artisan storage:link
+php artisan make:tree
 ```
 
 After cloning, some files/folders have bad access attributes. let's take the blunt approach and
