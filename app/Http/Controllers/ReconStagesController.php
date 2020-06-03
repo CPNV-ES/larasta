@@ -34,7 +34,6 @@ class ReconStagesController extends Controller
     /* Page called by reconstages.reconducted */
     public function reconducted(Request $request)
     {
-        $i = 0;
         $beginDate = Carbon::parse($request->input("beginDate"));
         $endDate = Carbon::parse($request->input("endDate"));
 
@@ -45,18 +44,16 @@ class ReconStagesController extends Controller
         $july = new Carbon('last day of july');
         $july = $july->month;
         
+        $i = 0;
         foreach ($request->internships as $value) {
             $i++;
-
-            $old = Internship::find($value);
-            $old->contractstate_id = Contractstate::where('stateDescription','Effectué')->first()->id;
-            $old->save();
             
             $salary = Params::getParamByName('internship1Salary')->paramValueInt;
             if ($currentMonth >= $february && $currentMonth <= $july) {
                 $salary = Params::getParamByName('internship2Salary')->paramValueInt;
             }
 
+            $old = Internship::find($value);
             /* Create new internship with old value */
             $new = new Internship();
             $new->companies_id = $old->company->id;
