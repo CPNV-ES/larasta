@@ -37,7 +37,7 @@
                         <td>{{ $internship->endDate->toFormattedDateString() }}</td>
                         <td>{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</td>
                         <td>{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</td>
-                        <td>{{ $internship->student->firstname }} {{ $internship->student->lastname }}</td>
+                        <td>{{ @$internship->student->firstname }} {{ @$internship->student->lastname }}</td>
                         <td>{{ $internship->grossSalary }}</td>
                         <td>{{ $internship->contractstate->stateDescription }}</td>
                         <td><input class="checkList" name="internships[]" value="{{ $internship->id }}" type="checkbox"></td>
@@ -46,7 +46,7 @@
             </tbody>        
         </table>
         
-        <button class="btn btn-primary" id="reconduire" type="submit">Reconduire</button>
+        <button class="btn btn-primary none" id="reconduire" type="submit">Reconduire</button>
         
         <label for="beginDate">Début du prochain stage :</label>
         <input type="date" name="beginDate" value="{{array_first($datesOfNextInternship)}}"/> | 
