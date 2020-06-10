@@ -195,7 +195,7 @@ return [
         /*
          *  Authentification
          */
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
     /*

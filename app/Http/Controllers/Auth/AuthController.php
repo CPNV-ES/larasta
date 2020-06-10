@@ -27,7 +27,7 @@ class AuthController extends Controller
         }
         else
         {
-            return Socialite::driver('github')->redirect();
+            return Socialite::driver('azure')->redirect();
         }
     }
 
