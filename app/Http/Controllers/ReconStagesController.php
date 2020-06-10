@@ -36,6 +36,8 @@ class ReconStagesController extends Controller
     /* Page called by reconstages.reconducted */
     public function reconducted(Request $request)
     {
+        if(!isset($request->internships))
+            return redirect()->back();
         $beginDate = Carbon::parse($request->input("beginDate"));
         $endDate = Carbon::parse($request->input("endDate"));
 
