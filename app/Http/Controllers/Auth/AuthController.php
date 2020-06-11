@@ -39,9 +39,10 @@ class AuthController extends Controller
     public function handleProviderCallback()
     {
         try {
-            $user = Socialite::driver('github')->user();
+            $user = Socialite::driver('azure')->user();
+            dd($user);
         } catch (Exception $e) {
-            return Redirect::to('/auth/github');
+            return Redirect::to('/auth/azure');
         }
 
         $authUser = $this->findOrCreateUser($user);
@@ -56,9 +57,9 @@ class AuthController extends Controller
      * @param $githubUser
      * @return User
      */
-    private function findOrCreateUser($githubUser)
+    private function findOrCreateUser($azureUser)
     {
-        if ($authUser = User::where('github_id', $githubUser->id)->first()) {
+        if ($authUser = User::where('azure_id', $azureUser->id)->first()) {
             return $authUser;
         }
 

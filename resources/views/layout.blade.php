@@ -44,7 +44,7 @@
             </form>
             @else
                 <tr>
-                    <td><a href="/auth/github"><img alt="Github" width="25" heigth="25" src="/images/github.png">Login with GitHub</a></td>
+                    <td><a href="/auth/github"><img alt="Azure" width="25" heigth="25" src="/images/azure.png">Login with Azure</a></td>
                 </tr>
             @endif
             <tr>
