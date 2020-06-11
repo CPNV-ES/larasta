@@ -11,9 +11,16 @@
     <h2 class="text-left">Stage
         @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
         de
-            <select id="internYearSelector">
-                @foreach ($years as $year)
-                    <option value="{{$year}}">20{{$year}}</option>
+            <select id="internYearSelector" autocomplete="off">
+                @foreach ($years as $indYear => $year)
+                    @if(isset($_COOKIE["selectedYear"]))
+                        <option {{($_COOKIE["selectedYear"] == $year)?"selected":""}} value="{{$year}}">20{{$year}}</option>
+                    @else
+                        salut
+                        {{array_key_last($years)}}
+                        {{$indYear}}
+                        <option {{($indYear == array_key_last($years))?"selected":""}} value="{{$year}}">20{{$year}}</option>
+                    @endif
                 @endforeach
             </select>
             <select name="internId" autocomplete="off">
