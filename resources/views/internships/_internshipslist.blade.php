@@ -1,5 +1,5 @@
 {{-- Subview that displays a list of internships --}}
-{{-- Usage:         @include ('internships.internshipslist',['iships' => $your_array_of_internships])  --}}
+{{-- Usage:         @include ('internships._internshipslist',['iships' => $your_array_of_internships])  --}}
 @if (count($iships) > 0)
     <table class="larastable">
         <thead>
