@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    // Make pseudo-links out of table rows. Add class 'clickable-row' to your row and put target URL in 'data-href' attribute
-    $(".clickable-row").click(function() {
+    // Make pseudo-links out of table rows. Add class 'fake-link' to your row and put target URL in 'data-href' attribute
+    $(".fake-link").click(function() {
         window.location = $(this).data("href");
     });
 

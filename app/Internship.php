@@ -121,5 +121,5 @@ class Internship extends Model implements HasMedia
         }
 
         return $nextInternship;
-    }
+    }   
 }

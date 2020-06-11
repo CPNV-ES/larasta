@@ -81,7 +81,7 @@
                 <td colspan="2"> Pas des filtres </td>
             @else
                 @foreach($persons as $person)                        <!-- View all persons -->
-                    <tr class="clickable-row" data-href="/listPeople/{{ $person->id }}/info">
+                    <tr class="fake-link" data-href="/listPeople/{{ $person->id }}/info">
                         <td>{{ $person->fullName}}</td>
                         <td>{{ $person->roles}}</td>
                     </tr>

@@ -11,12 +11,17 @@
     <h2 class="text-left">Stage
         @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
         de
+            <select id="internYearSelector">
+                @foreach ($years as $year)
+                    <option value="{{$year}}">20{{$year}}</option>
+                @endforeach
+            </select>
             <select name="internId" autocomplete="off">
                 <option value="0" {{(!isset($internship->student) ? "selected" : "")}}>Non attribué</option>
-                @foreach($yearStudents as $student)
+                {{-- @foreach($yearStudents as $student)
                     {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}
                     <option value="{{$student->id}}" {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}>{{$student->fullName}}</option>
-                @endforeach
+                @endforeach --}}
             </select>
         @elseif (isset($internship->student))
             de {{ $internship->student->fullName}}
@@ -114,17 +119,17 @@
             @if (isset($internship->previous_id))
                 <tr>
                     <td>
-                        <a href="/internships/{{ $internship->previous_id }}/edit">Stage précédent</a>
+                    <a href="{{route("editInternships", $internship->previous_id)}}">Stage précédent</a>
                     </td>
                 </tr>
             @endif
         </table>
 
         {{-- Action buttons --}}
-        <a href="/internships/{{$internship->id}}/view">
-            <button class="btn btn-danger" type="button">Annuler les modifications</button>
+    <a href="{{route("internship", $internship->id)}}">
+            <button class="btn btn-danger" type="button">Retour</button>
         </a>
-        <button class="formSend btn btn-warning" type="submit" onclick="transferDiv();">Valider les modifications</button>
+        <button class="formSend btn btn-success" type="submit" onclick="transferDiv();">Valider</button>
         
         <script type="text/javascript">
             function transferDiv() {

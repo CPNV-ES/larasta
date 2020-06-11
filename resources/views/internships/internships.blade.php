@@ -5,18 +5,11 @@
 @endpush
 
 @push ('page_specific_js')
-    <script src="/js/internships.js"></script>
 @endpush
 
 @section ('content')
     <div id="filtersBoxButton">
-        Filtres <i class="arrow
-        @if($isOneFilterActive)
-                up
-@else
-                down
-@endif
-                "></i>
+        Filtres <i class="arrow {{$isOneFilterActive?"up":"down"}}"></i>
     </div>
     <div id="expandedfilters" class="simple-box filters
         @if(!$isOneFilterActive) d-none  @endif
@@ -44,5 +37,5 @@
         </form>
     </div>
     <br><br>
-    @include ('internships.internshipslist',['iships' => $iships])
+    @include ('internships._internshipslist',['iships' => $iships])
 @stop

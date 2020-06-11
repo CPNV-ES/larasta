@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
 
-    Route::get('/internships/{iid}/view','InternshipsController@view')->name('internship');
+    Route::get('/internships/{iid}','InternshipsController@view')->name('internship');
 
     Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
