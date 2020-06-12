@@ -124,13 +124,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/documents', 'DocumentsController@index');
 
     // Davide
-    Route::get('/listPeople', 'PeopleControlleur@index');
-    Route::post('/listPeople/category', 'PeopleControlleur@category');
-    Route::get('/listPeople/{id}/info','PeopleControlleur@info');
-    Route::post('/listPeople/update/{id}','PeopleControlleur@update');
-    Route::post('/contact/delete','PeopleControlleur@deleteContact');
-    Route::post('/contact/add','PeopleControlleur@addContact');
-    Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
+    Route::get('/listPeople', 'PeopleController@index');
+    Route::post('/listPeople/category', 'PeopleController@category');
+    Route::get('/listPeople/{id}/info','PeopleController@info');
+    Route::post('/listPeople/update/{id}','PeopleController@update');
+    Route::post('/contact/delete','PeopleController@deleteContact');
+    Route::post('/contact/add','PeopleController@addContact');
+    Route::post('/listPeople/changeCompany','PeopleController@changeCompany');
 
     //Life cicle
     Route::get('/editlifecycle','LifeCycleController@index');

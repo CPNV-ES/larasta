@@ -1,13 +1,14 @@
 
 class InternshipEdit {
-    constructor(){
-        document.addEventListener("DOMContentLoaded", evt=>this._onload(evt));
+    constructor() {
+        document.addEventListener("DOMContentLoaded", evt => this._onload(evt));
     }
-    _onload(evt){
+    _onload(evt) {
         this.setupRemarks();
         this.setupVisitSection();
+        this.setupInternSelect();
     }
-    setupRemarks(){
+    setupRemarks() {
         //-------------------------------------------------
         //  add remarks dynamically 
         //-------------------------------------------------
@@ -24,7 +25,7 @@ class InternshipEdit {
             description.dispatchEvent(event);
         });
     }
-    setupVisitSection(){
+    setupVisitSection() {
         //-------------------------------------------------
         //  show create new visit section
         //-------------------------------------------------
@@ -92,7 +93,6 @@ class InternshipEdit {
             });
         });
     }
-
     displayElem(elem, time, message) {
         //show the element                
         elem.classList.remove("none");
@@ -103,6 +103,42 @@ class InternshipEdit {
 
         if (message)
             elem.textContent = message;
+    }
+
+    setupInternSelect() {
+        internYearSelector.addEventListener("change", evt => {
+            var year = internYearSelector.value;
+            this.loadYearStudents(year);
+            Cookies.set("lastSelectedYear", year);
+        });
+        //first load
+        this.loadYearStudents(internYearSelector.value);
+    }
+    async loadYearStudents(year) {
+        console.log(`load students for year 20${year}`);
+        //loader
+        internYearSelector.disabled = true;
+        internSelector.disabled = true;
+        internSelector.removeChilds();
+        var loader = internSelector.addElement("option", { disabled: true, _text: "Chargement..." });
+        //call
+        var students = await Utils.callApi(getPeopleRoute, { query: { flockYear: year } });
+        internYearSelector.disabled = false;
+        if (!students) {
+            Utils.infoBox("Une erreur est survenue pendant le chargement des élèves");
+            return;
+        }
+        //build
+        internSelector.addElement("option", { value: 0, _text: "Non attribué" });
+        students.forEach(student => {
+            let currentOption = internSelector.addElement("option", { value: student.id, _text: `${student.firstname} ${student.lastname}` });
+
+            if (student.id == selectedInternId) {
+                currentOption.selected = true;
+            }
+        });
+        loader.remove();
+        internSelector.disabled = false;
     }
 }
 var internshipEdit = new InternshipEdit();

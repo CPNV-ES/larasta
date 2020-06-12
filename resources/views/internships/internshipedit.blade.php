@@ -3,6 +3,10 @@
 @endpush
 @extends ('layout')
 @section ('content')
+    <script>
+        const getPeopleRoute = "{{route("getPeople")}}";
+        var selectedInternId = {{isset($internship->student)?$internship->student->id:"false"}};
+    </script>
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
     <form action="{{route('updateInternships',$internship->id)}}" method="post">
@@ -11,25 +15,21 @@
     <h2 class="text-left">Stage
         @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
         de
+            @php
+                if(isset($internship->student)){
+                    $selectedYear = $internship->student->flock->startYear;
+                } else if (isset($_COOKIE["lastSelectedYear"])){
+                    $selectedYear = $_COOKIE["lastSelectedYear"];
+                } else {
+                    $selectedYear = end($years);
+                }
+            @endphp
             <select id="internYearSelector" autocomplete="off">
                 @foreach ($years as $indYear => $year)
-                    @if(isset($_COOKIE["selectedYear"]))
-                        <option {{($_COOKIE["selectedYear"] == $year)?"selected":""}} value="{{$year}}">20{{$year}}</option>
-                    @else
-                        salut
-                        {{array_key_last($years)}}
-                        {{$indYear}}
-                        <option {{($indYear == array_key_last($years))?"selected":""}} value="{{$year}}">20{{$year}}</option>
-                    @endif
+                    <option {{($year == $selectedYear)?"selected":""}} value="{{$year}}">20{{$year}}</option>
                 @endforeach
             </select>
-            <select name="internId" autocomplete="off">
-                <option value="0" {{(!isset($internship->student) ? "selected" : "")}}>Non attribué</option>
-                {{-- @foreach($yearStudents as $student)
-                    {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}
-                    <option value="{{$student->id}}" {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}>{{$student->fullName}}</option>
-                @endforeach --}}
-            </select>
+            <select id="internSelector" name="internId" autocomplete="off"></select>
         @elseif (isset($internship->student))
             de {{ $internship->student->fullName}}
         @else
