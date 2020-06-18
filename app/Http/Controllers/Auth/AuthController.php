@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Person;
 
 
 use Socialite;
