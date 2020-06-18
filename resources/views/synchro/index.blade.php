@@ -11,7 +11,46 @@
 		<h4>Veuillez patienter</h4>
 	</div>
 </div>
-<form method="POST" action="/synchro/modify" class="formModify">
+
+<fieldset class="flocks">
+	<legend>Classe</legend>
+	<div class="students">
+		<div class="onefilter">
+			<input type="checkbox" id="student1" name="student1">
+			<label for="student1">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student2" name="student2">
+			<label for="student2">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student3" name="student3">
+			<label for="student3">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student4" name="student4">
+			<label for="student4">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student5" name="student5">
+			<label for="student5">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student6" name="student6">
+			<label for="student6">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student7" name="student7">
+			<label for="student7">Diogo Vieira</label>
+		</div>
+		<div class="onefilter">
+			<input type="checkbox" id="student8" name="student8">
+			<label for="student8">Diogo Vieira</label>
+		</div>
+	</div>
+</fieldset>
+
+{{-- <form method="POST" action="/synchro/modify" class="formModify">
 	{{ csrf_field() }}
 	<div class="row">
 		<div class="col-lg-1 col-md-2 col-xl-2 col-md-offset-2 col-lg-offset-4 col-offset-xl-2 modify-buttons">
@@ -81,7 +120,7 @@
 				</table>
 			</div>
 		</div>
-	</form>
+	</form> --}}
 
 
 @stop

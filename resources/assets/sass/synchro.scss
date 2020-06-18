@@ -6,3 +6,41 @@
 .messageLoading {
     display: none;
 }
+.flocks{    
+    border: 1px #a0a0a0 solid;
+    legend{
+        margin-left: 15px;
+        width: initial;
+    }
+    .students{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+    }
+}
+
+.onefilter {
+    /*label enabled*/
+    label{
+        font-weight: bold;
+    }
+    &:active{
+        input[type="checkbox"] + label{
+            box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5);
+        }
+    }
+    input[type="checkbox"]{
+        + label{
+            // color: white;
+            // background-color: #eb322cd0; 
+            // border-color: #9c1814f8; 
+        }
+        &:checked + label {        
+            background-color:#56b949fa; 
+            border-color: #3e8335fa ;
+            color: black;
+        }
+    }
+}
+
+  

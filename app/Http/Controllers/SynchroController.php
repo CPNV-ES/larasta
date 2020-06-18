@@ -316,6 +316,8 @@ class SynchroController extends Controller
      */
     public function index()
     {
+        //TODO remove the line after creation of the page
+        return view('synchro/index');
         /// Should be at > 0 in a production environment
         if (Auth::user()->person->role < 5)
         {
