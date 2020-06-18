@@ -6,16 +6,16 @@
 
 @extends ('layout')
 
-@section('page_specific_css')
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/logbook.css">
-@endsection
+@endpush
 
-@section('sidemenu')
+@push('sidemenu')
     @include("logbook/_sideMenuInfos", ["modeBtnAction" => "normal", "internshipId" => $internship->id])
-@endsection
+@endpush
 
 @section('content')
-<h1>Stage de {{$student->full_name}}</h1>
+<h1>Stage de {{$student->fullName ?? "Non attribué"}}</h1>
 <h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
         <!--weeks-->

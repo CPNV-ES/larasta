@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'InternshipsController@index')->name("index");
+Route::get('/internships', function(){return redirect(route("index"));});
 
 Route::post('/', 'InternshipsController@changeFilter');
 

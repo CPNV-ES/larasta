@@ -77,7 +77,7 @@
                 @endif
             @endif
         </table>
-        @yield ('sidemenu')
+        @stack ('sidemenu')
         @if (!CPNVEnvironment\Environment::isProd())
             <img id="imgwip" src="/images/wip.png">
         @endif
