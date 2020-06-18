@@ -16,22 +16,25 @@ class InternshipEdit {
         //-------------------------------------------------
         var fieldsRemarks = new FieldsRemarks('remark')
         fieldsRemarks.addRemarks();
-        
+
         //add intern remark
-        var {onChange} = fieldsRemarks.addCustomRemark({
+        if (!window.internSelector) { 
+            return; 
+        }
+        var { onChange } = fieldsRemarks.addCustomRemark({
             input: internSelector,
-            onDiff(){
+            onDiff() {
                 internRemark.setAttribute("name", internRemark.dataset.name);
                 internRemark.classList.remove("none");
             },
-            onSame(){
+            onSame() {
                 internRemark.removeAttribute("name");
                 internRemark.classList.add("none");
             }
         });
         this.eventTriggers.onInternChange = onChange;
     }
-    setupSimpleMDE(){
+    setupSimpleMDE() {
         var simplemde = new SimpleMDE({
             toolbar: ["heading", "heading-2", "heading-3", "|", "bold", "italic", "quote", "|", "unordered-list", "ordered-list", "|", "table", "link", "|", "preview", "side-by-side", "fullscreen"],
             element: document.getElementById("description")
@@ -123,6 +126,9 @@ class InternshipEdit {
     }
 
     setupInternSelect() {
+        if (!window.internYearSelector) {
+            return;
+        }
         internYearSelector.addEventListener("change", evt => {
             var year = internYearSelector.value;
             this.loadYearStudents(year);
@@ -137,7 +143,7 @@ class InternshipEdit {
         internYearSelector.disabled = true;
         internSelector.disabled = true;
         internSelector.removeChilds();
-        var loader = internSelector.addElement("option", { disabled: true, _text: "Chargement...", value: internSelector.getAttribute("value")});
+        var loader = internSelector.addElement("option", { disabled: true, _text: "Chargement...", value: internSelector.getAttribute("value") });
         //call
         var students = await Utils.callApi(getPeopleRoute, { query: { flockYear: year } });
         internYearSelector.disabled = false;
@@ -156,7 +162,7 @@ class InternshipEdit {
                 noStudentAvailible = false;
             }
         });
-        if(noStudentAvailible){
+        if (noStudentAvailible) {
             nonAttributedOption.selected = true;
         }
         loader.remove();
