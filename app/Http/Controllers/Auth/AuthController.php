@@ -40,7 +40,6 @@ class AuthController extends Controller
     {
         try {
             $user = Socialite::driver('azure')->user();
-            dd($user);
         } catch (Exception $e) {
             return Redirect::to('/auth/azure');
         }
@@ -59,23 +58,18 @@ class AuthController extends Controller
      */
     private function findOrCreateUser($azureUser)
     {
-        if ($authUser = User::where('azure_id', $azureUser->id)->first()) {
+        if ($authUser = Person::all()->contactinfo->whereIn('value', $azureUser->email)->first()) {
+            dd($authUser);
             return $authUser;
+        }else{
+            return Redirect::to('/');
         }
-
-        return User::create([
-            'name' => $githubUser->name,
-            'email' => $githubUser->email,
-            'github_id' => $githubUser->id,
-            'avatar' => $githubUser->avatar,
-            'role' => 0
-        ]);
     }
     
     public function localLogin($id){
         $user = new \stdClass();
         $user->id = $id;
-        $authUser = $this->findOrCreateUser($user);
+        $authUser = User::where('github_id', $user->id)->first();
         Auth::login($authUser, true);
     }
     
