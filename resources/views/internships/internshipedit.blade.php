@@ -130,18 +130,10 @@
         </table>
 
         {{-- Action buttons --}}
-    <a href="{{route("internship", $internship->id)}}">
+        <a href="{{route("internship", $internship->id)}}">
             <button class="btn btn-danger" type="button">Retour</button>
         </a>
-        <button class="formSend btn btn-success" type="submit" onclick="transferDiv();">Valider</button>
-        
-        <script type="text/javascript">
-            function transferDiv() {
-                var divHtml = document.getElementById("description");
-                var txtHtml = document.getElementById("txtDescription");
-                txtHtml.value = divHtml.innerHTML;
-            }
-        </script>
+        <button class="btn btn-success" type="submit">Valider</button>
     </form>
     
     <hr/>
