@@ -59,9 +59,9 @@ class AuthController extends Controller
     private function findOrCreateUser($azureUser)
     {
         $email = $azureUser->email;
-        dd($email);
-        if ($authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->get()){
-            dd($authUser);
+        $authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->get();
+        dd($authUser);
+        if ($authUser){
             return $authUser;
         }else{
             return Redirect::to('/');
