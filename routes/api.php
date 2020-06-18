@@ -23,9 +23,8 @@ Route::post('/editLifecycleTitle','LifeCycleController@ModifyContractStateTitle'
 //logbook
 Route::get('/internships/{internshipId}/logbook/activities', 'LogbookController@getActivities')->name("getActivities");
 Route::get('/internships/logbook/activities/{activityId}', 'LogbookController@getActivity')->name("getActivity");
-
 Route::post('/internships/{internshipId}/logbook/activities','LogbookController@addActivity')->name("postActivity");
-
 Route::put('/internships/logbook/activities/{activityId}', 'LogbookController@updateActivity')->name("putActivity");
-
 Route::delete('/internships/logbook/activities/{activityId}', 'LogbookController@deleteActivity')->name("deleteActivity");
+//Peoples
+Route::get('/people', 'PeopleController@getAll')->name("getPeople");

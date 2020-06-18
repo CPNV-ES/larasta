@@ -3,21 +3,34 @@
 @endpush
 @extends ('layout')
 @section ('content')
+    <script>
+        const getPeopleRoute = "{{route("getPeople")}}";
+        var selectedInternId = {{isset($internship->student)?$internship->student->id:"false"}};
+    </script>
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
     <form action="{{route('updateInternships',$internship->id)}}" method="post">
         @method("PUT")
         @csrf
-    <h2 class="text-left">Stage
+    <h2 class="text-left internshipTitle">Stage
         @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
         de
-            <select name="internId" autocomplete="off">
-                <option value="0" {{(!isset($internship->student) ? "selected" : "")}}>Non attribué</option>
-                @foreach($yearStudents as $student)
-                    {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}
-                    <option value="{{$student->id}}" {{((isset($internship->student) && $internship->student->id == $student->id) ? "selected" : "")}}>{{$student->fullName}}</option>
+            @php
+                if(isset($internship->student)){
+                    $selectedYear = $internship->student->flock->startYear;
+                } else if (isset($_COOKIE["lastSelectedYear"])){
+                    $selectedYear = $_COOKIE["lastSelectedYear"];
+                } else {
+                    $selectedYear = end($years);
+                }
+            @endphp
+            <select id="internYearSelector" autocomplete="off">
+                @foreach ($years as $indYear => $year)
+                    <option {{($year == $selectedYear)?"selected":""}} value="{{$year}}">20{{$year}}</option>
                 @endforeach
             </select>
+            <select id="internSelector" name="internId" autocomplete="off" value={{$internship->student->id??"0"}}></select>
+            <input id="internRemark" class="none" data-name="remark_internId" placeholder="Pourquoi?"/>
         @elseif (isset($internship->student))
             de {{ $internship->student->fullName}}
         @else
@@ -30,7 +43,7 @@
         <input type="hidden" name="id" value="{{ $internship->id }}">
         <table class="table text-left larastable">
             <tr scope="row">
-                <td scope="col-6">Du</td>
+                <td scope="col-md-2">Du</td>
                 <td>
                     <input type="date" name="beginDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
@@ -103,36 +116,24 @@
                 <td>Salaire</td>
                 <td><input type="number" name="grossSalary" class="remark" value="{{$internship->grossSalary}}"/></td>
             </tr>
-            <tr>
-                <td class="col-md-2">
-                    <label for="externalLogbookCheckbox">Journal de bord externe<label>
-                </td>
-                <td>
-                    <input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" autocomplete="off" {{$internship->externalLogbook ? "checked" : ""}}/>
-                </td>
+            <tr scope="row">
+                <td><label for="externalLogbookCheckbox">Journal de bord externe<label></td>
+                <td><input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" class="remark" autocomplete="off" {{$internship->externalLogbook ? "checked":""}} /></td>
             </tr>
             @if (isset($internship->previous_id))
                 <tr>
                     <td>
-                        <a href="/internships/{{ $internship->previous_id }}/edit">Stage précédent</a>
+                    <a href="{{route("editInternships", $internship->previous_id)}}">Stage précédent</a>
                     </td>
                 </tr>
             @endif
         </table>
 
         {{-- Action buttons --}}
-        <a href="/internships/{{$internship->id}}/view">
-            <button class="btn btn-danger" type="button">Annuler les modifications</button>
+        <a href="{{route("internship", $internship->id)}}">
+            <button class="btn btn-danger" type="button">Retour</button>
         </a>
-        <button class="formSend btn btn-warning" type="submit" onclick="transferDiv();">Valider les modifications</button>
-        
-        <script type="text/javascript">
-            function transferDiv() {
-                var divHtml = document.getElementById("description");
-                var txtHtml = document.getElementById("txtDescription");
-                txtHtml.value = divHtml.innerHTML;
-            }
-        </script>
+        <button class="btn btn-success" type="submit">Valider</button>
     </form>
     
     <hr/>

@@ -9,6 +9,7 @@ use App\Company;
 use App\Internship;
 use App\Person;
 use App\Visitsstate;
+use App\Flock;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -247,6 +248,8 @@ class InternshipsController extends Controller
         $contractStates =  $internship->contractstate->contractStates;
         $currentState = $internship->contractstate;
 
+        // $responsible
+
         $responsibles = DB::table('persons')
             ->select(
                 'id',
@@ -269,10 +272,12 @@ class InternshipsController extends Controller
             ->orderby('remarkDate', 'desc')
             ->get();
         
-        $yearStudents = Person::all();
+        $years = Flock::getYears();
+
+        // $yearStudents = Person::all();
         
         $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('currentState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates', 'yearStudents'));
+        return view('internships/internshipedit')->with(compact('currentState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates', 'years'));
     }
 
     /**

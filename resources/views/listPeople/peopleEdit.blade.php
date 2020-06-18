@@ -107,7 +107,7 @@
 
         <h5 class="titlebar">Stages</h5>
         <div>
-            @include ('internships.internshipslist',['iships' => $iships])
+            @include ('internships._internshipslist',['iships' => $iships])
         </div>
     </div>
 @stop

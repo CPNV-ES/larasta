@@ -169,8 +169,11 @@ Utils.callApi = async function(
             queryText = query;
         }
     }
-
-    var result = await fetch(path + queryText, fetchParams);
+    try{
+        var result = await fetch(path + queryText, fetchParams);
+    }catch(e){
+        return false;
+    }
     if (rawCallData) {
         return result;
     }

@@ -123,7 +123,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h3>Stages</h3>
                 <div class="table-responsive">
-                    @include ('internships.internshipslist',['iships' => $iships]) <br />
+                    @include ('internships._internshipslist',['iships' => $iships]) <br />
                     <br>
                     @foreach ($company as $companies)
                         <a href="/internships/{{$companies->id}}/new" class="underline-none">

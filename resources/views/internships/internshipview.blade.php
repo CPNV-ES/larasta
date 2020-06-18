@@ -1,5 +1,7 @@
 @extends ('layout')
-
+@push ('page_specific_js')
+    <script src="/js/internship.js"></script>
+@endpush
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
@@ -28,11 +30,11 @@
                 <div id="description">{!! $internship->internshipDescription !!}</div>
             </div>
         </div>
-        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
+        <div class="row p-1 border fake-link" data-href="/listPeople/{{ $internship->admin->id }}/info">
             <div class="col-2">Responsable administratif</div>
             <div class="col-10">{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</div>
         </div>
-        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
+        <div class="row p-1 border fake-link" data-href="/listPeople/{{ $internship->responsible->id }}/info">
             <div class="col-2">Responsable</div>
             <div class="col-10">{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</div>
         </div>
@@ -125,7 +127,7 @@
     @endif
 
     {{-- Remarks --}}
-    @if (isset($remarks)) @if (count($remarks) > 0)
+    @if (isset($remarks) && count($remarks) > 0)
         <hr/>
         <h4>Remarques</h4>
         <div class="container text-left">
@@ -148,8 +150,5 @@
                 </div>
             @endforeach
         </div>
-    @endif @endif
+    @endif 
 @stop
-@push ('page_specific_js')
-    <script src="/js/internships.js"></script>
-@endpush
