@@ -30,6 +30,9 @@ h1 {
 }
 h2 {
   font-size: 24px;
+  *{
+    font-size: inherit!important;
+  }
 }
 h3 {
   @extend %title;

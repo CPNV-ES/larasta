@@ -12,7 +12,7 @@
     <form action="{{route('updateInternships',$internship->id)}}" method="post">
         @method("PUT")
         @csrf
-    <h2 class="text-left">Stage
+    <h2 class="text-left internshipTitle">Stage
         @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
         de
             @php
@@ -29,7 +29,8 @@
                     <option {{($year == $selectedYear)?"selected":""}} value="{{$year}}">20{{$year}}</option>
                 @endforeach
             </select>
-            <select id="internSelector" name="internId" autocomplete="off"></select>
+            <select id="internSelector" name="internId" autocomplete="off" value={{$internship->student->id??"0"}}></select>
+            <input id="internRemark" class="none" data-name="remark_internId" placeholder="Pourquoi?"/>
         @elseif (isset($internship->student))
             de {{ $internship->student->fullName}}
         @else
@@ -42,7 +43,7 @@
         <input type="hidden" name="id" value="{{ $internship->id }}">
         <table class="table text-left larastable">
             <tr scope="row">
-                <td scope="col-6">Du</td>
+                <td scope="col-md-2">Du</td>
                 <td>
                     <input type="date" name="beginDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
@@ -115,13 +116,9 @@
                 <td>Salaire</td>
                 <td><input type="number" name="grossSalary" class="remark" value="{{$internship->grossSalary}}"/></td>
             </tr>
-            <tr>
-                <td class="col-md-2">
-                    <label for="externalLogbookCheckbox">Journal de bord externe<label>
-                </td>
-                <td>
-                    <input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" autocomplete="off" {{$internship->externalLogbook ? "checked" : ""}}/>
-                </td>
+            <tr scope="row">
+                <td><label for="externalLogbookCheckbox">Journal de bord externe<label></td>
+                <td><input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" class="remark" autocomplete="off" {{$internship->externalLogbook ? "checked":""}} /></td>
             </tr>
             @if (isset($internship->previous_id))
                 <tr>

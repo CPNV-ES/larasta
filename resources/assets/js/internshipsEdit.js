@@ -1,12 +1,14 @@
 
 class InternshipEdit {
     constructor() {
+        this.eventTriggers = {};
         document.addEventListener("DOMContentLoaded", evt => this._onload(evt));
     }
     _onload(evt) {
-        this.setupRemarks();
-        this.setupVisitSection();
         this.setupInternSelect();
+        this.setupVisitSection();
+        this.setupSimpleMDE();
+        this.setupRemarks();
     }
     setupRemarks() {
         //-------------------------------------------------
@@ -14,7 +16,22 @@ class InternshipEdit {
         //-------------------------------------------------
         var fieldsRemarks = new FieldsRemarks('remark')
         fieldsRemarks.addRemarks();
-
+        
+        //add intern remark
+        var {onChange} = fieldsRemarks.addCustomRemark({
+            input: internSelector,
+            onDiff(){
+                internRemark.setAttribute("name", internRemark.dataset.name);
+                internRemark.classList.remove("none");
+            },
+            onSame(){
+                internRemark.removeAttribute("name");
+                internRemark.classList.add("none");
+            }
+        });
+        this.eventTriggers.onInternChange = onChange;
+    }
+    setupSimpleMDE(){
         var simplemde = new SimpleMDE({
             toolbar: ["heading", "heading-2", "heading-3", "|", "bold", "italic", "quote", "|", "unordered-list", "ordered-list", "|", "table", "link", "|", "preview", "side-by-side", "fullscreen"],
             element: document.getElementById("description")
@@ -120,7 +137,7 @@ class InternshipEdit {
         internYearSelector.disabled = true;
         internSelector.disabled = true;
         internSelector.removeChilds();
-        var loader = internSelector.addElement("option", { disabled: true, _text: "Chargement..." });
+        var loader = internSelector.addElement("option", { disabled: true, _text: "Chargement...", value: internSelector.getAttribute("value")});
         //call
         var students = await Utils.callApi(getPeopleRoute, { query: { flockYear: year } });
         internYearSelector.disabled = false;
@@ -129,16 +146,22 @@ class InternshipEdit {
             return;
         }
         //build
-        internSelector.addElement("option", { value: 0, _text: "Non attribué" });
+        var nonAttributedOption = internSelector.addElement("option", { value: 0, _text: "Non attribué" });
+        var noStudentAvailible = true;
         students.forEach(student => {
             let currentOption = internSelector.addElement("option", { value: student.id, _text: `${student.firstname} ${student.lastname}` });
 
             if (student.id == selectedInternId) {
                 currentOption.selected = true;
+                noStudentAvailible = false;
             }
         });
+        if(noStudentAvailible){
+            nonAttributedOption.selected = true;
+        }
         loader.remove();
         internSelector.disabled = false;
+        this.eventTriggers.onInternChange();
     }
 }
 var internshipEdit = new InternshipEdit();
