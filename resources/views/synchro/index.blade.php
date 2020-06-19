@@ -10,19 +10,19 @@
 <blockquote>
 	Cliquez sur les différentes personnes que vous souhaitez synchroniser, le bouton devient alors vert.
 </blockquote>
-@foreach ($students as $class=>$classInformation)
+@foreach ($classes as $class => $classInformations)
 	<fieldset class="flocks">
 		<legend>{{$class}}</legend>	
 		<label>Maître de classe</label>
 		<div class="teachers">
 			<div class="onefilter">
-				<input type="checkbox" id="{{$class}}{{$teachers[$class]["teacher_id"]}}">
-				<label for="{{$class}}{{$teachers[$class]["teacher_id"]}}">{{$teachers[$class]["name"]}}</label>
+				<input type="checkbox" id="{{$class}}{{$classInformations["teacher"]["id"]}}">
+				<label for="{{$class}}{{$classInformations["teacher"]["id"]}}">{{$classInformations["teacher"]["name"]}}</label>
 			</div>
 		</div>
 		<label>Élèves</label>
 		<div class="students">
-			@foreach ($classInformation as $key => $student)				
+			@foreach ($classInformations["students"] as $student)	
 				<div class="onefilter">
 					<input type="checkbox" id="{{$class}}{{$student["id"]}}">
 					<label for="{{$class}}{{$student["id"]}}">{{$student["name"]}}</label>

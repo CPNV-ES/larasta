@@ -322,7 +322,7 @@ class SynchroController extends Controller
             //$this->getDatas();
 
             $intranetData = new IntranetConnection();
-            return view('synchro/index')->with([ "students" => $intranetData->getStudents(), "teachers" => $intranetData->getTeachers()]);
+            return view('synchro/index')->with([ "classes" => $intranetData->getClasses()]);
         }
     }
 
