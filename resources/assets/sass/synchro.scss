@@ -30,11 +30,6 @@
         }
     }
     input[type="checkbox"]{
-        + label{
-            // color: white;
-            // background-color: #eb322cd0; 
-            // border-color: #9c1814f8; 
-        }
         &:checked + label {        
             background-color:#56b949fa; 
             border-color: #3e8335fa ;

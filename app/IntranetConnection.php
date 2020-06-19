@@ -53,8 +53,9 @@ class IntranetConnection
     {
         /// Create an associative array with the url and their parameters to create the signature
         $urlArray = ["http://intranet.cpnv.ch/info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
-                     "http://intranet.cpnv.ch/info/enseignants.json?api_key=" => "api_key",
-                     "http://intranet.cpnv.ch/classes.json?api_key=" => "api_key"];
+                     //"http://intranet.cpnv.ch/info/enseignants.json?api_key=" => "api_key",
+                     "http://intranet.cpnv.ch/info/enseignants.json?alter[extra]=current_class_masteries&api_key=gifi&signature=40766a439a0d749fa838a44c74341781",
+                     "http://intranet.cpnv.ch/info/classes.json?api_key=" => "api_key"];
 
         $connection = curl_init();
 
@@ -73,18 +74,52 @@ class IntranetConnection
 
             $response = curl_exec($connection);
 
+            $data = json_decode($response, true);
             if (strpos($url, "etudiants") !== false)
             {
-                $this->studentsList = json_decode($response, true);
+                foreach($data as $keys => $value)
+                {
+                    $name = $data[$keys]["current_class"]["link"]["name"];
+                    //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
+                    if(!preg_match("#^SI-\w+3\w+$#", $name))
+                        unset($data[$keys]);
+                }
+                array_values($data);
+
+                $this->students = $data;
             }
             else if (strpos($url, "enseignants") !== false)
             {
-                $this->teachersList = json_decode($response, true);
+                foreach($data as $keys => $value)
+                {
+                    $isValid = false;
+                    $classes = $data[$keys]["current_class_masteries"];
+                    foreach($classes as $keys => $value)
+                    {
+                        if(preg_match("SI-\w+3\w+", $classes["link"]["name"]))
+                            $isValid=true;
+                    }                    
+                    //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
+                    if(!$isValid)
+                        unset($data[$keys]);                    
+                }
+                array_values($data);
+                $this->teachers = $data;
             }
             else if (strpos($url, "classes") !== false)
             {
-                $this->classesList = json_decode($response, true);
+                foreach($data as $keys => $value)
+                {
+                    $name = $data[$keys]["name"];
+                    //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
+                    if(!preg_match("SI-\w+3\w+", $name))
+                        unset($data[$keys]);
+                }
+                array_values($data);
+                $this->classes = $data;
             }
+            
+            dd("teachers",$this->teachersList, "students", $this->studentsList);
         }
 
         curl_close($connection);
