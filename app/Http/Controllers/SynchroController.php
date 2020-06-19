@@ -18,12 +18,12 @@ namespace App\Http\Controllers;
  * 
  * Use of Carbon to handle dates easily
 */
-use App\IntranetConnection as Connection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use CPNVEnvironment\Environment;
 use App\Person;
 use App\Flock;
+use App\IntranetConnection;
 use Carbon\Carbon;
 
 class SynchroController extends Controller
@@ -271,7 +271,7 @@ class SynchroController extends Controller
     {
         $dbStudents = Person::all();
         $dbStudents = $dbStudents->sortBy('lastname');
-        $intranetDatas = new Connection();
+        $intranetDatas = new IntranetConnection();
         $this->classesList = $intranetDatas->getClasses();
         $studentsList = $intranetDatas->getStudents();
         $teachersList = $intranetDatas->getTeachers();
@@ -316,14 +316,13 @@ class SynchroController extends Controller
      */
     public function index()
     {
-        //TODO remove the line after creation of the page
-        return view('synchro/index');
         /// Should be at > 0 in a production environment
         if (Auth::user()->person->role < 5)
         {
-            $this->getDatas();
+            //$this->getDatas();
 
-            return view('synchro/index')->with([ 'goodStudents' => $this->getGoodPersons(), 'obsoleteStudents' => $this->getObsoletePersons(), 'newStudents' => $this->getNewPersons()]);
+            $intranetData = new IntranetConnection();
+            return view('synchro/index')->with([ "students" => $intranetData->getStudents(), "teachers" => $intranetData->getTeachers()]);
         }
     }
 

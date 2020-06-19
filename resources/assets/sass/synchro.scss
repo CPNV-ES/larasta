@@ -6,23 +6,43 @@
 .messageLoading {
     display: none;
 }
-.flocks{    
+
+.flocks{  
+    padding-left: 5%;
+    padding-right: 5%;  
     border: 1px #a0a0a0 solid;
     legend{
         margin-left: 15px;
         width: initial;
     }
-    .students{
+    
+    label {
+        display: flex;
+        font-size: 1rem;
+        text-decoration: underline;
+        line-height: inherit;
+        margin-left: 5px;
+    }
+    .students, .teachers{
         display: flex;
         width: 100%;
         flex-direction: row;
+        flex-wrap: wrap;
     }
 }
 
 .onefilter {
+    display: flex;
+    flex: 0 content;
+    padding-left: 0;
+    padding-right: 5px;
     /*label enabled*/
     label{
+        padding: 5px;
+        line-height: normal !important;
+        height: initial;
         font-weight: bold;
+        text-decoration: initial;        
     }
     &:active{
         input[type="checkbox"] + label{
@@ -38,4 +58,17 @@
     }
 }
 
-  
+h2 {
+    display: flex;
+    font-size: 2rem;
+    text-decoration: underline;
+}
+
+blockquote {
+    width: 60%;
+    font-size: 0.8rem;
+    padding: 10px;
+    background: #d4d4d483;
+    border-left: 10px solid #b3b3b3;
+    border-radius: 5px;
+}
