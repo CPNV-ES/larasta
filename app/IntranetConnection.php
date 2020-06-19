@@ -54,10 +54,7 @@ class IntranetConnection
                      "http://intranet.cpnv.ch/info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
                      "http://intranet.cpnv.ch/info/enseignants.json?alter[extra]=current_class_masteries&api_key=gifi&signature=40766a439a0d749fa838a44c74341781" => "alter[extra]current_class_masteriesapi_key"
         ];
-        //TODO Faire un tableau avec toutes les classe 3ème année,
-        //Ensuite, mettre dans ["students"] tous les étudiants de cette classe
-        //pareil pour les enseignants, les mettre dans ["teachers"]
-        //puis retourner 1 seul tableau contenant toutes les infos utiles
+        
         $connection = curl_init();
         foreach ($urlArray as $url => $urlSign)
         {
@@ -162,7 +159,7 @@ class IntranetConnection
         }
         return $classes;
     }
-    
+
     /**
      * getClasses
      * 
