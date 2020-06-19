@@ -18,8 +18,6 @@ class IntranetConnection
      * $teachersList : This attribute will contain the list of teachers returned by the intranet
      * $classesList : This attribute will contain the list of classes returned by the intranet
      */
-    private $students;
-    private $teachers;
     private $classes;
 
     /**
@@ -76,106 +74,95 @@ class IntranetConnection
 
             $response = curl_exec($connection);
 
-            $data = json_decode($response, true);
+            $json = json_decode($response, true);
+            if (strpos($url, "classes") !== false)
+            {
+                $this->classes = $this->getSpecificClasses($json, "#^SI-\w+3\w+$#");
+            }
             if (strpos($url, "etudiants") !== false)
             {
-                $this->students = $this->sortStudentsByClasses($data);
+                $this->classes = $this->sortStudentsByClasses($json);
             }
             else if (strpos($url, "enseignants") !== false)
             {
-                $this->teachers = $this->sortTeachersByClasses($data);
+                $this->classes = $this->sortTeachersByClasses($json);
             }            
         }
 
         curl_close($connection);
     }
+    function getSpecificClasses($json, $regex)
+    {
+        $classes=[];
 
+        foreach($json as $key => $value)
+        {
+            $name = $json[$key]["name"];
+            
+            //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
+            if(preg_match($regex, $name))
+            {
+                $classes[$name] = $json[$key];
+            }
+        }
+
+        return $classes;
+    }
     function sortStudentsByClasses($json){
-        $regex = "#^SI-\w+3\w+$#";
         
-        $studentsByClass=[];
+        $classes = $this->classes;
 
         foreach($json as $key => $value)
         {
             $name = $json[$key]["current_class"]["link"]["name"];
             
             //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
-            if(preg_match($regex, $name))
+            if(isset($classes[$name]))
             {
-                if(!isset($studentsByClass[$name]))
-                    $studentsByClass[$name] = array();
-                array_push($studentsByClass[$name],$json[$key]);
+                if(!isset($classes[$name]["students"]))
+                    $classes[$name]["students"] = [];
+                array_push($classes[$name]["students"],$json[$key]);
             }
         }
 
-        return $studentsByClass;
+        return $classes;
     }
 
     function sortTeachersByClasses($json){
-        $regex = "#^SI-\w+3\w+$#";
         
-        $teachersByClasses=[];
-        $className=[];
+        $classes = $this->classes;
+        $classNames = [];
 
-        foreach($json as $key => $value)
+        foreach($json as $key => $teacher)
         {
             $isValid = false;
-            $classes = $json[$key]["current_class_masteries"];                        
-            foreach($classes as $classKey => $classValue)
+            foreach($json[$key]["current_class_masteries"] as $classKey => $classInformation)
             {
-                //when a teacher as a match with the name of class, we keep
-                //the teacher, but we remove all unmatch classes
-                $className[$classKey] = array("id" => $classes[$classKey]["link"]["id"],
-                                              "name" => $classes[$classKey]["link"]["name"]);
-                if(preg_match($regex, $className[$classKey]["name"]))
-                    $isValid=true;
-                else
+                $classNames[$classKey] = $classInformation["link"]["name"];
+                if(isset($classes[$classNames[$classKey]]))
                 {
-                    //remove classes not matching with
-                    unset($json[$key]["current_class_masteries"][$classKey]);
-                    unset($className[$classKey]);
+                    $isValid = true;
                 }
-            }                    
-            //keep only teachers on SI-C3a, SI-C3b, SI-MI3a, ...
+            }
+            
             if($isValid)
             {
-                foreach($className as $classKey => $classData)
+                foreach($classNames as $name)
                 {
-                    $name = $classData["name"];
-                    $id = $classData["id"];
-                    $json[$key]["teacher_id"] = $json[$key]["id"];
-                    $json[$key]["class_id"] = $id;
-                    $teachersByClasses[$name] = $json[$key];
-                    unset($teachersByClasses[$name]["id"]);
-                }                
-            }        
+                    if(isset($classes[$name]))
+                    {
+                        if(!isset($classes[$name]["teacher"]))
+                        $classes[$name]["teacher"] = [];
+                
+                        $classes[$name]["teacher"] = $json[$key];  
+                    }
+                }
+                
+            }
         }
-        return $teachersByClasses;
+        return $classes;
     }
-    /**
-     * getStudents
-     * 
-     * Getter for the attribute $studentsList
-     * 
-     * @return array
-     */
-    public function getStudents()
-    {
-        return $this->students;
-    }
-
-    /**
-     * getTeachers
-     * 
-     * Getter for the attribute $teachersList
-     * 
-     * @return array
-     */
-    public function getTeachers()
-    {
-        return $this->teachers;
-    }
-
+    
     /**
      * getClasses
      * 
