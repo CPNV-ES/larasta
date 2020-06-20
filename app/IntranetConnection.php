@@ -19,6 +19,49 @@ class IntranetConnection
      * $classesList : This attribute will contain the list of classes returned by the intranet
      */
     private $classes;
+    private $url;
+
+    /**
+     * __construct
+     * 
+     * The construct method of the class.
+     * It uses curl to get JSON from the intranet.
+     * The URLs are already addressed, since we know what type of datas we want to get from the intranet.
+     * When the curl request is done, it puts the returned datas in the right attribute and closes the curl connection.
+     * 
+     * 
+     * @return array
+     */
+    public function __construct()
+    {
+        $this->url= "http://intranet.cpnv.ch/";
+        /// Create an associative array with the url and their parameters to create the signature
+        $urlArray = [ $this->url."info/classes.json?api_key=" => "api_key",
+                     $this->url."info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
+                     $this->url."info/enseignants.json?alter[extra]=current_class_masteries&api_key=" => "alter[extra]current_class_masteriesapi_key"
+        ];
+        
+        $connection = curl_init();
+        foreach ($urlArray as $url => $urlSign)
+        {
+            $json = $this->getInformation($url,$urlSign);
+
+            if (strpos($url, "classes") !== false)
+            {
+                $this->classes = $this->getSpecificClasses($json, "#^SI-\w+3\w+$#");
+            }
+            else if (strpos($url, "etudiants") !== false)
+            {
+                $this->classes = $this->sortStudentsByClasses($json);
+            }
+            else if (strpos($url, "enseignants") !== false)
+            {
+                $this->classes = $this->sortTeachersByClasses($json);
+            }            
+        }
+
+        curl_close($connection);
+    }
 
     /**
      * generateSignature
@@ -36,58 +79,39 @@ class IntranetConnection
         return $signature;
     }
 
-    /**
-     * __construct
-     * 
-     * The construct method of the class.
-     * It uses curl to get JSON from the intranet.
-     * The URLs are already addressed, since we know what type of datas we want to get from the intranet.
-     * When the curl request is done, it puts the returned datas in the right attribute and closes the curl connection.
-     * 
-     * 
-     * @return array
-     */
-    public function __construct()
+    //call the api and return a json
+    private function getInformation($url,$urlSign)
     {
-        /// Create an associative array with the url and their parameters to create the signature
-        $urlArray = ["http://intranet.cpnv.ch/info/classes.json?api_key=" => "api_key",
-                     "http://intranet.cpnv.ch/info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
-                     "http://intranet.cpnv.ch/info/enseignants.json?alter[extra]=current_class_masteries&api_key=gifi&signature=40766a439a0d749fa838a44c74341781" => "alter[extra]current_class_masteriesapi_key"
-        ];
-        
         $connection = curl_init();
-        foreach ($urlArray as $url => $urlSign)
-        {
-            curl_setopt_array($connection, [
-                CURLOPT_URL => $url . getenv('API_KEY') . "&signature=" . $this->generateSignature($urlSign),
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => [
-                    "cache-control: no-cache"
-                ],
-            ]);
+        curl_setopt_array($connection, [
+            CURLOPT_URL => $url . getenv('API_KEY') . "&signature=" . $this->generateSignature($urlSign),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "cache-control: no-cache"
+            ],
+        ]);
+        
+        $json = json_decode(curl_exec($connection), true);
 
-            $response = curl_exec($connection);
-
-            $json = json_decode($response, true);
-            if (strpos($url, "classes") !== false)
-            {
-                $this->classes = $this->getSpecificClasses($json, "#^SI-\w+3\w+$#");
-            }
-            if (strpos($url, "etudiants") !== false)
-            {
-                $this->classes = $this->sortStudentsByClasses($json);
-            }
-            else if (strpos($url, "enseignants") !== false)
-            {
-                $this->classes = $this->sortTeachersByClasses($json);
-            }            
-        }
-
-        curl_close($connection);
+        return $json;
     }
+
+    function searchPerson($friendlyId){
+        
+        $url = $this->url."people/$friendlyId.json?api_key=";
+        $urlSign = "api_key";
+
+        $json = $this->getInformation($url,$urlSign);
+
+        if($json["type"] == "Cpnv::Teacher")        
+            return $this->searchTeacher($friendlyId);        
+        if($json["type"] == "Cpnv::CurrentStudent")
+            return $this->searchStudent($friendlyId);
+    }
+
     function getSpecificClasses($json, $regex)
     {
         $classes=[];
@@ -105,6 +129,7 @@ class IntranetConnection
 
         return $classes;
     }
+
     function sortStudentsByClasses($json){
         
         $classes = $this->classes;
@@ -160,6 +185,20 @@ class IntranetConnection
         return $classes;
     }
 
+    function searchTeacher($friendlyId)
+    {        
+        $url = $this->url."people/$friendlyId.json?alter[extra]=current_class_masteries&api_key=";
+        $urlSign = "alter[extra]current_class_masteriesapi_key";
+        return $this->getInformation($url,$urlSign);
+    }
+
+    function searchStudent($friendlyId)
+    {
+        $url = $this->url."people/$friendlyId.json?alter[extra]=current_class&api_key=";
+        $urlSign = "alter[extra]current_classapi_key";
+        return $this->getInformation($url,$urlSign);
+    }
+    
     /**
      * getClasses
      * 
