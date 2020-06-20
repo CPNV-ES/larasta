@@ -87,8 +87,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
     // Steven
-    Route::get('/synchro', 'SynchroController@index');
-    Route::post('/synchro/modify', 'SynchroController@modify');
+    Route::get('/synchro', 'SynchroController@index')->name('synchro.show');
+    Route::post('/synchro/modify', 'SynchroController@modify')->name('synchro.store');
 
     // Jean-Yves
     Route::get('/visits','VisitsController@index');
