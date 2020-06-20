@@ -8,30 +8,38 @@
 </div>
 <h2>Classes</h2>
 <blockquote>
-	Cliquez sur les différentes personnes que vous souhaitez synchroniser, le bouton devient alors vert.
+	Cliquez sur les différentes personnes que vous souhaitez synchroniser, le bouton devient alors vert.<br/>
+	Inversémment pour ne pas les mettre à jour
 </blockquote>
-@foreach ($classes as $class => $classInformations)
-	<fieldset class="flocks">
-		<legend>{{$class}}</legend>	
-		<label>Maître de classe</label>
-		<div class="teachers">
-			<div class="onefilter">
-				<input type="checkbox" id="{{$class}}{{$classInformations["teacher"]["id"]}}">
-				<label for="{{$class}}{{$classInformations["teacher"]["id"]}}">{{$classInformations["teacher"]["name"]}}</label>
-			</div>
-		</div>
-		<label>Élèves</label>
-		<div class="students">
-			@foreach ($classInformations["students"] as $student)	
+<form action="{{route('synchro.store')}}" method="post">
+	@csrf
+	@foreach ($classes as $class => $classInformations)
+		<fieldset class="flocks">
+			<legend>{{$class}}</legend>	
+			<label>Maître de classe</label>
+			<div class="teachers">
 				<div class="onefilter">
-					<input type="checkbox" id="{{$class}}{{$student["id"]}}">
-					<label for="{{$class}}{{$student["id"]}}">{{$student["name"]}}</label>
+					<input type="checkbox" id="{{$class}}-{{$classInformations["teacher"]["friendly_id"]}}" name="{{$classInformations["teacher"]["friendly_id"]}}[status]" checked>
+					<label for="{{$class}}-{{$classInformations["teacher"]["friendly_id"]}}">{{$classInformations["teacher"]["name"]}}</label>
+					<input type="hidden" name="{{$classInformations["teacher"]["friendly_id"]}}[friendly_id]" value="{{$classInformations["teacher"]["friendly_id"]}}">
 				</div>
-			@endforeach
-		</div>
-	</fieldset>
-@endforeach
-
+			</div>
+			<label>Élèves</label>
+			<div class="students">
+				@foreach ($classInformations["students"] as $student)	
+					<div class="onefilter">
+						<input type="checkbox" id="{{$class}}-{{$student["friendly_id"]}}" name="{{$student["friendly_id"]}}[status]" checked>
+						<label for="{{$class}}-{{$student["friendly_id"]}}">{{$student["name"]}}</label>
+						<input type="hidden" name="{{$student["friendly_id"]}}[friendly_id]" value="{{$student["friendly_id"]}}">
+					</div>
+				@endforeach
+			</div>
+		</fieldset>
+	@endforeach
+	<button type="submit">
+		Enregistrer
+	</button>
+</form>
 @stop
 
 @push ('page_specific_js')

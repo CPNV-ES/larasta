@@ -65,9 +65,12 @@ h2 {
 }
 
 blockquote {
+    text-align: left;
     width: 60%;
     font-size: 0.8rem;
     padding: 10px;
+    padding-left: 60px;
+    padding-right: 60px;
     background: #d4d4d483;
     border-left: 10px solid #b3b3b3;
     border-radius: 5px;
