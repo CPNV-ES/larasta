@@ -18,6 +18,9 @@ namespace App\Http\Controllers;
  * 
  * Use of Carbon to handle dates easily
 */
+
+use App\Contactinfos;
+use App\Contacttypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use CPNVEnvironment\Environment;
@@ -39,6 +42,88 @@ class SynchroController extends Controller
     private $obsoletePersons = [];
     private $newPersons = [];
     private $classesList;
+
+    /**
+     * index
+     * 
+     * This method is the method called in the route to display the main view of the functionnality.
+     * It will simply call the getDatas method to initialize the connections and get the datas needed to return to the view.
+     * It will then return the view with the 3 main class attributes : $goodPersons, $newPersons, $obsoletePersons.
+     * 
+     * @return view
+     */
+    public function index()
+    {
+        /// Should be at > 0 in a production environment
+        if (Auth::user()->person->role < 5)
+        {
+            $intranetData = new IntranetConnection();
+            return view('synchro/index')->with([ "classes" => $intranetData->getSpecificClassesWithStudentsAndTeacher("#^SI-\w+3\w+$#")]);
+        }
+    }
+
+    /**
+     * modify
+     * 
+     * This method will synchronize the database with the intranet.
+     * It takes the different datas from the intranet and the database to put them in the class attributes
+     * Take the request and check which action was asked from the user.
+     * Take the checkboxes that were checked and their index if the action was adding new people and the intranet id if it was deleting people
+     * It called their respective method.
+     * 
+     * @param Request $request
+     * 
+     * @return redirect
+     */
+    public function modify(Request $request)
+    {
+        $intranetConnection = new IntranetConnection();
+        $people = [];
+        //get information of all checked people
+        foreach ($request->request as $key => $value)
+        {
+            if($key != "_token")
+            {                
+                if(isset($value['status']))
+                    if($value["occupation"] == "Elève")
+                        array_push($people, $intranetConnection->searchStudent($value['friendly_id']));
+                    else
+                        array_push($people, $intranetConnection->searchTeacher($value['friendly_id']));
+            }
+        }
+
+        //TODO update the old code to save on database ↓
+
+        /// There are 2 buttons in the view with the name modify with values of either add or delete
+        /// Check the value to know which button was called
+        if ($request->modify == "add")
+        {
+            /// Request returns the checkboxes that were checked and return it as an array with the array index
+            foreach ($request->addCheck as $personIndex)
+            {
+                $this->dbNewPersons(intval($personIndex));
+            }
+
+            foreach ($request->addCheck as $personIndex)
+            {
+                $this->dbNewClasses(intval($personIndex));
+            }
+
+            $request->session()->flash('status', 'Personnes sélectionées ajoutées');
+        }
+        else if ($request->modify == "delete")
+        {
+            /// Request returns the checkboxes that were checked and return their values which are the intranet user id
+            /// The id is used to find the person in the database and then soft delete it
+            foreach ($request->deleteCheck as $personIntranetId)
+            {
+                $this->dbObsoletePersons($personIntranetId);
+            }
+
+            $request->session()->flash('status', 'Personnes obsolètes sélectionées supprimées');
+        }
+        return redirect('/synchro');
+    }
 
     /**
      * dbObsoletePersons
@@ -205,125 +290,6 @@ class SynchroController extends Controller
             return $this->addFlock($startYear, $className, $this->classesList);   
         }
 
-    }
-
-    /**
-     * modify
-     * 
-     * This method will synchronize the database with the intranet.
-     * It takes the different datas from the intranet and the database to put them in the class attributes
-     * Take the request and check which action was asked from the user.
-     * Take the checkboxes that were checked and their index if the action was adding new people and the intranet id if it was deleting people
-     * It called their respective method.
-     * 
-     * @param Request $request
-     * 
-     * @return redirect
-     */
-    public function modify(Request $request)
-    {
-        $this->getDatas();
-
-        /// There are 2 buttons in the view with the name modify with values of either add or delete
-        /// Check the value to know which button was called
-        if ($request->modify == "add")
-        {
-            /// Request returns the checkboxes that were checked and return it as an array with the array index
-            foreach ($request->addCheck as $personIndex)
-            {
-                $this->dbNewPersons(intval($personIndex));
-            }
-
-            foreach ($request->addCheck as $personIndex)
-            {
-                $this->dbNewClasses(intval($personIndex));
-            }
-
-            $request->session()->flash('status', 'Personnes sélectionées ajoutées');
-        }
-        else if ($request->modify == "delete")
-        {
-            /// Request returns the checkboxes that were checked and return their values which are the intranet user id
-            /// The id is used to find the person in the database and then soft delete it
-            foreach ($request->deleteCheck as $personIntranetId)
-            {
-                $this->dbObsoletePersons($personIntranetId);
-            }
-
-            $request->session()->flash('status', 'Personnes obsolètes sélectionées supprimées');
-        }
-        return redirect('/synchro');
-    }
-
-    /**
-     * getDatas
-     * 
-     * This method will get the datas we need from the intranet API or the database.
-     * It will also sort the returned arrays for a better view.
-     * The method will compare what is on the intranet and on the database.
-     * If both the datas on the intranet and the database are similar, it will put these datas in a class attribute called $goodPersons.
-     * If datas are present in the intranet but not in the database, it will put the datas in the class attribute $newPersons.
-     * If datas are in the database but not returned from the intranet, it will put the datas in the class attribute $obsoletePersons.
-     * 
-     * @return void
-     */
-    public function getDatas()
-    {
-        $dbStudents = Person::all();
-        $dbStudents = $dbStudents->sortBy('lastname');
-        $intranetDatas = new IntranetConnection();
-        $this->classesList = $intranetDatas->getClasses();
-        $studentsList = $intranetDatas->getStudents();
-        $teachersList = $intranetDatas->getTeachers();
-        $personsList = array_merge($studentsList, $teachersList);
-
-        foreach($dbStudents as $student)
-        {
-            /// Check if the person exists with the unique intranet user id
-            if(in_array($student->intranetUserId, array_column($personsList, 'id')))
-            {
-                array_push($this->goodPersons, $student);
-            }
-            else
-            {
-                if ($student->obsolete == 0)
-                {
-                    array_push($this->obsoletePersons, $student);
-                }
-            }
-        }
-
-        foreach($personsList as $person)
-        {
-            if(!$dbStudents->contains('intranetUserId', $person['id']))
-            {
-                array_push($this->newPersons, $person);
-            }
-        }
-
-        /// Simple function to sort the JSON returned by the API by lastname
-        usort($this->newPersons,function($a,$b) {return strnatcasecmp($a['lastname'],$b['lastname']);});
-    }
-
-    /**
-     * index
-     * 
-     * This method is the method called in the route to display the main view of the functionnality.
-     * It will simply call the getDatas method to initialize the connections and get the datas needed to return to the view.
-     * It will then return the view with the 3 main class attributes : $goodPersons, $newPersons, $obsoletePersons.
-     * 
-     * @return view
-     */
-    public function index()
-    {
-        /// Should be at > 0 in a production environment
-        if (Auth::user()->person->role < 5)
-        {
-            //$this->getDatas();
-
-            $intranetData = new IntranetConnection();
-            return view('synchro/index')->with([ "classes" => $intranetData->getClasses()]);
-        }
     }
 
     /**
