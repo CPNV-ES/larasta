@@ -28,7 +28,7 @@ class WishesMatrixController extends Controller
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
-        $currentUserId = Auth::user()->person->id;
+        $currentUserId = Auth::user()->id;
         $currentUser = Person::find($currentUserId);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -183,7 +183,7 @@ class WishesMatrixController extends Controller
      */
     public function saveWishes(Request $request)
     {
-        $currentUser = Auth::user()->person;
+        $currentUser = Auth::user();
 
         // Only students should be able to save their wishes
         if (Auth::user()->role != 0) {
@@ -285,7 +285,7 @@ class WishesMatrixController extends Controller
 
     public function saveWishesPostulations(Request $request)
     {
-        $currentUser = Auth::user()->person;
+        $currentUser = Auth::user();
 
         // Only teachers should be allowed modify postulations
         if (Auth::user()->role <= 0) {

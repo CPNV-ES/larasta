@@ -158,7 +158,7 @@ class InternshipsController extends Controller
             ->join('flocks', 'student.flock_id', '=', 'flocks.id')
             ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
             ->select('internships.id')
-            ->where('mc.intranetUserId', '=', $me = Auth::user()->person->id)
+            ->where('mc.intranetUserId', '=', $me = Auth::user()->id)
             ->orderBy('internships.id', 'asc')
             ->get();
         $res = array();
@@ -197,7 +197,7 @@ class InternshipsController extends Controller
             ->where([
                 ['beginDate', '<=', date('Y-m-d')],
                 ['endDate', '>=', date('Y-m-d')],
-                ['mc.intranetUserId', '=', Auth::user()->person->id]
+                ['mc.intranetUserId', '=', Auth::user()->id]
             ])
             ->orderBy('internships.id', 'asc')
             ->get();

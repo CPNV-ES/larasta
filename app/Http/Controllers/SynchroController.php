@@ -317,7 +317,7 @@ class SynchroController extends Controller
     public function index()
     {
         /// Should be at > 0 in a production environment
-        if (Auth::user()->person->role < 5)
+        if (Auth::user()->role < 5)
         {
             $this->getDatas();
 

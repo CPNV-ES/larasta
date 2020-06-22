@@ -20,7 +20,7 @@ class EntreprisesController extends Controller
      */
     public function index()
     {
-        $user = Auth::user()->person;
+        $user = Auth::user()
 
         $companies = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
@@ -77,7 +77,7 @@ class EntreprisesController extends Controller
             ->select('id', 'contractType')
             ->get();
 
-        $user = Auth::user()->person;
+        $user = Auth::user()
 
         return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type,  'contracts' => $eType]);
     }
