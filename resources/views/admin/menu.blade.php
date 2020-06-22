@@ -6,7 +6,7 @@
         <a href="/admin/snapshot">
             <button class="btn btn-default btn-tile">Snapshots</button>
         </a>
-        <a href="/synchro">
+        <a href="{{route("synchro.index")}}">
             <button class="btn btn-default btn-tile">Synchroniser avec l'Intranet</button>
         </a>
         <a href="/reconstages">

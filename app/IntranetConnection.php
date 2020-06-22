@@ -1,27 +1,16 @@
 <?php
-/*
- * Title : IntranetConnection.php
- * Author : Steven Avelino
- * Creation Date : 20 December 2017
- * Modification Date : 23 January 2018
- * Version : 1.0
- * Model to get informations from the intranet API
-*/
 
 namespace App;
 
 class IntranetConnection
 {
-    /**
-     * Class attributes
-     * $studentsList : This attribute will contain the list of students returned by the intranet
-     * $teachersList : This attribute will contain the list of teachers returned by the intranet
-     * $classesList : This attribute will contain the list of classes returned by the intranet
-     */
-    private $studentsList;
-    private $teachersList;
-    private $classesList;
+    private $classes;
+    private $url;
 
+    function __construct()
+    {
+        $this->url= "http://intranet.cpnv.ch/";
+    }
     /**
      * generateSignature
      * 
@@ -38,91 +27,154 @@ class IntranetConnection
         return $signature;
     }
 
+    //call the api and return a json
+    private function getInformation($url,$urlSign)
+    {
+        $connection = curl_init();
+        curl_setopt_array($connection, [
+            CURLOPT_URL => $url . getenv('API_KEY') . "&signature=" . $this->generateSignature($urlSign),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "cache-control: no-cache"
+            ],
+        ]);
+        
+        $json = json_decode(curl_exec($connection), true);
+
+        return $json;
+    }
+
+    function searchPerson($friendlyId){
+        
+        $url = $this->url."people/$friendlyId.json?api_key=";
+        $urlSign = "api_key";
+
+        $json = $this->getInformation($url,$urlSign);
+    }
+
+    function searchTeacher($friendlyId)
+    {        
+        $url = $this->url."people/$friendlyId.json?alter[extra]=current_class_masteries&api_key=";
+        $urlSign = "alter[extra]current_class_masteriesapi_key";
+        return $this->getInformation($url,$urlSign);
+    }
+
+    function searchStudent($friendlyId)
+    {
+        $url = $this->url."people/$friendlyId.json?alter[extra]=current_class&api_key=";
+        $urlSign = "alter[extra]current_classapi_key";
+        return $this->getInformation($url,$urlSign);
+    }
+
     /**
-     * __construct
+     * Regex is used to get specific classes. when we have classes, we sort student and teachers on specific classes.
      * 
-     * The construct method of the class.
-     * It uses curl to get JSON from the intranet.
-     * The URLs are already addressed, since we know what type of datas we want to get from the intranet.
-     * When the curl request is done, it puts the returned datas in the right attribute and closes the curl connection.
-     * 
-     * 
-     * @return array
+     * @return Classes Array with student and the master of the class of each class
      */
-    public function __construct()
+    public function getSpecificClassesWithStudentsAndTeacher($regex)
     {
         /// Create an associative array with the url and their parameters to create the signature
-        $urlArray = ["http://intranet.cpnv.ch/info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
-                     "http://intranet.cpnv.ch/info/enseignants.json?api_key=" => "api_key",
-                     "http://intranet.cpnv.ch/classes.json?api_key=" => "api_key"];
-
+        $urlArray = [ $this->url."info/classes.json?api_key=" => "api_key",
+                     $this->url."info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
+                     $this->url."info/enseignants.json?alter[extra]=current_class_masteries&api_key=" => "alter[extra]current_class_masteriesapi_key"
+        ];
+        
         $connection = curl_init();
-
         foreach ($urlArray as $url => $urlSign)
         {
-            curl_setopt_array($connection, [
-                CURLOPT_URL => $url . getenv('API_KEY') . "&signature=" . $this->generateSignature($urlSign),
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => [
-                    "cache-control: no-cache"
-                ],
-            ]);
+            $json = $this->getInformation($url,$urlSign);
 
-            $response = curl_exec($connection);
-
-            if (strpos($url, "etudiants") !== false)
+            if (strpos($url, "classes") !== false)
             {
-                $this->studentsList = json_decode($response, true);
+                $this->classes = $this->getSpecificClasses($json, $regex);
+            }
+            else if (strpos($url, "etudiants") !== false)
+            {
+                $this->classes = $this->sortStudentsByClasses($json);
             }
             else if (strpos($url, "enseignants") !== false)
             {
-                $this->teachersList = json_decode($response, true);
-            }
-            else if (strpos($url, "classes") !== false)
-            {
-                $this->classesList = json_decode($response, true);
-            }
+                $this->classes = $this->sortTeachersByClasses($json);
+            }            
         }
 
         curl_close($connection);
+        return $this->classes;
     }
 
-    /**
-     * getStudents
-     * 
-     * Getter for the attribute $studentsList
-     * 
-     * @return array
-     */
-    public function getStudents()
+    private function getSpecificClasses($json, $regex)
     {
-        return $this->studentsList;
+        $classes=[];
+
+        foreach($json as $key => $value)
+        {
+            $name = $json[$key]["name"];
+            
+            //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
+            if(preg_match($regex, $name))
+            {
+                $classes[$name] = $json[$key];
+            }
+        }
+
+        return $classes;
     }
 
-    /**
-     * getTeachers
-     * 
-     * Getter for the attribute $teachersList
-     * 
-     * @return array
-     */
-    public function getTeachers()
-    {
-        return $this->teachersList;
+    private function sortStudentsByClasses($json){
+        
+        $classes = $this->classes;
+
+        foreach($json as $key => $value)
+        {
+            $name = $json[$key]["current_class"]["link"]["name"];
+            
+            //keep only students on SI-C3a, SI-C3b, SI-MI3a, ...
+            if(isset($classes[$name]))
+            {
+                if(!isset($classes[$name]["students"]))
+                    $classes[$name]["students"] = [];
+                array_push($classes[$name]["students"],$json[$key]);
+            }
+        }
+
+        return $classes;
     }
 
-    /**
-     * getClasses
-     * 
-     * Getter for the attribute $classesList
-     * 
-     * @return array
-     */
-    public function getClasses()
-    {
-        return $this->classesList;
+    private function sortTeachersByClasses($json){
+        
+        $classes = $this->classes;
+        $classNames = [];
+
+        foreach($json as $key => $teacher)
+        {
+            $isValid = false;
+            foreach($json[$key]["current_class_masteries"] as $classKey => $classInformation)
+            {
+                $classNames[$classKey] = $classInformation["link"]["name"];
+                if(isset($classes[$classNames[$classKey]]))
+                {
+                    $isValid = true;
+                }
+            }
+            
+            if(!$isValid)
+                continue;
+
+            foreach($classNames as $name)
+            {
+                if(isset($classes[$name]))
+                {
+                    if(!isset($classes[$name]["teacher"]))
+                    $classes[$name]["teacher"] = [];
+            
+                    $classes[$name]["teacher"] = $json[$key];  
+                }
+            }
+        }
+        return $classes;
     }
+
 }
