@@ -121,6 +121,8 @@ class SynchroController extends Controller
                 $user->initials = ($person["occupation"] == "Enseignant")? $person["acronym"] : null;
                 $user->intranetUserId = $person["id"];
                 $user->upToDateDate = $person["updated_on"];
+                //TODO create unique acronym on db!
+                $user->initials=$person["firstname"][0].$person["lastname"][0].$person["lastname"][strlen($person["lastname"])-1];
                 $user->save();
             }
             else
