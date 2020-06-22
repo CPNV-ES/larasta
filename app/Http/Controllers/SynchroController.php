@@ -60,14 +60,22 @@ class SynchroController extends Controller
             $intranetData = new IntranetConnection();
             $classrooms = $intranetData->getSpecificClassesWithStudentsAndTeacher("#^SI-\w+3\w+$#");
             foreach($classrooms as $key=>$classroom)
-            {                
+            {                             
+                foreach($classroom['students'] as $studentKey => $student)
+                {
+                    $className = str_replace("MI","C",$key);
+                    $classrooms[$key]["students"][$studentKey]["exists"] = (Person::where([
+                        ["intranetUserId",$student["id"]],
+                        ["flock_id", Flock::where("flockName",$className )->first()->id],
+                    ])->exists());
+                } 
+                $classrooms[$key]["teacher"]["exists"] = Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->exists() && Flock::where("classMaster_id", Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->first()->id)->exists();
                 if(strpos($key, "MI"))
                 {
-                    foreach($classroom['students'] as $student)
-                        array_push($classrooms[str_replace("MI","C",$key)]['students'],$student);
+                    foreach($classroom['students'] as $studentKey => $student)
+                        array_push($classrooms[str_replace("MI","C",$key)]['students'],$classrooms[$key]["students"][$studentKey]);
                     unset($classrooms[$key]);
-                }
-                
+                }  
             }
             return view('synchro/index')->with([ "classes" => $classrooms]);
         }

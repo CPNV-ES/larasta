@@ -19,7 +19,7 @@
 			<label>Maître de classe</label>
 			<div class="teachers">
 				<div class="onefilter">
-					<input type="checkbox" id="{{$class}}-{{$classInformations["teacher"]["friendly_id"]}}" name="{{$classInformations["teacher"]["friendly_id"]}}[status]" checked>
+					<input type="checkbox" id="{{$class}}-{{$classInformations["teacher"]["friendly_id"]}}" name="{{$classInformations["teacher"]["friendly_id"]}}[status]" {{($classInformations["teacher"]["exists"])?"":"checked"}}>
 					<label for="{{$class}}-{{$classInformations["teacher"]["friendly_id"]}}">{{$classInformations["teacher"]["name"]}}</label>
 					<input type="hidden" name="{{$classInformations["teacher"]["friendly_id"]}}[friendly_id]" value="{{$classInformations["teacher"]["friendly_id"]}}">
 					<input type="hidden" name="{{$classInformations["teacher"]["friendly_id"]}}[occupation]" value="{{$classInformations["teacher"]["occupation"]}}">
@@ -29,8 +29,8 @@
 			<div class="students">
 				@foreach ($classInformations["students"] as $student)	
 					<div class="onefilter">
-						<input type="checkbox" id="{{$class}}-{{$student["friendly_id"]}}" name="{{$student["friendly_id"]}}[status]" checked>
-						<label for="{{$class}}-{{$student["friendly_id"]}}">{{$student["name"]}}</label>
+						<input type="checkbox" id="{{$class}}-{{$student["friendly_id"]}}" name="{{$student["friendly_id"]}}[status]" {{($student["exists"])?"":"checked"}}>
+						<label for="{{$class}}-{{$student["friendly_id"]}}">{{$student["name"]}} </label>
 						<input type="hidden" name="{{$student["friendly_id"]}}[friendly_id]" value="{{$student["friendly_id"]}}">
 						<input type="hidden" name="{{$student["friendly_id"]}}[occupation]" value="{{$student["occupation"]}}">
 					</div>
