@@ -14,7 +14,7 @@ use Socialite;
 class AuthController extends Controller
 {
     /**
-     * Redirect the user to the GitHub authentication page.
+     * Redirect the user to the Azure authentication page.
      *
      * @return Response
      */
@@ -32,7 +32,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Obtain the user information from GitHub.
+     * Obtain the user information from Azure.
      *
      * @return Response
      */
@@ -45,8 +45,11 @@ class AuthController extends Controller
         }
 
         $authUser = $this->findOrCreateUser($user);
-        Auth::login($authUser, true);
-
+        if($authUser->isNotEmpty()){
+            Auth::login($authUser, true);
+        }else{
+            return Redirect::to('/')->withErrors(['Votre utilisateur ne fait pas parti de l\'application']);;
+        }
         return Redirect::to('/');
     }
 
@@ -60,12 +63,7 @@ class AuthController extends Controller
     {
         $email = $azureUser->email;
         $authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->get();
-        dd($authUser);
-        if ($authUser){
-            return $authUser;
-        }else{
-            return Redirect::to('/');
-        }
+        return $authUser;
     }
     
     public function localLogin($id){
