@@ -71,7 +71,7 @@
                         @foreach($responsibles->get()->toArray() as $admin)
                             <option value="{{ $admin->id }}"
                                     @if ($internship->admin->id == $admin->id) selected @endif>
-                                {{$admin->firstname}} {{$admin->lastname}}</option>
+                                {{$admin->fullName}}</option>
                         @endforeach
                     </select>
                 </td>
@@ -83,7 +83,7 @@
                         @foreach($responsibles->get()->toArray() as $responsible)
                             <option value="{{ $responsible->id }}"
                                     @if ($internship->responsible->id == $responsible->id) selected @endif>
-                                {{$responsible->firstname}} {{$responsible->lastname}}</option>
+                                {{$responsible->fullName}}</option>
                         @endforeach
                     </select>
                 </td>

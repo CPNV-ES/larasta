@@ -17,12 +17,12 @@
                         @foreach($companypersons as $companyperson)
                         <label>Responsable administratif :&nbsp;</label>
                         <select name="administratorManager" size="1">
-                            <option name="responsible_id" selected>{{ $companyperson->firstname }} {{ $companyperson->lastname }}</option>
+                            <option name="responsible_id" selected>{{ $companyperson->fullName }}</option>
                         </select>
                         <br />
                         <label>Responsable :&nbsp;</label>
                         <select name="manager" size="1">
-                                <option name="admin_id" selected>{{ $companyperson->firstname }} {{ $companyperson->lastname }}</option>
+                                <option name="admin_id" selected>{{ $companyperson->fullName}}</option>
                         </select>
                         @endforeach
                         <br /><br />

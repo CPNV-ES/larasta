@@ -34,9 +34,9 @@
                     <td>{{ $internship->company->companyName }}</td>
                     <td>{{ $internship->beginDate->toFormattedDateString() }}</td>
                     <td>{{ $internship->endDate->toFormattedDateString() }}</td>
-                    <td>@isset($internship->responsible){{ $internship->responsible->firstname}} {{ $internship->responsible->lastname }}@endisset</td>
-                    <td>{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</td>
-                    <td>@isset($internship->student){{ $internship->student->firstname }} {{ $internship->student->lastname }}@endisset</td>
+                    <td>@isset($internship->responsible){{ $internship->responsible->fullName }}@endisset</td>
+                    <td>{{ $internship->admin->fullName }}</td>
+                    <td>@isset($internship->student){{ $internship->student->fullName }}@endisset</td>
                     <td>{{ $internship->grossSalary }}</td>
                     <td>{{ $internship->contractstate->stateDescription }}</td>
                 </tr>

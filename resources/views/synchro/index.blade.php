@@ -38,7 +38,7 @@
 					<tbody>
 						@foreach($goodStudents as $key => $student)
 						<tr class="success">
-							<td>{{ $student->lastname . " " . $student->firstname }}</td>
+							<td>{{ $student->fullName }}</td>
 						</tr>
 						@endforeach
 					</tbody>
@@ -55,7 +55,7 @@
 					<tbody>
 						@foreach($obsoleteStudents as $key => $student)
 						<tr class="danger">
-							<td>{{ $student->lastname . " " . $student->firstname }}</td>
+							<td>{{ $student->fullName }}</td>
 							<td><input type="checkbox" name="deleteCheck[]" value="{{ $student->intranetUserId }}" checked></td>
 						</tr>
 						@endforeach

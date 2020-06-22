@@ -87,7 +87,7 @@
                             @foreach($persons as $person)
                                 @if($person->obsolete == 0)
                                     <tr>
-                                        <td><a href="/listPeople/{{$person->id}}/info"> {{$person->firstname}} {{$person->lastname}}</a></td>
+                                        <td><a href="{{route("person.show", $person->id)}}"> {{$person->fullName}}</a></td>
                                         <td>
                                             @foreach($contacts as $contact)
                                                 @if($contact->firstname == $person->firstname and $contact->lastname == $person->lastname)
@@ -203,7 +203,7 @@
                                 @foreach($persons as $person)
                                     @if($person->obsolete == 0)
                                         <tr>
-                                            <td><a href="/listPeople/{{$person->id}}/info"> {{$person->firstname}} {{$person->lastname}}</a></td>
+                                            <td><a href="{{route("person.show", $person->id)}}"> {{$person->fullName}}</a></td>
                                             <td>
                                                 @foreach($contacts as $contact)
                                                     @if($contact->firstname == $person->firstname and $contact->lastname == $person->lastname)

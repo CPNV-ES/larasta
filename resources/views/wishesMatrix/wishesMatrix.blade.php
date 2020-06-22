@@ -30,7 +30,7 @@
                                 class="access"
                                 @endif
                         >
-                            <a href="/listPeople/{{ $student->id }}/info">
+                        <a href="{{route("person.show", $student->id) }}" title="{{$student->fullName}}">
                                 @if ($student->initials!="")
                                     {{ $student->initials }}
                                 @else
@@ -49,7 +49,7 @@
                     <tr data-internship-id="{{ $internship->id }}">
                         <td>
                             {{-- Display the company of the internship, with a link to the first available internship --}}
-                            <a href="/internships/{{ $childIds[$internship->id] }}/view">
+                            <a href="{{route("internship", $childIds[$internship->id])}}">
                                 {{ $internship->company->companyName }}
 
                                 {{-- Display the number of available internships, if that number is greater than 1 --}}

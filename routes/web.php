@@ -125,13 +125,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/documents', 'DocumentsController@index');
 
     // Davide
-    Route::get('/listPeople', 'PeopleController@index');
-    Route::post('/listPeople/category', 'PeopleController@category');
-    Route::get('/listPeople/{id}/info','PeopleController@info');
-    Route::post('/listPeople/update/{id}','PeopleController@update');
+    //TODO Refactor these routes
+    Route::get('/people', 'PeopleController@index');
+    Route::post('/people/category', 'PeopleController@category');
+    Route::get('/people/{id}','PeopleController@info')->name("person.show");
+    Route::post('/people/update/{id}','PeopleController@update');
     Route::post('/contact/delete','PeopleController@deleteContact');
     Route::post('/contact/add','PeopleController@addContact');
-    Route::post('/listPeople/changeCompany','PeopleController@changeCompany');
+    Route::post('/people/changeCompany','PeopleController@changeCompany');
 
     //Life cicle
     Route::get('/editlifecycle','LifeCycleController@index');

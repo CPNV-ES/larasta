@@ -28,7 +28,7 @@
         <!-- FirstName and LastName -->
 
         <div id="people_Name" class="row">
-            <span>{{ $person->firstname }} {{ $person->lastname }}</span>
+            <span>{{ $person->fullName }}</span>
         @if ((Auth::user()->role >= 2))  <!-- View button only for teacher -->
             <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn btn-success people-btn_desactive">Modifier</button>
             @endif
@@ -38,7 +38,7 @@
             @if (isset($person->company->companyName))
                 <h5 class="titlebar">Entreprise / Etablissement</h5>
                 <div>{{ $person->company->companyName }}</div>
-                <form id="frmCompany" method="post" action="/listPeople/changeCompany" class="popupfield">
+                <form id="frmCompany" method="post" action="/people/changeCompany" class="popupfield">
                     {{ csrf_field() }}
                     <input type="hidden" name="peopleid" value="{{ $person->id }}">
                     <label for="dpdCompany">Changer à </label>

@@ -48,7 +48,7 @@
                 </tr>
             @endif
             <tr>
-                <td><a href="/listPeople"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
+                <td><a href="/people"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
             </tr>
             <tr>
                 <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>

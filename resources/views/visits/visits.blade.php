@@ -15,9 +15,9 @@
                 <select name="teacher" onchange="this.form.submit()">      
                     @foreach ($persons as $person)
                         @if ($person->id == $id)
-                            <option selected value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            <option selected value="{{$person->id}}">{{$person->fullName}}</option>
                         @else 
-                            <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            <option value="{{$person->id}}">{{$person->fullName}}</option>
                         @endif        
                     @endforeach
             </select>
