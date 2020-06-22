@@ -52,7 +52,7 @@ class SynchroController extends Controller
      * 
      * @return view
      */
-    public function index()
+    public function index($message = null)
     {
         /// Should be at > 0 in a production environment
         if (Auth::user()->person->role < 5)
@@ -64,12 +64,15 @@ class SynchroController extends Controller
                 foreach($classroom['students'] as $studentKey => $student)
                 {
                     $className = str_replace("MI","C",$key);
-                    $classrooms[$key]["students"][$studentKey]["exists"] = (Person::where([
-                        ["intranetUserId",$student["id"]],
-                        ["flock_id", Flock::where("flockName",$className )->first()->id],
-                    ])->exists());
+                    if(Flock::where("flockName",$className)->exists())
+                        $classrooms[$key]["students"][$studentKey]["exists"] = (Person::where("intranetUserId",$student["id"])->exists());
+                    else
+                        $classrooms[$key]["students"][$studentKey]["exists"] = false;
                 } 
-                $classrooms[$key]["teacher"]["exists"] = Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->exists() && Flock::where("classMaster_id", Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->first()->id)->exists();
+                if(Flock::where("classMaster_id", Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->exists()))
+                    $classrooms[$key]["teacher"]["exists"] = Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->exists();
+                else
+                    $classrooms[$key]["teacher"]["exists"] = false;
                 if(strpos($key, "MI"))
                 {
                     foreach($classroom['students'] as $studentKey => $student)
@@ -77,7 +80,7 @@ class SynchroController extends Controller
                     unset($classrooms[$key]);
                 }  
             }
-            return view('synchro/index')->with([ "classes" => $classrooms]);
+            return view('synchro/index')->with(compact("classrooms","message"));
         }
     }
 
@@ -98,6 +101,7 @@ class SynchroController extends Controller
     {
         $intranetConnection = new IntranetConnection();
         $people = [];
+        $message = "";
         //get information of all checked people
         foreach ($request->request as $key => $value)
         {
@@ -168,12 +172,16 @@ class SynchroController extends Controller
                 $user->mpt = strpos($person["current_class"]["link"]["name"],"MI")? 1 : 0; 
                 //matus is insert on cfc classroom
                 $person["current_class"]["link"]["name"] = str_replace("MI","C",$person["current_class"]["link"]["name"]);
-                $user->flock_id = Flock::where("flockName", $person["current_class"]["link"]["name"])->first()->id;
+                if(Flock::where("flockName", $person["current_class"]["link"]["name"])->exists())
+                    $user->flock_id = Flock::where("flockName", $person["current_class"]["link"]["name"])->first()->id;
+                else
+                    $message = "La classe ".$person["current_class"]["link"]["name"]." n'a pas de maître de classe";
                 $user->save();
             }
-
         }
-        return redirect('/synchro');
+        // dd($message);
+        // return redirect()->route('synchro.index')->with(compact('message'));
+        return redirect()->action("SynchroController@index", $message);
     }
 
     /**

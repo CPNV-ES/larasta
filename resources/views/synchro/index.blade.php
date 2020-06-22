@@ -13,7 +13,7 @@
 </blockquote>
 <form action="{{route('synchro.store')}}" method="post">
 	@csrf
-	@foreach ($classes as $class => $classInformations)
+	@foreach ($classrooms as $class => $classInformations)
 		<fieldset class="flocks">
 			<legend>{{$class}}</legend>	
 			<label>Maître de classe</label>
