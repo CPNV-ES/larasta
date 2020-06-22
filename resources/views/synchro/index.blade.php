@@ -9,8 +9,7 @@
 <h2>Classes</h2>
 <blockquote>
 	Cliquez sur les différentes personnes que vous souhaitez synchroniser, le bouton devient alors vert.<br/>
-	Inversémment pour ne pas les mettre à jour.<br/><br/>
-	Si vous ne souhaitez pas synchroniser un enseignant, pensez à vérifier qu'il ne soit pas dans plusieurs classes...
+	Inversémment pour ne pas les synchroniser.
 </blockquote>
 <form action="{{route('synchro.store')}}" method="post">
 	@csrf

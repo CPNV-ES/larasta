@@ -58,7 +58,18 @@ class SynchroController extends Controller
         if (Auth::user()->person->role < 5)
         {
             $intranetData = new IntranetConnection();
-            return view('synchro/index')->with([ "classes" => $intranetData->getSpecificClassesWithStudentsAndTeacher("#^SI-\w+3\w+$#")]);
+            $classrooms = $intranetData->getSpecificClassesWithStudentsAndTeacher("#^SI-\w+3\w+$#");
+            foreach($classrooms as $key=>$classroom)
+            {                
+                if(strpos($key, "MI"))
+                {
+                    foreach($classroom['students'] as $student)
+                        array_push($classrooms[str_replace("MI","C",$key)]['students'],$student);
+                    unset($classrooms[$key]);
+                }
+                
+            }
+            return view('synchro/index')->with([ "classes" => $classrooms]);
         }
     }
 
@@ -82,45 +93,75 @@ class SynchroController extends Controller
         //get information of all checked people
         foreach ($request->request as $key => $value)
         {
-            if($key != "_token")
-            {                
-                if(isset($value['status']))
-                    if($value["occupation"] == "Elève")
-                        array_push($people, $intranetConnection->searchStudent($value['friendly_id']));
-                    else
-                        array_push($people, $intranetConnection->searchTeacher($value['friendly_id']));
-            }
+            if($key == "_token")   
+                continue;
+            
+            if(isset($value['status']))
+                if($value["occupation"] == "Elève")
+                    array_push($people, $intranetConnection->searchStudent($value['friendly_id']));
+                else
+                    array_push($people, $intranetConnection->searchTeacher($value['friendly_id']));
         }
 
-        //TODO update the old code to save on database ↓
-
-        /// There are 2 buttons in the view with the name modify with values of either add or delete
-        /// Check the value to know which button was called
-        if ($request->modify == "add")
+        foreach($people as $key => $person)
         {
-            /// Request returns the checkboxes that were checked and return it as an array with the array index
-            foreach ($request->addCheck as $personIndex)
+            //create user
+            $exist = Person::where([
+                ["firstname", $person["firstname"]],
+                ["lastname", $person["lastname"]]
+            ])->exists();
+            if(!$exist)
             {
-                $this->dbNewPersons(intval($personIndex));
+                $user = new Person();
+                $user->firstname = $person["firstname"];
+                $user->lastname = $person["lastname"];
+                //if teacher the role value is 1
+                $user->role = ($person["occupation"] == "Enseignant")? 1 : 0;
+                //only teachers have acronym
+                $user->initials = ($person["occupation"] == "Enseignant")? $person["acronym"] : null;
+                $user->intranetUserId = $person["id"];
+                $user->upToDateDate = $person["updated_on"];
+                $user->save();
+            }
+            else
+            {
+                $user = Person::where([
+                    ["firstname", $person["firstname"]],
+                    ["lastname", $person["lastname"]]
+                ])->first();
             }
 
-            foreach ($request->addCheck as $personIndex)
+            //create classroom
+            if($person["occupation"] == "Enseignant")
             {
-                $this->dbNewClasses(intval($personIndex));
+                
+                $classroomName = $person["current_class_masteries"][0]["link"]["name"];                
+                $exist = Flock::where("flockName", $classroomName)->exists();
+                if(!$exist)
+                {
+                    $flock = new Flock();
+                    $flock->flockName = $classroomName;
+                    //sub 3 years before september and 4 years after
+                    $year = (Carbon::now()->month >= 8)? Carbon::now()->subYear(3)->year : Carbon::now()->subYear(4)->year;
+                    $flock->startYear = substr($year,-2);
+                }   
+                else
+                {
+                    $flock = Flock::where("flockName", $classroomName)->first();
+                }   
+                $flock->classMaster_id = $user->id; 
+                $flock->save();
+            }
+            else
+            {
+                //if the student is in school maturity  => 1
+                $user->mpt = strpos($person["current_class"]["link"]["name"],"MI")? 1 : 0; 
+                //matus is insert on cfc classroom
+                $person["current_class"]["link"]["name"] = str_replace("MI","C",$person["current_class"]["link"]["name"]);
+                $user->flock_id = Flock::where("flockName", $person["current_class"]["link"]["name"])->first()->id;
+                $user->save();
             }
 
-            $request->session()->flash('status', 'Personnes sélectionées ajoutées');
-        }
-        else if ($request->modify == "delete")
-        {
-            /// Request returns the checkboxes that were checked and return their values which are the intranet user id
-            /// The id is used to find the person in the database and then soft delete it
-            foreach ($request->deleteCheck as $personIntranetId)
-            {
-                $this->dbObsoletePersons($personIntranetId);
-            }
-
-            $request->session()->flash('status', 'Personnes obsolètes sélectionées supprimées');
         }
         return redirect('/synchro');
     }

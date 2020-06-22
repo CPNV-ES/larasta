@@ -160,19 +160,18 @@ class IntranetConnection
                 }
             }
             
-            if($isValid)
+            if(!$isValid)
+                continue;
+
+            foreach($classNames as $name)
             {
-                foreach($classNames as $name)
+                if(isset($classes[$name]))
                 {
-                    if(isset($classes[$name]))
-                    {
-                        if(!isset($classes[$name]["teacher"]))
-                        $classes[$name]["teacher"] = [];
-                
-                        $classes[$name]["teacher"] = $json[$key];  
-                    }
+                    if(!isset($classes[$name]["teacher"]))
+                    $classes[$name]["teacher"] = [];
+            
+                    $classes[$name]["teacher"] = $json[$key];  
                 }
-                
             }
         }
         return $classes;
