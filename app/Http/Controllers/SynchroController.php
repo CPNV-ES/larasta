@@ -64,17 +64,20 @@ class SynchroController extends Controller
                 foreach($classroom['students'] as $studentKey => $student)
                 {
                     $className = str_replace("MI","C",$key);
+                    //check if classroom and student exists
                     if(Flock::where("flockName",$className)->exists())
                         $classrooms[$key]["students"][$studentKey]["exists"] = (Person::where("intranetUserId",$student["id"])->exists());
                     else
                         $classrooms[$key]["students"][$studentKey]["exists"] = false;
                 } 
+                //check the classMaster existing on db
                 if(Flock::where("classMaster_id", Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->exists()))
                     $classrooms[$key]["teacher"]["exists"] = Person::where("intranetUserId",$classrooms[$key]['teacher']["id"])->exists();
                 else
                     $classrooms[$key]["teacher"]["exists"] = false;
                 if(strpos($key, "MI"))
                 {
+                    //merge matu on cfc
                     foreach($classroom['students'] as $studentKey => $student)
                         array_push($classrooms[str_replace("MI","C",$key)]['students'],$classrooms[$key]["students"][$studentKey]);
                     unset($classrooms[$key]);
@@ -84,19 +87,6 @@ class SynchroController extends Controller
         }
     }
 
-    /**
-     * modify
-     * 
-     * This method will synchronize the database with the intranet.
-     * It takes the different datas from the intranet and the database to put them in the class attributes
-     * Take the request and check which action was asked from the user.
-     * Take the checkboxes that were checked and their index if the action was adding new people and the intranet id if it was deleting people
-     * It called their respective method.
-     * 
-     * @param Request $request
-     * 
-     * @return redirect
-     */
     public function modify(Request $request)
     {
         $intranetConnection = new IntranetConnection();
@@ -116,14 +106,14 @@ class SynchroController extends Controller
         }
 
         foreach($people as $key => $person)
-        {
-            //create user
+        {            
             $exist = Person::where([
                 ["firstname", $person["firstname"]],
                 ["lastname", $person["lastname"]]
             ])->exists();
+            //create user
             if(!$exist)
-            {
+            {   
                 $user = new Person();
                 $user->firstname = $person["firstname"];
                 $user->lastname = $person["lastname"];
@@ -136,6 +126,13 @@ class SynchroController extends Controller
                 //TODO create unique acronym on db!
                 $user->initials=$person["firstname"][0].$person["lastname"][0].$person["lastname"][strlen($person["lastname"])-1];
                 $user->save();
+                //create email for each person
+                $contactInfo = new Contactinfos();
+                $contactInfo->contacttypes_id = Contacttypes::EMAIL;
+                $contactInfo->persons_id = $user->id;
+                $contactInfo->value = $person['email'];
+                $contactInfo->save();
+
             }
             else
             {
@@ -148,7 +145,6 @@ class SynchroController extends Controller
             //create classroom
             if($person["occupation"] == "Enseignant")
             {
-                
                 $classroomName = $person["current_class_masteries"][0]["link"]["name"];                
                 $exist = Flock::where("flockName", $classroomName)->exists();
                 if(!$exist)
@@ -172,6 +168,7 @@ class SynchroController extends Controller
                 $user->mpt = strpos($person["current_class"]["link"]["name"],"MI")? 1 : 0; 
                 //matus is insert on cfc classroom
                 $person["current_class"]["link"]["name"] = str_replace("MI","C",$person["current_class"]["link"]["name"]);
+                //can't add student on not existing classroom
                 if(Flock::where("flockName", $person["current_class"]["link"]["name"])->exists())
                     $user->flock_id = Flock::where("flockName", $person["current_class"]["link"]["name"])->first()->id;
                 else
