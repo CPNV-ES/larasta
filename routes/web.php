@@ -20,8 +20,16 @@ Route::post('/', 'InternshipsController@changeFilter');
 Route::group(['middleware' => ['auth']], function () {
 
     
-    Route::resource('internships','InternshipsController');
+    //TODO Refactor these routes by using Route::resource() ↓
+    // Route::resource('internships','InternshipsController');
+    Route::get('/internships','InternshipsController@index')->name('internships.index'); 
+    Route::get('/internships/create','InternshipsController@create')->name('internships.create'); 
     Route::get('/internships/{id}/create','InternshipsController@create')->name('internships.create'); 
+    Route::post('/internships','InternshipsController@store')->name('internships.store'); 
+    Route::get('/internships/{id}','InternshipsController@show')->name('internships.show'); 
+    Route::get('/internships/{id}/edit','InternshipsController@edit')->name('internships.edit'); 
+    Route::put('/internships/{id}','InternshipsController@update')->name('internships.update'); 
+    Route::delete('/internships/{id}','InternshipsController@destroy')->name('internships.destroy'); 
     
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
@@ -44,11 +52,18 @@ Route::group(['middleware' => ['auth']], function () {
         return view('about');
     });
 
-    Route::resource('remarks','RemarksController');
+    // Route::resource('remarks','RemarksController');
+    Route::get('/remarks','RemarksController@index')->name('remarks.index'); 
+    Route::post('/remarks','RemarksController@index')->name('remarks.store'); 
+    Route::get('/remarks','RemarksController@index')->name('remarks.create'); 
+    Route::get('/remarks/{id}','RemarksController@index')->name('remarks.show'); 
+    Route::put('/remarks/{id}','RemarksController@index')->name('remarks.update'); 
+    Route::delete('/remarks/{id}','RemarksController@index')->name('remarks.destroy'); 
+    Route::get('/remarks/{id}/edit','RemarksController@index')->name('remarks.edit'); 
+    
     Route::post('/remarks/filter','RemarksController@filter')->name("remark.filter");
     Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
 
-    //TODO Refactor these routes by using Route::resource() ↓
     Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
 
     // Antonio - Entreprises list
