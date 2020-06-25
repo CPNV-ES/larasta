@@ -60,7 +60,7 @@
         @if (isset($internship->previous_id))
             <div class="row p-1 border">
                 <div class="col-2">
-                <a href="{{route("internship", $internship->previous_id)}}">Stage précédent</a>
+                <a href="{{route("internships.show", $internship->previous_id)}}">Stage précédent</a>
                 </div>
             </div>
         @endif
@@ -84,7 +84,7 @@
     @endif
     {{-- Modify button --}}
     @if (Auth::user()->role > 1)
-        <a href="/internships/{{$internship->id}}/edit">
+        <a href="{{route("internships.edit", $internship)}}">
             <button>Modifier</button>
         </a>   
     @endif

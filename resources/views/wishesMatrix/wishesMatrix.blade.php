@@ -49,7 +49,7 @@
                     <tr data-internship-id="{{ $internship->id }}">
                         <td>
                             {{-- Display the company of the internship, with a link to the first available internship --}}
-                            <a href="{{route("internship", $childIds[$internship->id])}}">
+                            <a href="{{route("internships.show", $childIds[$internship->id])}}">
                                 {{ $internship->company->companyName }}
 
                                 {{-- Display the number of available internships, if that number is greater than 1 --}}

@@ -54,10 +54,10 @@ class RemarksController extends Controller
         return 'Remarque ajoutée';
     }
 
-    public function create(Request $request) {
+    public function store(Request $request) {
         self::addRemark(1,1,$request->newremtext);
         $request->session()->flash('status', 'Remarque ajoutée');
-        return redirect('/remarks');
+        return redirect()->route("remarks.index");
     }
 
     public function edit (Request $request, $rid) {
@@ -70,8 +70,8 @@ class RemarksController extends Controller
         );
     }
 
-    public function delete (Request $request) {
-        $remark = Remark::where('id',$request->delid)->first();
+    public function destroy (Request $request, $id) {
+        $remark = Remark::where('id',$id)->first();
         $remark->delete();
         $this->message = 'Remarque supprimée';
         return $this->index();
@@ -82,6 +82,6 @@ class RemarksController extends Controller
         $remark->remarkText = $request->updtext;
         $remark->save();
         $request->session()->flash('status', 'Remarque modifiée');
-        return redirect('/remarks');
+        return redirect()->route("remarks.index");
     }
 }

@@ -1,8 +1,8 @@
 @extends ('layout')
-
+{{-- TODO where is used?????????????--}}
 @section ('content')
     <h1>Remarque</h1>
-    <form id='textedit' method="post" action="/remarks/update">
+    <form id='textedit' method="post" action="{{route("remarks.store")}}">
         {{ csrf_field() }}
         <table class="table table-bordered col-md-8">
             <tr>
@@ -25,9 +25,9 @@
             </tr>
         </table>
     </form>
-    <form method="post" action="/remarks/delete" class="col-md-2">
+    <form method="post" action="{{route("remarks.destroy", $remark->id)}}" class="col-md-2">
+        @method('delete')
         {{ csrf_field() }}
-        <input type="hidden" name="delid" value="{{ $remark->id }}">
         <button class="btn-danger" type="submit">Supprimer</button>
     </form>
     <button id="cmdedit" class="btn-info col-md-2">Editer</button>
