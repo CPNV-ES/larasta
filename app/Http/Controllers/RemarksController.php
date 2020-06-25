@@ -25,7 +25,7 @@ class RemarksController extends Controller
         $n->remarkOn_id = $on;
         $n->remarkDate = date('Y-m-d H:i:s');
         $n->remarkText = $text;
-        $n->author = Auth::user()->person->initials;
+        $n->author = Auth::user()->initials;
         $n->save();
     }
 

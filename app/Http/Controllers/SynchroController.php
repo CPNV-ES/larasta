@@ -55,7 +55,7 @@ class SynchroController extends Controller
     public function index($message = null)
     {
         /// Should be at > 0 in a production environment
-        if (Auth::user()->person->role < 5)
+        if (Auth::user()->role < 5)
         {
             $intranetData = new IntranetConnection();
             $classrooms = $intranetData->getSpecificClassesWithStudentsAndTeacher("#^SI-\w+3\w+$#");

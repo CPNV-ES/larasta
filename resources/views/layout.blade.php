@@ -39,12 +39,12 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td><img alt="Icone" width="25" heigth="25" src="{{Auth::user()->avatar}}">{{Auth::user()->name}}<button type="submit">Logout</button></td>
+                    <td class="login"><p>{{Auth::user()->fullname}}</p><button type="submit">Logout</button></td>
                 </tr>
             </form>
             @else
                 <tr>
-                    <td><a href="/auth/github"><img alt="Github" width="25" heigth="25" src="/images/github.png">Login with GitHub</a></td>
+                    <td><a href="/auth/azure"><img alt="Azure" width="25" heigth="25" src="/images/azure.png">Login with Azure</a></td>
                 </tr>
             @endif
             <tr>

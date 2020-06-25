@@ -124,8 +124,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
     
-//GitHub
-Route::get('/auth/github', 'Auth\AuthController@redirectToProvider')->name('login');
-Route::get('/auth/callback', 'Auth\AuthController@handleProviderCallback');
+//Azure
+Route::get('/auth/azure', 'Auth\AuthController@redirectToProvider')->name('login');
+Route::get('/callback', 'Auth\AuthController@handleProviderCallback');
 Route::post('/auth/logout', 'Auth\AuthController@logoutUser');
 

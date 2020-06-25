@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Person;
 
 
 use Socialite;
@@ -14,7 +14,7 @@ use Socialite;
 class AuthController extends Controller
 {
     /**
-     * Redirect the user to the GitHub authentication page.
+     * Redirect the user to the Azure authentication page.
      *
      * @return Response
      */
@@ -27,26 +27,29 @@ class AuthController extends Controller
         }
         else
         {
-            return Socialite::driver('github')->redirect();
+            return Socialite::driver('azure')->redirect();
         }
     }
 
     /**
-     * Obtain the user information from GitHub.
+     * Obtain the user information from Azure.
      *
      * @return Response
      */
     public function handleProviderCallback()
     {
         try {
-            $user = Socialite::driver('github')->user();
+            $user = Socialite::driver('azure')->user();
         } catch (Exception $e) {
-            return Redirect::to('/auth/github');
+            return Redirect::to('/auth/azure');
         }
 
         $authUser = $this->findOrCreateUser($user);
-        Auth::login($authUser, true);
-
+        if(!empty($authUser)){
+            Auth::login($authUser);
+        }else{
+            return Redirect::to('/')->withErrors(['Votre utilisateur ne fait pas parti de l\'application']);;
+        }
         return Redirect::to('/');
     }
 
@@ -56,25 +59,17 @@ class AuthController extends Controller
      * @param $githubUser
      * @return User
      */
-    private function findOrCreateUser($githubUser)
+    private function findOrCreateUser($azureUser)
     {
-        if ($authUser = User::where('github_id', $githubUser->id)->first()) {
-            return $authUser;
-        }
-
-        return User::create([
-            'name' => $githubUser->name,
-            'email' => $githubUser->email,
-            'github_id' => $githubUser->id,
-            'avatar' => $githubUser->avatar,
-            'role' => 0
-        ]);
+        $email = $azureUser->email;
+        $authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->first();
+        return $authUser;
     }
     
     public function localLogin($id){
         $user = new \stdClass();
         $user->id = $id;
-        $authUser = $this->findOrCreateUser($user);
+        $authUser = User::where('github_id', $user->id)->first();
         Auth::login($authUser, true);
     }
     

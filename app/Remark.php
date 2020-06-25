@@ -58,7 +58,7 @@ class Remark extends Model
         $remark->remarkOn_id = $on;
         $remark->remarkDate = date('Y-m-d H:i:s');
         $remark->remarkText = $text;
-        $remark->author = Auth::user()->person->initials;
+        $remark->author = Auth::user()->initials;
         $remark->save();
     }
 
