@@ -20,7 +20,7 @@ class EntreprisesController extends Controller
      */
     public function index()
     {
-        $user = Auth::user()
+        $user = Auth::user();
 
         $companies = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')

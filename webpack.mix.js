@@ -63,4 +63,5 @@ mix .copy('resources/assets/js/utils.js', 'public/js')
     .copy('node_modules/simplemde/dist/simplemde.min.js','public/js')
     .copy('node_modules/showdown/dist/showdown.min.js','public/js')
     .copy('node_modules/showdown/dist/showdown.min.js.map','public/js')
+    .copy('node_modules/tinymce/tinymce.min.js','public/js')
 

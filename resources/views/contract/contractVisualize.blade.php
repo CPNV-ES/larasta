@@ -19,8 +19,7 @@
 @stop
 
 @push ('page_specific_js')
-    {{-- TODO: Register idk wtf--}}
-    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script src='/js/tinymce.min.js'></script>
     <script>
         tinymce.init({
             selector:'textarea',
