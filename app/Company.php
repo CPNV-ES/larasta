@@ -19,7 +19,7 @@ class Company extends Model
 
     public function person()
     {
-        return $this->has('App\Person', 'company_id');
+        return $this->hasMany('App\Person', 'company_id');
     }
 
     /**

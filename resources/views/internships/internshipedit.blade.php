@@ -68,10 +68,10 @@
                 <td>Responsable administratif</td>
                 <td>
                     <select name="admin_id" class="remark">
-                        @foreach($responsibles->get()->toArray() as $admin)
-                            <option value="{{ $admin->id }}"
-                                    @if ($internship->admin->id == $admin->id) selected @endif>
-                                {{$admin->fullName}}</option>
+                        @foreach($responsibles as $admin)
+                            <option value="{{ $admin->id }}" @if ($internship->admin->id == $admin->id) selected @endif>
+                                {{$admin->fullName}}
+                            </option>
                         @endforeach
                     </select>
                 </td>
@@ -80,10 +80,10 @@
                 <td>Responsable</td>
                 <td>
                     <select name="responsible_id" class="remark">
-                        @foreach($responsibles->get()->toArray() as $responsible)
-                            <option value="{{ $responsible->id }}"
-                                    @if ($internship->responsible->id == $responsible->id) selected @endif>
-                                {{$responsible->fullName}}</option>
+                        @foreach($responsibles as $responsible)
+                            <option value="{{ $responsible->id }}" @if ($internship->responsible->id == $responsible->id) selected @endif>
+                                {{$responsible->fullName}}
+                            </option>
                         @endforeach
                     </select>
                 </td>

@@ -249,14 +249,7 @@ class InternshipsController extends Controller
         $currentState = $internship->contractstate;
 
         // $responsible
-
-        $responsibles = DB::table('persons')
-            ->select(
-                'id',
-                'firstname',
-                'lastname')
-            ->where('role', '=', 2)
-            ->where('company_id', '=', $internship->company->id);
+        $responsibles = $internship->company->person->where('role', 2);
 
         $visits = DB::table('visits')            
             ->where('internships_id', '=', $internshipId)
