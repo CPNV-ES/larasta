@@ -13,7 +13,7 @@
         @method("PUT")
         @csrf
     <h2 class="text-left internshipTitle">Stage
-        @if(in_array($currentState->stateDescription, ["Reconduit", "Confirmé"]))
+        @if(in_array($internship->contractstate->stateDescription, ["Reconduit", "Confirmé"]))
         de
             @php
                 if(isset($internship->student)){
@@ -68,10 +68,10 @@
                 <td>Responsable administratif</td>
                 <td>
                     <select name="admin_id" class="remark">
-                        @foreach($responsibles->get()->toArray() as $admin)
-                            <option value="{{ $admin->id }}"
-                                    @if ($internship->admin->id == $admin->id) selected @endif>
-                                {{$admin->firstname}} {{$admin->lastname}}</option>
+                        @foreach($responsibles as $admin)
+                            <option value="{{ $admin->id }}" @if ($internship->admin->id == $admin->id) selected @endif>
+                                {{$admin->fullName}}
+                            </option>
                         @endforeach
                     </select>
                 </td>
@@ -80,10 +80,10 @@
                 <td>Responsable</td>
                 <td>
                     <select name="responsible_id" class="remark">
-                        @foreach($responsibles->get()->toArray() as $responsible)
-                            <option value="{{ $responsible->id }}"
-                                    @if ($internship->responsible->id == $responsible->id) selected @endif>
-                                {{$responsible->firstname}} {{$responsible->lastname}}</option>
+                        @foreach($responsibles as $responsible)
+                            <option value="{{ $responsible->id }}" @if ($internship->responsible->id == $responsible->id) selected @endif>
+                                {{$responsible->fullName}}
+                            </option>
                         @endforeach
                     </select>
                 </td>
@@ -101,8 +101,8 @@
                 <td>Etat</td>
                 <td>
                     <select name="contractstate_id" class="remark">
-                        <option selected="selected" value="{{ $currentState->id }}">
-                            {{$currentState->stateDescription}}
+                        <option selected="selected" value="{{ $internship->contractstate->id }}">
+                            {{$internship->contractstate->stateDescription}}
                         </option>
                         @foreach($contractStates as $state)
                             <option value="{{ $state->id }}">
@@ -150,46 +150,44 @@
         </div>
         <div class="darken-background"></div>
     </div>
-    @if (isset($visits))
-        <div class="col-12">
-            <div class='error none'>
-                Une erreur inconnue est survenue, veuillez raffraîchir la page...
-            </div>
-            <table id="visitsForm" class="table larastable">
-                <thead>
-                    <th>N° visite</th>
-                    <th>Jour</th>
-                    <th>Heure</th>
-                    <th>Mail envoyé?</th>
-                    <th>Confirmé?</th>
-                    <th>Note</th>
-                    <th>État de la visite</th>
-                </thead>
-                <tbody>
-                    @foreach ($visits as $key => $visit)
-                        <tr>
-                            <input type="hidden" name="route" value="{{ route('visit.update', ['id' => $internship]) }}"/>
-                            <input type="hidden" name="id" value="{{$visit->id}}"/>
-                            <td><input type="number" min="1" name="number" value="{{$visit->number}}" required/></td>
-                            <td><input type="date" name="day" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
-                            <td><input type="time" name="hour" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
-                            <td><input type="checkbox" name="mailstate" {{ $visit->mailstate ? "checked" : "" }}/></td>
-                            <td><input type="checkbox" name="confirmed" {{ $visit->confirmed ? "checked" : "" }}/></td>
-                            <td><input type="number" min="1" max="6" step="0.5" name="grade" value="{{ $visit->grade }}" required/></td>
-                            <td>
-                                <select name="visitsstates_id" required>
-                                    @foreach ($visitsStates as $visitstate)
-                                        <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
-                                    @endforeach
-                                </select>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <div class="col-12 {{$internship->visits->isEmpty()?"none":""}}">
+        <div class='error none'>
+            Une erreur inconnue est survenue, veuillez raffraîchir la page...
         </div>
-    @endif
-
+        <table id="visitsForm" class="table larastable">
+            <thead>
+                <th>N° visite</th>
+                <th>Jour</th>
+                <th>Heure</th>
+                <th>Mail envoyé?</th>
+                <th>Confirmé?</th>
+                <th>Note</th>
+                <th>État de la visite</th>
+            </thead>
+            <tbody>
+                @foreach ($internship->visits as $key => $visit)
+                    <tr>
+                        <input type="hidden" name="route" value="{{ route('visit.update', ['id' => $internship]) }}"/>
+                        <input type="hidden" name="id" value="{{$visit->id}}"/>
+                        <td><input type="number" min="1" name="number" value="{{$visit->number}}" required/></td>
+                        <td><input type="date" name="day" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
+                        <td><input type="time" name="hour" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
+                        <td><input type="checkbox" name="mailstate" {{ $visit->mailstate ? "checked" : "" }}/></td>
+                        <td><input type="checkbox" name="confirmed" {{ $visit->confirmed ? "checked" : "" }}/></td>
+                        <td><input type="number" min="1" max="6" step="0.5" name="grade" value="{{ $visit->grade }}" required/></td>
+                        <td>
+                            <select name="visitsstates_id" required>
+                                @foreach ($visitsStates as $visitstate)
+                                    <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    
     {{-- Remarks --}}
     @if (isset($remarks))
         <hr/>
@@ -215,7 +213,7 @@
                         </script>
                     </td>
                 </tr>
-                @foreach ($remarks->toArray() as $value)
+                @foreach ($remarks as $value)
                     <tr>
                         <td>
                             {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}

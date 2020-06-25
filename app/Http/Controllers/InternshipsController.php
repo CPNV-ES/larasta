@@ -246,38 +246,16 @@ class InternshipsController extends Controller
         $internship = Internship::find($internshipId);
         $medias = $internship->getMedia('documents');
         $contractStates =  $internship->contractstate->contractStates;
-        $currentState = $internship->contractstate;
 
         // $responsible
+        $responsibles = $internship->company->people->where('role', 2);
 
-        $responsibles = DB::table('persons')
-            ->select(
-                'id',
-                'firstname',
-                'lastname')
-            ->where('role', '=', 2)
-            ->where('company_id', '=', $internship->company->id);
+        $remarks = $internship->remarks->sortByDesc('remarkDate');
 
-        $visits = DB::table('visits')            
-            ->where('internships_id', '=', $internshipId)
-            ->get();
-
-        $remarks = DB::table('remarks')
-            ->select(
-                'remarkDate',
-                'author',
-                'remarkText')
-            ->where('remarkType', '=', 5)
-            ->where('remarkOn_id', '=', $internshipId)
-            ->orderby('remarkDate', 'desc')
-            ->get();
-        
         $years = Flock::getYears();
-
-        // $yearStudents = Person::all();
         
         $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('currentState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates', 'years'));
+        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'visitsStates', 'years'));
     }
 
     /**

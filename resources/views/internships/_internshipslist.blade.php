@@ -18,10 +18,10 @@
         <tr class="fake-link" data-href="{{route("internship", $iship)}}">
             <td>{{ $iship->company->companyName}}</td>
             <td>{{ strftime("%b %g", strtotime($iship->beginDate)) }}</td>
-            <td>{{ $iship->admin->firstname ?? ''}} {{ $iship->admin->lastname ?? ''}}</td> 
-            <td>{{ $iship->responsible->firstname ?? '' }} {{ $iship->iresplastname ?? '' }}</td>
-            <td>{{ $iship->student->firstname ?? ''}} {{ $iship->student->lastname ?? '' }}</td>
-            <td>{{ $iship->student->flock->classMaster->initials ?? ''}}</td>
+            <td>{{ $iship->admin->fullName ?? ''}}</td> 
+            <td>{{ $iship->responsible->fullName ?? '' }}</td>
+            <td>{{ $iship->student->fullName ?? '' }}</td>
+            <td title="{{ $iship->student->flock->classMaster->fullName ?? ''}}">{{ $iship->student->flock->classMaster->initials ?? ''}}</td>
             <td>{{ $iship->contractstate->stateDescription}}</td>
         </tr>
         @endforeach

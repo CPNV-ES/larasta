@@ -29,17 +29,16 @@ class Internship extends Model implements HasMedia
      */
     protected $dates = ['beginDate', 'endDate'];
 
-    /**
-     * Relation with the Visit model
-     */
-    public function visit()
+    public function visits()
     {
-        return $this->hasMany('App\Visit');
+        return $this->hasMany('App\Visit', 'internships_id');
     }
 
-    /**
-     * Relation with the Companies model
-     */
+    public function remarks()
+    {
+        return $this->hasMany('App\Remark', 'remarkOn_id')->where('remarkType', 5);
+    }
+
     public function company()
     {
         return $this->belongsTo('App\Company', 'companies_id');

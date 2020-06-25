@@ -27,7 +27,7 @@
         @else
             <h1>Contrat généré le : {{date('d F Y à H:i:s', strtotime($contractGenerated))}}</h1>
             <a href="{{route('editInternships',['iid' => $id])}}">
-                <button class="btn btn-default">Retour au stage</button>
+                <button class="btn btn-danger">Retour au stage</button>
             </a>
         @endif
     </div>

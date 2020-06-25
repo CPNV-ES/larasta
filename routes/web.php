@@ -125,13 +125,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/documents', 'DocumentsController@index');
 
     // Davide
-    Route::get('/listPeople', 'PeopleController@index');
-    Route::post('/listPeople/category', 'PeopleController@category');
-    Route::get('/listPeople/{id}/info','PeopleController@info');
-    Route::post('/listPeople/update/{id}','PeopleController@update');
+    Route::get('/people', 'PeopleController@index');
+    Route::get('/people/create', 'PeopleController@create')->name("person.create");
+    Route::get('/people/{id}','PeopleController@show')->name("person.show");
+    Route::get('/people/{id}/edit','PeopleController@edit')->name("person.edit");
+    Route::put('/people/{id}','PeopleController@update')->name("person.update");
+    //TODO Refactor these routes by using Route::resource()
+    Route::post('/people/category', 'PeopleController@category');
     Route::post('/contact/delete','PeopleController@deleteContact');
     Route::post('/contact/add','PeopleController@addContact');
-    Route::post('/listPeople/changeCompany','PeopleController@changeCompany');
+    Route::post('/people/changeCompany','PeopleController@changeCompany');
 
     //Life cicle
     Route::get('/editlifecycle','LifeCycleController@index');
