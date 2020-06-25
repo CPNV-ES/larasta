@@ -39,7 +39,7 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td>{{Auth::user()->fullname}}<button type="submit">Logout</button></td>
+                    <td class="login"><p>{{Auth::user()->fullname}}</p><button type="submit">Logout</button></td>
                 </tr>
             </form>
             @else
