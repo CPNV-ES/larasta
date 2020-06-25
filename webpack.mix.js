@@ -64,4 +64,5 @@ mix .copy('resources/assets/js/utils.js', 'public/js')
     .copy('node_modules/showdown/dist/showdown.min.js','public/js')
     .copy('node_modules/showdown/dist/showdown.min.js.map','public/js')
     .copy('node_modules/tinymce/tinymce.min.js','public/js')
+    .copyDirectory('node_modules/tinymce/themes','public/js/themes/')
 

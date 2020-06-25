@@ -77,7 +77,7 @@ class EntreprisesController extends Controller
             ->select('id', 'contractType')
             ->get();
 
-        $user = Auth::user()
+        $user = Auth::user();
 
         return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type,  'contracts' => $eType]);
     }
