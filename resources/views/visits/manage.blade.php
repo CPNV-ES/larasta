@@ -41,7 +41,7 @@
                                 $today = date('Y-m-d');
                                 $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
                             ?>
-                            <input type="date" name="upddate" max="{{$last}}" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
+                            <input type="date" name="upddate" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
                         </div>
                     </fieldset>
                 </td>

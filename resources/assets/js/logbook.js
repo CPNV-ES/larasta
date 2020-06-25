@@ -89,7 +89,8 @@ async function boot(ev) {
 function onPopState(evt) {
     console.log("pop state", evt);
     if (!evt.state) {
-        window.location = evt.target;
+        window.location = evt.target.location;
+        return;
     }
     if (evt.state.activityId) {
         loadAndDisplayActivity(evt.state.activityId, true);

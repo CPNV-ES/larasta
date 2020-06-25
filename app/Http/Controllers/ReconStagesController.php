@@ -28,12 +28,16 @@ class ReconStagesController extends Controller
 
         $contractstates = Contractstate::where('openForRenewal',1)->orderBy('id')->get()->pluck('id'); // all internships where contractstate has ready to renewal
         $internships = Internship::whereIn('contractstate_id', $contractstates)->get();
+        $internships = $internships->whereNotIn('id',Internship::all()->pluck('previous_id')); //get only internships that haven't reconducted (id not found in other previous_id of internship table)
+
         return view('reconstages.reconstages')->with(compact("internships", "datesOfNextInternship"));
     }
 
     /* Page called by reconstages.reconducted */
     public function reconducted(Request $request)
     {
+        if(!isset($request->internships))
+            return redirect()->back();
         $beginDate = Carbon::parse($request->input("beginDate"));
         $endDate = Carbon::parse($request->input("endDate"));
 

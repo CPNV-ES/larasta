@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Davide.CARBONI
@@ -18,6 +19,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Contactinfos;
 use App\Contacttypes;
+use App\Flock;
 use App\Internship;
 use Illuminate\Http\Request;
 use App\Person;
@@ -25,7 +27,7 @@ use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class PeopleControlleur extends Controller
+class PeopleController extends Controller
 {
     /**
      * Get all peoples and return in the view
@@ -41,14 +43,18 @@ class PeopleControlleur extends Controller
             ->orderBy('firstname', 'asc')
             ->get();
         // return all value to view
-        return view('listPeople/people')->with(
+        return view('people/index')->with(
             [
                 'persons' => $persons,
                 'user' => $user,
-                'filterCategory'=> ["0","1","2"],
+                'filterCategory' => ["0", "1", "2"],
                 'filterObsolete' => null
             ]
         );
+    }
+
+    public function create(){
+        return view('people/create');
     }
 
     /**
@@ -63,7 +69,7 @@ class PeopleControlleur extends Controller
         $filtersCategory = $request->input('filterCategory');
         $filterName = $request->input('filterName');
         $filterObsolete = $request->input('filterObsolete');
-        
+
         // Verify if all checkboks are not selected
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 
@@ -74,13 +80,13 @@ class PeopleControlleur extends Controller
         $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
 
         // return all value to view with the value of filters
-        return view('listPeople/people')->with(
+        return view('people/people')->with(
             [
                 'persons' => $persons,
                 'user' => $user,
-                'filterCategory'=> $filtersCategory,
-                'filterName'=>$filterName,
-                'filterObsolete' =>$filterObsolete
+                'filterCategory' => $filtersCategory,
+                'filterName' => $filterName,
+                'filterObsolete' => $filterObsolete
             ]
         );
     }
@@ -95,7 +101,7 @@ class PeopleControlleur extends Controller
         $delid = $request->input('delid');
         $personid = $request->input('peopleid');
         Contactinfos::destroy($delid);
-        return $this->info($personid);
+        return $this->show($personid);
     }
 
     /**
@@ -111,7 +117,7 @@ class PeopleControlleur extends Controller
         $newcontact->persons_id = $personid;
         $newcontact->value = $request->input('newcontact');
         $newcontact->save();
-        return $this->info($personid);
+        return $this->show($personid);
     }
 
     /**
@@ -126,22 +132,26 @@ class PeopleControlleur extends Controller
         $person = Person::find($personid);
         $person->company_id = $newcompany;
         $person->save();
-        return $this->info($personid);
+        return $this->show($personid);
     }
 
+    public function show($id){
+        $person = Person::findOrFail($id);
+        return view('people/show', compact("person"));
+    }
     /**
      * Get all info for people
      *
      * @param $id
      */
-    public function info($id)
+    public function edit($id)
     {
         // Get the user right
         $user = Auth::user();
 
         // Read Person from DB
         $person = Person::find($id);
-        
+
         // Read Adresse from DB
         $adress =  Person::find($id)->location;
 
@@ -155,8 +165,7 @@ class PeopleControlleur extends Controller
         $companies = Company::all();
 
         // select the internships in which the person was involved, based on role
-        switch ($person->role)
-        {
+        switch ($person->role) {
             case 0: // Student
                 $iship = Internship::where('intern_id', $id)->get();
                 break;
@@ -168,7 +177,7 @@ class PeopleControlleur extends Controller
                 break;
         }
         // return all values in view
-        return view('listPeople/peopleEdit')->with(
+        return view('people/peopleEdit')->with(
             [
                 'person' => $person,
                 'adress' => $adress,
@@ -247,8 +256,8 @@ class PeopleControlleur extends Controller
                     'lng' => $long
                 ]);
 
-        // Step 1
-        // Delete this line and go to Step 2
+            // Step 1
+            // Delete this line and go to Step 2
         }
 
         ///////////////////////////////////////
@@ -262,28 +271,23 @@ class PeopleControlleur extends Controller
 
 
         // write all new mails in the DB
-        foreach ($Mails as $mail)
-        {
+        foreach ($Mails as $mail) {
             if ($mail != null)
                 DB::table('contactinfos')->insert(
                     ['value' => $mail, 'contacttypes_id' => 1, 'persons_id' => $id]
                 );
-
         }
 
         // write all new fixe phone numbers in the DB
-        foreach ($FixePhones as $phoneFixe)
-        {
+        foreach ($FixePhones as $phoneFixe) {
             if ($phoneFixe != null)
                 DB::table('contactinfos')->insert(
                     ['value' => $phoneFixe, 'contacttypes_id' => 2, 'persons_id' => $id]
                 );
-
         }
 
         // write all new phone mobile numbers in the DB
-        foreach ($MobilePhones as $mobilePhone)
-        {
+        foreach ($MobilePhones as $mobilePhone) {
             if ($mobilePhone != null)
                 DB::table('contactinfos')->insert(
                     ['value' => $mobilePhone, 'contacttypes_id' => 3, 'persons_id' => $id]
@@ -295,7 +299,18 @@ class PeopleControlleur extends Controller
         // Verify the PeopleEdit blade and folow the same procedure
         // }
 
-        return $this->info($id);
+        return $this->show($id);
     }
 
+    public function getAll(Request $request)
+    {
+        //flockYear
+        if(isset($request->flockYear)){
+            return Flock::where("startYear", $request->flockYear)->get()->reduce(function($res, $flock){
+                return array_merge($res, $flock->students->toArray());
+            }, []);
+        }
+        //all
+        return Person::all();
+    }
 }

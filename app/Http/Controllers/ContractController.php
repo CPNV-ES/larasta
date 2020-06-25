@@ -50,7 +50,7 @@ class ContractController extends Controller
     public function visualizeContract($id, Request $request)
     {
         //Get informations of internship
-        $internship = Internship::find($id)->first();
+        $internship = Internship::find($id);
         //Get contract of specific internships
         $contract =$internship->company->contract;
         //Get data of student on internship

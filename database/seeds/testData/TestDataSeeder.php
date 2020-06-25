@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
 {
-    //TODO delete sql from database dir
     /**
      * Run the database seeds.
      *

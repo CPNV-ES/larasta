@@ -1,11 +1,13 @@
 @extends ('layout')
-
+@push ('page_specific_js')
+    <script src="/js/internship.js"></script>
+@endpush
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
     <h2 class="text-left">Stage
         @if (isset($internship->student))
-            de {{ $internship->student->firstname }} {{ $internship->student->lastname }}
+            de {{ $internship->student->fullName }}
         @else
             non attribué
         @endif
@@ -28,13 +30,13 @@
                 <div id="description">{!! $internship->internshipDescription !!}</div>
             </div>
         </div>
-        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->admin->id }}/info">
+        <div class="row p-1 border fake-link" data-href="{{ route("person.show", $internship->admin) }}">
             <div class="col-2">Responsable administratif</div>
-            <div class="col-10">{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</div>
+            <div class="col-10">{{ $internship->admin->fullName }}</div>
         </div>
-        <div class="row p-1 border clickable-row" data-href="/listPeople/{{ $internship->responsible->id }}/info">
+        <div class="row p-1 border fake-link" data-href="{{route("person.show", $internship->responsible) }}">
             <div class="col-2">Responsable</div>
-            <div class="col-10">{{ $internship->responsible->firstname }} {{ $internship->responsible->lastname }}</div>
+            <div class="col-10">{{ $internship->responsible->fullName }}</div>
         </div>
         <div class="row p-1 border">
             <div class="col-2">Maître de classe</div>
@@ -58,7 +60,7 @@
         @if (isset($internship->previous_id))
             <div class="row p-1 border">
                 <div class="col-2">
-                    <a href="/internships/{{ $internship->previous_id }}/view">Stage précédent</a>
+                <a href="{{route("internship", $internship->previous_id)}}">Stage précédent</a>
                 </div>
             </div>
         @endif
@@ -125,7 +127,7 @@
     @endif
 
     {{-- Remarks --}}
-    @if (isset($remarks)) @if (count($remarks) > 0)
+    @if (isset($remarks) && count($remarks) > 0)
         <hr/>
         <h4>Remarques</h4>
         <div class="container text-left">
@@ -148,8 +150,5 @@
                 </div>
             @endforeach
         </div>
-    @endif @endif
+    @endif 
 @stop
-@push ('page_specific_js')
-    <script src="/js/internships.js"></script>
-@endpush

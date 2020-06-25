@@ -6,6 +6,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Internship;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
@@ -25,20 +26,10 @@ class EntrepriseController extends Controller
 
         $user = Auth::user();
 
-        $company = DB::table('companies')
-            ->join('locations', 'location_id', '=', 'locations.id')
-            ->join('contracts', 'contracts_id','=', 'contracts.id')
-            ->select('companies.id', 'companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
-            ->where('companies.id',$id)
-            ->get();
+        $company = Company::findOrFail($id);
 
         $eType = DB::table('contracts')
             ->select('id', 'contractType')
-            ->get();
-
-        $persons = DB::table('persons')
-            ->select('firstname', 'lastname', 'id', 'obsolete')
-            ->where('company_id','=',$id)
             ->get();
 
         $contacts = DB::table('contactinfos')
@@ -55,7 +46,7 @@ class EntrepriseController extends Controller
             ->where('remarkOn_id', $id)
             ->get();
 
-        return view('/entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'persons' => $persons, 'contacts' => $contacts,  'iships'=>$iships, 'remarks'=>$remarks, 'message'=>$msg, 'contracts' => $eType]);
+        return view('/entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'contacts' => $contacts,  'iships'=>$iships, 'remarks'=>$remarks, 'message'=>$msg, 'contracts' => $eType]);
     }
 
     /**

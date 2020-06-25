@@ -74,7 +74,7 @@ php artisan key:generate
 
 In terminal, use the next command to create database with required data:
 ```
-php artisan mysql:createdb app_internships2
+php artisan mysql:createdb larasta
 php artisan migrate --seed
 ```
 
@@ -114,7 +114,7 @@ To get the information of the authentified user use this method `Auth::user()` i
 The github authentication only work on the swisscenter server.
 
 ### 10. PHP version
-There are some issues between the version of Laravel used in this project and the most recents PHP versions. The PHP version used with the project should be PHP 7.2.
+There are some issues between the version of Laravel used in this project and the most recents PHP versions. The PHP version used with the project should be PHP 7.4.
 
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).

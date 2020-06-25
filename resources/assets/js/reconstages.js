@@ -1,40 +1,38 @@
-//------------------------------------------------------------
-// Nicolas Henry
-// SI-T1a
-// reconstages.js
-//------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector('.reconduction tbody tr')) {
+        var listCheckboxes = document.querySelectorAll('.reconduction tbody tr input[type=checkbox]');
+        var countCheckboxChecked = 0;
 
-$(document).ready(function(){
-    $("#check").change(function () {
-        $("input:checkbox").prop('checked', $(this).prop("checked"));
-    });
+        check.addEventListener('click', function () {
+            listCheckboxes.forEach(function (checkbox) {
+                checkbox.checked = check.checked;
+                countCheckboxChecked = check.checked ? listCheckboxes.length : 0
+                toggleReconductButton(countCheckboxChecked);
+            });
+        });
+        check.click();
 
+        listCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('click', function () {
+                check.checked = isCheckboxesCheked(listCheckboxes);
+                checkbox.checked ? countCheckboxChecked++ : countCheckboxChecked--;
+                toggleReconductButton(countCheckboxChecked);
+            });
+        });
 
-    $('input').on('click',function () {
-        if ($('td').is(':checked')) {
-            $('#reconduire').css('display', 'inline-block');
-        } else {
-            $('#reconduire').css('display', 'none');
+        function isCheckboxesCheked(checkboxes) {
+            var valid = true;
+            checkboxes.forEach(function (checkbox) {
+                valid &= checkbox.checked;
+            });
+            return valid;
         }
-    });
 
-    $('input').on('click',function () {
-        if ($('.checkList').is(':checked')) {
-            $('#reconduire').css('display', 'inline-block');
-        } 
-        else {
-            $('#reconduire').css('display', 'none');
+        function toggleReconductButton(numberCheckboxesChecked) {
+            if (numberCheckboxesChecked > 0)
+                reconduire.classList.remove('none');
+            else
+                reconduire.classList.add('none');
         }
-    });
-
-    $('.checkBox').on('click',function () {
-        if ($('#check').is(':checked')) {
-            $('#reconduire').css('display', 'inline-block');
-        } 
-        else {
-            $('#reconduire').css('display', 'none');
-        }
-    });
-    
-    check.click();
- });
+    }
+});

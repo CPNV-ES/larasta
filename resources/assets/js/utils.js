@@ -4,26 +4,27 @@
 HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method on HTMLCollection
 
 //adds and include an element into another
-Element.prototype.addElement = function(type = "div", attributes = {}) {
+Element.prototype.addElement = function (type = "div", attributes = {}) {
     var elem = document.createElement(type);
     this.appendChild(elem);
+    console.log(attributes);
     for (var indAttr in attributes) {
+        //special attributes (setters/other)
+        if (indAttr == "_text") { elem.textContent = attributes._text; continue; }
+        if (indAttr == "_html") { elem.innerHTML = attributes._html; continue; }
         elem.setAttribute(indAttr, attributes[indAttr]);
     }
-    //special attributes (setters/other)
-    if (attributes._text) elem.textContent = attributes._text;
-    if (attributes._html) elem.innerHTML = attributes._html;
     return elem;
 };
-Element.prototype.addElemBefore = function(ref) {
+Element.prototype.addElemBefore = function (ref) {
     ref.parentNode.insertBefore(this, ref);
 };
 
-Element.prototype.addElemAfter = function(ref) {
+Element.prototype.addElemAfter = function (ref) {
     ref.parentNode.insertBefore(this, ref.nextSibling);
 };
 //remove matching childs
-Element.prototype.removeChilds = function(elemQuerySelector = false) {
+Element.prototype.removeChilds = function (elemQuerySelector = false) {
     if (elemQuerySelector) {
         var elemsToRemove = [...this.querySelectorAll(elemQuerySelector)];
     } else {
@@ -33,15 +34,15 @@ Element.prototype.removeChilds = function(elemQuerySelector = false) {
         elem.remove();
     });
 };
-Object.keyByValue = function(object, value) {
+Object.keyByValue = function (object, value) {
     //stolen from https://stackoverflow.com/a/28191966
     return Object.keys(object).find(key => object[key] === value);
 };
-String.prototype.capitalise = function() {
+String.prototype.capitalise = function () {
     return this[0].toUpperCase() + this.slice(1);
 };
 //get Monday to sunday day number (monday is 0)
-Date.prototype.getMoSuDay = function() {
+Date.prototype.getMoSuDay = function () {
     var currentDay = this.getDay();
     if (currentDay === 0) {
         return 6;
@@ -49,7 +50,7 @@ Date.prototype.getMoSuDay = function() {
     return currentDay - 1;
 };
 //get first and last day of the week, starting on monday
-Date.prototype.getWeek = function() {
+Date.prototype.getWeek = function () {
     var currentStamp = this.getTime();
     var currentDayIndex = this.getMoSuDay();
 
@@ -67,14 +68,14 @@ Date.prototype.getWeek = function() {
         lastWork: new Date(lastWorkStamp).getAbsoluteDate()
     };
 };
-Date.prototype.getRightMonth = function() {
+Date.prototype.getRightMonth = function () {
     return String("00" + (this.getMonth() + 1)).slice(-2);
 };
-Date.prototype.getRightDate = function() {
+Date.prototype.getRightDate = function () {
     return String("00" + this.getDate()).slice(-2);
 };
 //get day timestamp without hours, seconds, etc
-Date.prototype.getAbsoluteDate = function() {
+Date.prototype.getAbsoluteDate = function () {
     var stamp = this.getTime();
     stamp -= this.getHours() * 60 * 60 * 1000;
     stamp -= this.getMinutes() * 60 * 1000;
@@ -82,12 +83,12 @@ Date.prototype.getAbsoluteDate = function() {
     stamp -= this.getMilliseconds();
     return new Date(stamp);
 };
-Date.prototype.toSimpleISOString = function() {
+Date.prototype.toSimpleISOString = function () {
     return `${this.getFullYear()}-${this.getRightMonth()}-${this.getRightDate()}`;
 };
 
 var Cookies = {};
-Cookies.get = function(key = false) {
+Cookies.get = function (key = false) {
     var cookiesStr = document.cookie;
     var cookiesArray = cookiesStr.split(";");
     var cookies = {};
@@ -105,7 +106,7 @@ Cookies.get = function(key = false) {
     }
     return cookies;
 };
-Cookies.set = function(
+Cookies.set = function (
     key,
     value,
     expiration = 1000 * 60 * 60 * 24 * 365 /*1 year*/,
@@ -117,24 +118,24 @@ Cookies.set = function(
     cookieStr += `; path=${path}`;
     document.cookie = cookieStr;
 };
-Cookies.delete = function(key) {
+Cookies.delete = function (key) {
     Cookies.set(key, "deleted", -1);
 };
 
 function async_requestAnimationFrame() {
-    return new Promise(function(res, rej) {
+    return new Promise(function (res, rej) {
         requestAnimationFrame(res);
     });
 }
 
 function async_setTimeout(time) {
-    return new Promise(function(res, rej) {
+    return new Promise(function (res, rej) {
         setTimeout(res, time);
     });
 }
 
 var Utils = {};
-Utils.callApi = async function(
+Utils.callApi = async function (
     path,
     { method = "GET", query = false, body = false, rawCallData = false } = {}
 ) {
@@ -169,8 +170,11 @@ Utils.callApi = async function(
             queryText = query;
         }
     }
-
-    var result = await fetch(path + queryText, fetchParams);
+    try {
+        var result = await fetch(path + queryText, fetchParams);
+    } catch (e) {
+        return false;
+    }
     if (rawCallData) {
         return result;
     }
@@ -183,7 +187,7 @@ Utils.callApi = async function(
     }
     return jsonResponse;
 };
-Utils.queryEncode = function(queryData) {
+Utils.queryEncode = function (queryData) {
     var encodedStr = "";
     for (var key in queryData) {
         encodedStr += encodeURIComponent(key);
@@ -200,7 +204,7 @@ Utils.queryEncode = function(queryData) {
     }
     return encodedStr.slice(0, -1);
 };
-Utils.addLoader = function(parent, className) {
+Utils.addLoader = function (parent, className) {
     var loader = parent.addElement("div", { class: className });
     loader.classList.add("loader");
     loader.style.opacity = 0;
@@ -219,12 +223,12 @@ Utils.addLoader = function(parent, className) {
         remove
     };
 };
-Utils.infoBox = function(message, time = 5000) {
+Utils.infoBox = function (message, time = 5000) {
     var infoBox = document.body.addElement("div", {
         class: "infoMessageBox",
         _text: message
     });
-    requestAnimationFrame(async function() {
+    requestAnimationFrame(async function () {
         infoBox.style.opacity = 1;
         if (time != Infinity) {
             await async_setTimeout(time);
@@ -239,13 +243,13 @@ Utils.infoBox = function(message, time = 5000) {
     }
     return { elem: infoBox, remove };
 };
-Utils.countWords = function(str) {
-    return str.split(" ").filter(function(n) {
+Utils.countWords = function (str) {
+    return str.split(" ").filter(function (n) {
         return n != "";
     }).length;
 };
 //parses a text with a provided regex, returns texts and matches in arrays.
-Utils.parseTextWithRegex = function(text, regex) {
+Utils.parseTextWithRegex = function (text, regex) {
     var matches = [];
     var textArray = [text];
     while (true) {
@@ -276,7 +280,7 @@ Utils.parseTextWithRegex = function(text, regex) {
         matches: matches
     };
 };
-Utils.appendLinkifiedText = function(container, text) {
+Utils.appendLinkifiedText = function (container, text) {
     const URL_REGEX = /(\b(((https?|ftp|file):\/\/)|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi; // found on stackoverflow https://stackoverflow.com/a/8943487/11548808
     const SECURE_SCHEME = "https://";
     const UNSECURE_SCHEME = "http://";
@@ -325,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //filters toggler (if elem on page)
     if (window.filtersBoxButton && window.expandedfilters) {
         var icon = filtersBoxButton.querySelector("i");
-        filtersBoxButton.addEventListener("click", function(ev) {
+        filtersBoxButton.addEventListener("click", function (ev) {
             expandedfilters.classList.toggle("d-none");
             //toggle arrow
             icon.classList.toggle("down");

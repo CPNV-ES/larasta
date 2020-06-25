@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'InternshipsController@index')->name("index");
+Route::get('/internships', function(){return redirect(route("index"));});
 
 Route::post('/', 'InternshipsController@changeFilter');
 
@@ -21,7 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
 
-    Route::get('/internships/{iid}/view','InternshipsController@view')->name('internship');
+    Route::get('/internships/{iid}','InternshipsController@view')->name('internship');
 
     Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
 
@@ -87,8 +88,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
     // Steven
-    Route::get('/synchro', 'SynchroController@index');
-    Route::post('/synchro/modify', 'SynchroController@modify');
+    Route::get('/synchro/{message?}', 'SynchroController@index')->name('synchro.index');
+    Route::post('/synchro/modify', 'SynchroController@modify')->name('synchro.store');
 
     // Jean-Yves
     Route::get('/visits','VisitsController@index');
@@ -124,13 +125,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/documents', 'DocumentsController@index');
 
     // Davide
-    Route::get('/listPeople', 'PeopleControlleur@index');
-    Route::post('/listPeople/category', 'PeopleControlleur@category');
-    Route::get('/listPeople/{id}/info','PeopleControlleur@info');
-    Route::post('/listPeople/update/{id}','PeopleControlleur@update');
-    Route::post('/contact/delete','PeopleControlleur@deleteContact');
-    Route::post('/contact/add','PeopleControlleur@addContact');
-    Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
+    Route::get('/people', 'PeopleController@index');
+    Route::get('/people/create', 'PeopleController@create')->name("person.create");
+    Route::get('/people/{id}','PeopleController@show')->name("person.show");
+    Route::get('/people/{id}/edit','PeopleController@edit')->name("person.edit");
+    Route::put('/people/{id}','PeopleController@update')->name("person.update");
+    //TODO Refactor these routes by using Route::resource()
+    Route::post('/people/category', 'PeopleController@category');
+    Route::post('/contact/delete','PeopleController@deleteContact');
+    Route::post('/contact/add','PeopleController@addContact');
+    Route::post('/people/changeCompany','PeopleController@changeCompany');
 
     //Life cicle
     Route::get('/editlifecycle','LifeCycleController@index');

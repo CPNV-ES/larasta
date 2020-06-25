@@ -15,9 +15,9 @@
                 <select name="teacher" onchange="this.form.submit()">      
                     @foreach ($persons as $person)
                         @if ($person->id == $id)
-                            <option selected value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            <option selected value="{{$person->id}}">{{$person->fullName}}</option>
                         @else 
-                            <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                            <option value="{{$person->id}}">{{$person->fullName}}</option>
                         @endif        
                     @endforeach
             </select>
@@ -29,7 +29,7 @@
         <h3>Visits à venir</h3>
         <table class="larastable table table-striped">
             <thead class="thead-inverse">
-                <tr class="d-flex clickable-row">
+                <tr class="d-flex fake-link">
                     <th class="col-3">Nom</th>
                     <th class="col-2">Prénom</th>
                     <th class="col-2">Entreprise</th>
@@ -42,7 +42,7 @@
             </thead>
             <tbody>
                 @foreach($visitsToCome as $visit)
-                    <tr class="d-flex clickable-row text-left" data-href="/visits/{{$visit->id}}/manage">
+                    <tr class="d-flex fake-link text-left" data-href="/visits/{{$visit->id}}/manage">
                         <td class="col-3">{{ $visit->internship->student->firstname }}</td>
                         <td class="col-2">{{ $visit->internship->student->lastname }}</td>
                         <td class="col-2">{!! $visit->internship->company->companyName !!}</td>
@@ -76,7 +76,7 @@
         <h3>Anciennes Visits</h3>
         <table class="larastable table table-striped">
                 <thead class="thead-inverse">
-                    <tr class="d-flex clickable-row">
+                    <tr class="d-flex fake-link">
                         <th class="col-3">Nom</th>
                         <th class="col-2">Prénom</th>
                         <th class="col-2">Entreprise</th>
@@ -89,7 +89,7 @@
                 </thead>
                 <tbody>
                     @foreach($visitsPast as $visit)
-                        <tr class="d-flex clickable-row text-left" data-href="/visits/{{$visit->id}}/manage">
+                        <tr class="d-flex fake-link text-left" data-href="/visits/{{$visit->id}}/manage">
                             <td class="col-3">{{ $visit->internship->student->firstname }}</td>
                             <td class="col-2">{{ $visit->internship->student->lastname }}</td>
                             <td class="col-2">{!! $visit->internship->company->companyName !!}</td>

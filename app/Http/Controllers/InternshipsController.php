@@ -9,6 +9,7 @@ use App\Company;
 use App\Internship;
 use App\Person;
 use App\Visitsstate;
+use App\Flock;
 use Carbon\Carbon;
 use CPNVEnvironment\Environment;
 use CPNVEnvironment\InternshipFilter;
@@ -245,34 +246,16 @@ class InternshipsController extends Controller
         $internship = Internship::find($internshipId);
         $medias = $internship->getMedia('documents');
         $contractStates =  $internship->contractstate->contractStates;
-        $currentState = $internship->contractstate;
 
-        $responsibles = DB::table('persons')
-            ->select(
-                'id',
-                'firstname',
-                'lastname')
-            ->where('role', '=', 2)
-            ->where('company_id', '=', $internship->company->id);
+        // $responsible
+        $responsibles = $internship->company->people->where('role', 2);
 
-        $visits = DB::table('visits')            
-            ->where('internships_id', '=', $internshipId)
-            ->get();
+        $remarks = $internship->remarks->sortByDesc('remarkDate');
 
-        $remarks = DB::table('remarks')
-            ->select(
-                'remarkDate',
-                'author',
-                'remarkText')
-            ->where('remarkType', '=', 5)
-            ->where('remarkOn_id', '=', $internshipId)
-            ->orderby('remarkDate', 'desc')
-            ->get();
-        
-        $yearStudents = Person::all();
+        $years = Flock::getYears();
         
         $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('currentState','responsibles','visits','remarks','internship','contractStates','medias', 'visitsStates', 'yearStudents'));
+        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'visitsStates', 'years'));
     }
 
     /**

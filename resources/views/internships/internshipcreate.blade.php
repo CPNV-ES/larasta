@@ -37,9 +37,9 @@
                 <select name="responsible">
                         @foreach ($persons as $person)
                             @if ($person->id == $interships->responsible_id)
-                                <option value="{{$person->id}}" selected>{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}" selected>{{$person->fullName}}</option>
                             @else          
-                                <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}">{{$person->fullName}}</option>
                             @endif
                             
                         @endforeach
@@ -50,9 +50,9 @@
                 <select name="admin">
                         @foreach ($persons as $person)
                             @if ($person->id == $interships->admin_id)
-                                <option value="{{$person->id}}" selected>{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}" selected>{{$person->fullName}}</option>
                             @else          
-                                <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}">{{$person->fullName}}</option>
                             @endif
                         @endforeach
                 </select>
