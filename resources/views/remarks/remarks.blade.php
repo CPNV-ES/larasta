@@ -10,7 +10,7 @@
             <td class="col-md-1">&nbsp;</td>
             <td class="col-md-1">&nbsp;</td>
             <td class="col-md-8 text-left">
-                <form method="post" action="/remarks/filter">
+                <form method="post" action="{{route("remark.filter")}}">
                     {{ csrf_field() }}
                     <input type="text" name="needle"/>
                     <input type="submit" value="Rechercher"/>
@@ -18,7 +18,7 @@
             </td>
         </tr>
     </table>
-    <form method="post" action="/remarks/add" class="col-md-10 text-left">
+    <form method="post" action="{{route("remark.store")}}" class="col-md-10 text-left">
         {{ csrf_field() }}
         <fieldset>
             <legend>Ajouter une remarque</legend>

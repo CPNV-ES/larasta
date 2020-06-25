@@ -21,8 +21,9 @@
         </div>
     </div>
     <div class="row content-box" id="view">
-    <form method="post" action="/internships/{{$company->id}}/create">
+    <form method="post" action="{{route("internships.store")}}">
     {{ csrf_field() }}
+        <input type="hidden" name="id" value="{{$company->id}}"/>
         <div class="col-lg-8 col-lg-offset-2">
         <div>
             <label >Date de début</label>

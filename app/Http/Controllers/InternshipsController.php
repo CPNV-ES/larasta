@@ -41,18 +41,6 @@ class InternshipsController extends Controller
 
         return $this->filteredInternships($internshipFilter);
     }
-
-    /**
-     * @description sert à arriver sur la page stageform
-     */
-    public function showForm ($id)
-    {
-        $newinternships = Companies::find($id);
-        $companypersons = Persons::all()->where('company_id',$id);
-        return view('entreprises/stageform')->with(compact('newinternships','companypersons'));
-
-    }
-
     /**
      * @description sert à ajouté les différents éléments dans la base de donnée et d revenir sur la page entreprise
      */
@@ -207,11 +195,11 @@ class InternshipsController extends Controller
         return $res;
     }
 
-    public function view($internshipId)
+    public function show($id)
     {
         date_default_timezone_set('Europe/Zurich');
 
-        $internship = Internship::find($internshipId);
+        $internship = Internship::find($id);
         $internship->internshipDescription = htmlentities($internship->internshipDescription);
         $medias = $internship->getMedia('documents');
         $visits = DB::table('visits')
@@ -220,7 +208,7 @@ class InternshipsController extends Controller
                 'confirmed',
                 'number',
                 'grade')
-            ->where('internships_id', '=', $internshipId)
+            ->where('internships_id', '=', $id)
             ->get();
 
         $remarks = DB::table('remarks')
@@ -229,7 +217,7 @@ class InternshipsController extends Controller
                 'author',
                 'remarkText')
             ->where('remarkType', '=', 5)
-            ->where('remarkOn_id', '=', $internshipId)
+            ->where('remarkOn_id', '=', $id)
             ->orderby('remarkDate', 'desc')
             ->get();
 
@@ -237,13 +225,13 @@ class InternshipsController extends Controller
         return view('internships/internshipview', compact('visits','remarks','internship','medias'));
     }
 
-    public function edit($internshipId)
+    public function edit($id)
     {
         date_default_timezone_set('Europe/Zurich');
         if (Auth::user()->role <= 1)        
             abort(404);
 
-        $internship = Internship::find($internshipId);
+        $internship = Internship::find($id);
         $medias = $internship->getMedia('documents');
         $contractStates =  $internship->contractstate->contractStates;
 
@@ -292,9 +280,7 @@ class InternshipsController extends Controller
 
         Remark::addMultipleWithDetails($request, $internshipOld, $internship);
         
-        return redirect()->action(
-            'InternshipsController@edit', ['iid' => $request->id]
-        );
+        return redirect()->route('internships.edit', $request->id);
     }
 
     /**
@@ -306,9 +292,7 @@ class InternshipsController extends Controller
     {
         self::addRemarks($request);
 
-        return redirect()->action(
-            'InternshipsController@edit', ['iid' => $request->id]
-        );
+        return redirect()->back();
     }
 
     /**
@@ -324,12 +308,12 @@ class InternshipsController extends Controller
         RemarksController::addRemark($type, $on, $text);
     }
 
-    public function createInternship($iid)
+    public function create($id)
     {
         //Eloquent request
-        $Internshipcompany = Company::find($iid);
-        $companyPersons = Person::all()->where('company_id', $iid);
-        $lastInternship = Internship::where('companies_id', $iid)->orderBy('endDate', 'desc')->first();
+        $Internshipcompany = Company::find($id);
+        $companyPersons = Person::all()->where('company_id', $id);
+        $lastInternship = Internship::where('companies_id', $id)->orderBy('endDate', 'desc')->first();
         if(is_null($lastInternship)){
             $lastInternship = new Internship;
         }
@@ -369,7 +353,7 @@ class InternshipsController extends Controller
         );
     }
 
-    public function addInternship(Request $request, $iid)
+    public function store(Request $request)
     {
 
         $request->validate([
@@ -388,13 +372,13 @@ class InternshipsController extends Controller
             ]);
 
         $newInternship = new Internship();
-        $newInternship->companies_id = $iid;
+        $newInternship->companies_id = $request->id;
         $newInternship->beginDate = $request->input('beginDate');
         $newInternship->endDate = $request->input('endDate');
         $newInternship->responsible_id = $request->input('responsible');
         $newInternship->admin_id = $request->input('admin');
         $newInternship->save();
-        return redirect('entreprise/' . $iid . '')->with('message', 'Creation Réussie');
+        return redirect()->route('internships.show',$newInternship->id)->with('message', 'Creation Réussie');
     }
     public function storeLogbookFile(StoreFileRequest $request, $internshipId){
         $internship = Internship::findOrFail($internshipId);
