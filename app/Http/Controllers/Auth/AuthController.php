@@ -45,8 +45,8 @@ class AuthController extends Controller
         }
 
         $authUser = $this->findOrCreateUser($user);
-        if($authUser->isNotEmpty()){
-            Auth::login($authUser, true);
+        if(!empty($authUser)){
+            Auth::login($authUser);
         }else{
             return Redirect::to('/')->withErrors(['Votre utilisateur ne fait pas parti de l\'application']);;
         }
