@@ -39,7 +39,7 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td><img alt="Icone" width="25" heigth="25" src="{{Auth::user()->avatar}}">{{Auth::user()->name}}<button type="submit">Logout</button></td>
+                    <td>{{Auth::user()->fullname}}<button type="submit">Logout</button></td>
                 </tr>
             </form>
             @else
