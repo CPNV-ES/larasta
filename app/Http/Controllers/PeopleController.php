@@ -37,7 +37,7 @@ class PeopleController extends Controller
     public function index()
     {
         // Get the user right
-        $user = Auth::user()->person;
+        $user = Auth::user();
 
         $persons = Person::where('obsolete', 0)
             ->orderBy('firstname', 'asc')
@@ -74,7 +74,7 @@ class PeopleController extends Controller
         if ($filtersCategory == null) $filtersCategory = ["-1"];
 
         // Get the user right
-        $user = Auth::user()->person;
+        $user = Auth::user(); 
 
         // Apply scope form Model Persons and get data
         $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
@@ -147,7 +147,7 @@ class PeopleController extends Controller
     public function edit($id)
     {
         // Get the user right
-        $user = Auth::user()->person;
+        $user = Auth::user();
 
         // Read Person from DB
         $person = Person::find($id);

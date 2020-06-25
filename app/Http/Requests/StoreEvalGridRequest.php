@@ -35,7 +35,7 @@ class StoreEvalGridRequest extends FormRequest
         } elseif (Auth::user()->role == 0) {
             // If the user is a studend, we check if is this eval
             // Check if this eval belongs to this user
-            if (Evaluation::find($this->route('gridID'))->visit->internship->intern_id == Auth::user()->person->id) {
+            if (Evaluation::find($this->route('gridID'))->visit->internship->intern_id == Auth::user()->id) {
                 return true;
             }
         }

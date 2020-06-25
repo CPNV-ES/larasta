@@ -24,7 +24,7 @@ class EntrepriseController extends Controller
      */
     public function index($id, $msg=null){
 
-        $user = Auth::user()->person;
+        $user = Auth::user();
 
         $company = Company::findOrFail($id);
 
