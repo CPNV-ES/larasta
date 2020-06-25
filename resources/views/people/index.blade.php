@@ -81,7 +81,7 @@
                 <td colspan="2"> Pas des filtres </td>
             @else
                 @foreach($persons as $person)                        <!-- View all persons -->
-                    <tr class="fake-link" data-href="{{ route("person.show", $person->id) }}">
+                    <tr class="fake-link" data-href="{{ route("person.edit", $person->id) }}">
                         <td>{{ $person->fullName}}</td>
                         <td>{{ $person->roles}}</td>
                     </tr>

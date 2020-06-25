@@ -43,7 +43,7 @@ class PeopleController extends Controller
             ->orderBy('firstname', 'asc')
             ->get();
         // return all value to view
-        return view('listPeople/people')->with(
+        return view('people/index')->with(
             [
                 'persons' => $persons,
                 'user' => $user,
@@ -51,6 +51,10 @@ class PeopleController extends Controller
                 'filterObsolete' => null
             ]
         );
+    }
+
+    public function create(){
+        return view('people/create');
     }
 
     /**
@@ -76,7 +80,7 @@ class PeopleController extends Controller
         $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
 
         // return all value to view with the value of filters
-        return view('listPeople/people')->with(
+        return view('people/people')->with(
             [
                 'persons' => $persons,
                 'user' => $user,
@@ -97,7 +101,7 @@ class PeopleController extends Controller
         $delid = $request->input('delid');
         $personid = $request->input('peopleid');
         Contactinfos::destroy($delid);
-        return $this->info($personid);
+        return $this->show($personid);
     }
 
     /**
@@ -113,7 +117,7 @@ class PeopleController extends Controller
         $newcontact->persons_id = $personid;
         $newcontact->value = $request->input('newcontact');
         $newcontact->save();
-        return $this->info($personid);
+        return $this->show($personid);
     }
 
     /**
@@ -128,15 +132,19 @@ class PeopleController extends Controller
         $person = Person::find($personid);
         $person->company_id = $newcompany;
         $person->save();
-        return $this->info($personid);
+        return $this->show($personid);
     }
 
+    public function show($id){
+        $person = Person::findOrFail($id);
+        return view('people/show', compact("person"));
+    }
     /**
      * Get all info for people
      *
      * @param $id
      */
-    public function info($id)
+    public function edit($id)
     {
         // Get the user right
         $user = Auth::user()->person;
@@ -169,7 +177,7 @@ class PeopleController extends Controller
                 break;
         }
         // return all values in view
-        return view('listPeople/peopleEdit')->with(
+        return view('people/peopleEdit')->with(
             [
                 'person' => $person,
                 'adress' => $adress,
@@ -291,7 +299,7 @@ class PeopleController extends Controller
         // Verify the PeopleEdit blade and folow the same procedure
         // }
 
-        return $this->info($id);
+        return $this->show($id);
     }
 
     public function getAll(Request $request)

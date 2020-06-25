@@ -125,11 +125,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/documents', 'DocumentsController@index');
 
     // Davide
-    //TODO Refactor these routes
     Route::get('/people', 'PeopleController@index');
+    Route::get('/people/create', 'PeopleController@create')->name("person.create");
+    Route::get('/people/{id}','PeopleController@show')->name("person.show");
+    Route::get('/people/{id}/edit','PeopleController@edit')->name("person.edit");
+    Route::put('/people/{id}','PeopleController@update')->name("person.update");
+    //TODO Refactor these routes by using Route::resource()
     Route::post('/people/category', 'PeopleController@category');
-    Route::get('/people/{id}','PeopleController@info')->name("person.show");
-    Route::post('/people/update/{id}','PeopleController@update');
     Route::post('/contact/delete','PeopleController@deleteContact');
     Route::post('/contact/add','PeopleController@addContact');
     Route::post('/people/changeCompany','PeopleController@changeCompany');
