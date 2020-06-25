@@ -67,7 +67,7 @@ class AuthController extends Controller
     }
     
     public function localLogin($id){
-        $authUser = Person::find($id)->first();
+        $authUser = Person::find($id);
         Auth::login($authUser);
     }
     
