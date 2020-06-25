@@ -67,10 +67,8 @@ class AuthController extends Controller
     }
     
     public function localLogin($id){
-        $user = new \stdClass();
-        $user->id = $id;
-        $authUser = User::where('github_id', $user->id)->first();
-        Auth::login($authUser, true);
+        $authUser = Person::find($id);
+        Auth::login($authUser);
     }
     
     public function logoutUser(){
