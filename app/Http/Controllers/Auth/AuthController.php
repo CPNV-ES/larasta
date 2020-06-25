@@ -62,7 +62,7 @@ class AuthController extends Controller
     private function findOrCreateUser($azureUser)
     {
         $email = $azureUser->email;
-        $authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->get();
+        $authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->first();
         return $authUser;
     }
     
