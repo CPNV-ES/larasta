@@ -15,7 +15,7 @@
         </thead>
         <tbody>
         @foreach($iships as $iship)
-        <tr class="fake-link" data-href="{{route("internship", $iship)}}">
+        <tr class="fake-link" data-href="{{route("internships.show", $iship)}}">
             <td>{{ $iship->company->companyName}}</td>
             <td>{{ strftime("%b %g", strtotime($iship->beginDate)) }}</td>
             <td>{{ $iship->admin->fullName ?? ''}}</td> 

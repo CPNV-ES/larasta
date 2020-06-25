@@ -123,7 +123,7 @@
                 <div class="table-responsive">
                     @include ('internships._internshipslist',['iships' => $iships]) <br />
                     <br>
-                    <a href="/internships/{{$company->id}}/new" class="underline-none">
+                    <a href="{{route("internships.create", $company->id)}}" class="underline-none">
                         <button type="button" class="btn-success small text-white">Créer un stage</button>
                     </a>
                 </div>

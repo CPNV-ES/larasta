@@ -9,35 +9,35 @@
     </script>
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
-    <form action="{{route('updateInternships',$internship->id)}}" method="post">
+    <form action="{{route('internships.update',$internship->id)}}" method="post">
         @method("PUT")
         @csrf
-    <h2 class="text-left internshipTitle">Stage
-        @if(in_array($internship->contractstate->stateDescription, ["Reconduit", "Confirmé"]))
-        de
-            @php
-                if(isset($internship->student)){
-                    $selectedYear = $internship->student->flock->startYear;
-                } else if (isset($_COOKIE["lastSelectedYear"])){
-                    $selectedYear = $_COOKIE["lastSelectedYear"];
-                } else {
-                    $selectedYear = end($years);
-                }
-            @endphp
-            <select id="internYearSelector" autocomplete="off">
-                @foreach ($years as $indYear => $year)
-                    <option {{($year == $selectedYear)?"selected":""}} value="{{$year}}">20{{$year}}</option>
-                @endforeach
-            </select>
-            <select id="internSelector" name="internId" autocomplete="off" value={{$internship->student->id??"0"}}></select>
-            <input id="internRemark" class="none" data-name="remark_internId" placeholder="Pourquoi?"/>
-        @elseif (isset($internship->student))
-            de {{ $internship->student->fullName}}
-        @else
-            non attribué
-        @endif
-        chez {{ $internship->company->companyName }}
-    </h2>
+        <h2 class="text-left internshipTitle">Stage
+            @if(in_array($internship->contractstate->stateDescription, ["Reconduit", "Confirmé"]))
+            de
+                @php
+                    if(isset($internship->student)){
+                        $selectedYear = $internship->student->flock->startYear;
+                    } else if (isset($_COOKIE["lastSelectedYear"])){
+                        $selectedYear = $_COOKIE["lastSelectedYear"];
+                    } else {
+                        $selectedYear = end($years);
+                    }
+                @endphp
+                <select id="internYearSelector" autocomplete="off">
+                    @foreach ($years as $indYear => $year)
+                        <option {{($year == $selectedYear)?"selected":""}} value="{{$year}}">20{{$year}}</option>
+                    @endforeach
+                </select>
+                <select id="internSelector" name="internId" autocomplete="off" value={{$internship->student->id??"0"}}></select>
+                <input id="internRemark" class="none" data-name="remark_internId" placeholder="Pourquoi?"/>
+            @elseif (isset($internship->student))
+                de {{ $internship->student->fullName}}
+            @else
+                non attribué
+            @endif
+            chez {{ $internship->company->companyName }}
+        </h2>
 
     {{-- Internship information --}}
         <input type="hidden" name="id" value="{{ $internship->id }}">
@@ -123,14 +123,14 @@
             @if (isset($internship->previous_id))
                 <tr>
                     <td>
-                    <a href="{{route("editInternships", $internship->previous_id)}}">Stage précédent</a>
+                    <a href="{{route("internships.edit", $internship->previous_id)}}">Stage précédent</a>
                     </td>
                 </tr>
             @endif
         </table>
 
         {{-- Action buttons --}}
-        <a href="{{route("internship", $internship->id)}}">
+        <a href="{{route("internships.show", $internship->id)}}">
             <button class="btn btn-danger" type="button">Retour</button>
         </a>
         <button class="btn btn-success" type="submit">Valider</button>
