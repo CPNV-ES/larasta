@@ -43,10 +43,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
     //admin pages
     Route::get('/admin','AdminController@index')->middleware('admin');
-    Route::get('/admin/snapshot', 'snapshotController@showSnapshot');
-    Route::get('/admin/snapshot/take', 'snapshotController@takeDbSnapshot')->name('snapshot.take');
-    Route::post('/admin/snapshot/upload', 'snapshotController@upload')->name('snapshot.upload');
-    Route::post('/admin/snapshot/reload', 'snapshotController@reload')->name('snapshot.reload');
+    Route::get('/admin/snapshot', 'SnapshotController@showSnapshot');
+    Route::get('/admin/snapshot/take', 'SnapshotController@takeDbSnapshot')->name('snapshot.take');
+    Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
+    Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
 
     Route::get('/about', function () {
         return view('about');
@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/remarks/{id}','RemarksController@index')->name('remarks.update'); 
     Route::delete('/remarks/{id}','RemarksController@index')->name('remarks.destroy'); 
     Route::get('/remarks/{id}/edit','RemarksController@index')->name('remarks.edit'); 
-    
+
     Route::post('/remarks/filter','RemarksController@filter')->name("remark.filter");
     Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
 
