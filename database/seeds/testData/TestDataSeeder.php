@@ -25,7 +25,6 @@ class TestDataSeeder extends Seeder
         $this->call(LogbooksTableSeeder::class);
         $this->call(RemarksTableSeeder::class);
         $this->call(WishesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }
