@@ -45,7 +45,7 @@
     </table>
 
     <a href="{{route('reconstage.index')}}" class="btn btn-light"> Retour </a>
-    <a href="{{route('index')}}" class="btn btn-light">Acceuil</a>
+    <a href="{{route('index')}}" class="btn btn-light">Accueil</a>
 @stop
 
 @push ('page_specific_js')

@@ -13,8 +13,8 @@
             <button class="btn btn-default btn-tile">Renouveler les stages en cours</button>
         </a>
         <a href="/about">
-            <button class="btn btn-default btn-tile">Editer les contrats</button>
-        </a><br>
+            <button disabled class="btn btn-default btn-tile">Editer les contrats</button>
+        </a>
         <a href="/editlifecycle">
             <button class="btn btn-default btn-tile">Editer le cycle de vie</button>
         </a>

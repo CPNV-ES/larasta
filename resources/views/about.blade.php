@@ -11,7 +11,7 @@
         <h2>Contributeurs</h2>
         <h3>2020</h3>
         <p>Diogo VIEIRA-FERREIRA</p>
-        <p>Nicolas MAITRE</p>
+        <p onclick="alert('salut :)')">Nicolas MAITRE</p>
         <p>Killian ViQuErAt</p>
         <h3>2019 et avant</h3>
         <p>Steven AVELINO</p>
