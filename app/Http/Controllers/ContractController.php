@@ -182,6 +182,6 @@ class ContractController extends Controller
         Internship::find($id)->update(['contractGenerated' => "0000-01-01 00:00:00"]);
         // Instantiate the internship controller to get back to the internship view
         $internshipController = new InternshipsController();
-        return $internshipController->edit($id);
+        return redirect()->route("internships.show", $id);
     }
 }
