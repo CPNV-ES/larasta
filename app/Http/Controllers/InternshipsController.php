@@ -41,18 +41,6 @@ class InternshipsController extends Controller
 
         return $this->filteredInternships($internshipFilter);
     }
-
-    /**
-     * @description sert à arriver sur la page stageform
-     */
-    public function showForm ($id)
-    {
-        $newinternships = Companies::find($id);
-        $companypersons = Persons::all()->where('company_id',$id);
-        return view('entreprises/stageform')->with(compact('newinternships','companypersons'));
-
-    }
-
     /**
      * @description sert à ajouté les différents éléments dans la base de donnée et d revenir sur la page entreprise
      */
