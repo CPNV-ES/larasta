@@ -7,7 +7,6 @@ HTMLCollection.prototype.forEach = Array.prototype.forEach; //add foreach method
 Element.prototype.addElement = function (type = "div", attributes = {}) {
     var elem = document.createElement(type);
     this.appendChild(elem);
-    console.log(attributes);
     for (var indAttr in attributes) {
         //special attributes (setters/other)
         if (indAttr == "_text") { elem.textContent = attributes._text; continue; }
@@ -62,7 +61,7 @@ Date.prototype.getWeek = function () {
     var firstDayDate = new Date(firstDayStamp).getAbsoluteDate();
     //TODO: add week number to return
     return {
-        id: firstDayDate.toISOString(),
+        id: firstDayDate.toSimpleISOString(),
         first: firstDayDate,
         last: new Date(lastDayStamp).getAbsoluteDate(),
         lastWork: new Date(lastWorkStamp).getAbsoluteDate()
