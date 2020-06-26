@@ -21,8 +21,9 @@
         </div>
     </div>
     <div class="row content-box" id="view">
-    <form method="post" action="/internships/{{$company->id}}/create">
+    <form method="post" action="{{route("internships.store")}}">
     {{ csrf_field() }}
+        <input type="hidden" name="id" value="{{$company->id}}"/>
         <div class="col-lg-8 col-lg-offset-2">
         <div>
             <label >Date de début</label>
@@ -37,9 +38,9 @@
                 <select name="responsible">
                         @foreach ($persons as $person)
                             @if ($person->id == $interships->responsible_id)
-                                <option value="{{$person->id}}" selected>{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}" selected>{{$person->fullName}}</option>
                             @else          
-                                <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}">{{$person->fullName}}</option>
                             @endif
                             
                         @endforeach
@@ -50,9 +51,9 @@
                 <select name="admin">
                         @foreach ($persons as $person)
                             @if ($person->id == $interships->admin_id)
-                                <option value="{{$person->id}}" selected>{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}" selected>{{$person->fullName}}</option>
                             @else          
-                                <option value="{{$person->id}}">{{$person->firstname}} {{$person->lastname}}</option>
+                                <option value="{{$person->id}}">{{$person->fullName}}</option>
                             @endif
                         @endforeach
                 </select>

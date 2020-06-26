@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flock extends Model
 {
-    public $timestamps = false;   
+    public $timestamps = false;
     /**
      * Relation with the students
      * Return students by alphababetical order of initials
      */
-    public function students ()
+    public function students()
     {
         return $this->hasMany('App\Person', 'flock_id')
             ->orderBy('initials');
@@ -21,8 +21,16 @@ class Flock extends Model
     /**
      * Relation to get the class teacher
      */
-    public function classMaster ()
+    public function classMaster()
     {
         return $this->belongsTo('App\Person', 'classMaster_id');
+    }
+
+    public static function getYears()
+    {
+        $yearsObjects = self::select('startYear')->distinct()->get()->toarray();
+        return array_map(function($yearObject){
+            return $yearObject["startYear"];
+        }, $yearsObjects);
     }
 }

@@ -13,57 +13,58 @@
 
 Route::get('/', 'InternshipsController@index')->name("index");
 
+// Route::get('/internships', function(){return redirect(route("index"));});
+
 Route::post('/', 'InternshipsController@changeFilter');
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/newinternship/{id}', 'InternshipsController@showForm');
-
-    Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
-
-    Route::get('/internships/{iid}/view','InternshipsController@view')->name('internship');
-
-    Route::get('/internships/{iid}/edit','InternshipsController@edit')->name("editInternships");
-
-    Route::put('/internships/{iid}','InternshipsController@update')->name("updateInternships");
-
-    Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
-
-    Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
-
+    
+    //TODO Refactor these routes by using Route::resource() ↓
+    // Route::resource('internships','InternshipsController');
+    Route::get('/internships','InternshipsController@index')->name('internships.index'); 
+    Route::get('/internships/create','InternshipsController@create')->name('internships.create'); 
+    Route::get('/internships/{id}/create','InternshipsController@create')->name('internships.create'); 
+    Route::post('/internships','InternshipsController@store')->name('internships.store'); 
+    Route::get('/internships/{id}','InternshipsController@show')->name('internships.show'); 
+    Route::get('/internships/{id}/edit','InternshipsController@edit')->name('internships.edit'); 
+    Route::put('/internships/{id}','InternshipsController@update')->name('internships.update'); 
+    Route::delete('/internships/{id}','InternshipsController@destroy')->name('internships.destroy'); 
+    
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
-
-    Route::get('/internships/{iid}/new','InternshipsController@createInternship');
-
-    Route::post('/internships/{iid}/create','InternshipsController@addInternship');
-    //
+    Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
+    Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
+    // Logbook
+    Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
+    Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
+    Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
+    //file manage
     Route::post('/internships/{id}/files',"InternshipsController@storeFile")->name("internship.storeFile");
     Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
-
+    //admin pages
     Route::get('/admin','AdminController@index')->middleware('admin');
-
-    Route::get('/admin/snapshot', 'snapshotController@showSnapshot');
-    Route::get('/admin/snapshot/take', 'snapshotController@takeDbSnapshot')->name('snapshot.take');
-    Route::post('/admin/snapshot/upload', 'snapshotController@upload')->name('snapshot.upload');
-    Route::post('/admin/snapshot/reload', 'snapshotController@reload')->name('snapshot.reload');
+    Route::get('/admin/snapshot', 'SnapshotController@showSnapshot');
+    Route::get('/admin/snapshot/take', 'SnapshotController@takeDbSnapshot')->name('snapshot.take');
+    Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
+    Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
 
     Route::get('/about', function () {
         return view('about');
     });
 
-    Route::get('/remarks', 'RemarksController@index');
+    // Route::resource('remarks','RemarksController');
+    Route::get('/remarks','RemarksController@index')->name('remarks.index'); 
+    Route::post('/remarks','RemarksController@index')->name('remarks.store'); 
+    Route::get('/remarks','RemarksController@index')->name('remarks.create'); 
+    Route::get('/remarks/{id}','RemarksController@index')->name('remarks.show'); 
+    Route::put('/remarks/{id}','RemarksController@index')->name('remarks.update'); 
+    Route::delete('/remarks/{id}','RemarksController@index')->name('remarks.destroy'); 
+    Route::get('/remarks/{id}/edit','RemarksController@index')->name('remarks.edit'); 
 
-    Route::post('/remarks/filter','RemarksController@filter');
-
-    Route::post('/remarks/add','RemarksController@create');
-
+    Route::post('/remarks/filter','RemarksController@filter')->name("remark.filter");
     Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
 
-    Route::get('/remarks/{rid}/edit','RemarksController@edit');
-
-    Route::post('/remarks/delete','RemarksController@delete');
-
-    Route::post('/remarks/update','RemarksController@update');
+    Route::post("/entreprise/{id}", 'InternshipsController@enterFormInDb');
 
     // Antonio - Entreprises list
     Route::get('/entreprises', 'EntreprisesController@index');
@@ -79,23 +80,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Quentin N - Contract generation
     Route::get('/contract/{id}', 'ContractController@generateContract');
-
     Route::post('/contract/{id}/view', 'ContractController@visualizeContract')->name("viewContract");
-
     Route::post('/contract/{id}/save', 'ContractController@saveContract')->name("saveContract");
-
     Route::get('/contract/{id}/cancel', 'ContractController@cancelContract');
 
     // Steven
-    Route::get('/synchro', 'SynchroController@index');
-    Route::post('/synchro/modify', 'SynchroController@modify');
+    Route::get('/synchro/{message?}', 'SynchroController@index')->name('synchro.index');
+    Route::post('/synchro/modify', 'SynchroController@modify')->name('synchro.store');
 
     // Jean-Yves
     Route::get('/visits','VisitsController@index');
     Route::post('/visits','VisitsController@filter');
-    Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
     Route::post('/visits/create','VisitsController@create');
     Route::post('/visits/remarks','VisitsController@addRemarks');
+    Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
     Route::get('/visits/{id}/mail','VisitsController@mail');
     Route::get('/visits/{id}/delete', 'VisitsController@delete');
     Route::post('/visits/{id}/update', 'VisitsController@update');
@@ -112,11 +110,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
     Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
-    // Logbook
-    Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
-    Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
-    Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
-
     // Nicolas - Stages
     Route::get('/reconstages', 'ReconStagesController@index')->name('reconstage.index');
     Route::post('/reconstages/reconducted', 'ReconStagesController@reconducted')->name('reconstage.reconducted');
@@ -124,13 +117,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/documents', 'DocumentsController@index');
 
     // Davide
-    Route::get('/listPeople', 'PeopleControlleur@index');
-    Route::post('/listPeople/category', 'PeopleControlleur@category');
-    Route::get('/listPeople/{id}/info','PeopleControlleur@info');
-    Route::post('/listPeople/update/{id}','PeopleControlleur@update');
-    Route::post('/contact/delete','PeopleControlleur@deleteContact');
-    Route::post('/contact/add','PeopleControlleur@addContact');
-    Route::post('/listPeople/changeCompany','PeopleControlleur@changeCompany');
+    Route::get('/people', 'PeopleController@index');
+    Route::get('/people/create', 'PeopleController@create')->name("person.create");
+    Route::get('/people/{id}','PeopleController@show')->name("person.show");
+    Route::get('/people/{id}/edit','PeopleController@edit')->name("person.edit");
+    Route::put('/people/{id}','PeopleController@update')->name("person.update");
+
+    Route::post('/people/category', 'PeopleController@category');
+    Route::post('/people/changeCompany','PeopleController@changeCompany');
+    Route::post('/contact/delete','PeopleController@deleteContact');
+    Route::post('/contact/add','PeopleController@addContact');
 
     //Life cicle
     Route::get('/editlifecycle','LifeCycleController@index');
@@ -143,8 +139,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
     
-//GitHub
-Route::get('/auth/github', 'Auth\AuthController@redirectToProvider')->name('login');
-Route::get('/auth/callback', 'Auth\AuthController@handleProviderCallback');
+//Azure
+Route::get('/auth/azure', 'Auth\AuthController@redirectToProvider')->name('login');
+Route::get('/callback', 'Auth\AuthController@handleProviderCallback');
 Route::post('/auth/logout', 'Auth\AuthController@logoutUser');
 

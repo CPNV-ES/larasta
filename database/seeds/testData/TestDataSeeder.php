@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
 {
-    //TODO delete sql from database dir
     /**
      * Run the database seeds.
      *
@@ -25,7 +24,6 @@ class TestDataSeeder extends Seeder
         $this->call(LogbooksTableSeeder::class);
         $this->call(RemarksTableSeeder::class);
         $this->call(WishesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
         Schema::enableForeignKeyConstraints();
     }
 }

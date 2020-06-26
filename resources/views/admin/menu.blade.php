@@ -6,15 +6,15 @@
         <a href="/admin/snapshot">
             <button class="btn btn-default btn-tile">Snapshots</button>
         </a>
-        <a href="/synchro">
+        <a href="{{route("synchro.index")}}">
             <button class="btn btn-default btn-tile">Synchroniser avec l'Intranet</button>
         </a>
         <a href="/reconstages">
             <button class="btn btn-default btn-tile">Renouveler les stages en cours</button>
         </a>
         <a href="/about">
-            <button class="btn btn-default btn-tile">Editer les contrats</button>
-        </a><br>
+            <button disabled class="btn btn-default btn-tile">Editer les contrats</button>
+        </a>
         <a href="/editlifecycle">
             <button class="btn btn-default btn-tile">Editer le cycle de vie</button>
         </a>

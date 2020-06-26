@@ -89,7 +89,8 @@ async function boot(ev) {
 function onPopState(evt) {
     console.log("pop state", evt);
     if (!evt.state) {
-        window.location = evt.target;
+        window.location = evt.target.location;
+        return;
     }
     if (evt.state.activityId) {
         loadAndDisplayActivity(evt.state.activityId, true);
@@ -150,7 +151,7 @@ function changeWeek(week, { force = false, animation = true } = {}) {
             var dayStamp = week.first.getTime() + indDay * (1000 * 60 * 60 * 24);
             var date = new Date(dayStamp);
             var adapter = buildDayAdapter(weekContainer, date);
-            weeks[week.id].days[date.toISOString()] = {
+            weeks[week.id].days[date.toSimpleISOString()] = {
                 date,
                 adapter,
                 activities: []
@@ -287,13 +288,13 @@ async function loadActivities(weekId) {
 
 function onNewActivity(rawActivity, weekId = false) {
     var activity = objectifyActivity(rawActivity);
-    var dateId = activity.date.getAbsoluteDate().toISOString();
+    var dateId = activity.date.getAbsoluteDate().toSimpleISOString();
     //weekid
     if (!weekId) {
         weekId = activity.date
             .getWeek()
             .first.getAbsoluteDate()
-            .toISOString();
+            .toSimpleISOString();
     }
     //store
     if (activities[activity.id]) {
@@ -326,7 +327,7 @@ function objectifyActivity(rawActivity) {
 async function displayActivity(activity) {
     var activityDay = activity.date.getAbsoluteDate();
     var weekId = activityDay.getWeek().id;
-    var dateId = activityDay.toISOString();
+    var dateId = activityDay.toSimpleISOString();
 
     //week
     if (!weeks[weekId]) {
@@ -339,7 +340,7 @@ async function displayActivity(activity) {
     }
 
     //current day
-    if (currentDay.toISOString() == dateId) {
+    if (currentDay.toSimpleISOString() == dateId) {
         var todayActivityAdapter = buildActivityAdapter(
             todayActivitiesContainer,
             activity
@@ -456,7 +457,7 @@ function refreshDayData(dayDate) {
         return;
     }
     var weekObject = weeks[weekId];
-    var dayId = dayDate.toISOString();
+    var dayId = dayDate.toSimpleISOString();
     if (!weekObject.days[dayId]) {
         console.warn("this day is not loaded somehow", dayId);
         return;
@@ -525,7 +526,7 @@ function refreshDayData(dayDate) {
     dayObject.adapter.updateCompliance(complianceLevel);
     dayObject.adapter.updateData({ duration: dayDuration });
     //today
-    if (dayId == new Date().getAbsoluteDate().toISOString()) {
+    if (dayId == new Date().getAbsoluteDate().toSimpleISOString()) {
         applyComplianceColor(todayDuration, complianceLevel);
         todayDuration.textContent = `${getPrettyTime(dayDuration)} - ${COMPLIANCE_LEVELS_COMMENT[complianceLevel]}`;
     }
@@ -763,8 +764,8 @@ async function deleteActivity(activityId) {
         //remove activities
         var activityDate = activityRef.object.date;
         var activitiesList =
-            weeks[activityDate.getWeek().first.toISOString()].days[
-                activityDate.getAbsoluteDate().toISOString()
+            weeks[activityDate.getWeek().first.toSimpleISOString()].days[
+                activityDate.getAbsoluteDate().toSimpleISOString()
             ].activities;
         activitiesList.splice(activitiesList.indexOf(activityId), 1);
         delete activities[activityId];

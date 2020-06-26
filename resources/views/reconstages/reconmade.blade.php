@@ -30,13 +30,13 @@
 
             @foreach ($internships as $internship)
             <!-- Les données sont reprises tel que sur la page précédentes mais on y affiche uniquement ceux qui on été traité sur la page précédente. -->
-                <tr data-internship="{{route('internship',$internship->id)}}"> 
+                <tr data-internship="{{route('internships.index',$internship->id)}}"> 
                     <td>{{ $internship->company->companyName }}</td>
                     <td>{{ $internship->beginDate->toFormattedDateString() }}</td>
                     <td>{{ $internship->endDate->toFormattedDateString() }}</td>
-                    <td>@isset($internship->responsible){{ $internship->responsible->firstname}} {{ $internship->responsible->lastname }}@endisset</td>
-                    <td>{{ $internship->admin->firstname }} {{ $internship->admin->lastname }}</td>
-                    <td>@isset($internship->student){{ $internship->student->firstname }} {{ $internship->student->lastname }}@endisset</td>
+                    <td>@isset($internship->responsible){{ $internship->responsible->fullName }}@endisset</td>
+                    <td>{{ $internship->admin->fullName }}</td>
+                    <td>@isset($internship->student){{ $internship->student->fullName }}@endisset</td>
                     <td>{{ $internship->grossSalary }}</td>
                     <td>{{ $internship->contractstate->stateDescription }}</td>
                 </tr>
@@ -45,7 +45,7 @@
     </table>
 
     <a href="{{route('reconstage.index')}}" class="btn btn-light"> Retour </a>
-    <a href="{{route('index')}}" class="btn btn-light">Acceuil</a>
+    <a href="{{route('index')}}" class="btn btn-light">Accueil</a>
 @stop
 
 @push ('page_specific_js')

@@ -10,17 +10,39 @@ class Remark extends Model
 {
     // Let's do without timestamps for now
     public $timestamps = false;
-    
+
+    static $remarkPrefix = 'remark_';
+
     static $listOfRemarks = [
-        "remark_beginDate" => "La date de début de stage, %s, a été modifiée pour %s.",
-        "remark_endDate" => "La date de fin de stage, %s, a été modifiée pour %s.",
-        "remark_aresp" => "Le Responsable administratif du stage, %s, a été modifié pour %s.",
-        "remark_intresp" => "Le responsable du stage, %s, a été modifié pour %s.",
-        "remark_stateDescription" => "L'état du stage, %s, a été modifié pour %s.",
-        "remark_grossSalary" => "Le salaire du stage, %s, a été modifié pour %s.",
-        "remark_externalLogbook" => "Le type de journal de stage, %s, a été modifié pour %s.",
-        "remark_internshipDescription" => "La description a été mise à jour."
+        "beginDate" => "La date de début de stage, %s, a été modifiée pour %s.",
+        "endDate" => "La date de fin de stage, %s, a été modifiée pour %s.",
+        "aresp" => "Le Responsable administratif du stage, %s, a été modifié pour %s.",
+        "intresp" => "Le responsable du stage, %s, a été modifié pour %s.",
+        "stateDescription" => "L'état du stage, %s, a été modifié pour %s.",
+        "grossSalary" => "Le salaire du stage, %s, a été modifié pour %s.",
+        "externalLogbook" => "Le type de journal de stage a été passé en %s.",
+        "internshipDescription" => "La description a été mise à jour.",
+        "internId" => "L'étudiant %s a été assigné. (ancien: %s)"
     ];
+
+    /** Getter of the list of custom remarks function callbacks
+     * To add a custom remark, define a function in the list that will return the string. The function takes the old and new objects as parameters.
+     */
+    static function getCustomRemarks(){return [
+        "internId" => function (Internship $oldObj, Internship $newObj) {
+            if(!$newObj->student){
+                return "L'étudiant ".($oldObj->student->fullName ?? "")." a été désassigné";
+            }
+            return sprintf(self::$listOfRemarks["internId"], $newObj->student->fullName ?? "Non Attribué", $oldObj->student->fullName ?? "Non attribué");
+        },
+        "externalLogbook" => function(Internship $oldObj, Internship $newObj){
+            return sprintf(self::$listOfRemarks["externalLogbook"], $newObj->externalLogbook ? "externe" : "interne");
+        }
+        // EXEMPLE:
+        // "exampleCustomRemark" => function(Person $oldObject, Person $newObject){
+        //     return "Nous somme le ".date("d/m/Y")." et le nom de famille de $newObject->fullName a été modifié";
+        // }
+    ];}
 
     /**
      * addRemark allows to enter a remark on something. The timestamp put on it is the current time and the person is the current user
@@ -36,25 +58,27 @@ class Remark extends Model
         $remark->remarkOn_id = $on;
         $remark->remarkDate = date('Y-m-d H:i:s');
         $remark->remarkText = $text;
-        $remark->author = Auth::user()->person->initials;
+        $remark->author = Auth::user()->initials;
         $remark->save();
     }
 
     public static function addMultipleWithDetails(Request $request, $oldObject, $updatedObject)
     {
+        $customRemarks = self::getCustomRemarks();
         $textRegex = "([A-Za-z0-9]+)";
         //search all keys on request (exemple: "id" is $key and 5664 is $data)
         foreach ($request->request as $key => $data) {
             //check if the name of request begin by "remark_"
-            if (!preg_match("#^remark_$textRegex$#", $key)) {
+            if (!preg_match("#^" . self::$remarkPrefix . $textRegex . "$#", $key)) {
                 continue;
             }
-            if(empty(self::$listOfRemarks[$key]))
-                $remark = "Les données du champ " . substr($key, strpos($key, "_") + 1) . " ont été modifiées. ";
-            else
-            {                
-                $attribute = str_replace('remark_', '', $key);
-                $remark = sprintf( self::$listOfRemarks[$key], $oldObject->$attribute, $updatedObject->$attribute);
+            $attribute = str_replace(self::$remarkPrefix, '', $key);
+            if (empty(self::$listOfRemarks[$attribute])) { //default remark
+                $remark = "Les données du champ $attribute ont été modifiées. ";
+            } else if (isset($customRemarks[$attribute])) { //custom remark
+                $remark = $customRemarks[$attribute]($oldObject, $updatedObject);
+            } else { //text remark
+                $remark = sprintf(self::$listOfRemarks[$attribute], $oldObject->$attribute, $updatedObject->$attribute);
             }
 
             if (isset($data))

@@ -8,7 +8,7 @@
     </tr>
     <tbody>
     @foreach($remarks as $remark)
-        <tr class="clickable-row" data-href="/remarks/{{ $remark->id }}/edit">
+    <tr class="fake-link" data-href="{{route("remarks.edit",$remark->id)}}">
             <td class="col-md-1">{{ (new DateTime($remark->remarkDate))->format('d.M.y') }}</td>
             <td class="col-md-1">{{ $remark->author }}</td>
             <td class="col-md-8 text-left">{{ $remark->remarkText }}</td>

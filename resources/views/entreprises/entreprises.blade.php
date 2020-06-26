@@ -51,7 +51,7 @@
                     <th class="text-center">Localité</th>
                 </tr>
                 @foreach ($companies as $company)
-                    <tr class="clickable-row" data-href="/entreprise/{{$company->id}}">
+                    <tr class="fake-link" data-href="/entreprise/{{$company->id}}">
                         <td>{{ $company->companyName }}</td>
                         <td>{{ $company->address1 }}</td>
                         <td>{{ $company->address2 }}</td>

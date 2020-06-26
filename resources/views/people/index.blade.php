@@ -26,7 +26,7 @@
     <div id="expandedfilters" class="simple-box filters
         @if(in_array(-1, $filterCategory)) d-none  @endif
     ">
-        <form class="filterPeoples" action="/listPeople/category" method="post" id="people_form">
+        <form class="filterPeoples" action="/people/category" method="post" id="people_form">
             {{ csrf_field() }}
             <span class="onefilter">
                 <input type="checkbox" value="1" name = "filterCategory[]" id="teacher"  @if (isset($filterCategory) && in_array(1, $filterCategory)) checked="checked" @endif>
@@ -81,7 +81,7 @@
                 <td colspan="2"> Pas des filtres </td>
             @else
                 @foreach($persons as $person)                        <!-- View all persons -->
-                    <tr class="clickable-row" data-href="/listPeople/{{ $person->id }}/info">
+                    <tr class="fake-link" data-href="{{ route("person.edit", $person->id) }}">
                         <td>{{ $person->fullName}}</td>
                         <td>{{ $person->roles}}</td>
                     </tr>

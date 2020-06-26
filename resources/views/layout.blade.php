@@ -39,16 +39,16 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td><img alt="Icone" width="25" heigth="25" src="{{Auth::user()->avatar}}">{{Auth::user()->name}}<button type="submit">Logout</button></td>
+                    <td class="login"><p>{{Auth::user()->fullname}}</p><button type="submit">Logout</button></td>
                 </tr>
             </form>
             @else
                 <tr>
-                    <td><a href="/auth/github"><img alt="Github" width="25" heigth="25" src="/images/github.png">Login with GitHub</a></td>
+                    <td><a href="/auth/azure"><img alt="Azure" width="25" heigth="25" src="/images/azure.png">Login with Azure</a></td>
                 </tr>
             @endif
             <tr>
-                <td><a href="/listPeople"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
+                <td><a href="/people"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
             </tr>
             <tr>
                 <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
@@ -77,7 +77,7 @@
                 @endif
             @endif
         </table>
-        @yield ('sidemenu')
+        @stack ('sidemenu')
         @if (!CPNVEnvironment\Environment::isProd())
             <img id="imgwip" src="/images/wip.png">
         @endif

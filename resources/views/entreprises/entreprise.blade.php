@@ -29,51 +29,49 @@
         <br>
     @endif
     <div class="body simple-box" id="view">
-        @foreach ($company as $companie)
-            <div class="title row">
-                <h3>{{$companie->companyName}}</h3>
-            </div>
-            <div class="row content-box">
-                <div class="row">
-                    <div class="col-lg-6 col-sm-6 text-right">
-                        Adresse : <br>
-                        {{$companie->address1}}@if(isset($companie->address2)), {{$companie->address2}} @endif <br>
-                        {{$companie->postalCode}},
-                        {{$companie->city}}
-                    </div>
-                    <div class="col-lg-6 col-sm-6 text-left">
-                        <div class="row">
-                            Type de contrat : {{$companie->contractType}}
-                        </div>
-                        @if(isset($companie->website))
-                            <div class="row">
-                                <a href="{{$companie->website}}">Site web</a>
-                            </div>
-                        @endif
-                        @if($companie->englishSkills > 0)
-                            <div class="row">
-                                Bon niveau d'anglais souhaité
-                            </div>
-                        @endif
-                        @if($companie->driverLicence > 0)
-                            <div class="row">
-                                Permis de conduire nécessaire
-                            </div>
-                        @endif
-                        @if($companie->mptOk == 0)
-                            <div class="row">
-                                Pas de candidat en voie matu
-                            </div>
-                        @endif
-                    </div>
+        <div class="title row">
+            <h3>{{$company->companyName}}</h3>
+        </div>
+        <div class="row content-box">
+            <div class="row">
+                <div class="col-lg-12 col-sm-6 text-left">
+                    Adresse : <br>
+                    {{$company->location->address1}}@if(isset($company->location->address2)), {{$company->location->address2}} @endif <br>
+                    {{$company->location->postalCode}},
+                    {{$company->location->city}}
                 </div>
-                @if(isset($companie->lat))
+                <div class="col-lg-6 col-sm-6 text-left">
                     <div class="row">
-                        <img style='width:32px;' src='/images/map.png' id="maps" OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
+                        Type de contrat : {{$company->contract->contractType}}
                     </div>
-                @endif
+                    @if(isset($company->website))
+                        <div class="row">
+                            <a href="{{$company->website}}">Site web</a>
+                        </div>
+                    @endif
+                    @if($company->englishSkills > 0)
+                        <div class="row">
+                            Bon niveau d'anglais souhaité
+                        </div>
+                    @endif
+                    @if($company->driverLicence > 0)
+                        <div class="row">
+                            Permis de conduire nécessaire
+                        </div>
+                    @endif
+                    @if($company->mptOk == 0)
+                        <div class="row">
+                            Pas de candidat en voie matu
+                        </div>
+                    @endif
+                </div>
             </div>
-        @endforeach
+            @if(isset($company->lat))
+                <div class="row">
+                    <img style='width:32px;' src='/images/map.png' id="maps" OnClick='window.location="http://maps.google.com/?q={{$company->lat}},{{$company->lng}}"'>
+                </div>
+            @endif
+        </div>
         <div class="row content-box">
             <div class="col-lg-8 col-lg-offset-2">
                 <h3>Contact</h3>
@@ -84,10 +82,10 @@
                                 <th class="text-center">Personne</th>
                                 <th class="text-center">Contact</th>
                             </tr>
-                            @foreach($persons as $person)
+                            @foreach($company->people as $person)
                                 @if($person->obsolete == 0)
                                     <tr>
-                                        <td><a href="/listPeople/{{$person->id}}/info"> {{$person->firstname}} {{$person->lastname}}</a></td>
+                                        <td><a href="{{route("person.show", $person->id)}}"> {{$person->fullName}}</a></td>
                                         <td>
                                             @foreach($contacts as $contact)
                                                 @if($contact->firstname == $person->firstname and $contact->lastname == $person->lastname)
@@ -123,13 +121,11 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h3>Stages</h3>
                 <div class="table-responsive">
-                    @include ('internships.internshipslist',['iships' => $iships]) <br />
+                    @include ('internships._internshipslist',['iships' => $iships]) <br />
                     <br>
-                    @foreach ($company as $companies)
-                        <a href="/internships/{{$companies->id}}/new" class="underline-none">
-                            <button type="button" class="btn-success small text-white">Créer une stage</button>
-                        </a>
-                    @endforeach
+                    <a href="{{route("internships.create", $company->id)}}" class="underline-none">
+                        <button type="button" class="btn-success small text-white">Créer un stage</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -144,52 +140,50 @@
     </div>
     @if(Auth::user()->role >= 2)
         <div class="body simple-box hidden" id="field">
-            @foreach ($company as $companie)
-                <div class="title row">
-                    <h3>{{$companie->companyName}}</h3>
-                </div>
-                <div class="row content-box">
-                    <div class="row">
-                        <div class="col-lg-6 text-right">
-                            Adresse 1 : <input type="text" name="address1" value="{{$companie->address1}}"><br>
-                            Adresse 2 : <input type="text" name="address2" value="{{$companie->address2}}"><br>
-                            Code postal : <input type="number" name="npa" value="{{$companie->postalCode}}"><br>
-                            Ville : <input type="text" name="city" value="{{$companie->city}}"><input value="{{$companie->location_id}}" name="location_id" hidden>
+            <div class="title row">
+                <h3>{{$company->companyName}}</h3>
+            </div>
+            <div class="row content-box">
+                <div class="row">
+                    <div class="col-lg-6 text-right">
+                        Adresse 1 : <input type="text" name="address1" value="{{$company->address1}}"><br>
+                        Adresse 2 : <input type="text" name="address2" value="{{$company->address2}}"><br>
+                        Code postal : <input type="number" name="npa" value="{{$company->postalCode}}"><br>
+                        Ville : <input type="text" name="city" value="{{$company->city}}"><input value="{{$company->location_id}}" name="location_id" hidden>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-left">
+                        <div class="row">
+                            Type de contrat :
+                            <select name="ctype">
+                                @foreach($contracts as $contract)
+                                    <option value="{{$contract->id}}" @if($company->contracts_id == $contract->id) selected @endif>{{$contract->contractType}}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="col-lg-6 col-sm-6 text-left">
-                            <div class="row">
-                                Type de contrat :
-                                <select name="ctype">
-                                    @foreach($contracts as $contract)
-                                        <option value="{{$contract->id}}" @if($companie->contracts_id == $contract->id) selected @endif>{{$contract->contractType}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row">
-                                Site web : <input type="text" name="website" value="{{$companie->website}}">
-                            </div>
-                            <div class="row">
-                                <select name="engSkils">
-                                    <option value=0 @if($companie->englishSkills == 0) selected @endif>Anglais non requis</option>
-                                    <option value=1 @if($companie->englishSkills == 1) selected @endif>Bon niveau d'anglais requis</option>
-                                </select>
-                            </div>
-                            <div class="row">
-                                <select name="driverLicence">
-                                    <option value=0 @if($companie->driverLicence == 0) selected @endif>Permis de conduire non requis</option>
-                                    <option value=1 @if($companie->driverLicence == 1) selected @endif>Permis de conduire requis</option>
-                                </select>
-                            </div>
-                            <div class="row">
-                                <select name="mptOk">
-                                    <option value=0 @if($companie->mptOk == 0) selected @endif>Matu pas OK</option>
-                                    <option value=1 @if($companie->mptOk == 1) selected @endif>Matu OK</option>
-                                </select>
-                            </div>
+                        <div class="row">
+                            Site web : <input type="text" name="website" value="{{$company->website}}">
+                        </div>
+                        <div class="row">
+                            <select name="engSkils">
+                                <option value=0 @if($company->englishSkills == 0) selected @endif>Anglais non requis</option>
+                                <option value=1 @if($company->englishSkills == 1) selected @endif>Bon niveau d'anglais requis</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <select name="driverLicence">
+                                <option value=0 @if($company->driverLicence == 0) selected @endif>Permis de conduire non requis</option>
+                                <option value=1 @if($company->driverLicence == 1) selected @endif>Permis de conduire requis</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <select name="mptOk">
+                                <option value=0 @if($company->mptOk == 0) selected @endif>Matu pas OK</option>
+                                <option value=1 @if($company->mptOk == 1) selected @endif>Matu OK</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
             <div class="row content-box">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h3>Contact</h3>
@@ -200,10 +194,10 @@
                                     <th class="text-center">Personne</th>
                                     <th class="text-center">Contact</th>
                                 </tr>
-                                @foreach($persons as $person)
+                                @foreach($company->people as $person)
                                     @if($person->obsolete == 0)
                                         <tr>
-                                            <td><a href="/listPeople/{{$person->id}}/info"> {{$person->firstname}} {{$person->lastname}}</a></td>
+                                            <td><a href="{{route("person.show", $person->id)}}"> {{$person->fullName}}</a></td>
                                             <td>
                                                 @foreach($contacts as $contact)
                                                     @if($contact->firstname == $person->firstname and $contact->lastname == $person->lastname)

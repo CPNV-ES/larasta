@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/css/logbook.css">
 @endpush
 @section ('content')
-    <h1>Journal de {{$student->full_name}}</h1>
+    <h1>Journal de {{$student->fullName ?? "Non attribué"}}</h1>
     <h2>{{$internship->company->companyName}}</h2>
     @if($logbookFileUrl)
         <iframe id="externalLogbookPreview" src="{{$logbookFileUrl}}"></iframe>

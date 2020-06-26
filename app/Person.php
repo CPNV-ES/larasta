@@ -4,13 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use CPNVEnvironment\Environment;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 
 /**
  * TODO
  * Add the SoftDeletes to the model.
  */
-class Person extends Model
+class Person extends Model implements Authenticatable
 {
+    use AuthenticableTrait;
 
     public $timestamps = false;
 

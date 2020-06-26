@@ -28,13 +28,16 @@ class ReconStagesController extends Controller
 
         $contractstates = Contractstate::where('openForRenewal',1)->orderBy('id')->get()->pluck('id'); // all internships where contractstate has ready to renewal
         $internships = Internship::whereIn('contractstate_id', $contractstates)->get();
+        $internships = $internships->whereNotIn('id',Internship::all()->pluck('previous_id')); //get only internships that haven't reconducted (id not found in other previous_id of internship table)
+
         return view('reconstages.reconstages')->with(compact("internships", "datesOfNextInternship"));
     }
 
     /* Page called by reconstages.reconducted */
     public function reconducted(Request $request)
     {
-        $i = 0;
+        if(!isset($request->internships))
+            return redirect()->back();
         $beginDate = Carbon::parse($request->input("beginDate"));
         $endDate = Carbon::parse($request->input("endDate"));
 
@@ -45,18 +48,16 @@ class ReconStagesController extends Controller
         $july = new Carbon('last day of july');
         $july = $july->month;
         
+        $i = 0;
         foreach ($request->internships as $value) {
             $i++;
-
-            $old = Internship::find($value);
-            $old->contractstate_id = Contractstate::where('stateDescription','Effectué')->first()->id;
-            $old->save();
             
             $salary = Params::getParamByName('internship1Salary')->paramValueInt;
             if ($currentMonth >= $february && $currentMonth <= $july) {
                 $salary = Params::getParamByName('internship2Salary')->paramValueInt;
             }
 
+            $old = Internship::find($value);
             /* Create new internship with old value */
             $new = new Internship();
             $new->companies_id = $old->company->id;

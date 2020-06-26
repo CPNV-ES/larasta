@@ -28,7 +28,7 @@ class WishesMatrixController extends Controller
     public function index()
     {
         // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
-        $currentUserId = Auth::user()->person->id;
+        $currentUserId = Auth::user()->id;
         $currentUser = Person::find($currentUserId);
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -183,14 +183,14 @@ class WishesMatrixController extends Controller
      */
     public function saveWishes(Request $request)
     {
-        $currentUser = Auth::user()->person;
+        $currentUser = Auth::user();
 
         // Only students should be able to save their wishes
         if (Auth::user()->role != 0) {
             return redirect('/wishesMatrix');
         }
 
-        $studentId = $currentUser->getId();
+        $studentId = $currentUser->id;
         $student = Person::find($studentId);
 
         // validate the data
@@ -242,7 +242,7 @@ class WishesMatrixController extends Controller
                     $remark->remarkOn_id = $internshipId;
                     $remark->author = $student->initials;
                     $remark->remarkText =
-                        "Modification du rang du souhait de {$student->firstname} {$student->lastname}, de {$oldrank} à {$wishRank}";
+                        "Modification du rang du souhait de {$student->fullName}, de {$oldrank} à {$wishRank}";
                     $remark->save();
                 }
 
@@ -257,7 +257,7 @@ class WishesMatrixController extends Controller
                 $remark->remarkOn_id = $internshipId;
                 $remark->author = $student->initials;
                 $remark->remarkText =
-                    "Suppression du souhait de {$student->firstname} {$student->lastname}";
+                    "Suppression du souhait de {$student->fullName}";
                 $remark->save();
             }
         }
@@ -275,7 +275,7 @@ class WishesMatrixController extends Controller
             $remark->remarkOn_id = $internshipId;
             $remark->author = $student->initials;
             $remark->remarkText =
-                "Ajout d'un souhait de {$student->firstname} {$student->lastname}";
+                "Ajout d'un souhait de {$student->fullName}";
             $remark->save();
         }
 
@@ -285,7 +285,7 @@ class WishesMatrixController extends Controller
 
     public function saveWishesPostulations(Request $request)
     {
-        $currentUser = Auth::user()->person;
+        $currentUser = Auth::user();
 
         // Only teachers should be allowed modify postulations
         if (Auth::user()->role <= 0) {
@@ -300,7 +300,7 @@ class WishesMatrixController extends Controller
         // extract data
         $postulationsCollection = json_decode($data['postulations'])->postulations;
 
-        $teacher = Person::find($currentUser->getId());
+        $teacher = Person::find($currentUser->id);
 
         // existing wishes : convert the postulations to a map : wishId => isValidated
         // new wishes : create the new wish
@@ -326,7 +326,7 @@ class WishesMatrixController extends Controller
                     $teacherRemark->remarkOn_Id = $teacher->id;
                     $teacherRemark->author = $teacher->initials;
                     $teacherRemark->remarkText =
-                        "Ajout d'une postulation de {$student->firstname} {$student->lastname} chez {$internship->company->companyName}";
+                        "Ajout d'une postulation de {$student->fullName} chez {$internship->company->companyName}";
                     $teacherRemark->save();
 
                     // Student log
@@ -335,7 +335,7 @@ class WishesMatrixController extends Controller
                     $studentRemark->remarkOn_Id = $student->id;
                     $studentRemark->author = $teacher->initials;
                     $studentRemark->remarkText =
-                        "Ajout d'une postulation chez {$internship->company->companyName} par {$teacher->firstname} {$teacher->lastname}";
+                        "Ajout d'une postulation chez {$internship->company->companyName} par {$teacher->fullName}";
                     $studentRemark->save();
 
                     // Internship log
@@ -344,7 +344,7 @@ class WishesMatrixController extends Controller
                     $internshipRemark->remarkOn_Id = $internship->company->id;
                     $internshipRemark->author = $teacher->initials;
                     $internshipRemark->remarkText =
-                        "Ajout d'une postulation de {$student->firstname} {$student->lastname} par {$teacher->firstname} {$teacher->lastname}";
+                        "Ajout d'une postulation de {$student->fullName} par {$teacher->fullName}";
                     $internshipRemark->save();
                 }
             }
@@ -372,10 +372,10 @@ class WishesMatrixController extends Controller
                 $teacherRemarkText = "";
                 if ($isValidated) {
                     $teacherRemarkText =
-                        "Approbation de la postulation de {$student->firstname} {$student->lastname} chez {$internship->company->companyName}";
+                        "Approbation de la postulation de {$student->fullName} chez {$internship->company->companyName}";
                 } else {
                     $teacherRemarkText =
-                        "Retrait de l'approbation de la postulation de {$student->firstname} {$student->lastname} chez {$internship->company->companyName}";
+                        "Retrait de l'approbation de la postulation de {$student->fullName} chez {$internship->company->companyName}";
                 }
                 $teacherRemark->remarkText = $teacherRemarkText;
                 $teacherRemark->save();
@@ -388,10 +388,10 @@ class WishesMatrixController extends Controller
                 $studentRemarkText = "";
                 if ($isValidated) {
                     $studentRemarkText =
-                        "Approbation de la postulation chez {$internship->company->companyName} par {$teacher->firstname} {$teacher->lastname}";
+                        "Approbation de la postulation chez {$internship->company->companyName} par {$teacher->fullName}";
                 } else {
                     $studentRemarkText =
-                        "Retrait de l'approbation de la postulation chez {$internship->company->companyName} par {$teacher->firstname} {$teacher->lastname}";
+                        "Retrait de l'approbation de la postulation chez {$internship->company->companyName} par {$teacher->fullName}";
                 }
                 $studentRemark->remarkText = $studentRemarkText;
                 $studentRemark->save();
@@ -404,10 +404,10 @@ class WishesMatrixController extends Controller
                 $internshipRemarkText = "";
                 if ($isValidated) {
                     $internshipRemarkText =
-                        "Approbation de la postulation de {$student->firstname} {$student->lastname} par {$teacher->firstname} {$teacher->lastname}";
+                        "Approbation de la postulation de {$student->fullName} par {$teacher->fullName}";
                 } else {
                     $internshipRemarkText =
-                        "Retrait de l'approbation de la postulation de {$student->firstname} {$student->lastname} par {$teacher->firstname} {$teacher->lastname}";
+                        "Retrait de l'approbation de la postulation de {$student->fullName} par {$teacher->fullName}";
                 }
                 $internshipRemark->remarkText = $internshipRemarkText;
                 $internshipRemark->save();

@@ -50,7 +50,7 @@ class ContractController extends Controller
     public function visualizeContract($id, Request $request)
     {
         //Get informations of internship
-        $internship = Internship::find($id)->first();
+        $internship = Internship::find($id);
         //Get contract of specific internships
         $contract =$internship->company->contract;
         //Get data of student on internship
@@ -179,9 +179,9 @@ class ContractController extends Controller
     public function cancelContract($id)
     {
         //update the contractGenerated field of Internship
-        Internship::find($id)->update(['contractGenerated' => null]);
+        Internship::find($id)->update(['contractGenerated' => "0000-01-01 00:00:00"]);
         // Instantiate the internship controller to get back to the internship view
         $internshipController = new InternshipsController();
-        return $internshipController->edit($id);
+        return redirect()->route("internships.show", $id);
     }
 }
