@@ -30,7 +30,7 @@
 
             @foreach ($internships as $internship)
             <!-- Les données sont reprises tel que sur la page précédentes mais on y affiche uniquement ceux qui on été traité sur la page précédente. -->
-                <tr data-internship="{{route('internship',$internship->id)}}"> 
+                <tr data-internship="{{route('internships.index',$internship->id)}}"> 
                     <td>{{ $internship->company->companyName }}</td>
                     <td>{{ $internship->beginDate->toFormattedDateString() }}</td>
                     <td>{{ $internship->endDate->toFormattedDateString() }}</td>
