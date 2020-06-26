@@ -266,15 +266,13 @@ class InternshipsController extends Controller
 
         $internship->externalLogbook = ($request->externalLogbook == "on");
         $internship->fill($request->all());
-        
-        if($request->internId){
-            $intern = Person::find($request->internId); 
-            //$internship->student = $intern;*/ //marche pas jsp pk
-            //$internship->intern = $intern; //marche pas jsp pk
-            $internship->intern_id = $intern->id;
-        }else{
-            //$internship->student = null;
-            $internship->intern_id = null;
+        if(isset($request->internId)){
+            if($request->internId){
+                $intern = Person::find($request->internId); 
+                $internship->intern_id = $intern->id;
+            }else{
+                $internship->intern_id = null;
+            }
         }
         $internship->save();
 
