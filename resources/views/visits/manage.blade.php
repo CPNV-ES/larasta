@@ -38,6 +38,7 @@
                     <fieldset>
                         <div id="dateedit" class="hidden hidea">
                             <?php
+                                //TODO: ok alors
                                 $today = date('Y-m-d');
                                 $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
                             ?>
@@ -55,7 +56,7 @@
                 </td>
                 <td class="col-md-1">
                     {{ $visit->grade }}
-                    <input type="number" name="grade" max="6" min="1" value="{{ $visit->grade }}">
+                    <input type="number" step="0.5" name="grade" max="6" min="1" value="{{ $visit->grade }}">
                 </td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>

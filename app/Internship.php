@@ -75,13 +75,6 @@ class Internship extends Model implements HasMedia
     {
         return $this->belongsTo('App\Contractstate');
     }
-
-    static function fromId($internshipId)
-    {
-        return self::where("id", $internshipId)
-        ->with("company")
-        ->first();
-    }
     
     public static function getDatesOfNextInternship()
     {
