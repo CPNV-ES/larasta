@@ -1,6 +1,7 @@
 /*this script requires the utils.js script*/
 var TIME_SLIDE_TRANSITION_LENGTH = 300;
 var COMPLIANCE_LEVELS_CLASSES = {
+    inactive: "colorInactive",
     ok: "logbookOk",
     not_enough_words: "notEnoughWords",
     not_enough_activities: "notEnoughActivities",
@@ -376,6 +377,9 @@ function buildDayAdapter(parent, date) {
         .toLocaleDateString("fr-FR", { weekday: "long" })
         .capitalise()} ${date.getDate()}.${date.getRightMonth()}`;
     timeDisplay.textContent = "Inactif";
+    if(date > currentDay){
+        addBtn.disabled = true;
+    }
     //evt
     addBtn.addEventListener("click", function (evt) {
         openCreateActivity(date);
@@ -503,7 +507,6 @@ function refreshDayData(dayDate) {
         }
 
         //duration
-        //console.trace({duration}, typeof duration);
         dayDuration += duration;
     });
     //day compliance conditions
@@ -537,14 +540,20 @@ function applyComplianceColor(element, level) {
     element.classList.remove("colorNotEnoughWords");
     element.classList.remove("colorNotEnoughHours");
     element.classList.remove("colorNotEnoughActivities");
-    element.classList.add(
-        `color${COMPLIANCE_LEVELS_CLASSES[level].capitalise()}`
-    );
+    Object.values(COMPLIANCE_LEVELS_CLASSES).forEach(oldLevelName=>{
+        element.classList.remove(`color${oldLevelName.capitalise()}`);
+    });
+    element.classList.add(`color${COMPLIANCE_LEVELS_CLASSES[level].capitalise()}`);
 
     element.title = COMPLIANCE_LEVELS_COMMENT[level];
 }
 
 function openCreateActivity(date) {
+    if(!hasAccessToEdit){
+        console.warn("insufficient access rights.");
+        Utils.infoBox("You can't do that...");
+        return;
+    }
     console.log("open create activity window", date);
     //clear data
     activityWindowContainer.reset();
@@ -555,6 +564,11 @@ function openCreateActivity(date) {
     activityWindowHoursInput.focus();
 }
 function openEditActivity(activity) {
+    if(!hasAccessToEdit){
+        console.warn("insufficient access rights.");
+        Utils.infoBox("You can't do that...");
+        return;
+    }
     console.log("open edit activity window", activity);
     if (!activity) {
         console.warn("activity not editable");

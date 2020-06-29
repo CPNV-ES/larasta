@@ -292,9 +292,9 @@ $calendarHeight: 600px;
   position: absolute;
   left: 10px;
   top: 10px;
-  font-size: 10px;
+  font-size: 15px;
   border-radius: 3px;
-  line-height: 10px;
+  line-height: 20px;
 }
 
 #lastTimeBtn,
@@ -524,7 +524,7 @@ $calendarHeight: 600px;
     display: inline-block;
   }
   input {
-    width: 40px;
+    width: 60px;
     border: 0;
     border-bottom: 2px solid #666;
     color: #333;
@@ -538,7 +538,7 @@ $calendarHeight: 600px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: calc(100% - 150px - 50px);
+  max-width: calc(100% - 240px);
   display: inline-block;
   vertical-align: middle;
   margin-left: 10px;
@@ -598,4 +598,15 @@ $dropzoneHeight: 100px;
   width: 200%;
   height: 100%;
   text-align: right;
+}
+
+//edit access
+.noAccessToEdit{
+  #todayNewActivityBtn, .dayAdapterNewActivityBtn, #activityWindowEditBtn, #activityWindowSubmit, #activityWindowDeleteBtn{
+    display: none!important;
+  }
+  .dayAdapterActivitiesContainer{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }

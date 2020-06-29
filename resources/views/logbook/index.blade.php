@@ -4,6 +4,11 @@
     <link rel="stylesheet" href="/css/logbook.css">
 @endpush
 
+@php
+    $logbookShowWeekend = (isset($_COOKIE['logbookShowWeekend']) && $_COOKIE['logbookShowWeekend'] == "yes");
+    $hasAccessToEdit = Auth::user() == $student;
+@endphp
+
 @push ('page_specific_js')
     <script src="/js/logbook.js"></script>
     
@@ -13,6 +18,7 @@
         var activityTypes = {!! $activityTypes !!};
         var COMPLIANCE_CONDITIONS = {!! $complianceConditions !!}
         var COMPLIANCE_LEVELS = COMPLIANCE_CONDITIONS.levels;
+        var hasAccessToEdit = {{$hasAccessToEdit?"true":"false"}};
 
         var ROUTES = {
             getActivity(activityId) { return `/api/internships/logbook/activities/${activityId}` },
@@ -24,10 +30,6 @@
     </script>
 @endpush
 
-@php
-    $logbookShowWeekend = (isset($_COOKIE['logbookShowWeekend']) && $_COOKIE['logbookShowWeekend'] == "yes");
-@endphp
-
 @push('sidemenu')
     @include("logbook/_sideMenuInfos", ["modeBtnAction" => "review", "internshipId" => $internship->id])
 @endpush
@@ -35,7 +37,7 @@
 @section('content')
     <h1>Stage de {{$student->fullName ?? "Non attribué"}}</h1>
     <h2>{{$internship->company->companyName}}</h2>
-    <div class="logbookContainer">
+    <div class="logbookContainer {{$hasAccessToEdit?"":"noAccessToEdit"}}">
         <div class="todaySection">
             <h2 class="todayTitle">Aujourd'hui</h2>
             <p id="todayDuration" class="colorInactive">Inactif</p>
@@ -82,13 +84,13 @@
     </div>    
 @endsection
 @section('windows')
-    <div id="activityWindow" class="none windowBackground darken">
+    <div id="activityWindow" class="none windowBackground darken {{$hasAccessToEdit?"":"noAccessToEdit"}}">
         <form id="activityWindowContainer" class="windowContainer" action="javascript:onActivitySave()">
             <div class="activityWindowHeader">
                 <p id="activityWindowTimeDisplay" class="viewMode">...</p>
                 <p id="activityWindowActivityTypeDisplay" class="viewMode">...</p>
                 <div class="activityWindowTimeEdit editMode">
-                    <input id="activityWindowHoursInput" value="0" type="number" min="0" step="1" required/>
+                    <input id="activityWindowHoursInput" value="0" type="number" min="0" max="99" step="1" required/>
                     <p>h</p>
                     <input id="activityWindowMinutesInput" value="0" type="number" min="0" max="59" step="1" required/>
                     <p>m</p>

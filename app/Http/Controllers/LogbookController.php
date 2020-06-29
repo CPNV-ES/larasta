@@ -16,7 +16,7 @@ class LogbookController extends Controller
     public function index($internshipId)
     {
         $internship = Internship::findOrFail($internshipId);
-        $student = Person::fromId($internship->intern_id);
+        $student = Person::find($internship->intern_id);
         if($internship->externalLogbook){
             $logbookFileUrl = false;
             $media = $internship->getMedia('externalLogbook')->first();
@@ -25,7 +25,7 @@ class LogbookController extends Controller
             }
             return view('logbook/external')->with(compact("internship", "student", "logbookFileUrl"));
         }
-        $activityTypes = Activitytype::get();
+        $activityTypes = Activitytype::orderBy("typeActivityDescription", "ASC")->get();
         $complianceConditions = json_encode([
             "min_words_per_hour" => Logbook::MIN_WORDS_PER_HOUR,
             "min_hours_per_day" => Logbook::MIN_HOURS_PER_DAY,
@@ -37,9 +37,9 @@ class LogbookController extends Controller
     }
     public function reviewMode($internshipId)
     {
-        $internship = Internship::fromId($internshipId);
+        $internship = Internship::find($internshipId);
         $activities = $this->getActivities(new Request(), $internshipId);
-        $student = Person::fromId($internship->intern_id);
+        $student = Person::find($internship->intern_id);
 
         $activitiesByDays = $activities->groupBy(function($activity){
             return $activity->entryDate->toDateString();
