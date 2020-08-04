@@ -27,7 +27,7 @@ Prise en charge le ..., par ...
 
 ## Definition of Done (=tests)
 
-(Terminés, le ...)
+(validée, le ...)
 
 # Documentation
 
