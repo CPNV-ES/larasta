@@ -32,7 +32,7 @@
         "orangehill/iseed": "^2.6",
         "phurni/phpactiveresource": "1.0.0",
         "socialiteproviders/microsoft-azure": "^3.1",
-        "spatie/laravel-medialibrary": "^8.0.0"
+        "spatie/laravel-medialibrary": "^9.4"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
