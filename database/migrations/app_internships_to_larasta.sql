@@ -89,13 +89,16 @@ INSERT INTO `larasta`.`persons`
 ('LAYAZ', 'Agnes', '1', '7032', 'ALZ',null,'2019-03-13 19:41:16', '1', '0'),
 ('KONOUTSE', 'Yawo', '1', '12760', 'YKE',null,'2019-07-21 03:10:04', '1', '0'),
 ('VIRET', 'Loic', '1', '12768', 'LVT',null,'2019-07-21 03:10:04', '1', '0'),
-('CLIGNEZ', 'David', '1', '14238', 'DCZ',null,'2020-04-08 03:10:06', '1', '0');
+('CLIGNEZ', 'David', '1', '14238', 'DCZ',null,'2020-04-08 03:10:06', '1', '0'),
+('MARION', 'Romain', '1', '99999', 'RMN',null,'2020-04-08 03:10:06', '1', '1'),
+('REGAMEY', 'Christophe', '1', '99999', 'CRY',null,'2020-04-08 03:10:06', '1', '1'),
+('CHEVILLAT', 'Jérome', '1', '99999', 'JCT',null,'2020-04-08 03:10:06', '1', '1');
 
 
 INSERT INTO `larasta`.`flocks`
 	(`id`,`flockName`,`startYear`,`classMaster_id`)
 SELECT
-	IDVolee,LibelleVolee,AnneeDebut,(SELECT IDPersonne FROM app_internships.personne WHERE Initiales is not null ORDER by rand() LIMIT 1)
+	IDVolee,LibelleVolee,AnneeDebut,(SELECT id FROM `larasta`.`persons` WHERE initials = (MaitreDeClasse COLLATE utf8_unicode_ci) LIMIT 1)
 FROM app_internships.volee;
 
 INSERT INTO `larasta`.`remarks`
