@@ -27,3 +27,4 @@ public/mix-manifest.json
 /public/package.json
 /public/composer.lock
 /config/larasta_rsa*
+*_icescrum*
