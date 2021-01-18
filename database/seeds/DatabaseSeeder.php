@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Database\Seeds\Essentials\EvalgridSeeder;
 
 class DatabaseSeeder extends Seeder
 {
