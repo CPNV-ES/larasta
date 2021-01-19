@@ -80,7 +80,7 @@ class PeopleController extends Controller
         $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
 
         // return all value to view with the value of filters
-        return view('people/people')->with(
+        return view('people/index')->with(
             [
                 'persons' => $persons,
                 'user' => $user,
