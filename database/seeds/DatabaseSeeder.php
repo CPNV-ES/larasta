@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Database\Seeds\Essentials\EvalgridSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,13 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ContractstatesTableSeeder::class);
-        $this->call(LifecyclesTableSeeder::class);
-        $this->call(ContractsTableSeeder::class);
-        $this->call(ContacttypesTableSeeder::class);
-        $this->call(ActivitytypesTableSeeder::class);
-        $this->call(ParamsTableSeeder::class);
-        $this->call(VisitsstatesTableSeeder::class);
-
+        $this->call(EvalgridSeeder::class);
     }
 }

@@ -23,11 +23,11 @@ Prise en charge le ..., par ...
 
 (Terminé, le ...)
 
-# Exécution
+# Journal d'exécution
 
-## Tests
+## Definition of Done (=tests)
 
-(Terminés, le ...)
+(validée, le ...)
 
 # Documentation
 
