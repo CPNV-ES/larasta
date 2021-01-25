@@ -21,6 +21,9 @@
         <a href="/mailing">
             <button class="btn btn-default btn-tile">Mailing</button>
         </a>
+        <a href="/flocks">
+            <button class="btn btn-default btn-tile">Volées</button>
+        </a>
     </div>
 @stop
 
