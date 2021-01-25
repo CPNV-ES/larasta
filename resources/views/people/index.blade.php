@@ -44,7 +44,7 @@
             </span>
 
             <span class="onefilter">
-                <input type="checkbox" value="obsolete" name = "filterObsolete" id="obsolete" @if (isset($filterObsolete)) checked="checked" @endif>
+                <input type="checkbox" value="1" name = "filterObsolete" id="obsolete" @if ($filterObsolete == 1) checked="checked" @endif>
                 <label for="obsolete">Désactivée</label>
             </span>
 
@@ -77,7 +77,7 @@
             </thead>
 
             <tbody id = "people_tbody">
-            @if (in_array(-1, $filterCategory))                      <!-- No filters selected -->
+            @if (in_array(-1, $filterCategory) && $filterObsolete == 0 || count($persons) < 1)                      <!-- No filters selected or no users found -->
                 <td colspan="2"> Pas des filtres </td>
             @else
                 @foreach($persons as $person)                        <!-- View all persons -->

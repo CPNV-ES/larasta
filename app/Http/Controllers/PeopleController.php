@@ -26,6 +26,7 @@ use App\Person;
 use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\Environment\Console;
 
 class PeopleController extends Controller
 {
@@ -39,21 +40,24 @@ class PeopleController extends Controller
         // Get the user right
         $user = Auth::user();
 
+        // To only get activated persons
         $persons = Person::where('obsolete', 0)
             ->orderBy('firstname', 'asc')
             ->get();
+
         // return all value to view
         return view('people/index')->with(
             [
                 'persons' => $persons,
                 'user' => $user,
                 'filterCategory' => ["0", "1", "2"],
-                'filterObsolete' => null
+                'filterObsolete' => 0
             ]
         );
     }
 
-    public function create(){
+    public function create()
+    {
         return view('people/create');
     }
 
@@ -64,20 +68,21 @@ class PeopleController extends Controller
      */
     public function category(Request $request)
     {
-        //$request->flash();
         // Get post values from the form
         $filtersCategory = $request->input('filterCategory');
         $filterName = $request->input('filterName');
         $filterObsolete = $request->input('filterObsolete');
 
-        // Verify if all checkboks are not selected
-        if ($filtersCategory == null) $filtersCategory = ["-1"];
+        // Gets the persons corresponding to the filters
+        if ($filtersCategory == null) {
+            $filtersCategory = [-1];
+            $persons = Person::obsolete($filterObsolete)->orderBy('firstname', 'asc')->Name($filterName)->get();
+        } else {
+            $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
+        }
 
-        // Get the user right
-        $user = Auth::user(); 
-
-        // Apply scope form Model Persons and get data
-        $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
+        // Get the user rights
+        $user = Auth::user();
 
         // return all value to view with the value of filters
         return view('people/index')->with(
@@ -135,7 +140,8 @@ class PeopleController extends Controller
         return $this->show($personid);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $person = Person::findOrFail($id);
         return view('people/show', compact("person"));
     }
@@ -305,8 +311,8 @@ class PeopleController extends Controller
     public function getAll(Request $request)
     {
         //flockYear
-        if(isset($request->flockYear)){
-            return Flock::where("startYear", $request->flockYear)->get()->reduce(function($res, $flock){
+        if (isset($request->flockYear)) {
+            return Flock::where("startYear", $request->flockYear)->get()->reduce(function ($res, $flock) {
                 return array_merge($res, $flock->students->toArray());
             }, []);
         }
