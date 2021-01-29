@@ -47,7 +47,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/snapshot/take', 'SnapshotController@takeDbSnapshot')->name('snapshot.take');
     Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
     Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
-
+    Route::get('/admin/evaluationgrid', 'EvaluationGridController@index')->middleware('admin');;
+    
     Route::get('/about', function () {
         return view('about');
     });
