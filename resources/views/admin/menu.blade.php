@@ -21,6 +21,9 @@
         <a href="/mailing">
             <button class="btn btn-default btn-tile">Mailing</button>
         </a>
+        <a href="/admin/evaluationgrid">
+            <button class="btn btn-default btn-tile">Editer la grille d'évaluation</button>
+        </a>
     </div>
 @stop
 
