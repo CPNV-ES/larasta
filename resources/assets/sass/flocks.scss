@@ -32,6 +32,10 @@ td.caret.folded::before{
                 background-color: darkgrey;
                 color: white;
                 border-color: white;
+
+                &:first-of-type {
+                    width: 22%;
+                }
             }
         }
     }
