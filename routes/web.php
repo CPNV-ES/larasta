@@ -42,12 +42,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/internships/{id}/files',"InternshipsController@storeFile")->name("internship.storeFile");
     Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
     //admin pages
-    Route::get('/admin','AdminController@index')->middleware('admin');
-    Route::get('/admin/snapshot', 'SnapshotController@showSnapshot');
-    Route::get('/admin/snapshot/take', 'SnapshotController@takeDbSnapshot')->name('snapshot.take');
-    Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
-    Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
-
+    Route::group(['middleware' => ['admin']], function () {
+        Route::get('/admin','AdminController@index');
+        Route::get('/admin/snapshot', 'SnapshotController@showSnapshot');
+        Route::get('/admin/snapshot/take', 'SnapshotController@takeDbSnapshot')->name('snapshot.take');
+        Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
+        Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
+        Route::get('/admin/evaluationgrid', 'EvaluationGridController@index');
+    });
+    
     Route::get('/about', function () {
         return view('about');
     });
