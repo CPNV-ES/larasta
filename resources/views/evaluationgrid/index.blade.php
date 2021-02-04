@@ -2,25 +2,55 @@
 @section('content')
     <h1>Grille d'évaluation</h1>
     <h2>Sections</h2>
-    <table class="larastable">
-        <tr>
-            <th class="text-success text-center">Sections</th>
-            <th class="text-success text-center">Critères</th>
-            <th class="text-success text-center">Colonnes</th>
-        </tr>
-        @forelse ($evaluationSections as $evaluationSection)
+    @forelse ($evaluationSections as $evaluationSection)
+        <table class="larastable w-100 mb-3">
             <tr>
-                <td>{{ $evaluationSection->sectionName }}</td>
-                <td>
-                    @forelse ($evaluationSection->criterias as $criteria)
-                        - {{ $criteria->criteriaName }} <br>
-                    @empty
-                        Aucun critère.
-                    @endforelse
-                </td>        
-            </tr>        
-        @empty
+                <th colspan="5" class="text-success">{{ $evaluationSection->sectionName }}</th>
+            </tr>
+            <tr>
+                <th class="text-center w-25">Critères</th>
+
+                @if ($evaluationSection->sectionType == 2)
+                    <th class="text-center">Tâches</th>
+                @endif
+
+                @if ($evaluationSection->sectionType == 1)
+                    <th class="text-center">Observations attendues</th>
+                    <th class="text-center">Points</th>
+                @endif
+
+                <th class="text-center">Remarques du responsable de stage</th>
+                <th class="text-center">Remarques du stagiaire</th>
+            </tr>
+            @forelse ($evaluationSection->criterias as $criteria)
+                <tr>
+                    <td>
+                        {{ $criteria->criteriaName }}
+                    </td>     
+                    
+                    @switch ($evaluationSection->sectionType)
+                        @case (1)
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            @break
+                        @case (2)
+                            <td></td>
+                            <td></td>
+                            <td></td>                      
+                            @break
+                        @case (3)
+                            <td></td>
+                            <td></td>
+                            @break
+                    @endswitch
+                </tr>    
+            @empty
+                <h2>Aucun critère.</h2>
+            @endforelse 
+        </table>
+    @empty
         <h2>Aucune section.</h2>
-        @endforelse 
-    </table>
+    @endforelse 
 @endsection
