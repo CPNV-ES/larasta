@@ -1,3 +1,14 @@
+-- Before running this script, you MUST:
+-- 1. Get a dump (self-contained script) of the current internship app's database
+-- 2. Add the following lines at the top of the script:
+--		drop database if exists app_internships;
+--		CREATE SCHEMA `app_internships` DEFAULT CHARACTER SET utf8 ;
+--		use app_internships;
+-- 3. Run the script
+
+
+-- TODO : Fix the flocks MC, they come across wrong
+
 -- Start from an empty database
 use larasta;
 SET FOREIGN_KEY_CHECKS = 0;
