@@ -36,7 +36,7 @@
     <div id="divBadConfig" class="container d-none text-left m-5 p-3 bg-warning">
         <h3>Oooops!!</h3>
         <p>Si vous voyez ce texte, c'est que cette page a besoin d'informations compémentaires de votre part pour fonctionner.</p>
-        <p>Il faut que le dossier dans lequel est ce fichier contienne également un fichier nommé <span class="code">_icescrum_apis.js</span> dans lequel vous devez mettre:
+        <p>Il faut que le dossier dans lequel est ce fichier contienne également un fichier nommé <span class="code">_icescrum_api.js</span> dans lequel vous devez mettre:
             <ol>
                 <li>
                     Votre token d'accès à l'API Icescrum.
@@ -45,11 +45,11 @@
         </li>
         <li>
             Le code Icescrum de votre projet:
-            <span class="code">projectId = 'XXXXXXX'</span>
-            <p class="small text-secondary">Vous trouverez ce code dans l'url quand vous êtes sur votre projet dans Icescrum</p>
+            <span class="code">projectId = 'XXXXXX'</span>
+            <p class="small text-secondary">Vous trouverez ce code dans l'url quand vous êtes sur votre projet dans Icescrum (https://icescrum.cpnv.ch/p/XXXXXX/#/project)</p>
         </li>
         </ol>
-        <p>Veillez également à ce que le fichier <span class="code">_icescrum_apis.js</span> soit exclu du système de versionning, si vous ne voulez pas que votre token se retrouve sur Github!</p>
+        <p>Veillez également à ce que le fichier <span class="code">_icescrum_api.js</span> soit exclu du système de versionning, si vous ne voulez pas que votre token se retrouve sur Github!</p>
     </div>
     <div id="spnLoading">
         <img src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Loading GIF by Mashable" id="spinner"> Chargement de données depuis IceScrum...
@@ -62,9 +62,6 @@
 <script>
 
     // ============ Initialization =================
-    var months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc']
-    var projectStories // globals :-( holding all stories of the project
-
     // Configuration check
     if (typeof (iceScrumToken) !== 'undefined' && typeof (projectId) !== 'undefined')
     {
@@ -81,6 +78,7 @@
         return response.json()
     }).then(function (data) {
         spnProjName.innerText = 'Projet ' + data.name
+        document.title = 'Projet ' + data.name
     })
 
     function loadData()
@@ -112,14 +110,14 @@
             }).then(function () { // feed those tasks to the pivot table
                 $("#output").pivotUI(tasks,
                     {
-                        rows: ["date", "story", "task"],
+                        rows: ["date", "story", "tâche"],
                         cols: ["owner"]
                     }
                 );
                 spnLoading.classList.add('d-none') // spinner off
             })
         }).catch(function (erreur) {
-            alert("Erreur de connexion au serveur IceScrum\n\nSi vous pouvez atteindre icescrum.cpnv.ch avec votre navigateur, alors c'est probablement que votre token est pourri")
+            alert("Erreur de connexion au serveur IceScrum\n\nSi internet est ok (=vous pouvez atteindre icescrum.cpnv.ch avec votre navigateur), alors c'est probablement que le code du projet est faux ou que votre token est pourri")
             window.close()
         })
     }
@@ -142,17 +140,17 @@
         if (task.parentStory) storyname = task.parentStory.name
 
         base = {
-            task: task.name,
+            tâche: task.name,
             story: storyname,
             release: task.sprint.parentRelease ? task.sprint.parentRelease.name : '?',
             sprint: task.sprint.index,
             owner: task.responsible ? task.responsible.firstName : '',
-            initial_planned_time: task.initial,
-            spent_time: task.spent,
-            story_type: task.parentStory ? stories[task.parentStory.id].type : 'rec/urg',
-            effort: task.parentStory ? task.parentStory.effort : 0,
+            temps: task.spent,
+            type_story: task.parentStory ? stories[task.parentStory.id].type : 'rec/urg',
+            effort_estimé: task.parentStory ? task.parentStory.effort : 0,
             value: task.parentStory ? stories[task.parentStory.id].value : 0,
-            date: task.doneDate.substring(0, 10)
+            date: task.doneDate.substring(0, 10),
+            semaine: getNumberOfWeek(task.doneDate.substring(0, 10))
         }
 
         // let's work on those tags now
@@ -168,6 +166,19 @@
             })
         }
         return res
+    }
+
+    /**
+     * return the week number in format YYWW
+     * credit to https://stackoverflow.com/questions/8224459/how-to-create-a-date-object-from-string-in-javascript
+     * @param date
+     * @returns {number}
+     */
+    function getNumberOfWeek(date) {
+        date = new Date(Date.parse(date))
+        const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+        const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+        return 100*(date.getFullYear()%100)+Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
     }
 
 </script>
