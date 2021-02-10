@@ -38,6 +38,9 @@ INSERT INTO `larasta`.`contacttypes` (id, contactTypeDescription) SELECT IDTypeC
 INSERT INTO `larasta`.`contractstates` (id, stateDescription,details,openForApplication,openForRenewal) SELECT IDStatus,DescriptionStatus,Details,Attribuable,0 FROM app_internships.statuscontrat;
 INSERT INTO `larasta`.`lifecycles` (`id`,`from_id`,`to_id`) SELECT IDTransition,FKFrom,FKTo FROM app_internships.cycledevie;
 
+-- Initialize openForRenewal
+UPDATE `larasta`.`contractstates` set openForRenewal = 1 WHERE stateDescription in ('Rédaction contrat','Signature Doyen','Signature Entreprise','Signé');
+
 -- Build Address list from enterprises and students 
 INSERT INTO `larasta`.`locations` (`address1`,`address2`,`postalCode`,`city`,`lat`,`lng`)
 SELECT `entreprise`.`Adresse1`,`entreprise`.`Adresse2`,`entreprise`.`NPA`,`entreprise`.`Localite`,`entreprise`.`Lat`,`entreprise`.`Lng`FROM `app_internships`.`entreprise`;
@@ -74,9 +77,6 @@ SELECT
 `MPT`,
 0
 FROM app_internships.personne;
-
--- remove 
-SELECT * FROM larasta.persons where length(firstname) = 3 and length(lastname)=3 and BINARY firstname = BINARY UPPER(firstname);
 
 -- Teachers
 INSERT INTO `larasta`.`persons`
