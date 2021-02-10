@@ -75,12 +75,13 @@ SELECT
 0
 FROM app_internships.personne;
 
+-- remove 
+SELECT * FROM larasta.persons where length(firstname) = 3 and length(lastname)=3 and BINARY firstname = BINARY UPPER(firstname);
+
 -- Teachers
 INSERT INTO `larasta`.`persons`
 (`lastname`, `firstname`, `role`, `intranetUserId`, `initials`, `flock_id`, `upToDateDate`, `mpt`, `obsolete`) VALUES
 ('ALTIERI', 'Patrick', '1', '1677', 'PAI',null,'2019-03-03 00:00:00', '1', '0'),
-('BENZONANA', 'Pascal', '1', '10', 'PBA',null,'2019-03-13 19:41:16', '1', '0'),
-('CARREL', 'Xavier', '2', '1237', 'XCL',null,'2020-08-01 00:00:00', '1', '0'),
 ('CHAVEY', 'Jean-Philippe', '1', '9', 'JCY',null,'2019-03-13 19:41:16', '1', '0'),
 ('EGGER', 'Claude', '3', '11', 'CER',null,'2020-06-10 00:00:00', '1', '0'),
 ('FASOLA', 'Sylvain', '1', '1451', 'SFA',null,'2019-03-19 00:00:00', '1', '0'),
@@ -90,7 +91,6 @@ INSERT INTO `larasta`.`persons`
 ('MOTTIER', 'André', '1', '13', 'AMR',null,'2019-03-13 19:41:16', '1', '0'),
 ('ROCHAT', 'Claude', '1', '18', 'CRT',null,'2019-03-13 19:41:16', '1', '0'),
 ('ROTEN', 'Cédric', '1', '20', 'CRN',null,'2019-03-13 19:41:16', '1', '0'),
-('TINEMBART', 'Jean-Yves', '1', '22', 'JTT',null,'2019-10-31 00:00:00', '1', '0'),
 ('WULLIAMOZ', 'Didier', '1', '1089', 'DWZ',null,'2020-08-01 00:00:00', '1', '0'),
 ('ANDOLFATTO', 'Frédérique', '1', '7033', 'FAO',null,'2019-03-13 19:41:16', '1', '0'),
 ('VARELA', 'Francis', '1', '21', 'FVA',null,'2019-03-13 19:41:16', '1', '0'),
@@ -101,15 +101,20 @@ INSERT INTO `larasta`.`persons`
 ('KONOUTSE', 'Yawo', '1', '12760', 'YKE',null,'2019-07-21 03:10:04', '1', '0'),
 ('VIRET', 'Loic', '1', '12768', 'LVT',null,'2019-07-21 03:10:04', '1', '0'),
 ('CLIGNEZ', 'David', '1', '14238', 'DCZ',null,'2020-04-08 03:10:06', '1', '0'),
-('MARION', 'Romain', '1', '99999', 'RMN',null,'2020-04-08 03:10:06', '1', '1'),
 ('REGAMEY', 'Christophe', '1', '99999', 'CRY',null,'2020-04-08 03:10:06', '1', '1'),
 ('CHEVILLAT', 'Jérome', '1', '99999', 'JCT',null,'2020-04-08 03:10:06', '1', '1');
+
+UPDATE `larasta`.`persons` set lastname = 'CARREL', firstname='Xavier', role='2', intranetUserId='1237' WHERE initials='XCL';
+UPDATE `larasta`.`persons` set lastname = 'TINEMBART', firstname='Jean-Yves', role='1', intranetUserId='22' WHERE initials='JTT';
+UPDATE `larasta`.`persons` set lastname = 'MARION', firstname='Romain', role='1', intranetUserId='99999' WHERE initials='RMN';
+UPDATE `larasta`.`persons` set lastname = 'BENZONANA', firstname='Pascal', role='1', intranetUserId='10' WHERE initials='PBA';
+
 
 
 INSERT INTO `larasta`.`flocks`
 	(`id`,`flockName`,`startYear`,`classMaster_id`)
 SELECT
-	IDVolee,LibelleVolee,AnneeDebut,(SELECT id FROM `larasta`.`persons` WHERE initials = (MaitreDeClasse COLLATE utf8_unicode_ci) LIMIT 1)
+	IDVolee,LibelleVolee,AnneeDebut,(SELECT id FROM `larasta`.`persons` WHERE initials = (MaitreDeClasse COLLATE utf8_unicode_ci) LIMIT 1) as mc_id
 FROM app_internships.volee;
 
 INSERT INTO `larasta`.`remarks`
