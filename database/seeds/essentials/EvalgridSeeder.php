@@ -1,7 +1,5 @@
 <?php
 
-namespace Database\Seeds\Essentials;
-
 use Illuminate\Database\Seeder;
 
 class EvalgridSeeder extends Seeder
