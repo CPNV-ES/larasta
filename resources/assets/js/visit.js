@@ -1,17 +1,14 @@
 $(document).ready(function(){
-    $('#bmail').click(function(){
-
+    $('#mailbutton').click(function(){
         var email = $("input[name='email']").val();
-        var visit = $("input[name='visit']").val();
         var firstname = $("input[name='firstn']").val();
         var lastname = $("input[name='lastn']").val();
 
-        var mailto_link = 'mailto:' + email + '?subject=Stagiaire '+lastname+', '+firstname+'&body=Bonjour,%0D%0DDescription';
-
-        var url = '/visits/'+visit+'/mail';
-
-        location.href = mailto_link;
-        window.setTimeout(function(){ location.href = url },  1000);
+        location.href= 'mailto:' + email + '?subject=Stagiaire '+lastname+', '+firstname+'&body=Bonjour,%0D%0DDescription';
+        
+        $('#mailbutton').prop('hidden', true);
+        $('#mailcheckbox').prop('hidden', false);
+        $('#checkm').prop('checked', true);
     });
 
     $('#edit').click(function(){
@@ -25,6 +22,12 @@ $(document).ready(function(){
     });
 
     $('#checkm').on('change', function(){
-        $('#checkm').val(this.checked ? 1 : 0);
+        if(this.checked) {
+            $('#checkm').val(1);
+        } else {
+            $('#checkm').val(0);
+            $('#mailbutton').prop('hidden', false);
+            $('#mailcheckbox').prop('hidden', true);
+        }
     });
 });

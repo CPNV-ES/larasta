@@ -7,7 +7,7 @@
     <h3 class="test">
         <a href="/visits/" class="btn btn-success"><span class="arrow">&lt;</span></a> Visite de stage n°{{$visit->id}} de <a href="#">{{$visit->internship->student->lastname}}, {{$visit->internship->student->firstname}}</a></h3>
     <br>
-    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left ">
+    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
         {{ csrf_field() }}
         @foreach($mails as $mail)
         <input type="hidden" name="email" value="{{$mail->value}}">
@@ -15,23 +15,24 @@
         <input type="hidden" name="visit" value="{{$visit->id}}">
         <input type="hidden" name="firstn" value="{{$visit->internship->responsible->firstname}}">
         <input type="hidden" name="lastn" value="{{$visit->internship->responsible->lastname}}">
-        <table class="larastable table table-bordered col-md-12">
+        <table class="larastable table table-bordered">
             <tr>
-                <th class="col-md-1">Prénom de l'élève</th>
-                <th class="col-md-1">Nom de l'élève</th>
-                <th class="col-md-2">Entreprise</th>
-                <th class="col-md-1">Date de la visite</th>
-                <th class="col-md-1">Heure de la visite</th>
-                <th class="col-md-1">Note</th>
-                <th class="col-md-1">Date de début de stage</th>
-                <th class="col-md-1">Date de fin de stage</th>
-                <th class="col-md-1">email</th>
+                <th>Prénom de l'élève</th>
+                <th>Nom de l'élève</th>
+                <th>Entreprise</th>
+                <th>Date de la visite</th>
+                <th>Heure de la visite</th>
+                <th>Note</th>
+                <th>Date de début de stage</th>
+                <th>Date de fin de stage</th>
+                <th>Email</th>
+                <th>Etat de la visite</th>
             </tr>
-            <tr class="text-left">
-                <td class="col-md-1">{!! $visit->internship->student->firstname !!}</td>
-                <td class="col-md-1">{!! $visit->internship->student->lastname !!}</td>
-                <td class="col-md-2">{!! $visit->internship->company->companyName !!}</td>
-                <td class="col-md-1">
+            <tr>
+                <td>{!! $visit->internship->student->firstname !!}</td>
+                <td>{!! $visit->internship->student->lastname !!}</td>
+                <td>{!! $visit->internship->company->companyName !!}</td>
+                <td>
                     <div id="vdate" class="hideb">
                         {{ (new DateTime($visit->moment))->format('d.m.Y') }}
                     </div>
@@ -46,7 +47,7 @@
                         </div>
                     </fieldset>
                 </td>
-                <td class="col-md-1">
+                <td>
                     <div id="vhour" class="hideb">
                         {{ (new DateTime($visit->moment))->format('H:i:s') }}
                     </div>
@@ -54,23 +55,21 @@
                         <input type="time" name="updtime" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
                     </div>
                 </td>
-                <td class="col-md-1">
+                <td>
                     {{ $visit->grade }}
                     <input type="number" step="0.5" name="grade" max="6" min="1" value="{{ $visit->grade }}">
                 </td>
-                <td class="col-md-1">{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
-                <td class="col-md-1">{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
-                <td class="col-md-1">
+                <td>{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
+                <td>{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
+                <td>
                     @if($visit->mailstate == 1)
-                        <span id="mok">envoyé</span>
+                        <button id="mailbutton" type="button" hidden>Envoyer</button>
+                        <div id="mailcheckbox">Envoyé <input id="checkm" type="checkbox" name="checkm" checked></div>
                     @else
-                        <span id="mremove">pas encore envoyé</span>
-                    @endif
-                    <input type="checkbox" class="checkm hidea hidden" name="checkm" @if($visit->mailstate == 1) checked @endif>
+                        <button id="mailbutton" type="button">Envoyer</button>
+                        <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                    @endif     
                 </td>
-            </tr>
-            <tr>
-                <th colspan="7" class="text-right">Etat de la visite</th>
                 <td>
                     <span id="staid" class="hideb">{{ $visit->visitsstate->stateName }}</span>
                     <select id='sel' name="state" class="hidden hidea">

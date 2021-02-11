@@ -311,7 +311,7 @@ class VisitsController extends Controller
             /*
              * Finally it redirects user to his/her list.
              * */
-            return redirect('/visits')->with('status', 'La visite a été modifiée !');
+            return redirect(route('visit.manage', $id))->with('status', 'La visite a été modifiée !');
         }
 
         //If not teacher or superuser, we redirect him/her to home page
