@@ -63,10 +63,10 @@
                 <td>{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
                 <td>
                     @if($visit->mailstate == 1)
-                        <button id="mailbutton" type="button" hidden>Envoyer</button>
+                        <button id="mailbutton" type="button" hidden>Envoyer un email</button>
                         <div id="mailcheckbox">Envoyé <input id="checkm" type="checkbox" name="checkm" checked></div>
                     @else
-                        <button id="mailbutton" type="button">Envoyer</button>
+                        <button id="mailbutton" type="button">Envoyer un email</button>
                         <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
                     @endif     
                 </td>
