@@ -130,20 +130,24 @@ class VisitsController extends Controller
         if (Auth::user()->role >= 1){
 
             // Try to know if a visit exist
-            $visits=Visit::find($rid);
+            $visit = Visit::find($rid);
             // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
             // return the user to his/her of visit
-                if(isset($visits->id) == 1)
+                if(isset($visit->id) == 1)
                 {
+                    // Responsible informations
+                    $responsible = [
+                        'email' => $visit->internship->responsible->contactinfo->where('contacttypes_id','1'),
+                        'phone' => $visit->internship->responsible->contactinfo->where('contacttypes_id','2'),
+                        'mobilePhone' => $visit->internship->responsible->contactinfo->where('contacttypes_id','3')
+                    ];
 
-                    // Gets info from intern's responsible
-                    $mails = $visits->internship->responsible->contactinfo->where('contacttypes_id','1');
-
-                    // Gets info from intern's responsible
-                    $locals = $visits->internship->responsible->contactinfo->where('contacttypes_id','2');
-
-                    // Gets info from intern's responsible
-                    $mobiles = $visits->internship->responsible->contactinfo->where('contacttypes_id','3');
+                    // Administrative responsible informations
+                    $admin = [
+                        'email' => $visit->internship->admin->contactinfo->where('contacttypes_id','1'),
+                        'phone' => $visit->internship->admin->contactinfo->where('contacttypes_id','2'),
+                        'mobilePhone' => $visit->internship->admin->contactinfo->where('contacttypes_id','3')
+                    ];
  
                     /*
                      * Get status name of visit for the select input.
@@ -166,13 +170,12 @@ class VisitsController extends Controller
                     /*
                      * Gets media associate from the visit (ID).
                      * */
-                    $medias = $visits->getMedia();
+                    $medias = $visit->getMedia();
                     return view('visits/manage')->with(
                         [
-                            'visit' => $visits,
-                            'mails' => $mails,
-                            'locals' => $locals,
-                            'mobiles' => $mobiles,
+                            'visit' => $visit,
+                            'responsible' => $responsible,
+                            'admin' => $admin,
                             'visitstate' => $visitstate,
                             'history' => $history,
                             'medias' => $medias

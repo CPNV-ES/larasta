@@ -9,12 +9,6 @@
     <br>
     <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
         {{ csrf_field() }}
-        @foreach($mails as $mail)
-        <input type="hidden" name="email" value="{{$mail->value}}">
-        @endforeach
-        <input type="hidden" name="visit" value="{{$visit->id}}">
-        <input type="hidden" name="firstn" value="{{$visit->internship->responsible->firstname}}">
-        <input type="hidden" name="lastn" value="{{$visit->internship->responsible->lastname}}">
         <table class="larastable table table-bordered">
             <tr>
                 <th>Prénom de l'élève</th>
@@ -29,9 +23,9 @@
                 <th>Etat de la visite</th>
             </tr>
             <tr>
-                <td>{!! $visit->internship->student->firstname !!}</td>
-                <td>{!! $visit->internship->student->lastname !!}</td>
-                <td>{!! $visit->internship->company->companyName !!}</td>
+                <td id="studentFirstName">{!! $visit->internship->student->firstname !!}</td>
+                <td id="studentLastName">{!! $visit->internship->student->lastname !!}</td>
+                <td id="companyName">{!! $visit->internship->company->companyName !!}</td>
                 <td>
                     <div id="vdate" class="hideb">
                         {{ (new DateTime($visit->moment))->format('d.m.Y') }}
@@ -111,29 +105,17 @@
             <tr class="text-left">
                 <td class="col-md-5">
                     <span id="mailto">
-                        @if(!empty($mails))
-                        @foreach($mails as $mail)
-                            {{ $mail->value }}
-                        @endforeach
-                        @endif
+                        {{ $responsible['email'][0]->value }} | {{ $responsible['phone'][1]->value }}
                     </span>
                 </td>
                 <td class="col-md-3">
                     <span>
-                        @if(!empty($locals))
-                            @foreach($locals as $local)
-                                {{$local->value}}
-                            @endforeach
-                        @endif
+
                     </span>
                 </td>
                 <td class="col-md-4">
                     <span>
-                        @if(!empty($mobiles))
-                            @foreach($mobiles as $mobile)
-                                {{$mobile->value}}
-                            @endforeach
-                        @endif
+
                     </span>
                 </td>
             </tr>

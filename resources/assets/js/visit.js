@@ -4,7 +4,7 @@ $(document).ready(function(){
         var firstname = $("input[name='firstn']").val();
         var lastname = $("input[name='lastn']").val();
 
-        location.href= 'mailto:' + email + '?subject=Stagiaire '+lastname+', '+firstname+'&body=Bonjour,%0D%0DDescription';
+        location.href= 'mailto:' + email + '?subject=Stage de '+lastname+', '+firstname+'&body=Bonjour,%0D%0DDescription';
         
         $('#mailbutton').prop('hidden', true);
         $('#mailcheckbox').prop('hidden', false);
