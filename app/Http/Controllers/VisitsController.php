@@ -135,19 +135,9 @@ class VisitsController extends Controller
             // return the user to his/her of visit
                 if(isset($visit->id) == 1)
                 {
-                    // Responsible informations
-                    $responsible = [
-                        'email' => $visit->internship->responsible->contactinfo->where('contacttypes_id','1'),
-                        'phone' => $visit->internship->responsible->contactinfo->where('contacttypes_id','2'),
-                        'mobilePhone' => $visit->internship->responsible->contactinfo->where('contacttypes_id','3')
-                    ];
-
-                    // Administrative responsible informations
-                    $admin = [
-                        'email' => $visit->internship->admin->contactinfo->where('contacttypes_id','1'),
-                        'phone' => $visit->internship->admin->contactinfo->where('contacttypes_id','2'),
-                        'mobilePhone' => $visit->internship->admin->contactinfo->where('contacttypes_id','3')
-                    ];
+                    $responsible = $visit->internship->responsible->humanContactInfo();
+                    $admin = $visit->internship->admin->humanContactInfo();
+                    
  
                     /*
                      * Get status name of visit for the select input.
