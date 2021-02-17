@@ -33,7 +33,7 @@ class Person extends Model implements Authenticatable
     {
         return $this->belongsTo('App\Location');
     }
-    
+
     public function company()
     {
         return $this->belongsTo('App\company', 'company_id');
@@ -102,7 +102,20 @@ class Person extends Model implements Authenticatable
      */
     public function contactinfo()
     {
-        return $this->hasMany('App\Contactinfos',"persons_id");
+        return $this->hasMany('App\Contactinfos', "persons_id");
+    }
+
+    public function humanContactInfo()
+    {
+        $emailInfo = $this->contactinfo->where('contacttypes_id', '1')->first();
+        $phoneInfo = $this->contactinfo->where('contacttypes_id', '2')->first();
+        $mobileInfo = $this->contactinfo->where('contacttypes_id', '3')->first();
+
+        return [
+            'email' => $emailInfo ? $emailInfo->value : '',
+            'phone' => $phoneInfo ? $phoneInfo->value : '',
+            'mobilePhone' => $mobileInfo ? $mobileInfo->value : ''
+        ];
     }
 
     /**
@@ -209,6 +222,6 @@ class Person extends Model implements Authenticatable
      */
     public function emails()
     {
-        return $this->contactinfo->where("contacttypes_id",Contacttypes::EMAIL)->pluck("value");
+        return $this->contactinfo->where("contacttypes_id", Contacttypes::EMAIL)->pluck("value");
     }
 }

@@ -130,20 +130,14 @@ class VisitsController extends Controller
         if (Auth::user()->role >= 1){
 
             // Try to know if a visit exist
-            $visits=Visit::find($rid);
+            $visit = Visit::find($rid);
             // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
             // return the user to his/her of visit
-                if(isset($visits->id) == 1)
+                if(isset($visit->id) == 1)
                 {
-
-                    // Gets info from intern's responsible
-                    $mails = $visits->internship->responsible->contactinfo->where('contacttypes_id','1');
-
-                    // Gets info from intern's responsible
-                    $locals = $visits->internship->responsible->contactinfo->where('contacttypes_id','2');
-
-                    // Gets info from intern's responsible
-                    $mobiles = $visits->internship->responsible->contactinfo->where('contacttypes_id','3');
+                    $student = $visit->internship->student->humanContactInfo();
+                    $responsible = $visit->internship->responsible->humanContactInfo();
+                    $admin = $visit->internship->admin->humanContactInfo();
  
                     /*
                      * Get status name of visit for the select input.
@@ -166,13 +160,13 @@ class VisitsController extends Controller
                     /*
                      * Gets media associate from the visit (ID).
                      * */
-                    $medias = $visits->getMedia();
+                    $medias = $visit->getMedia();
                     return view('visits/manage')->with(
                         [
-                            'visit' => $visits,
-                            'mails' => $mails,
-                            'locals' => $locals,
-                            'mobiles' => $mobiles,
+                            'visit' => $visit,
+                            'student' => $student,
+                            'responsible' => $responsible,
+                            'admin' => $admin,
                             'visitstate' => $visitstate,
                             'history' => $history,
                             'medias' => $medias
@@ -311,7 +305,7 @@ class VisitsController extends Controller
             /*
              * Finally it redirects user to his/her list.
              * */
-            return redirect('/visits')->with('status', 'La visite a été modifiée !');
+            return redirect(route('visit.manage', $id))->with('status', 'La visite a été modifiée !');
         }
 
         //If not teacher or superuser, we redirect him/her to home page

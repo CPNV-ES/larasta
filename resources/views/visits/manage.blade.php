@@ -7,31 +7,34 @@
     <h3 class="test">
         <a href="/visits/" class="btn btn-success"><span class="arrow">&lt;</span></a> Visite de stage n°{{$visit->id}} de <a href="#">{{$visit->internship->student->lastname}}, {{$visit->internship->student->firstname}}</a></h3>
     <br>
-    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left ">
+    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
         {{ csrf_field() }}
-        @foreach($mails as $mail)
-        <input type="hidden" name="email" value="{{$mail->value}}">
-        @endforeach
-        <input type="hidden" name="visit" value="{{$visit->id}}">
-        <input type="hidden" name="firstn" value="{{$visit->internship->responsible->firstname}}">
-        <input type="hidden" name="lastn" value="{{$visit->internship->responsible->lastname}}">
-        <table class="larastable table table-bordered col-md-12">
+
+        {{-- Used to send the email --}}
+        <input type="hidden" name="studentemail" value="{{ $student['email'] }}">
+        <input type="hidden" name="studentfirstname" value="{{ $visit->internship->student->firstname }}">
+        <input type="hidden" name="studentlastname" value="{{ $visit->internship->student->lastname }}">
+        <input type="hidden" name="responsibleemail" value="{{ $responsible['email'] }}">
+        <input type="hidden" name="adminemail" value="{{ $admin['email'] }}">
+
+        <table class="larastable table table-bordered">
             <tr>
-                <th class="col-md-1">Prénom de l'élève</th>
-                <th class="col-md-1">Nom de l'élève</th>
-                <th class="col-md-2">Entreprise</th>
-                <th class="col-md-1">Date de la visite</th>
-                <th class="col-md-1">Heure de la visite</th>
-                <th class="col-md-1">Note</th>
-                <th class="col-md-1">Date de début de stage</th>
-                <th class="col-md-1">Date de fin de stage</th>
-                <th class="col-md-1">email</th>
+                <th>Prénom de l'élève</th>
+                <th>Nom de l'élève</th>
+                <th>Entreprise</th>
+                <th>Date de la visite</th>
+                <th>Heure de la visite</th>
+                <th>Note</th>
+                <th>Date de début de stage</th>
+                <th>Date de fin de stage</th>
+                <th>Email</th>
+                <th>Etat de la visite</th>
             </tr>
-            <tr class="text-left">
-                <td class="col-md-1">{!! $visit->internship->student->firstname !!}</td>
-                <td class="col-md-1">{!! $visit->internship->student->lastname !!}</td>
-                <td class="col-md-2">{!! $visit->internship->company->companyName !!}</td>
-                <td class="col-md-1">
+            <tr>
+                <td id="studentFirstName">{!! $visit->internship->student->firstname !!}</td>
+                <td id="studentLastName">{!! $visit->internship->student->lastname !!}</td>
+                <td id="companyName">{!! $visit->internship->company->companyName !!}</td>
+                <td>
                     <div id="vdate" class="hideb">
                         {{ (new DateTime($visit->moment))->format('d.m.Y') }}
                     </div>
@@ -46,7 +49,7 @@
                         </div>
                     </fieldset>
                 </td>
-                <td class="col-md-1">
+                <td>
                     <div id="vhour" class="hideb">
                         {{ (new DateTime($visit->moment))->format('H:i:s') }}
                     </div>
@@ -54,23 +57,21 @@
                         <input type="time" name="updtime" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
                     </div>
                 </td>
-                <td class="col-md-1">
+                <td>
                     {{ $visit->grade }}
                     <input type="number" step="0.5" name="grade" max="6" min="1" value="{{ $visit->grade }}">
                 </td>
-                <td class="col-md-1">{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
-                <td class="col-md-1">{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
-                <td class="col-md-1">
+                <td>{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
+                <td>{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
+                <td>
                     @if($visit->mailstate == 1)
-                        <span id="mok">envoyé</span>
+                        <button id="mailbutton" type="button" hidden>Envoyer un email</button>
+                        <div id="mailcheckbox">Envoyé <input id="checkm" type="checkbox" name="checkm" checked></div>
                     @else
-                        <span id="mremove">pas encore envoyé</span>
-                    @endif
-                    <input type="checkbox" class="checkm hidea hidden" name="checkm" @if($visit->mailstate == 1) checked @endif>
+                        <button id="mailbutton" type="button">Envoyer un email</button>
+                        <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                    @endif     
                 </td>
-            </tr>
-            <tr>
-                <th colspan="7" class="text-right">Etat de la visite</th>
                 <td>
                     <span id="staid" class="hideb">{{ $visit->visitsstate->stateName }}</span>
                     <select id='sel' name="state" class="hidden hidea">
@@ -105,37 +106,30 @@
         {{-- Responsible table info --}}
         <table class="larastable table table-bordered col-md-12">
             <tr>
-                <th class="col-md-5">email du responsable</th>
-                <th class="col-md-3">numéro de téléphone direct</th>
-                <th class="col-md-4">numéro de téléphone portable</th>
+                <th>email des responsables</th>
+                <th>numéro de téléphone direct</th>
+                <th>numéro de téléphone portable</th>
             </tr>
-            <tr class="text-left">
-                <td class="col-md-5">
-                    <span id="mailto">
-                        @if(!empty($mails))
-                        @foreach($mails as $mail)
-                            {{ $mail->value }}
-                        @endforeach
-                        @endif
-                    </span>
+            <tr>
+                <td>
+                    {{ $responsible['email'] }}
                 </td>
-                <td class="col-md-3">
-                    <span>
-                        @if(!empty($locals))
-                            @foreach($locals as $local)
-                                {{$local->value}}
-                            @endforeach
-                        @endif
-                    </span>
+                <td>
+                    {{ $responsible['phone'] }}
                 </td>
-                <td class="col-md-4">
-                    <span>
-                        @if(!empty($mobiles))
-                            @foreach($mobiles as $mobile)
-                                {{$mobile->value}}
-                            @endforeach
-                        @endif
-                    </span>
+                <td>
+                    {{ $responsible['mobilePhone'] }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ $admin['email'] }}
+                </td>
+                <td>
+                    {{ $admin['phone'] }}
+                </td>
+                <td>
+                    {{ $admin['mobilePhone'] }}
                 </td>
             </tr>
         </table>
