@@ -135,9 +135,9 @@ class VisitsController extends Controller
             // return the user to his/her of visit
                 if(isset($visit->id) == 1)
                 {
+                    $student = $visit->internship->student->humanContactInfo();
                     $responsible = $visit->internship->responsible->humanContactInfo();
                     $admin = $visit->internship->admin->humanContactInfo();
-                    
  
                     /*
                      * Get status name of visit for the select input.
@@ -164,6 +164,7 @@ class VisitsController extends Controller
                     return view('visits/manage')->with(
                         [
                             'visit' => $visit,
+                            'student' => $student,
                             'responsible' => $responsible,
                             'admin' => $admin,
                             'visitstate' => $visitstate,

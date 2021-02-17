@@ -1,10 +1,12 @@
 $(document).ready(function(){
     $('#mailbutton').click(function(){
-        var email = $("input[name='email']").val();
-        var firstname = $("input[name='firstn']").val();
-        var lastname = $("input[name='lastn']").val();
+        var student = $("input[name='studentemail']").val();
+        var studentFirstName = $("input[name='studentfirstname']").val();
+        var studentLastName = $("input[name='studentlastname']").val();
+        var responsible = $("input[name='responsibleemail']").val();
+        var admin = $("input[name='adminemail']").val();
 
-        location.href= 'mailto:' + email + '?subject=Stage de '+lastname+', '+firstname+'&body=Bonjour,%0D%0DDescription';
+        location.href= `mailto:${student};${responsible};${admin}?subject=Stage de ${studentFirstName} ${studentLastName}&body=Bonjour,`;
         
         $('#mailbutton').prop('hidden', true);
         $('#mailcheckbox').prop('hidden', false);

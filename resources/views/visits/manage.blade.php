@@ -9,6 +9,14 @@
     <br>
     <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
         {{ csrf_field() }}
+
+        {{-- Used to send the email --}}
+        <input type="hidden" name="studentemail" value="{{ $student['email'] }}">
+        <input type="hidden" name="studentfirstname" value="{{ $visit->internship->student->firstname }}">
+        <input type="hidden" name="studentlastname" value="{{ $visit->internship->student->lastname }}">
+        <input type="hidden" name="responsibleemail" value="{{ $responsible['email'] }}">
+        <input type="hidden" name="adminemail" value="{{ $admin['email'] }}">
+
         <table class="larastable table table-bordered">
             <tr>
                 <th>Prénom de l'élève</th>
@@ -98,25 +106,30 @@
         {{-- Responsible table info --}}
         <table class="larastable table table-bordered col-md-12">
             <tr>
-                <th class="col-md-5">email du responsable</th>
-                <th class="col-md-3">numéro de téléphone direct</th>
-                <th class="col-md-4">numéro de téléphone portable</th>
+                <th>email des responsables</th>
+                <th>numéro de téléphone direct</th>
+                <th>numéro de téléphone portable</th>
             </tr>
-            <tr class="text-left">
-                <td class="col-md-5">
-                    <span id="mailto">
-                        {{ $responsible['email'][0]->value }} | {{ $responsible['phone'][1]->value }}
-                    </span>
+            <tr>
+                <td>
+                    {{ $responsible['email'] }}
                 </td>
-                <td class="col-md-3">
-                    <span>
-
-                    </span>
+                <td>
+                    {{ $responsible['phone'] }}
                 </td>
-                <td class="col-md-4">
-                    <span>
-
-                    </span>
+                <td>
+                    {{ $responsible['mobilePhone'] }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ $admin['email'] }}
+                </td>
+                <td>
+                    {{ $admin['phone'] }}
+                </td>
+                <td>
+                    {{ $admin['mobilePhone'] }}
                 </td>
             </tr>
         </table>
