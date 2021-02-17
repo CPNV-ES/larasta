@@ -23,6 +23,8 @@
         </a>
         <a href="/admin/evaluationgrid">
             <button class="btn btn-default btn-tile">Editer la grille d'évaluation</button>
+        <a href="/flocks">
+            <button class="btn btn-default btn-tile">Volées</button>
         </a>
     </div>
 @stop

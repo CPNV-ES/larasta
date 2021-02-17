@@ -12,18 +12,39 @@ class VisitsstatesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        $states = [
+            [
+                [ 'id' => 1 ],
+                [
+                    'stateName' => 'Proposée',
+                    'slug' => 'pro',
+                ]
+            ],
+            [
+                [ 'id' => 2 ],
+                [
+                    'stateName' => 'Acceptée',
+                    'slug' => 'acc',
+                ]
+            ],
+            [
+                [ 'id' => 3 ],
+                [
+                    'stateName' => 'Effectuée',
+                    'slug' => 'eff',
+                ]
+            ],
+            [
+                [ 'id' => 4 ],
+                [
+                    'stateName' => 'Bouclée',
+                    'slug' => 'bou',
+                ]
+            ]
+        ];
 
-        \DB::table('visitsstates')->delete();
-        
-        \DB::table('visitsstates')->insert(array (
-            0 => 
-            array (
-                'id' => 1,
-                'stateName' => 'En cours',
-            ),
-        ));
-        
-        
+        foreach($states as $state) {
+            \DB::table('visitsstates')->updateOrInsert($state[0], $state[1]);
+        }
     }
 }

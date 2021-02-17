@@ -140,6 +140,8 @@ Route::group(['middleware' => ['auth']], function () {
     //Mailling
     Route::get('/mailing','MailingController@mailling');
 
+    Route::get('/flocks', 'FlocksController@index');
+
 });
     
 //Azure

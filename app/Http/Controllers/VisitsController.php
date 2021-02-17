@@ -285,6 +285,19 @@ class VisitsController extends Controller
             $note = $request->grade;
             $mail = $request->has('checkm');
 
+            if(empty($note)) {
+                if($state == Visitsstate::where('slug', 'bou')->first()->id) {
+                    return redirect()->route('visit.manage', ['rid'=>$id])
+                        ->with('status', "Vous ne pouvez pas passer la visite en 'Bouclée' si aucune note n'est entrée !");
+                }
+            }
+            else {
+                if($state == Visitsstate::where('slug', 'pro')->first()->id || $state == Visitsstate::where('slug', 'acc')->first()->id) {
+                    return redirect()->route('visit.manage', ['rid'=>$id])
+                        ->with('status', "Vous ne pouvez pas passer la visite en 'Proposée' ou 'Acceptée' si une note est entrée !");
+                }
+            }
+
             /*
              * Update visit from values above.
              * */

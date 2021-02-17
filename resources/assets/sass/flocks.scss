@@ -1,0 +1,46 @@
+.larastable {
+    width: 100%;
+}
+
+.flock-head-row:hover {
+    cursor: pointer;
+}
+
+td.caret {
+    width:1%;
+    white-space: nowrap;
+}
+
+td.caret:not(.folded)::before {
+    content: "▲";
+}
+
+td.caret.folded::before{
+    content: "▼";
+}
+
+.flock-students-row {
+    & > td {
+        padding: 0;
+        border-top: 0;
+        background-color: darkgrey;
+
+        & > table {
+            margin: 0;
+
+            & th {
+                background-color: darkgrey;
+                color: white;
+                border-color: white;
+
+                &:first-of-type {
+                    width: 22%;
+                }
+            }
+        }
+    }
+}
+
+.flock-students-row.folded {
+    display: none !important;
+}
