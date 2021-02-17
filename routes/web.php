@@ -142,6 +142,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/flocks', 'FlocksController@index');
 
+    Route::get('/params', 'ParamsController@index');
 });
     
 //Azure
