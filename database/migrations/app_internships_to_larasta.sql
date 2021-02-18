@@ -1,3 +1,8 @@
+-- Migration script that imports data from the legacy app into larasta
+-- 1. Restore a backup of the legacy app ('snapshot_2021....') in your server, db name = app_insternships
+-- 2. Make sure your larasta database is correct (table structure) and named 'larasta'
+-- 3. Execute this script
+
 -- Start from an empty database
 use larasta;
 SET FOREIGN_KEY_CHECKS = 0;
