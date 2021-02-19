@@ -5,13 +5,13 @@
 
     <form method="post" action="/params/update">
     @csrf
-    <table>
+    <div class="container text-left border">
     @foreach($params as $param)
-        <tr>
-            <td>
-                {{ $param->paramName }}
-            </td>
-            <td>
+        <div class="row p-1 border">
+            <div class="col-4" >
+                {{ $param->paramame  }}
+            </div>
+            <div class="col-8">
             <input hidden value="{{ $param->value_type }}" name="{{ "params[$param->paramName][type]" }}" />
             @if($param->value_type == "text")
                 <input value="{{ $param->paramValueText }}" name="{{ "params[$param->paramName][value]" }}" />
@@ -21,10 +21,14 @@
                 <input type="date" value="{{ (new DateTime($param->paramValueDate))->format('Y-m-d') }}" name="{{ "params[$param->paramName][value][date]" }}">
                 <input type="time" value="{{ (new DateTime($param->paramValueDate))->format('H:i') }}" name="{{ "params[$param->paramName][value][time]" }}">
             @endif
-            </td>
-        </tr>
+            </div>
+        </div>
     @endforeach
-    </table>
+    </div>
     <input type="submit" />
     </form>
 @endsection
+
+@push('page_specific_css')
+    <link rel="stylesheet" href="/css/params.css">
+@endpush
