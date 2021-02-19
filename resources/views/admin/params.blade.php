@@ -9,7 +9,9 @@
     @foreach($params as $param)
         <div class="row p-1 border">
             <div class="col-4" >
-                {{ $param->paramame  }}
+                <span title="{{ $param->paramName }}">
+                    {{ __('params.' . $param->paramName) }}
+                </span>
             </div>
             <div class="col-8">
             <input hidden value="{{ $param->value_type }}" name="{{ "params[$param->paramName][type]" }}" />
