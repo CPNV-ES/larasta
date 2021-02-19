@@ -205,7 +205,7 @@ class Person extends Model implements Authenticatable
      */
     public function scopeName($query, $name)
     {
-        $query->where('firstname', 'like', '%' . $name . '%')->orWhere('lastname', 'like', '%' . $name . '%');
+        return $query->where('firstname', 'like', "%{$name}%")->orWhere('lastname', 'like', "%{$name}%");
     }
 
     /** Computed property to recompose full name

@@ -77,7 +77,7 @@
             </thead>
 
             <tbody id = "people_tbody">
-            @if (in_array(-1, $filterCategory) && $filterObsolete == 0 || count($persons) < 1)                      <!-- No filters selected or no users found -->
+            @if (count($persons) < 1)                      <!-- No filters selected or no users found -->
                 <td colspan="2"> Pas des filtres </td>
             @else
                 @foreach($persons as $person)                        <!-- View all persons -->

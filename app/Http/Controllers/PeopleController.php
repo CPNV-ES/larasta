@@ -72,11 +72,15 @@ class PeopleController extends Controller
         $filtersCategory = $request->input('filterCategory');
         $filterName = $request->input('filterName');
         $filterObsolete = $request->input('filterObsolete');
+        $persons = [];
 
-        // Gets the persons corresponding to the filters
+        // Get the persons corresponding to the filters
         if ($filtersCategory == null) {
             $filtersCategory = [-1];
-            $persons = Person::obsolete($filterObsolete)->orderBy('firstname', 'asc')->Name($filterName)->get();
+
+            if ($filterObsolete != null || $filterName != null) {
+                $persons = Person::obsolete($filterObsolete)->orderBy('firstname', 'asc')->Name($filterName)->get();
+            }
         } else {
             $persons = Person::obsolete($filterObsolete)->category($filtersCategory)->orderBy('firstname', 'asc')->Name($filterName)->get();
         }
