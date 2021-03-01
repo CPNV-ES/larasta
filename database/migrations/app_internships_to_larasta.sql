@@ -1,13 +1,7 @@
--- Before running this script, you MUST:
--- 1. Get a dump (self-contained script) of the current internship app's database
--- 2. Add the following lines at the top of the script:
---		drop database if exists app_internships;
---		CREATE SCHEMA `app_internships` DEFAULT CHARACTER SET utf8 ;
---		use app_internships;
--- 3. Run the script
-
-
--- TODO : Fix the flocks MC, they come across wrong
+-- Migration script that imports data from the legacy app into larasta
+-- 1. Restore a backup of the legacy app ('snapshot_2021....') in your server, db name = app_insternships
+-- 2. Make sure your larasta database is correct (table structure) and named 'larasta'
+-- 3. Execute this script
 
 -- Start from an empty database
 use larasta;
