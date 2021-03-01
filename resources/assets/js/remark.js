@@ -4,4 +4,9 @@ $(document).ready(function(){
        $('#remdisplay').addClass('hidden');
        $('#cmdedit').addClass('hidden');
    });
+
+    $("#addNewRemark").click(function(){
+        $("#newRemarkForm").toggle();
+        $("#addRemark").hide();
+    });
 });
