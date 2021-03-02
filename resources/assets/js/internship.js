@@ -13,3 +13,12 @@ class InternshipUtils {
     }
 }
 var internshipUtils = new InternshipUtils();
+
+// The last button is always checked
+var buttons = $(":checkbox")
+
+buttons.change(function () {
+    if ($(":checkbox:checked").length < 1) {
+        this.checked = true
+    }
+})
