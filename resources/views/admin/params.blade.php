@@ -13,16 +13,17 @@
                     {{ __('params.' . $param->paramName) }}
                 </span>
             </div>
+
             <div class="col-8">
-            <input hidden value="{{ $param->value_type }}" name="{{ "params[$param->paramName][type]" }}" />
+
             @if($param->value_type == "text")
-                <input value="{{ $param->paramValueText }}" name="{{ "params[$param->paramName][value]" }}" />
+                <input value="{{ $param->paramValueText }}" name="{{ "params[$param->paramName]" }}" />
             @elseif($param->value_type == "int")
-                <input value="{{ $param->paramValueInt }}" type="number" name="{{ "params[$param->paramName][value]" }}" />
+                <input value="{{ $param->paramValueInt }}" type="number" name="{{ "params[$param->paramName]" }}" />
             @elseif($param->value_type == "date")
-                <input type="date" value="{{ (new DateTime($param->paramValueDate))->format('Y-m-d') }}" name="{{ "params[$param->paramName][value][date]" }}">
-                <input type="time" value="{{ (new DateTime($param->paramValueDate))->format('H:i') }}" name="{{ "params[$param->paramName][value][time]" }}">
+                <input type="date" value="{{ (new DateTime($param->paramValueDate))->format('Y-m-d') }}" name="{{ "params[$param->paramName]" }}" />
             @endif
+
             </div>
         </div>
     @endforeach
