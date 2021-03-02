@@ -14,7 +14,7 @@ class InternshipUtils {
 }
 var internshipUtils = new InternshipUtils();
 
-// The last button is always checked
+// The last filter button will always checked
 var buttons = $(":checkbox")
 
 buttons.change(function () {
