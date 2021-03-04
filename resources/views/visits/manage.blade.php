@@ -73,9 +73,9 @@
                 <div class="row">
                     <div class="col">
                         <p id="info" class="hidden hidea"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
-                        <button id="up" class="ml-3 btn-info" type="submit">Enregistrer</button>
-                        <button id="cancel_a" type="button" class="ml-3 btn-info hidden hidea">Annuler</button>
-                        <button id="edit" class="ml-3 btn-info hideb">Editer</button>
+                        <button id="up" class="btn-success ml-3" type="submit">Enregistrer</button>
+                        <button id="cancel_a" type="button" class="ml-3 btn-secondary hidden hidea">Annuler</button>
+                        <button id="edit" class="ml-3 btn-warning hideb">Editer</button>
                         <button class="ml-3 btn-danger">Supprimer</button>
                     </div>
                 </div>
@@ -136,14 +136,23 @@
                     </tr>
                 
             </table>
-            <div class="row p-2">
-                @if($visit->mailstate == 1)
-                    <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
-                    <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
-                @else
-                    <button id="mailbutton" type="button">Envoyer un email</button>
-                    <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
-                @endif   
+            <div class="row">
+                <div class="col-12 ml-5">
+                    @if($visit->mailstate == 1)
+                        <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
+                        <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
+                    @else
+                        <button id="mailbutton" type="button">Envoyer un email</button>
+                        <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                    @endif  
+                </div> 
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12 text-left">
+                    @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
+                    @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
+                </div>
             </div>
         </div>
 
@@ -152,17 +161,9 @@
     </div>   
     
 
-    <br><br><br><br><br><br>
-
-    
     <div class="row">
         <div class="col-12">
             
-            @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
-            @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
-                
-            <br>
-
             <h3>Remarques</h3>
             <table class="larastable table table-striped text-left">
                 <tbody>
@@ -172,7 +173,7 @@
 
                     <tr id="addRemark">
                         <td colspan="4">
-                            <button id="addNewRemark" class="btn-primary" type="button">Ajouter une remarque</button>     
+                            <button id="addNewRemark" class="btn-info" type="button">Ajouter une remarque</button>     
                         </td>  
                     </tr>
 
@@ -188,9 +189,7 @@
                                 </td>
                                 <td>
                                     <textarea name='remark' required cols='100'></textarea>
-                                </td>
-                                <td>
-                                    <input type='submit' value='Valider'/>
+                                    <button class="btn-success ml-5" type='submit'>Enregister</button>
                                 </td>
                         </form>
                     </tr>
