@@ -14,11 +14,42 @@ class InternshipUtils {
 }
 var internshipUtils = new InternshipUtils();
 
-// The last filter button will always checked
-var buttons = $(":checkbox")
+// -----------------------Filters----------------------- //
+var buttons = $("#filters").find(":checkbox")
+var allButton = $("#all")
+var oneButton = $("#one")
 
-buttons.change(function () {
+// Show buttons on page load
+$(function () {
+    showButtons()
+})
+
+// Display the all or one button
+function showButtons () {
+    if ($("#filters").find(":checkbox:checked").length < buttons.length) {
+        $("label[for='all']").removeAttr("hidden")
+    } else {
+        $("label[for='one']").removeAttr("hidden")
+    }
+}
+
+buttons.change(function () {    
+    showButtons()
+
+    // The last filter button will always checked
     if ($(":checkbox:checked").length < 1) {
         this.checked = true
     }
+})
+
+allButton.change(function () {
+    $("label[for='all']").attr("hidden", true)
+    this.checked = false
+    
+    // Check all buttons
+    buttons.each(function () {
+        this.checked = true
+    })
+
+    showButtons()
 })

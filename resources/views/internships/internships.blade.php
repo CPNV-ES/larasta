@@ -18,12 +18,23 @@
         <h4 class="internshipsFilterText">Afficher les stages dans l'état </h4>
         <form name="filterInternships" method="post">
             {{ csrf_field() }}
-            @foreach ($filter->getStateFilter() as $state)
-                <span class="onefilter" >
-                    <input type="checkbox" id="state{{ $state->id }}" name="state{{ $state->id }}" @if ($state->checked) checked @endif >
-                    <label for="state{{ $state->id }}">{{ $state->stateDescription }}</label>
-                </span>
-            @endforeach
+            <div id="filters">
+                @foreach ($filter->getStateFilter() as $state)
+                    <span class="onefilter" >
+                        <input type="checkbox" id="state{{ $state->id }}" name="state{{ $state->id }}" @if ($state->checked) checked @endif >
+                        <label for="state{{ $state->id }}">{{ $state->stateDescription }}</label>
+                    </span>
+                @endforeach
+            </div>  
+            <br>
+            <span class="onefilter" >
+                <input type="checkbox" id="all" name="all">
+                <label for="all" hidden>Tous</label>
+            </span>
+            <span class="onefilter" >
+                <input type="checkbox" id="one" name="one">
+                <label for="one" name="one" hidden>Un seul</label>
+            </span>
             <br>
             <button type="submit">Ok</button>
         </form>
