@@ -26,6 +26,9 @@
         <a href="/flocks">
             <button class="btn btn-default btn-tile">Volées</button>
         </a>
+        <a href="/params">
+            <button class="btn btn-default btn-tile">Paramètres de l'application</button>
+        </a>
     </div>
 @stop
 
