@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contactinfos;
+use App\Contacttypes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -63,14 +65,26 @@ class AuthController extends Controller
     {
         $email = $azureUser->email;
         $authUser = Person::whereHas('contactinfo',function($q) use ($email) {$q->where('value', $email);})->first();
+        if (!$authUser) {
+            $newComer = new Person();
+            $newComer->firstname = $azureUser->user['givenName'];
+            $newComer->lastname = $azureUser->user['surname'];
+            $newComer->save();
+            $contact = new Contactinfos();
+            $contact->contacttype()->associate(Contacttypes::where('contactTypeDescription','Email')->first());
+            $contact->person()->associate($newComer);
+            $contact->value=$email;
+            $contact->save();
+            $authUser = $newComer;
+        }
         return $authUser;
     }
-    
+
     public function localLogin($id){
         $authUser = Person::find($id);
         Auth::login($authUser);
     }
-    
+
     public function logoutUser(){
         Auth::logout();
         return Redirect::to('/');

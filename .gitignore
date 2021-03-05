@@ -28,3 +28,4 @@ public/mix-manifest.json
 /public/composer.lock
 /config/larasta_rsa*
 *_icescrum*
+/log/capistrano.log
