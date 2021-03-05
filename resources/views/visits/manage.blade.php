@@ -140,11 +140,13 @@
             <div class="row">
                 <div class="col-12 ml-5">
                     @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
-                        <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
-                        <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
-                    @else
-                        <button id="mailbutton" type="button">Envoyer un email</button>
-                        <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                        @if($visit->mailstate == 1)
+                            <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
+                            <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
+                        @else
+                            <button id="mailbutton" type="button">Envoyer un email</button>
+                            <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                        @endif  
                     @endif  
                 </div> 
             </div>
