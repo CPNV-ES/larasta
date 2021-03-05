@@ -5,6 +5,7 @@
 @endpush
 
 @push ('page_specific_js')
+    <script src="/js/internship.js"></script>
 @endpush
 
 @section ('content')
@@ -17,21 +18,23 @@
         <h4 class="internshipsFilterText">Afficher les stages dans l'état </h4>
         <form name="filterInternships" method="post">
             {{ csrf_field() }}
-            @foreach ($filter->getStateFilter() as $state)
-                <span class="onefilter">
+            <div id="filters">
+                @foreach ($filter->getStateFilter() as $state)
+                    <span class="onefilter" >
                         <input type="checkbox" id="state{{ $state->id }}" name="state{{ $state->id }}" @if ($state->checked) checked @endif >
                         <label for="state{{ $state->id }}">{{ $state->stateDescription }}</label>
                     </span>
-            @endforeach
-            <h4> et </h4>
+                @endforeach
+            </div>  
+            <br>
             <span class="onefilter">
-                    <input type="checkbox" id="inprogress" name="inprogress" @if ($filter->getInProgress()) checked @endif >
-                    <label for="inprogress">En cours</label>
-                </span>
+                <input type="checkbox" id="all" name="all">
+                <label for="all">Tous</label>
+            </span>
             <span class="onefilter">
-                    <input type="checkbox" id="mine" name="mine" @if ($filter->getMine()) checked @endif >
-                    <label for="mine">A moi</label>
-                </span>
+                <input type="checkbox" id="one" name="one">
+                <label for="one" name="one">Un seul</label>
+            </span>
             <br>
             <button type="submit">Ok</button>
         </form>
