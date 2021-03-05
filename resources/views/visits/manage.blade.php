@@ -45,23 +45,23 @@
                             $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
                         ?>
                         <label for="upddate">Date</label>
-                        <input id="upddate" name="upddate" class="form-control" type="date" width="50%" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
+                        <input disabled id="upddate" name="upddate" class="form-control" type="date" width="50%" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
 
                 </div>
 
                 <div class="form-group col-md-5">
                     <label for="updtime">Heure</label>
-                    <input id="updtime" name="updtime" class="form-control" type="time" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
+                    <input disabled id="updtime" name="updtime" class="form-control" type="time" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
                 </div>
 
                 <div class="form-group col-md-5">
                     <label for="grade">Note</label>
-                    <input id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" value="{{ $visit->grade }}">
+                    <input disabled id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" value="{{ $visit->grade }}">
                 </div>
 
                 <div class="form-group col-md-5">
                     <label for="sel">État</label>
-                    <select id='sel' name="state" class="form-control" class="hidden hidea">
+                    <select disabled id='sel' name="state" class="form-control" class="hidden hidea">
                         @foreach($visitstate as $state)
                             <option value="{{$state->id}}">
                                 {{$state->stateName}}
@@ -72,11 +72,12 @@
                 
                 <div class="row">
                     <div class="col">
-                        <p id="info" class="hidden hidea"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
-                        <button id="up" class="btn-success ml-3" type="submit">Enregistrer</button>
-                        <button id="cancel_a" type="button" class="ml-3 btn-secondary hidden hidea">Annuler</button>
-                        <button id="edit" class="ml-3 btn-warning hideb">Editer</button>
-                        <button class="ml-3 btn-danger">Supprimer</button>
+                        <p id="info" class="edit" style="display: none;"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
+                        <button id="up" class="btn-success ml-3 edit" style="display: none;" type="submit">Enregistrer</button>
+                        <button id="cancel" class="ml-3 btn-secondary edit" style="display: none;">Annuler</button>
+                        <button id="editMode" type="button" class="ml-3 btn-warning show">Editer</button>
+                        <button id="edit" class="ml-3 btn-warning edit" style="display: none;">Editer</button>
+                        <button class="ml-3 btn-danger edit" style="display: none;">Supprimer</button>
                     </div>
                 </div>
             </form>
@@ -138,7 +139,7 @@
             </table>
             <div class="row">
                 <div class="col-12 ml-5">
-                    @if($visit->mailstate == 1)
+                    @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
                         <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
                         <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
                     @else
@@ -171,7 +172,7 @@
                         <th colspan="4">Remarques</th>
                     </tr>
 
-                    <tr id="addRemark">
+                    <tr id="addRemark" hidden="hidden">
                         <td colspan="4">
                             <button id="addNewRemark" class="btn-info" type="button">Ajouter une remarque</button>     
                         </td>  
