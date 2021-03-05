@@ -27,13 +27,13 @@
                 @endforeach
             </div>  
             <br>
-            <span class="onefilter" >
+            <span class="onefilter">
                 <input type="checkbox" id="all" name="all">
-                <label for="all" hidden>Tous</label>
+                <label for="all">Tous</label>
             </span>
-            <span class="onefilter" >
+            <span class="onefilter">
                 <input type="checkbox" id="one" name="one">
-                <label for="one" name="one" hidden>Un seul</label>
+                <label for="one" name="one">Un seul</label>
             </span>
             <br>
             <button type="submit">Ok</button>
