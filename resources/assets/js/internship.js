@@ -50,3 +50,13 @@ allButton.change(function() {
 
   showButtons();
 });
+
+oneButton.change(function() {
+  this.checked = true;
+  var activeButtons = $("#filters").find(":checkbox:checked");
+
+  // Start at 1 not to uncheck the first button
+  for (var i = 1; i < activeButtons.length; i++) {
+    activeButtons[i].checked = false;
+  }
+});
