@@ -102,7 +102,9 @@ UPDATE `larasta`.`persons` set lastname = 'CARREL', firstname='Xavier', role='2'
 UPDATE `larasta`.`persons` set lastname = 'TINEMBART', firstname='Jean-Yves', role='1', intranetUserId='22' WHERE initials='JTT';
 UPDATE `larasta`.`persons` set lastname = 'MARION', firstname='Romain', role='1', intranetUserId='99999' WHERE initials='RMN';
 UPDATE `larasta`.`persons` set lastname = 'BENZONANA', firstname='Pascal', role='1', intranetUserId='10' WHERE initials='PBA';
-
+INSERT INTO contactinfos (contacttypes_id,persons_id,value) VALUES (1,(SELECT id FROM persons WHERE initials='XCL'),CONCAT((SELECT firstname FROM persons WHERE initials='XCL'),'.',(SELECT lastname FROM persons WHERE initials='XCL'),'@cpnv.ch'));
+INSERT INTO contactinfos (contacttypes_id,persons_id,value) VALUES (1,(SELECT id FROM persons WHERE initials='PBA'),CONCAT((SELECT firstname FROM persons WHERE initials='PBA'),'.',(SELECT lastname FROM persons WHERE initials='PBA'),'@cpnv.ch'));
+INSERT INTO contactinfos (contacttypes_id,persons_id,value) VALUES (1,(SELECT id FROM persons WHERE initials='CER'),CONCAT((SELECT firstname FROM persons WHERE initials='CER'),'.',(SELECT lastname FROM persons WHERE initials='CER'),'@cpnv.ch'));
 
 
 INSERT INTO `larasta`.`flocks`
