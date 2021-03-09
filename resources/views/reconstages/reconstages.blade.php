@@ -35,11 +35,11 @@
                         <td><input name="company" value="{{ $internship->company->id }}" type="hidden">{{ $internship->company->companyName }}</td>
                         <td>{{ $internship->beginDate->toFormattedDateString() }}</td>
                         <td>{{ $internship->endDate->toFormattedDateString() }}</td>
-                        <td>{{ $internship->responsible->fullName }}</td>
-                        <td>{{ $internship->admin->fullName }}</td>
-                        <td>{{ @$internship->student->fullName }}</td>
-                        <td>{{ $internship->grossSalary }}</td>
-                        <td>{{ $internship->contractstate->stateDescription }}</td>
+                        <td>{{ $internship->responsible->fullName ?? 'n/a' }}</td>
+                        <td>{{ $internship->admin->fullName ?? 'n/a' }}</td>
+                        <td>{{ @$internship->student->fullName ?? 'n/a' }}</td>
+                        <td>{{ $internship->grossSalary ?? 'n/a' }}</td>
+                        <td>{{ $internship->contractstate->stateDescription ?? 'n/a' }}</td>
                         <td><input class="checkList" name="internships[]" value="{{ $internship->id }}" type="checkbox"></td>
                     </tr>
                 @endforeach

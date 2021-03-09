@@ -65,6 +65,13 @@ class ParamsTableSeeder extends Seeder
                 'paramValueInt' => 1650,
                 'paramValueText' => NULL,
             ),
+            10 => array(
+                'param_id' => 11,
+                'paramName' => 'numOfModulesToAnalyzeInReport',
+                'paramValueDate' => NULL,
+                'paramValueInt' => 1,
+                'paramValueText' => NULL,
+            ),
         ));
 
 
