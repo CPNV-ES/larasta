@@ -3,171 +3,215 @@
     <link rel="stylesheet" href="/css/visits.css">
 @endpush
 @section ('content')
-    {{-- Link to intern's profile--}}
-    <h3 class="test">
-        <a href="/visits/" class="btn btn-success"><span class="arrow">&lt;</span></a> Visite de stage n°{{$visit->id}} de <a href="#">{{$visit->internship->student->lastname}}, {{$visit->internship->student->firstname}}</a></h3>
+    
+    <div class="row">
+        <div class="col-12">
+            <h2>
+                <a href="/visits/" class="btn btn-success"><span class="arrow">&lt;</span></a>
+                Stage de <a href="#">{{$visit->internship->student->firstname}} {{$visit->internship->student->lastname}}</a> @ {!! $visit->internship->company->companyName !!}
+            </h2>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-6 text-right">
+            <h3>Première visite de: <a href="#">?</a></h3>
+
+        </div>
+        
+        <div class="col-6 text-left">
+            <h3>Responsable de stage: <a href="#">{{$visit->internship->responsible->firstname}} {{$visit->internship->responsible->lastname}}</a></h3>
+
+        </div>
+    </div>
     <br>
-    <form method="post" action="/visits/{{$visit->id}}/update" class="text-left">
-        {{ csrf_field() }}
 
-        {{-- Used to send the email --}}
-        <input type="hidden" name="studentemail" value="{{ $student['email'] }}">
-        <input type="hidden" name="studentfirstname" value="{{ $visit->internship->student->firstname }}">
-        <input type="hidden" name="studentlastname" value="{{ $visit->internship->student->lastname }}">
-        <input type="hidden" name="responsibleemail" value="{{ $responsible['email'] }}">
-        <input type="hidden" name="adminemail" value="{{ $admin['email'] }}">
 
-        <table class="larastable table table-bordered">
-            <tr>
-                <th>Prénom de l'élève</th>
-                <th>Nom de l'élève</th>
-                <th>Entreprise</th>
-                <th>Date de la visite</th>
-                <th>Heure de la visite</th>
-                <th>Note</th>
-                <th>Date de début de stage</th>
-                <th>Date de fin de stage</th>
-                <th>Email</th>
-                <th>Etat de la visite</th>
-            </tr>
-            <tr>
-                <td id="studentFirstName">{!! $visit->internship->student->firstname !!}</td>
-                <td id="studentLastName">{!! $visit->internship->student->lastname !!}</td>
-                <td id="companyName">{!! $visit->internship->company->companyName !!}</td>
-                <td>
-                    <div id="vdate" class="hideb">
-                        {{ (new DateTime($visit->moment))->format('d.m.Y') }}
-                    </div>
-                    <fieldset>
-                        <div id="dateedit" class="hidden hidea">
-                            <?php
-                                //TODO: ok alors
-                                $today = date('Y-m-d');
-                                $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
-                            ?>
-                            <input type="date" name="upddate" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
-                        </div>
-                    </fieldset>
-                </td>
-                <td>
-                    <div id="vhour" class="hideb">
-                        {{ (new DateTime($visit->moment))->format('H:i:s') }}
-                    </div>
-                    <div id="houredit" class="hidden hidea">
-                        <input type="time" name="updtime" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
-                    </div>
-                </td>
-                <td>
-                    {{ $visit->grade }}
-                    <input type="number" step="0.5" name="grade" max="6" min="1" value="{{ $visit->grade }}">
-                </td>
-                <td>{{ (new DateTime($visit->internship->beginDate))->format('d.m.Y') }}</td>
-                <td>{{ (new DateTime($visit->internship->endDate))->format('d.m.Y') }}</td>
-                <td>
-                    @if($visit->mailstate == 1)
-                        <button id="mailbutton" type="button" hidden>Envoyer un email</button>
-                        <div id="mailcheckbox">Envoyé <input id="checkm" type="checkbox" name="checkm" checked></div>
-                    @else
-                        <button id="mailbutton" type="button">Envoyer un email</button>
-                        <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
-                    @endif     
-                </td>
-                <td>
-                    <span id="staid" class="hideb">{{ $visit->visitsstate->stateName }}</span>
-                    <select id='sel' name="state" class="hidden hidea">
+    <div class="row pt-3 ml-md-2 text-left">
+        <div class="col-6">
+            <h2 class="ml-2 pb-1">Détails</h2>
+            <form method="post" action="/visits/{{$visit->id}}/update">
+                {{ csrf_field() }}
+                <input type="hidden" name="studentemail" value="{{ $student['email'] }}">
+                <input type="hidden" name="studentfirstname" value="{{ $visit->internship->student->firstname }}">
+                <input type="hidden" name="studentlastname" value="{{ $visit->internship->student->lastname }}">
+                <input type="hidden" name="responsibleemail" value="{{ $responsible['email'] }}">
+                <input type="hidden" name="adminemail" value="{{ $admin['email'] }}">
+        
+                <div class="form-group col-md-5">
+                        <?php
+                            //TODO: ok alors
+                            $today = date('Y-m-d');
+                            $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
+                        ?>
+                        <label for="upddate">Date</label>
+                        <input disabled id="upddate" name="upddate" class="form-control" type="date" width="50%" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
+
+                </div>
+
+                <div class="form-group col-md-5">
+                    <label for="updtime">Heure</label>
+                    <input disabled id="updtime" name="updtime" class="form-control" type="time" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
+                </div>
+
+                <div class="form-group col-md-5">
+                    <label for="grade">Note</label>
+                    <input disabled id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" value="{{ $visit->grade }}">
+                </div>
+
+                <div class="form-group col-md-5">
+                    <label for="sel">État</label>
+                    <select disabled id='sel' name="state" class="form-control" class="hidden hidea">
                         @foreach($visitstate as $state)
                             <option value="{{$state->id}}">
                                 {{$state->stateName}}
                             </option>
                         @endforeach
                     </select>
-                </td>
-            </tr>
-        </table>
-        <div>
-            <p id="info" class="hidden hidea"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>
-            <button id="up" class="btn-info hidden hidea" type="submit">Enregistrer</button>
-            <button id="cancel_a" type="button" class="btn-info hidden hidea">Annuler</button>
-        </div>
-    </form>
-
-    @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
-        <button id="edit" class="btn-info hideb">Editer</button>
-        <button id="bmail" class="btn-success hideb">Envoyer un e-mail</button>{{-- Link to evaluation--}}
-    @endif
-    <div class="text-left">
-        <p id="pdone" class="hidden done hidea">Supprimer la visite de stage <span class="text-danger">Irréversible !</span></p>
-        <a id="del" class="hidden hidea" href="/visits/{{ $visit->id }}/delete">
-            <button class="btn-danger">Supprimer</button>
-        </a>
-    </div>
-    <br><br>
-    <div>
-        {{-- Responsible table info --}}
-        <table class="larastable table table-bordered col-md-12">
-            <tr>
-                <th>email des responsables</th>
-                <th>numéro de téléphone direct</th>
-                <th>numéro de téléphone portable</th>
-            </tr>
-            <tr>
-                <td>
-                    {{ $responsible['email'] }}
-                </td>
-                <td>
-                    {{ $responsible['phone'] }}
-                </td>
-                <td>
-                    {{ $responsible['mobilePhone'] }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ $admin['email'] }}
-                </td>
-                <td>
-                    {{ $admin['phone'] }}
-                </td>
-                <td>
-                    {{ $admin['mobilePhone'] }}
-                </td>
-            </tr>
-        </table>
-        @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
-        @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
-            <form method="post" action="/visits/remarks" class="col-md-12 text-left">
-                {{ csrf_field() }}
-                <fieldset>
-                    <legend>Ajouter une remarque</legend>
-                    <textarea type="text" name="remark"></textarea>
-                    <input type="hidden" name="id" value="{{$visit->id}}"/>
-                    <input type="submit" value="Ok"/>
-                </fieldset>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <p id="info" class="edit" style="display: none;"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
+                        <button id="up" class="btn-success ml-3 edit" style="display: none;" type="submit">Enregistrer</button>
+                        <button id="cancel" class="ml-3 btn-secondary edit" style="display: none;">Annuler</button>
+                        <button id="editMode" type="button" class="ml-3 btn-warning show">Editer</button>
+                        <button id="edit" class="ml-3 btn-warning edit" style="display: none;">Editer</button>
+                        <button class="ml-3 btn-danger edit" style="display: none;">Supprimer</button>
+                    </div>
+                </div>
             </form>
-        <br>
-        <h3>Remarques</h3>
-        <table class="larastable table table-striped text-left">
-            <thead class="thead-inverse">
-            <tr>
-                <th>Date</th>
-                <th>Créateur</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach($history as $his)
+        </div>
+
+        
+        <div class="col-6">
+            <h2>Contacts</h2>
+            <table class="larastable table table-bordered col-md-12 mt-4">
+                <thead>
                     <tr>
-                        <td class="col-md-1">
-                            {{ (new DateTime($his->remarkDate))->format('d M Y') }}<br>
-                            {{ (new DateTime($his->remarkDate))->format('H:i:s')  }}
-                        </td>
-                        <td class="col-md-1 text-center">{{ $his->author }}</td>
-                        <td class="col-md-8">{{ $his->remarkText }}</td>
+                        <td></td>
+                        <td>Email</td>
+                        <td>Fixe</td>
+                        <td>Portable</td>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                    <tr>
+                        <td>
+                            {{$visit->internship->responsible->firstname}} {{$visit->internship->responsible->lastname}}
+                        </td>
+                        <td>
+                            <span id="mailto">
+                                {{ $responsible['email'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ $responsible['phone'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ $responsible['mobilePhone'] }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{$visit->internship->admin->firstname}} {{$visit->internship->admin->lastname}}
+                        </td>
+                        <td>
+                            <span id="mailto">
+                                {{ $admin['email'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ $admin['phone'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                {{ $admin['mobilePhone'] }}
+                            </span>
+                        </td>
+                    </tr>
+                
+            </table>
+            <div class="row">
+                <div class="col-12 ml-5">
+                    @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
+                        @if($visit->mailstate == 1)
+                            <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
+                            <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
+                        @else
+                            <button id="mailbutton" type="button">Envoyer un email</button>
+                            <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                        @endif  
+                    @endif  
+                </div> 
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12 text-left">
+                    @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
+                    @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
+                </div>
+            </div>
+        </div>
+
+
+        
+    </div>   
+    
+
+    <div class="row">
+        <div class="col-12">
+            
+            <h3>Remarques</h3>
+            <table class="larastable table table-striped text-left">
+                <tbody>
+                    <tr>
+                        <th colspan="4">Remarques</th>
+                    </tr>
+
+                    <tr id="addRemark" hidden="hidden">
+                        <td colspan="4">
+                            <button id="addNewRemark" class="btn-info" type="button">Ajouter une remarque</button>     
+                        </td>  
+                    </tr>
+
+                    <tr id="newRemarkForm" style="display: none;">    
+                        <form method='post' action='/visits/remarks' class='col-md-12 text-left'> 
+                            {{ csrf_field() }}
+                            <input type='hidden' name='id' value='{{$visit->id}}'/>
+                                <td>
+                                    <input type='date' min='{{$today}}' value='{{$today}}' readonly/>
+                                </td>
+                                <td>
+                                    <input type='text' value='{{Auth::user()->initials}}' readonly/>
+                                </td>
+                                <td>
+                                    <textarea name='remark' required cols='100'></textarea>
+                                    <button class="btn-success ml-5" type='submit'>Enregister</button>
+                                </td>
+                        </form>
+                    </tr>
+
+                    @foreach($history as $his)
+                        <tr>
+                            <td>
+                                {{ (new DateTime($his->remarkDate))->format('d M Y') }}<br>
+                                {{ (new DateTime($his->remarkDate))->format('H:i:s')  }}
+                            </td>
+                            <td class="text-center">{{ $his->author }}</td>
+                            <td>{{ $his->remarkText }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+
 @stop
 @push ('page_specific_js')
     <script src="/js/remark.js"></script>

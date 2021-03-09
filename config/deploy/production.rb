@@ -71,7 +71,7 @@ server "larasta.mycpnv.ch",
      forward_agent: false,
      auth_methods: %w(publickey password)
    }
-  
+
 SSHKit.config.command_map[:composer] = "php -d allow_url_fopen=true #{shared_path.join('composer')}"
 
 Rake::Task['laravel:optimize'].clear_actions rescue nil
@@ -79,8 +79,8 @@ Rake::Task['laravel:optimize'].clear_actions rescue nil
    set :laravel_upload_dotenv_file_on_deploy, false
 
    after 'composer:run' , 'copy_dotenv'
-   after 'composer:run' , 'laravel:migrate'
-   after 'laravel:migrate' , 'seed_database'
+   #after 'composer:run' , 'laravel:migrate'
+   #after 'laravel:migrate' , 'seed_database'
    after "deploy:updated", "deploy:cleanup"
 
    task :copy_dotenv do

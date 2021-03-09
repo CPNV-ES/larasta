@@ -13,9 +13,13 @@ $(document).ready(function(){
         $('#checkm').prop('checked', true);
     });
 
-    $('#edit').click(function(){
-        $('.hidea').removeClass('hidden');
-        $('.hideb').addClass('hidden');
+    $('#editMode').click(function(){
+        $('.edit').css("display", "");
+        $('.show').css("display", "none");
+        $('input').prop('disabled', false);
+        $('select').prop('disabled', false);
+        $('#addRemark').prop('hidden', false);
+
     });
 
     $('#cancel_a').click(function(){
@@ -32,4 +36,5 @@ $(document).ready(function(){
             $('#mailcheckbox').prop('hidden', true);
         }
     });
+
 });

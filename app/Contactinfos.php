@@ -11,8 +11,13 @@ class Contactinfos extends Model
     /**
      * Relation to the contactinfos of the contacttypes
      */
-    public function contacttypes()
+    public function contacttype()
     {
-        return $this->hasMany('App\contacttypes',"persons_id");
+        return $this->belongsTo('App\Contacttypes','contacttypes_id');
+    }
+
+    public function person()
+    {
+        return $this->belongsTo('App\Person','persons_id');
     }
 }
