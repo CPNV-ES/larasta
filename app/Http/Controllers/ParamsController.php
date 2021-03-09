@@ -17,7 +17,7 @@ class ParamsController extends Controller
         $request->validate([
             'params' => 'filled',
             'params.*' => 'required',
-            'params.wishesSelectedYear' => "numeric|min:2021|max:2099", // just an example, remove after adding a real rule
+            'params.numOfModulesToAnalyzeInReport' => "numeric|min:1|max:10",
         ]);
 
         foreach($request->all()["params"] as $paramName => $paramValue) {

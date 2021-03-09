@@ -10,5 +10,7 @@ return [
     'internship2Salary' => "Salaire du stage 2",
 
     'wishesSelectedYear' => "Année sélectionnée pour les souhaits",
-    'dateEndWishes' => "Date de fin des souhaits"
+    'dateEndWishes' => "Date de fin des souhaits",
+
+    'numOfModulesToAnalyzeInReport' => "Nombre de modules à analyser dans le rapport",
 ];
