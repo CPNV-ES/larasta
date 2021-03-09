@@ -49,6 +49,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
         Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
         Route::get('/admin/evaluationgrid', 'EvaluationGridController@index');
+        Route::get('/mailing','MailingController@mailling');
+        Route::get('/flocks', 'FlocksController@index');
+        Route::get('/params', 'ParamsController@index');
+        Route::post('/params/update', 'ParamsController@update');
     });
     
     Route::get('/about', function () {
@@ -136,14 +140,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/addlifecycle','LifeCycleController@addEmptyContractState');
     Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
-
-    //Mailling
-    Route::get('/mailing','MailingController@mailling');
-
-    Route::get('/flocks', 'FlocksController@index');
-
-    Route::get('/params', 'ParamsController@index');
-    Route::post('/params/update', 'ParamsController@update');
 
 });
     
