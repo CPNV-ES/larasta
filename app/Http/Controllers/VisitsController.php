@@ -283,7 +283,6 @@ class VisitsController extends Controller
             $date = $request->upddate;
             $date .= " ".$request->updtime;
             $note = $request->grade;
-            $mail = $request->has('checkm');
 
             if(empty($note)) {
                 if($state == Visitsstate::where('slug', 'bou')->first()->id) {
@@ -305,8 +304,7 @@ class VisitsController extends Controller
                 ->update([
                     'visitsstates_id' => $state,
                     'moment' => $date,
-                    'mailstate' => $mail,
-                    'grade' => $note,
+                    'grade' => $note
                 ]);
 
             /*
@@ -327,6 +325,28 @@ class VisitsController extends Controller
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
     }
+
+
+    public function sendMail(Request $request, $id){
+
+        if (Auth::user()->role >= 1){
+
+            $maildate = date("Y-m-d");
+
+            Visit::where('visits.id', '=', $id)
+            ->update([
+                'mailstate' => "1",
+                'maildate' => $maildate
+            ]);
+            
+
+            return redirect(route('visit.manage', $id));
+
+        }else{
+            return redirect('/')->with('status', "You don't have the permission to access this function.");
+        }
+    }
+
 
     public function addRemarks(Request $request)
     {

@@ -14,13 +14,14 @@ class Visit extends Model implements HasMedia
     /**
      * Eloquent will automaticaly convert this colums of the model in Carbon dates
      */
-    protected $dates = ['moment'];
+    protected $dates = ['moment', 'maildate'];
 
     protected $fillable = [
         'moment',
         'number',
         'grade',
         'visitsstates_id',
+        'maildate',
     ];
     /**
      * Relation with the Evaluation model
