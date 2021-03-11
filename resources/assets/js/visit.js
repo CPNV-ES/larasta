@@ -19,6 +19,7 @@ $(document).ready(function(){
         $('input').prop('disabled', false);
         $('select').prop('disabled', false);
         $('#addRemark').prop('hidden', false);
+        $('#fileUpload').prop('hidden', false);
 
     });
 

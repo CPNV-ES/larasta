@@ -75,8 +75,7 @@
                         <p id="info" class="edit" style="display: none;"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
                         <button id="up" class="btn-success ml-3 edit" style="display: none;" type="submit">Enregistrer</button>
                         <button id="cancel" class="ml-3 btn-secondary edit" style="display: none;">Annuler</button>
-                        <button id="editMode" type="button" class="ml-3 btn-warning show">Editer</button>
-                        <button id="edit" class="ml-3 btn-warning edit" style="display: none;">Editer</button>
+                        <button id="editMode" type="button" class="ml-3 btn-warning show">Editer la visite</button>
                         <button class="ml-3 btn-danger edit" style="display: none;">Supprimer</button>
                     </div>
                 </div>
@@ -139,20 +138,23 @@
             </table>
             <div class="row">
                 <div class="col-12 ml-5">
-                    @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
-                        @if($visit->mailstate == 1)
-                            <button id="mailbutton" type="button" class="ml-3 mr-5 btn-success hideb" hidden>Envoyer un email</button>
-                            <div id="mailcheckbox">Email envoyé le {{$visit->moment->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
-                        @else
-                            <button id="mailbutton" type="button">Envoyer un email</button>
-                            <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                    <form method="post" action="/visits/{{$visit->id}}/sendMail">
+                        {{ csrf_field() }}
+                        @if($visit->visitsstates_id <= 2 || $visit->visitsstates_id == 4)
+                            @if($visit->mailstate == 1)
+                                <button id="mailbutton" type="submit" hidden>Envoyer un email</button>
+                                <div id="mailcheckbox">Email envoyé le {{$visit->maildate->format('d-m-Y')}} <input id="checkm" type="checkbox" name="checkm" checked></div>
+                            @else
+                                <button id="mailbutton" type="submit">Envoyer un email</button>
+                                <div id="mailcheckbox" hidden>Envoyé <input id="checkm" type="checkbox" name="checkm"></div>
+                            @endif  
                         @endif  
-                    @endif  
+                    </form>
                 </div> 
             </div>
 
             <div class="row mt-5">
-                <div class="col-12 text-left">
+                <div class="col-12 text-left" id="fileUpload" hidden>
                     @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
                     @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
                 </div>
@@ -192,7 +194,7 @@
                                 </td>
                                 <td>
                                     <textarea name='remark' required cols='100'></textarea>
-                                    <button class="btn-success ml-5" type='submit'>Enregister</button>
+                                    <button class="btn-success ml-5" type='submit'>Ajouter la remarque</button>
                                 </td>
                         </form>
                     </tr>
