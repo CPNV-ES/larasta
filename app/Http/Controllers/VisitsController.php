@@ -155,7 +155,7 @@ class VisitsController extends Controller
                      * 2. Author
                      * 3. remark(s)
                      * */
-                    $history = Remark::where('remarkOn_id', "=", $rid)->orderby('remarkDate', "DESC")->get(); 
+                    $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
 
                     /*
                      * Gets media associate from the visit (ID).
@@ -168,7 +168,7 @@ class VisitsController extends Controller
                             'responsible' => $responsible,
                             'admin' => $admin,
                             'visitstate' => $visitstate,
-                            'history' => $history,
+                            'remarks' => $remarks,
                             'medias' => $medias
                         ]
                     );
