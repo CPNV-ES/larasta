@@ -39,8 +39,8 @@
     @endif
 
     @foreach($remarks as $remark)
-            <td>{{ (new DateTime($remark->remarkDate))->format('d M y') }}</td>
-            <td>{{ $remark->author }}</td>
+            <td style="white-space: nowrap">{{ (new DateTime($remark->remarkDate))->format('d M y') }}</td>
+            <td style="white-space: nowrap">{{ $remark->author }}</td>
             <td colspan="2">{{ $remark->remarkText }}</td>
         </tr>
     @endforeach
