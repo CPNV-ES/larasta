@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Internship;
+use App\Remark;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,11 +41,7 @@ class EntrepriseController extends Controller
 
         $iships = Internship::where('companies_id',$id)->get();
 
-        $remarks = DB::table('remarks')
-            ->select('id','remarkDate','author','remarkText')
-            ->where('remarkType',1)
-            ->where('remarkOn_id', $id)
-            ->get();
+        $remarks = Remark::where('remarkType', 1)->where('remarkOn_id', $id)->orderby('remarkDate', "DESC")->get();
 
         return view('/entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'contacts' => $contacts,  'iships'=>$iships, 'remarks'=>$remarks, 'message'=>$msg, 'contracts' => $eType]);
     }
