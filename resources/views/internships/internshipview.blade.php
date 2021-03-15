@@ -126,29 +126,10 @@
         </div>
     @endif
 
-    {{-- Remarks --}}
-    @if (isset($remarks) && count($remarks) > 0)
-        <hr/>
-        <h4>Remarques</h4>
-        <div class="container text-left">
-            <div class="row border bg-header">
-                <div class="col-1">Date</div>
-                <div class="col-1">Auteur</div>
-                <div class="col-10">Remarque</div>
-            </div>
-            @foreach ($remarks->toArray() as $value)
-                <div class="row border">
-                    <div class="col-1">
-                        {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
-                    </div>
-                    <div class="col-1">
-                        {{ $value->author }}
-                    </div>
-                    <div class="col-10">
-                        {{ $value->remarkText }}
-                    </div>
-                </div>
-            @endforeach
+    <hr/>
+    <div class="container text-left" style="padding:0;">
+        <div class="table-responsive">
+            @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => false, 'remarkOnId' => $internship->id, 'remarkType' => 5])
         </div>
-    @endif 
+    </div>
 @stop

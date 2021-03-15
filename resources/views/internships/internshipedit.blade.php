@@ -189,47 +189,10 @@
     </div>
     
     {{-- Remarks --}}
-    @if (isset($remarks))
-        <hr/>
-        <form action="/internships/{{$internship->id}}/addRemark" method="get">
-            <table class="table text-left larastable">
-                <tr>
-                    <th colspan="4">Remarques</th>
-                </tr>
-                <tr>
-                    <td>Date</td>
-                    <td>Auteur</td>
-                    <td colspan="2">Remarque</td>
-                    <input type="hidden" name="id" value="{{ $internship->id }}">
-                </tr>
-                <tr id="addRemark">
-                    <td colspan="4">
-                        <button class="btn btn-primary" type="button" onclick="remarks();">Ajouter une remarque</button>
-                        <script type="text/javascript">
-                            function remarks() {
-                                var tr = document.getElementById("addRemark");
-                                tr.innerHTML = "<td><input name='remarkDate' type='date' value='{{ date("Y-m-d") }}' readonly required/></td><td><input name='remarkAuthor' type='text' value='{{ Auth::user()->initials }}' readonly required/></td><td><textarea name='remark' required cols='100'></textarea></td><td><button class='btn btn-warning' type='submit'>Valider la remarque</button></td>";
-                            }
-                        </script>
-                    </td>
-                </tr>
-                @foreach ($remarks as $value)
-                    <tr>
-                        <td>
-                            {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
-                        </td>
-                        <td>
-                            {{ $value->author }}
-                        </td>
-                        <td colspan="2">
-                            {{ $value->remarkText }}
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-        </form>
-    @endif
-
+    <hr/>
+    <div class="col-12">
+        @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $internship->id, 'remarkType' => 5])
+    </div>
 @endsection
 @push ('page_specific_js')
     <script src="/js/internshipsEdit.js"></script>
