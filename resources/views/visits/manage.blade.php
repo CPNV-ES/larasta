@@ -163,54 +163,11 @@
 
 
         
-    </div>   
-    
-
+    </div>
+    <br><br>
     <div class="row">
         <div class="col-12">
-            
-            <h3>Remarques</h3>
-            <table class="larastable table table-striped text-left">
-                <tbody>
-                    <tr>
-                        <th colspan="4">Remarques</th>
-                    </tr>
-
-                    <tr id="addRemark" hidden="hidden">
-                        <td colspan="4">
-                            <button id="addNewRemark" class="btn-info" type="button">Ajouter une remarque</button>     
-                        </td>  
-                    </tr>
-
-                    <tr id="newRemarkForm" style="display: none;">    
-                        <form method='post' action='/visits/remarks' class='col-md-12 text-left'> 
-                            {{ csrf_field() }}
-                            <input type='hidden' name='id' value='{{$visit->id}}'/>
-                                <td>
-                                    <input type='date' min='{{$today}}' value='{{$today}}' readonly/>
-                                </td>
-                                <td>
-                                    <input type='text' value='{{Auth::user()->initials}}' readonly/>
-                                </td>
-                                <td>
-                                    <textarea name='remark' required cols='100'></textarea>
-                                    <button class="btn-success ml-5" type='submit'>Ajouter la remarque</button>
-                                </td>
-                        </form>
-                    </tr>
-
-                    @foreach($history as $his)
-                        <tr>
-                            <td>
-                                {{ (new DateTime($his->remarkDate))->format('d M Y') }}<br>
-                                {{ (new DateTime($his->remarkDate))->format('H:i:s')  }}
-                            </td>
-                            <td class="text-center">{{ $his->author }}</td>
-                            <td>{{ $his->remarkText }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $visit->id, 'remarkType' => 4])
         </div>
     </div>
 

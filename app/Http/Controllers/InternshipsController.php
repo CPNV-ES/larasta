@@ -211,16 +211,7 @@ class InternshipsController extends Controller
             ->where('internships_id', '=', $id)
             ->get();
 
-        $remarks = DB::table('remarks')
-            ->select(
-                'remarkDate',
-                'author',
-                'remarkText')
-            ->where('remarkType', '=', 5)
-            ->where('remarkOn_id', '=', $id)
-            ->orderby('remarkDate', 'desc')
-            ->get();
-
+        $remarks = $internship->remarks->sortByDesc('remarkDate');
 
         return view('internships/internshipview', compact('visits','remarks','internship','medias'));
     }

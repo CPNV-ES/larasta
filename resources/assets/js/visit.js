@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    $("#newRemarkBtnRow").prop("hidden", "true");
+
     $('#mailbutton').click(function(){
         var student = $("input[name='studentemail']").val();
         var studentFirstName = $("input[name='studentfirstname']").val();
@@ -20,7 +22,7 @@ $(document).ready(function(){
         $('select').prop('disabled', false);
         $('#addRemark').prop('hidden', false);
         $('#fileUpload').prop('hidden', false);
-
+        $("#newRemarkBtnRow").prop('hidden', false);
     });
 
     $('#cancel_a').click(function(){

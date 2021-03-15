@@ -21,6 +21,7 @@ use App\Contactinfos;
 use App\Contacttypes;
 use App\Flock;
 use App\Internship;
+use App\Remark;
 use Illuminate\Http\Request;
 use App\Person;
 use CPNVEnvironment\Environment;
@@ -174,6 +175,8 @@ class PeopleController extends Controller
         // Read Company from DB
         $companies = Company::all();
 
+        $remarks = Remark::where('remarkOn_id', $id)->where('remarkType', 2)->orderby('remarkDate', "DESC")->get();
+
         // select the internships in which the person was involved, based on role
         switch ($person->role) {
             case 0: // Student
@@ -195,7 +198,8 @@ class PeopleController extends Controller
                 'iships' => $iship,
                 'user' => $user,
                 'contacttypes' => $contacttypes,
-                'companies' => $companies
+                'companies' => $companies,
+                'remarks' => $remarks,
             ]
         );
     }

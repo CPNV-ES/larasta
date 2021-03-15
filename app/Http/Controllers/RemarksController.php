@@ -60,6 +60,12 @@ class RemarksController extends Controller
         return redirect()->route("remarks.index");
     }
 
+    public function create(Request $request) {
+        self::addRemark($request->remarkType, $request->remarkOn_id, $request->remarkBody);
+        $request->session()->flash('status', 'Remarque ajoutée');
+        return redirect()->back();
+    }
+
     public function edit (Request $request, $rid) {
         $remark = Remark::where('id',$rid)->first();
         return view('remarks/remark')->with(

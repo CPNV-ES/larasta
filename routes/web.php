@@ -59,14 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
         return view('about');
     });
 
-    // Route::resource('remarks','RemarksController');
-    Route::get('/remarks','RemarksController@index')->name('remarks.index'); 
-    Route::post('/remarks','RemarksController@index')->name('remarks.store'); 
-    Route::get('/remarks','RemarksController@index')->name('remarks.create'); 
-    Route::get('/remarks/{id}','RemarksController@index')->name('remarks.show'); 
-    Route::put('/remarks/{id}','RemarksController@index')->name('remarks.update'); 
-    Route::delete('/remarks/{id}','RemarksController@index')->name('remarks.destroy'); 
-    Route::get('/remarks/{id}/edit','RemarksController@index')->name('remarks.edit'); 
+    Route::resource('remarks','RemarksController');
 
     Route::post('/remarks/filter','RemarksController@filter')->name("remark.filter");
     Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
