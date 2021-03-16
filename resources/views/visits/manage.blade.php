@@ -30,7 +30,9 @@
     <div class="row pt-3 ml-md-2 text-left">
         <div class="col-6">
             <h2 class="ml-2 pb-1">Détails</h2>
-            <form method="post" action="/visits/{{$visit->id}}/update">
+            @if (Auth::user()->role >= 1)
+                <form method="post" action="/visits/{{$visit->id}}/update">
+            @endif
                 {{ csrf_field() }}
                 <input type="hidden" name="studentemail" value="{{ $student['email'] }}">
                 <input type="hidden" name="studentfirstname" value="{{ $visit->internship->student->firstname }}">
@@ -70,6 +72,8 @@
                     </select>
                 </div>
                 
+            {{dd(Auth::user()->role)}}
+            @if (Auth::user()->role >= 1)   
                 <div class="row">
                     <p id="info" class="edit" style="display: none;"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
                     <div class="col-5"> 
@@ -78,7 +82,6 @@
                         <button id="cancel" name="cancel" type="reset" class="ml-3 btn-secondary edit" onClick="window.location.reload();" style="display: none;">Annuler</button>
                        
                     </div>
-               
             </form>
                     <div class="col-2" style="margin-left: -45px;"> 
                         <form method="post" action="/visits/{{$visit->id}}/delete">
@@ -87,7 +90,7 @@
                         </form>
                     </div>
                 </div>
-    
+            @endif
         </div>
 
         
@@ -144,6 +147,8 @@
                     </tr>
                 
             </table>
+            
+            @if (Auth::user()->role >= 1)   
             <div class="row">
                 <div class="col-12 ml-5">
                     <form method="post" action="/visits/{{$visit->id}}/sendMail">
@@ -160,6 +165,7 @@
                     </form>
                 </div> 
             </div>
+            @endif
 
             <div class="row mt-5">
                 <div class="col-12 text-left" id="fileUpload" hidden>
