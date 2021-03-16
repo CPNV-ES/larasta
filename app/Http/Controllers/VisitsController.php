@@ -125,9 +125,11 @@ class VisitsController extends Controller
      * */
     public function manage ($rid) {
 
+        $studentToVisit = Visit::find($rid)->internship->student->id;
+
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
-        if (Auth::user()->role >= 1){
+        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisit){
 
             // Try to know if a visit exist
             $visit = Visit::find($rid);

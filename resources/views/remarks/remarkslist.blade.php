@@ -1,6 +1,8 @@
 {{-- Subview to list remarks --}}
 {{-- Usage:     @include ('remarks.remarkslist',['remarks' => $your_array_of_remarks])  --}}
+@if(Auth::user()->role >= 1)
 <form action="/remarks/create" method="get">
+@endif
 @csrf
 <input type="hidden" name="remarkType" value="{{ $remarkType ?? ''  }}" />
 <input type="hidden" name="remarkOn_id" value="{{ $remarkOnId ?? '' }}" />
@@ -9,7 +11,7 @@
         <th colspan="4">Remarques</th>
     </tr>
     <tbody>
-    
+
     @if($edit ?? false && Auth::user()->role >= 1)
     <tr id="newRemarkBtnRow">
         <td colspan="4">
@@ -46,4 +48,6 @@
     @endforeach
     </tbody>
 </table>
+@if(Auth::user()->role >= 1)
 </form>
+@endif

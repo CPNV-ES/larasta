@@ -32,14 +32,14 @@
             <h2 class="ml-2 pb-1">Détails</h2>
             @if (Auth::user()->role >= 1)
                 <form method="post" action="/visits/{{$visit->id}}/update">
-            @endif
                 {{ csrf_field() }}
                 <input type="hidden" name="studentemail" value="{{ $student['email'] }}">
                 <input type="hidden" name="studentfirstname" value="{{ $visit->internship->student->firstname }}">
                 <input type="hidden" name="studentlastname" value="{{ $visit->internship->student->lastname }}">
                 <input type="hidden" name="responsibleemail" value="{{ $responsible['email'] }}">
                 <input type="hidden" name="adminemail" value="{{ $admin['email'] }}">
-        
+            @endif
+            
                 <div class="form-group col-md-5">
                         <?php
                             //TODO: ok alors
@@ -72,7 +72,6 @@
                     </select>
                 </div>
                 
-            {{dd(Auth::user()->role)}}
             @if (Auth::user()->role >= 1)   
                 <div class="row">
                     <p id="info" class="edit" style="display: none;"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
@@ -167,12 +166,14 @@
             </div>
             @endif
 
+            @if (Auth::user()->role >= 1)
             <div class="row mt-5">
                 <div class="col-12 text-left" id="fileUpload" hidden>
                     @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
                     @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
                 </div>
             </div>
+            @endif
         </div>
 
 

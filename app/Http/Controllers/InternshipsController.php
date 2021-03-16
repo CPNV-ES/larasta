@@ -204,6 +204,7 @@ class InternshipsController extends Controller
         $medias = $internship->getMedia('documents');
         $visits = DB::table('visits')
             ->select(
+                'id',
                 'moment',
                 'confirmed',
                 'number',
