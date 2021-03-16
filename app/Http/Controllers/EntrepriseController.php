@@ -150,18 +150,4 @@ class EntrepriseController extends Controller
     public function remove($id){
         // Function for delete companies from the list, need to implement Eloquent for soft deleting
     }
-
-
-    /**
-     * Function called by entreprise.js in ajax
-     * Create a new remark with the text passed by the user
-     * @param Request $request (id, remark)
-     */
-    public function addRemarks(Request $request)
-    {
-        $type = 1; // Type 1 = company remark
-        $on = $request->id;
-        $text = $request->remark;
-        RemarksController::addRemark($type,$on,$text);
-    }
 }

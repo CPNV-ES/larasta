@@ -272,31 +272,6 @@ class InternshipsController extends Controller
         return redirect()->route('internships.edit', $request->id);
     }
 
-    /**
-     * add manually a new remark on InternshipsEdit page
-     * @param Request $request GET informations
-     * @return redirect to InternshipsEdit page
-     */
-    public function newRemark(Request $request)
-    {
-        self::addRemarks($request);
-
-        return redirect()->back();
-    }
-
-    /**
-     * Function called by entreprise.js in ajax
-     * Create a new remark with the text passed by the user
-     * @param Request $request (id, remark)
-     */
-    public function addRemarks(Request $request)
-    {
-        $type = 5; // Type 5 = internships remark
-        $on = $request->id;
-        $text = $request->remark;
-        RemarksController::addRemark($type, $on, $text);
-    }
-
     public function create($id)
     {
         //Eloquent request

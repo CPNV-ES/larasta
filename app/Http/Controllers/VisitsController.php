@@ -347,16 +347,6 @@ class VisitsController extends Controller
         }
     }
 
-
-    public function addRemarks(Request $request)
-    {
-        $type = 4; // Type 4 = visit remark
-        $on = $request->id;
-        $text = $request->remark;
-        RemarksController::addRemark($type, $on, $text);
-        return back();
-    }
-
     public function storeFile(StoreFileRequest $request, $id)
     {
         $visit = Visit::find($id);
