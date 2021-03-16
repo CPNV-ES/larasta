@@ -173,6 +173,5 @@
 
 @stop
 @push ('page_specific_js')
-    <script src="/js/remark.js"></script>
     <script src="/js/visit.js"></script>
 @endpush

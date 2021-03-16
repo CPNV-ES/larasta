@@ -13,13 +13,7 @@
     @if($edit ?? false)
     <tr id="newRemarkBtnRow">
         <td colspan="4">
-            <button class="btn btn-primary" type="button" onclick="remarks();">Ajouter une remarque</button>
-            <script type="text/javascript">
-                function remarks() {
-                    document.getElementById("newRemarkBtnRow").setAttribute("hidden", "true");
-                    document.getElementById("newRemarkFormRow").removeAttribute("hidden");
-                }
-            </script>
+            <button class="btn btn-primary" id="addRemarkBtn" type="button">Ajouter une remarque</button>
         </td>
     </tr>
     <tr id="newRemarkFormRow" hidden>
@@ -47,3 +41,7 @@
     </tbody>
 </table>
 </form>
+
+@push('page_specific_js')
+    <script src="/js/remarkslist.js"></script>
+@endpush
