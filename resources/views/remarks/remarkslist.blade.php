@@ -9,8 +9,8 @@
         <th colspan="4">Remarques</th>
     </tr>
     <tbody>
-
-    @if($edit ?? false)
+    
+    @if($edit ?? false && Auth::user()->role >= 1)
     <tr id="newRemarkBtnRow">
         <td colspan="4">
             <button class="btn btn-primary" id="addRemarkBtn" type="button">Ajouter une remarque</button>

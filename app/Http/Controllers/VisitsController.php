@@ -136,6 +136,7 @@ class VisitsController extends Controller
                 if(isset($visit->id) == 1)
                 {
                     $student = $visit->internship->student->humanContactInfo();
+                    $classMaster = $visit->internship->student->flock->classMaster->fullname;
                     $responsible = $visit->internship->responsible->humanContactInfo();
                     $admin = $visit->internship->admin->humanContactInfo();
  
@@ -165,6 +166,7 @@ class VisitsController extends Controller
                         [
                             'visit' => $visit,
                             'student' => $student,
+                            'classMaster' => $classMaster,
                             'responsible' => $responsible,
                             'admin' => $admin,
                             'visitstate' => $visitstate,

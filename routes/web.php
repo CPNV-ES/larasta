@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
     Route::post('/visits/{id}/sendMail', 'VisitsController@sendMail');
     Route::get('/visits/{id}/mail','VisitsController@mail');
-    Route::get('/visits/{id}/delete', 'VisitsController@delete');
+    Route::post('/visits/{id}/delete', 'VisitsController@delete')->name("visit.delete");
     Route::post('/visits/{id}/update', 'VisitsController@update');
     Route::post('/visits/{id}/files',"VisitsController@storeFile")->name("visit.storeFile");
     Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
