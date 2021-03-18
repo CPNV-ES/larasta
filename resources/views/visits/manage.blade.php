@@ -16,16 +16,24 @@
     <div class="row mt-4">
         <div class="col-6 text-right">
             <h3>Première visite de: <a href="#">{{$classMaster}}</a></h3>
-
         </div>
         
         <div class="col-6 text-left">
             <h3>Responsable de stage: <a href="#">{{$visit->internship->responsible->firstname}} {{$visit->internship->responsible->lastname}}</a></h3>
-
         </div>
     </div>
     <br>
 
+    <div class="row">
+        <div class="col-12 text-left ml-4">
+            @if (Auth::user()->role == 0 && $visit->visitsstates_id == 2)
+                <a href="{{route('evaluation.grid')}}">
+                    <button type="button" class="btn btn-warning">Evaluation</button>
+                </a>
+            @endif
+        </div>
+    </div>
+    <br>
 
     <div class="row pt-3 ml-md-2 text-left">
         <div class="col-6">
