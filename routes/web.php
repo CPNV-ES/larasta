@@ -30,10 +30,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/internships/{id}/edit','InternshipsController@edit')->name('internships.edit'); 
     Route::put('/internships/{id}','InternshipsController@update')->name('internships.update'); 
     Route::delete('/internships/{id}','InternshipsController@destroy')->name('internships.destroy'); 
+    Route::get('/internships/{id}/createinternshipreport', 'InternshipReportController@create')->name('internshipReport.create');
     
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
     Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
+
+    // Internship report
+    Route::get('/internshipreport/{id}', 'InternshipReportController@show')->name('internshipReport.show');
+
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
     Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
