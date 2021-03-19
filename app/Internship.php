@@ -113,5 +113,13 @@ class Internship extends Model implements HasMedia
         }
 
         return $nextInternship;
-    }   
+    }  
+    
+    /**
+     * Relation with internship reports table
+     */
+    public function report()
+    {
+        return $this->hasOne(InternshipReport::class);
+    }
 }
