@@ -3,7 +3,8 @@
     <link rel="stylesheet" href="/css/visits.css">
 @endpush
 @section ('content')
-    
+
+    <!-- Page title -->
     <div class="row">
         <div class="col-12">
             <h2>
@@ -24,10 +25,11 @@
     </div>
     <br>
 
+    <!-- Evaluation button for the student -->
     <div class="row">
-        <div class="col-12 text-left ml-4">
+        <div class="col-12 text-left ml-md-4">
             @if (Auth::user()->role == 0 && $visit->visitsstates_id == 2)
-                <a href="{{route('evaluation.grid')}}">
+                <a href="{{route('visit.evaluation', $visit->id)}}">
                     <button type="button" class="btn btn-warning">Evaluation</button>
                 </a>
             @endif
@@ -35,6 +37,7 @@
     </div>
     <br>
 
+    <!-- Evaluation details & form -->
     <div class="row pt-3 ml-md-2 text-left">
         <div class="col-6">
             <h2 class="ml-2 pb-1">Détails</h2>
@@ -50,13 +53,11 @@
             
                 <div class="form-group col-md-5">
                         <?php
-                            //TODO: ok alors
                             $today = date('Y-m-d');
                             $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
                         ?>
                         <label for="upddate">Date</label>
                         <input disabled id="upddate" name="upddate" class="form-control" type="date" width="50%" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
-
                 </div>
 
                 <div class="form-group col-md-5">
