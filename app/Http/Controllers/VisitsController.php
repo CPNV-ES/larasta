@@ -152,7 +152,9 @@ class VisitsController extends Controller
                      * 2. Confirmée
                      * 3. Effectuée
                      *  */
-                    $visitstate = Visitsstate::get();
+                    $visitstates = Visitsstate::get();
+                    $visitActualStateId = $visit->visitsstates_id;
+
                     /*
                      * Gets remarks about the visit
                      * It returns all remarks about the visit by its ID.
@@ -173,7 +175,8 @@ class VisitsController extends Controller
                             'classMaster' => $classMaster,
                             'responsible' => $responsible,
                             'admin' => $admin,
-                            'visitstate' => $visitstate,
+                            'visitActualStateId' => $visitActualStateId,
+                            'visitstates' => $visitstates,
                             'remarks' => $remarks,
                             'medias' => $medias
                         ]

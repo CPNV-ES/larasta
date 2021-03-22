@@ -11,8 +11,8 @@
         <th colspan="4">Remarques</th>
     </tr>
     <tbody>
-
-    @if($edit ?? false && Auth::user()->role >= 1)
+    @if(Auth::user()->role >= 1)
+    @if($edit ?? false)
     <tr id="newRemarkBtnRow">
         <td colspan="4">
             <button class="btn btn-primary" type="button" onclick="remarks();">Ajouter une remarque</button>
@@ -38,6 +38,7 @@
             <button class='btn btn-warning' type='submit'>Valider la remarque</button>
         </td>
     </tr>
+    @endif
     @endif
 
     @foreach($remarks as $remark)

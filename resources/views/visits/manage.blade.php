@@ -73,10 +73,16 @@
                 <div class="form-group col-md-5">
                     <label for="sel">État</label>
                     <select disabled id='sel' name="state" class="form-control" class="hidden hidea">
-                        @foreach($visitstate as $state)
-                            <option value="{{$state->id}}">
-                                {{$state->stateName}}
-                            </option>
+                        @foreach($visitstates as $state)
+                            @if($visitActualStateId == $state->id)
+                                <option value="{{$state->id}}" selected>
+                                    {{$state->stateName}}
+                                </option>
+                            @else
+                                <option value="{{$state->id}}">
+                                    {{$state->stateName}}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
