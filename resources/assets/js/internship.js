@@ -24,9 +24,10 @@ var oneButton = $("#one");
 // Show buttons on page load
 $(function() {
   showAllButton();
+  showOneButton();
 });
 
-// Display the all or one button
+// Display the all button or not
 function showAllButton() {
   if ($("#filters").find(":checkbox:checked").length < buttons.length)
     allButton.parent().removeAttr("hidden");
@@ -34,8 +35,17 @@ function showAllButton() {
     allButton.parent().attr("hidden", true);
 }
 
+// Display the one button or not
+function showOneButton() {
+  if ($("#filters").find(":checkbox:checked").length > 1)
+    oneButton.parent().removeAttr("hidden");
+  else
+    oneButton.parent().attr("hidden", true);
+}
+
 buttons.change(function() {
   showAllButton();
+  showOneButton();
 
   // The last filter button will always checked
   if ($("#filters").find(":checkbox:checked").length < 1) this.checked = true;
@@ -50,6 +60,7 @@ allButton.change(function() {
   });
 
   showAllButton();
+  showOneButton();
 });
 
 oneButton.change(function() {
@@ -63,4 +74,5 @@ oneButton.change(function() {
   }
 
   showAllButton();
+  showOneButton();
 });
