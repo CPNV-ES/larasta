@@ -213,9 +213,10 @@ FROM `app_internships`.`stage`;
 
 INSERT INTO `larasta`.`visitsstates`
 (`id`,
+`slug`,
 `stateName`)
 VALUES
-(1,'proposé'),(2,'accepté');
+(1,'pro','proposée'),(2,'acc','acceptée'),(3,'eff','effectuée'),(4,'bou','bouclée');
 
 INSERT INTO `larasta`.`visits`
 (`id`,

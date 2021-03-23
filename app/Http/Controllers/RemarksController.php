@@ -53,11 +53,11 @@ class RemarksController extends Controller
         self::addRemark($request->type,$request->on,$request->text);
         return 'Remarque ajoutée';
     }
-
-    public function store(Request $request) {
-        self::addRemark(1,1,$request->newremtext);
+    
+    public function create(Request $request) {
+        self::addRemark($request->remarkType, $request->remarkOn_id, $request->remarkBody);
         $request->session()->flash('status', 'Remarque ajoutée');
-        return redirect()->route("remarks.index");
+        return redirect()->back();
     }
 
     public function edit (Request $request, $rid) {

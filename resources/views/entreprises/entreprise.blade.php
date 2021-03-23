@@ -129,14 +129,6 @@
                 </div>
             </div>
         </div>
-        <div class="row content-box">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h3>Remarques</h3>
-                <div class="table-responsive">
-                    @include ('remarks.remarkslist',['remarks' => $remarks])
-                </div>
-            </div>
-        </div>
     </div>
     @if(Auth::user()->role >= 2)
         <div class="body simple-box hidden" id="field">
@@ -228,28 +220,15 @@
                     </div>
                 </div>
             </div>
-            <div class="row content-box">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h3>Remarques</h3>
-                    <div class="table-responsive">
-                        @include ('remarks.remarkslist',['remarks' => $remarks])
-                    </div>
-                    <div class="row">
-                        <div class="" id="remarkBtn">
-                            <button type="button" value="Ajouter" id="remark">Nouvelle remarque</button>
-                        </div>
-                        <div class="hidden" id="newRemark">
-                            <input value="{{Request::segment(2)}}" id="id" hidden>
-                            <input value="{{$user->initials}}" id="initials" hidden>
-                            <input value="{{(new DateTime(now()))->format('d.M.y')}}" id="date" hidden>
-                            <input type="text" name="newOne" id="remarksText"/>
-                            <button type="button" value="Ajouter"  onclick="remarkAdd()">Ajouter</button>
-                        </div>
-                    </div>
+        </div>
+        </form>
+        <div class="row content-box">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    @include ('remarks.remarkslist',['remarks' => $remarks,'edit' => Auth::user()->role >= 2, 'remarkOnId' => $company->id, 'remarkType' => 1])
                 </div>
             </div>
         </div>
-        </form>
      @endif
 </div>
 

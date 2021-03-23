@@ -22,6 +22,7 @@ class CreateVisitsTable extends Migration {
 			$table->float('grade', 10, 0)->nullable()->comment('Results of the evaluation');
 			$table->integer('visitsstates_id')->index('fk_visits_visitsstates1_idx');
 			$table->integer('mailstate')->nullable();
+			$table->dateTime('maildate')->nullable();
 		});
 	}
 

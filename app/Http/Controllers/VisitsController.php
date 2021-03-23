@@ -136,6 +136,7 @@ class VisitsController extends Controller
                 if(isset($visit->id) == 1)
                 {
                     $student = $visit->internship->student->humanContactInfo();
+                    $classMaster = $visit->internship->student->flock->classMaster->fullname;
                     $responsible = $visit->internship->responsible->humanContactInfo();
                     $admin = $visit->internship->admin->humanContactInfo();
  
@@ -155,7 +156,7 @@ class VisitsController extends Controller
                      * 2. Author
                      * 3. remark(s)
                      * */
-                    $history = Remark::where('remarkOn_id', "=", $rid)->orderby('remarkDate', "DESC")->get(); 
+                    $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
 
                     /*
                      * Gets media associate from the visit (ID).
@@ -165,10 +166,11 @@ class VisitsController extends Controller
                         [
                             'visit' => $visit,
                             'student' => $student,
+                            'classMaster' => $classMaster,
                             'responsible' => $responsible,
                             'admin' => $admin,
                             'visitstate' => $visitstate,
-                            'history' => $history,
+                            'remarks' => $remarks,
                             'medias' => $medias
                         ]
                     );
@@ -283,7 +285,6 @@ class VisitsController extends Controller
             $date = $request->upddate;
             $date .= " ".$request->updtime;
             $note = $request->grade;
-            $mail = $request->has('checkm');
 
             if(empty($note)) {
                 if($state == Visitsstate::where('slug', 'bou')->first()->id) {
@@ -305,8 +306,7 @@ class VisitsController extends Controller
                 ->update([
                     'visitsstates_id' => $state,
                     'moment' => $date,
-                    'mailstate' => $mail,
-                    'grade' => $note,
+                    'grade' => $note
                 ]);
 
             /*
@@ -328,13 +328,25 @@ class VisitsController extends Controller
         }
     }
 
-    public function addRemarks(Request $request)
-    {
-        $type = 4; // Type 4 = visit remark
-        $on = $request->id;
-        $text = $request->remark;
-        RemarksController::addRemark($type, $on, $text);
-        return back();
+
+    public function sendMail(Request $request, $id){
+
+        if (Auth::user()->role >= 1){
+
+            $maildate = date("Y-m-d");
+
+            Visit::where('visits.id', '=', $id)
+            ->update([
+                'mailstate' => "1",
+                'maildate' => $maildate
+            ]);
+            
+
+            return redirect(route('visit.manage', $id));
+
+        }else{
+            return redirect('/')->with('status', "You don't have the permission to access this function.");
+        }
     }
 
     public function storeFile(StoreFileRequest $request, $id)

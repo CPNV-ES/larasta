@@ -49,20 +49,17 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
         Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
         Route::get('/admin/evaluationgrid', 'EvaluationGridController@index');
+        Route::get('/mailing','MailingController@mailling');
+        Route::get('/flocks', 'FlocksController@index');
+        Route::get('/params', 'ParamsController@index');
+        Route::post('/params/update', 'ParamsController@update');
     });
     
     Route::get('/about', function () {
         return view('about');
     });
 
-    // Route::resource('remarks','RemarksController');
-    Route::get('/remarks','RemarksController@index')->name('remarks.index'); 
-    Route::post('/remarks','RemarksController@index')->name('remarks.store'); 
-    Route::get('/remarks','RemarksController@index')->name('remarks.create'); 
-    Route::get('/remarks/{id}','RemarksController@index')->name('remarks.show'); 
-    Route::put('/remarks/{id}','RemarksController@index')->name('remarks.update'); 
-    Route::delete('/remarks/{id}','RemarksController@index')->name('remarks.destroy'); 
-    Route::get('/remarks/{id}/edit','RemarksController@index')->name('remarks.edit'); 
+    Route::resource('remarks','RemarksController');
 
     Route::post('/remarks/filter','RemarksController@filter')->name("remark.filter");
     Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
@@ -97,8 +94,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/visits/create','VisitsController@create');
     Route::post('/visits/remarks','VisitsController@addRemarks');
     Route::get('/visits/{rid}/manage','VisitsController@manage')->name("visit.manage");
+    Route::post('/visits/{id}/sendMail', 'VisitsController@sendMail');
     Route::get('/visits/{id}/mail','VisitsController@mail');
-    Route::get('/visits/{id}/delete', 'VisitsController@delete');
+    Route::post('/visits/{id}/delete', 'VisitsController@delete')->name("visit.delete");
     Route::post('/visits/{id}/update', 'VisitsController@update');
     Route::post('/visits/{id}/files',"VisitsController@storeFile")->name("visit.storeFile");
     Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
@@ -136,14 +134,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/addlifecycle','LifeCycleController@addEmptyContractState');
     Route::post('/removelifecycle','LifeCycleController@removeLifeCycleState');
-
-    //Mailling
-    Route::get('/mailing','MailingController@mailling');
-
-    Route::get('/flocks', 'FlocksController@index');
-
-    Route::get('/params', 'ParamsController@index');
-    Route::post('/params/update', 'ParamsController@update');
 
 });
     

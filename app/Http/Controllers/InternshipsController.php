@@ -211,16 +211,7 @@ class InternshipsController extends Controller
             ->where('internships_id', '=', $id)
             ->get();
 
-        $remarks = DB::table('remarks')
-            ->select(
-                'remarkDate',
-                'author',
-                'remarkText')
-            ->where('remarkType', '=', 5)
-            ->where('remarkOn_id', '=', $id)
-            ->orderby('remarkDate', 'desc')
-            ->get();
-
+        $remarks = $internship->remarks->sortByDesc('remarkDate');
 
         return view('internships/internshipview', compact('visits','remarks','internship','medias'));
     }
@@ -279,31 +270,6 @@ class InternshipsController extends Controller
         Remark::addMultipleWithDetails($request, $internshipOld, $internship);
         
         return redirect()->route('internships.edit', $request->id);
-    }
-
-    /**
-     * add manually a new remark on InternshipsEdit page
-     * @param Request $request GET informations
-     * @return redirect to InternshipsEdit page
-     */
-    public function newRemark(Request $request)
-    {
-        self::addRemarks($request);
-
-        return redirect()->back();
-    }
-
-    /**
-     * Function called by entreprise.js in ajax
-     * Create a new remark with the text passed by the user
-     * @param Request $request (id, remark)
-     */
-    public function addRemarks(Request $request)
-    {
-        $type = 5; // Type 5 = internships remark
-        $on = $request->id;
-        $text = $request->remark;
-        RemarksController::addRemark($type, $on, $text);
     }
 
     public function create($id)
