@@ -13,7 +13,7 @@
     <tbody>
     @if(Auth::user()->role >= 1)
     @if($edit ?? false)
-    <tr id="newRemarkBtnRow">
+    <tr id="newRemarkBtnRow" hidden>
         <td colspan="4">
             <button class="btn btn-primary" type="button" onclick="remarks();">Ajouter une remarque</button>
             <script type="text/javascript">
