@@ -1,6 +1,8 @@
 {{-- Subview to list remarks --}}
 {{-- Usage:     @include ('remarks.remarkslist',['remarks' => $your_array_of_remarks])  --}}
+@if(Auth::user()->role >= 1)
 <form action="/remarks/create" method="get">
+@endif
 @csrf
 <input type="hidden" name="remarkType" value="{{ $remarkType ?? ''  }}" />
 <input type="hidden" name="remarkOn_id" value="{{ $remarkOnId ?? '' }}" />
@@ -9,9 +11,9 @@
         <th colspan="4">Remarques</th>
     </tr>
     <tbody>
-    
-    @if($edit ?? false && Auth::user()->role >= 1)
-    <tr id="newRemarkBtnRow">
+    @if(Auth::user()->role >= 1)
+    @if($edit ?? false)
+    <tr id="newRemarkBtnRow" hidden>
         <td colspan="4">
             <button class="btn btn-primary" id="addRemarkBtn" type="button">Ajouter une remarque</button>
         </td>
@@ -31,6 +33,7 @@
         </td>
     </tr>
     @endif
+    @endif
 
     @foreach($remarks as $remark)
             <td style="white-space: nowrap">{{ (new DateTime($remark->remarkDate))->format('d M y') }}</td>
@@ -40,8 +43,13 @@
     @endforeach
     </tbody>
 </table>
+
 </form>
 
 @push('page_specific_js')
     <script src="/js/remarkslist.js"></script>
 @endpush
+
+@if(Auth::user()->role >= 1)
+</form>
+@endif

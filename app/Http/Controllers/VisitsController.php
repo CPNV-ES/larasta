@@ -21,6 +21,7 @@ use App\Visit;
 use App\Remark;
 use App\Person;
 use App\Visitsstate;
+use App\EvaluationSection;
 
 // Intranet env
 use CPNVEnvironment\Environment;
@@ -125,9 +126,12 @@ class VisitsController extends Controller
      * */
     public function manage ($rid) {
 
+        $studentToVisit = Visit::find($rid)->internship->student->id;
+
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
+        // Or the concerned student of the internship
         // Student = 0; Teacher = 1; Admin = 2
-        if (Auth::user()->role >= 1){
+        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisit){
 
             // Try to know if a visit exist
             $visit = Visit::find($rid);
@@ -148,7 +152,9 @@ class VisitsController extends Controller
                      * 2. Confirmée
                      * 3. Effectuée
                      *  */
-                    $visitstate = Visitsstate::get();
+                    $visitstates = Visitsstate::get();
+                    $visitActualStateId = $visit->visitsstates_id;
+
                     /*
                      * Gets remarks about the visit
                      * It returns all remarks about the visit by its ID.
@@ -169,7 +175,8 @@ class VisitsController extends Controller
                             'classMaster' => $classMaster,
                             'responsible' => $responsible,
                             'admin' => $admin,
-                            'visitstate' => $visitstate,
+                            'visitActualStateId' => $visitActualStateId,
+                            'visitstates' => $visitstates,
                             'remarks' => $remarks,
                             'medias' => $medias
                         ]
@@ -189,6 +196,32 @@ class VisitsController extends Controller
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
     }
+
+
+    public function evaluation($visitId){  
+        $visit = Visit::find($visitId);
+        $concernedStudent = $visit->internship->student->id;
+        
+        if (Auth::user()->id == $concernedStudent && $visit ->visitsstates_id == 2){
+    
+            $evaluationSections = EvaluationSection::all();
+            $company = $visit->internship->company->companyName;
+            $classMaster = $visit->internship->student->flock->classMaster->fullname;
+            $responsible = $visit->internship->responsible->humanContactInfo();
+
+            return view('visits/evaluationGrid')->with(
+                [   
+                    'evaluationSections' => $evaluationSections,
+                    'visit' => $visit
+                ]
+            );
+
+        }else{
+            return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
+        }
+    }
+
+
 
     /*
      * -- mail --
