@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\InternshipReport;
 use App\Internship;
 
@@ -15,6 +16,8 @@ class InternshipReportController extends Controller
             $newReport = new InternshipReport();
             $newReport->internship_id = $internshipId;
             $newReport->save();
+
+            return redirect()->route('internshipReport.show', ['id' => $newReport->id]);
         } else {
             abort(404);
         }
@@ -24,5 +27,10 @@ class InternshipReportController extends Controller
     {
         $report = InternshipReport::findOrFail($id);
         return view('internshipreports.show', compact('report'));
+    }
+
+    public function store(Request $request, $id)
+    {
+        
     }
 }

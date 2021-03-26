@@ -12,4 +12,9 @@ class InternshipReport extends Model
     {
         return $this->belongsTo(Internship::class);
     }
+
+    public function sections()
+    {
+        return $this->hasMany('App\ReportSection', 'report_id');
+    }
 }
