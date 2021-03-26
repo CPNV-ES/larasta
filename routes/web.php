@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Internship report
     Route::get('/internshipreport/{id}', 'InternshipReportController@show')->name('internshipReport.show');
+    Route::post('/internshipreport/{id}', 'InternshipReportController@store')->name('internshipReport.store');
 
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
