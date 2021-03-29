@@ -107,48 +107,29 @@
                 <div class="col-2">Etat</div>
                 <div class="col-1">Note</div>
             </div>
-            @foreach ($visits->toArray() as $value)
-                <div class="row border">
+            @foreach ($visits->toArray() as $visit)
+                <div class="row border" onclick="window.location='/visits/{{$visit->id}}/manage';">
                     <div class="col-1">
-                        {{ $value->number }}
+                        {{ $visit->number }}
                     </div>
                     <div class="col-2">
-                        {{ strftime("%e %b %g %R", strtotime($value->moment)) }}
+                        {{ strftime("%e %b %g %R", strtotime($visit->moment)) }}
                     </div>
                     <div class="col-2">
-                        {{ $value->confirmed ? "Confirmé" : "Non-confirmé" }}
+                        {{ $visit->confirmed ? "Confirmé" : "Non-confirmé" }}
                     </div>
                     <div class="col-1">
-                        {{ $value->grade == "" ? "Pas de note" : $value->grade }}
+                        {{ $visit->grade == "" ? "Pas de note" : $visit->grade }}
                     </div>
                 </div>
             @endforeach
         </div>
     @endif
 
-    {{-- Remarks --}}
-    @if (isset($remarks) && count($remarks) > 0)
-        <hr/>
-        <h4>Remarques</h4>
-        <div class="container text-left">
-            <div class="row border bg-header">
-                <div class="col-1">Date</div>
-                <div class="col-1">Auteur</div>
-                <div class="col-10">Remarque</div>
-            </div>
-            @foreach ($remarks->toArray() as $value)
-                <div class="row border">
-                    <div class="col-1">
-                        {{ strftime("%e %b %g", strtotime($value->remarkDate)) }}
-                    </div>
-                    <div class="col-1">
-                        {{ $value->author }}
-                    </div>
-                    <div class="col-10">
-                        {{ $value->remarkText }}
-                    </div>
-                </div>
-            @endforeach
+    <hr/>
+    <div class="container text-left" style="padding:0;">
+        <div class="table-responsive">
+            @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => false, 'remarkOnId' => $internship->id, 'remarkType' => 5])
         </div>
-    @endif 
+    </div>
 @stop

@@ -109,6 +109,12 @@
         <div>
             @include ('internships._internshipslist',['iships' => $iships])
         </div>
+
+        <h5 class="titlebar">Remarques</h5>
+        <div class="table-responsive">
+            @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $person->id, 'remarkType' => 2])
+        </div>
+
     </div>
 @stop
 

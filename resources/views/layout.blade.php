@@ -32,6 +32,14 @@
             {{ session('status') }}
         </div>
     @endif
+    <!-- Affiche les erreurs de validation de Laravel -->
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div class="alert-danger willvanish">
+                {{ $error }}
+            </div>
+        @endforeach
+    @endif
     <button id="sidemenuToggler" title="toggle menu"></button>
     <div id="sidemenu" class="simple-box container-fluid text-center">
         <table class="table table-striped text-left larastable">

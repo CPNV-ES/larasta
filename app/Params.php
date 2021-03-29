@@ -26,4 +26,24 @@ class Params extends Model
         ->first();
         return $params;
     }
+
+    /**
+     * Returns the type of the currently stored parameter value
+     *
+     * @return string "int", "text", "date" depending on the Param's value, or "none" if the Param has no value
+     */
+    public function getValueTypeAttribute() {
+        if(isset($this->paramValueInt)) {
+            return "int";
+        }
+        elseif(isset($this->paramValueText)) {
+            return "text";
+        }
+        elseif(isset($this->paramValueDate)) {
+            return "date";
+        }
+        else {
+            return "none";
+        }
+    }
 }

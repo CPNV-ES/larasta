@@ -21,6 +21,7 @@ use App\Visit;
 use App\Remark;
 use App\Person;
 use App\Visitsstate;
+use App\EvaluationSection;
 
 // Intranet env
 use CPNVEnvironment\Environment;
@@ -125,9 +126,12 @@ class VisitsController extends Controller
      * */
     public function manage ($rid) {
 
+        $studentToVisit = Visit::find($rid)->internship->student->id;
+
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
+        // Or the concerned student of the internship
         // Student = 0; Teacher = 1; Admin = 2
-        if (Auth::user()->role >= 1){
+        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisit){
 
             // Try to know if a visit exist
             $visit = Visit::find($rid);
@@ -136,6 +140,7 @@ class VisitsController extends Controller
                 if(isset($visit->id) == 1)
                 {
                     $student = $visit->internship->student->humanContactInfo();
+                    $classMaster = $visit->internship->student->flock->classMaster->fullname;
                     $responsible = $visit->internship->responsible->humanContactInfo();
                     $admin = $visit->internship->admin->humanContactInfo();
  
@@ -147,7 +152,9 @@ class VisitsController extends Controller
                      * 2. Confirmée
                      * 3. Effectuée
                      *  */
-                    $visitstate = Visitsstate::get();
+                    $visitstates = Visitsstate::get();
+                    $visitActualStateId = $visit->visitsstates_id;
+
                     /*
                      * Gets remarks about the visit
                      * It returns all remarks about the visit by its ID.
@@ -155,7 +162,7 @@ class VisitsController extends Controller
                      * 2. Author
                      * 3. remark(s)
                      * */
-                    $history = Remark::where('remarkOn_id', "=", $rid)->orderby('remarkDate', "DESC")->get(); 
+                    $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
 
                     /*
                      * Gets media associate from the visit (ID).
@@ -165,10 +172,12 @@ class VisitsController extends Controller
                         [
                             'visit' => $visit,
                             'student' => $student,
+                            'classMaster' => $classMaster,
                             'responsible' => $responsible,
                             'admin' => $admin,
-                            'visitstate' => $visitstate,
-                            'history' => $history,
+                            'visitActualStateId' => $visitActualStateId,
+                            'visitstates' => $visitstates,
+                            'remarks' => $remarks,
                             'medias' => $medias
                         ]
                     );
@@ -187,6 +196,32 @@ class VisitsController extends Controller
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
     }
+
+
+    public function evaluation($visitId){  
+        $visit = Visit::find($visitId);
+        $concernedStudent = $visit->internship->student->id;
+        
+        if (Auth::user()->id == $concernedStudent && $visit ->visitsstates_id == 2){
+    
+            $evaluationSections = EvaluationSection::all();
+            $company = $visit->internship->company->companyName;
+            $classMaster = $visit->internship->student->flock->classMaster->fullname;
+            $responsible = $visit->internship->responsible->humanContactInfo();
+
+            return view('visits/evaluationGrid')->with(
+                [   
+                    'evaluationSections' => $evaluationSections,
+                    'visit' => $visit
+                ]
+            );
+
+        }else{
+            return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
+        }
+    }
+
+
 
     /*
      * -- mail --
@@ -283,7 +318,6 @@ class VisitsController extends Controller
             $date = $request->upddate;
             $date .= " ".$request->updtime;
             $note = $request->grade;
-            $mail = $request->has('checkm');
 
             if(empty($note)) {
                 if($state == Visitsstate::where('slug', 'bou')->first()->id) {
@@ -305,8 +339,7 @@ class VisitsController extends Controller
                 ->update([
                     'visitsstates_id' => $state,
                     'moment' => $date,
-                    'mailstate' => $mail,
-                    'grade' => $note,
+                    'grade' => $note
                 ]);
 
             /*
@@ -328,13 +361,25 @@ class VisitsController extends Controller
         }
     }
 
-    public function addRemarks(Request $request)
-    {
-        $type = 4; // Type 4 = visit remark
-        $on = $request->id;
-        $text = $request->remark;
-        RemarksController::addRemark($type, $on, $text);
-        return back();
+
+    public function sendMail(Request $request, $id){
+
+        if (Auth::user()->role >= 1){
+
+            $maildate = date("Y-m-d");
+
+            Visit::where('visits.id', '=', $id)
+            ->update([
+                'mailstate' => "1",
+                'maildate' => $maildate
+            ]);
+            
+
+            return redirect(route('visit.manage', $id));
+
+        }else{
+            return redirect('/')->with('status', "You don't have the permission to access this function.");
+        }
     }
 
     public function storeFile(StoreFileRequest $request, $id)
