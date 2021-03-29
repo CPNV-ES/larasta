@@ -23,7 +23,7 @@
                 </td>
             </tr>
         </table>
-        <button id="edit" type="button" class="btn-warning edit-button">Editer</button>
+        <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
         <button id="save" type="submit" class="btn-success save-button">Enregistrer</button>
     </form>
     </section>
@@ -46,7 +46,7 @@
                     </td>
                 </tr>
             </table>
-            <button id="edit" type="button" class="btn-warning edit-button">Editer</button>
+            <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
             <button id="save" type="submit" class="btn-success">Enregistrer</button>
         </form>
     </section>
@@ -69,7 +69,7 @@
                     </td>
                 </tr>
             </table>
-            <button id="edit" type="button" class="btn-warning edit-button">Editer</button>
+            <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
             <button id="save" type="submit" class="btn-success">Enregistrer</button>
         </form>
     </section>

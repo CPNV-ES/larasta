@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  document.getElementsByClassName("edit-button").forEach((button) => {
+  document.getElementsByName("edit").forEach((button) => {
     button.addEventListener("click", (event) => {
       event.target.setAttribute("hidden", true);
       event.target.parentElement
