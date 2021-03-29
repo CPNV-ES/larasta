@@ -24,7 +24,7 @@
             </tr>
         </table>
         <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
-        <button id="save" type="submit" class="btn-success save-button">Enregistrer</button>
+        <button id="save" name="save" type="submit" class="btn-success save-button" hidden>Enregistrer</button>
     </form>
     </section>
 
@@ -47,7 +47,7 @@
                 </tr>
             </table>
             <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
-            <button id="save" type="submit" class="btn-success">Enregistrer</button>
+            <button id="save" name="save" type="submit" class="btn-success" hidden>Enregistrer</button>
         </form>
     </section>
 
@@ -70,7 +70,7 @@
                 </tr>
             </table>
             <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
-            <button id="save" type="submit" class="btn-success">Enregistrer</button>
+            <button id="save" name="save" type="submit" class="btn-success" hidden>Enregistrer</button>
         </form>
     </section>
     @else
@@ -93,8 +93,8 @@
                     </td>
                 </tr>
             </table>
-            <button id="edit1" type="button" class="btn-warning edit-button">Editer</button>
-            <button id="save1" type="submit" class="btn-success">Enregistrer</button>
+            <button id="edit" name="edit" type="button" class="btn-warning">Editer</button>
+            <button id="save" name="save" type="submit" class="btn-success" hidden>Enregistrer</button>
         </form>
     </section>
     @endforeach

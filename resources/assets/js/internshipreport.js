@@ -4,7 +4,13 @@ $(document).ready(() => {
       event.target.setAttribute("hidden", true);
       event.target.parentElement
         .querySelectorAll("input, textarea")
-        .forEach((element) => element.removeAttribute("readonly"));
+        .forEach((element) => {
+          element.removeAttribute("readonly");
+          if (element.type == "textarea") setupSimpleMDE(element);
+        });
+      event.target.parentElement
+        .querySelector("[name='save']")
+        .removeAttribute("hidden");
     });
   });
 });
@@ -36,7 +42,5 @@ function setupSimpleMDE(element) {
   });
   simplemde.codemirror.on("change", function() {
     description.value = simplemde.value();
-    var event = new Event("change");
-    description.dispatchEvent(event);
   });
 }
