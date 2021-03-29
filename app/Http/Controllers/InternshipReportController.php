@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\InternshipReport;
 use App\Internship;
 
@@ -27,10 +26,5 @@ class InternshipReportController extends Controller
     {
         $report = InternshipReport::findOrFail($id);
         return view('internshipreports.show', compact('report'));
-    }
-
-    public function store(Request $request, $id)
-    {
-        
     }
 }
