@@ -11,7 +11,7 @@
             <tr scope="row">
                 <td scope="col-md-2">Titre</td>
                 <td>
-                    <input id="title1" type="text" name="title" class="w-100"
+                    <input id="title" type="text" name="title" class="w-100"
                         value="Description du contexte de mon stage (entreprise, domaine d'activité, rôles, etc...)"
                         readonly />
                 </td>
@@ -35,7 +35,7 @@
                 <tr scope="row">
                     <td scope="col-md-2">Titre</td>
                     <td>
-                        <input id="title1" type="text" name="title" class="w-100"
+                        <input id="title" type="text" name="title" class="w-100"
                             value="Description de mon plan de carrière" readonly />
                     </td>
                 </tr>
@@ -82,13 +82,13 @@
                 <tr scope="row">
                     <td scope="col-md-2">Titre</td>
                     <td>
-                        <input id="title1" type="text" name="title" class="w-100" value="{{$section->name}}" readonly />
+                        <input id="title" type="text" name="title" class="w-100" value="{{$section->name}}" readonly />
                     </td>
                 </tr>
                 <tr scope="row">
                     <td>Description</td>
                     <td class="Description">
-                        <textarea id="description1" name="description" class="w-100" value="{{$section->text}}"
+                        <textarea id="description" name="description" class="w-100" value="{{$section->text}}"
                             readonly></textarea>
                     </td>
                 </tr>
