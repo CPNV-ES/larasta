@@ -27,7 +27,17 @@
                 $weekStartDateStr = $weekStartDate->formatLocalized('%d %B');
                 $weekEndDateStr = $weekEndDate->formatLocalized('%d %B %Y');
             @endphp
-            <p class="reviewWeekSeparator">Semaine du {{$weekStartDateStr}} au {{$weekEndDateStr}}</p>
+            <div class="reviewWeekSeparator">
+                <div class="row">
+                    <div class="col-9">
+                        <h3>Semaine du {{$weekStartDateStr}} au {{$weekEndDateStr}}</h3>
+                    </div>
+                    <div class="col-3 text-right pr-5">
+                        <button class="btn-success">Sauvegarder</button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="reviewWeek">
                 <!--days-->
                 @foreach ($week->reverse() as $dayKey => $day)
@@ -41,7 +51,19 @@
                                         <p class="reviewActivityDuration">{{\App\Services\DurationHelper::getPrettyTime($activity->duration)}}</p>
                                         <p class="reviewActivityType">{{$activity->activityType->typeActivityDescription}}</p>
                                     </div>
-                                    <p class="reviewActivityDescription">{{$activity->activityDescription}}</p>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="reviewActivityDescription">{{$activity->activityDescription}}</p>   
+                                        </div>
+                                        <div class="col-12">
+                                            <h5 style="color: green; font-style: italic;">Exemple d'un feedback fait par le responsable</h5>   
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn-success">Feedback</button>
+                                        </div>
+                                    </div>
+                                    
+                                    
                                 </div>
                             @endforeach
                         </div>
