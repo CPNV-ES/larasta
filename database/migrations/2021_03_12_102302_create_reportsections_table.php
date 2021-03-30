@@ -15,7 +15,7 @@ class CreateReportSectionsTable extends Migration
     {
         Schema::create('reportsections', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('report_id')->unique();
+            $table->integer('report_id');
             $table->string('name');
             $table->text('text')->nullable();
             $table->timestamps();     
