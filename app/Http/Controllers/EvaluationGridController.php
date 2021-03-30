@@ -13,4 +13,10 @@ class EvaluationGridController extends Controller
 
         return view('evaluationgrid.index')->with(compact('evaluationSections'));
     }
+
+    public function create() {
+        $evaluationSections = EvaluationSection::all();
+
+        return view('evaluationgrid.create')->with(compact('evaluationSections'));
+    }
 }

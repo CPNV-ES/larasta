@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-    <h1>Grille d'évaluation</h1>
+    <h1>Nouvelle grille d'évaluation</h1>
     <h2>Sections</h2>
     @forelse ($evaluationSections as $evaluationSection)
         <table class="larastable w-100 mb-3">
@@ -26,32 +26,31 @@
                 <tr>
                     <td>
                         {{ $criteria->criteriaName }}
-                    </td>     
-                    
+                    </td>
+
                     @switch ($evaluationSection->sectionType)
                         @case (1)
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            @break
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        @break
                         @case (2)
-                            <td></td>
-                            <td></td>
-                            <td></td>                      
-                            @break
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        @break
                         @case (3)
-                            <td></td>
-                            <td></td>
-                            @break
+                        <td></td>
+                        <td></td>
+                        @break
                     @endswitch
-                </tr>    
+                </tr>
             @empty
                 <h2>Aucun critère.</h2>
-            @endforelse 
+            @endforelse
         </table>
     @empty
         <h2>Aucune section.</h2>
     @endforelse
-    <a href="{{ route('evaluationgrid.create')  }}" class="btn btn-primary text-white">Nouvelle grille d'évaluation</a>
 @endsection
