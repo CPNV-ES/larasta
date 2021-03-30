@@ -1,17 +1,13 @@
-$(document).ready(() => {
-  document.getElementsByName("edit").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.target.setAttribute("hidden", true);
-      event.target.parentElement
-        .querySelectorAll("input, textarea")
-        .forEach((element) => {
-          element.removeAttribute("readonly");
-          if (element.type == "textarea") setupSimpleMDE(element);
-        });
-      event.target.parentElement
-        .querySelector("[name='save']")
-        .removeAttribute("hidden");
+window.addEventListener("load", () => {
+  document.getElementById("edit").addEventListener("click", (event) => {
+    event.target.setAttribute("hidden", true);
+    document.getElementsByTagName("section").forEach((section) => {
+      section.querySelectorAll("input, textarea").forEach((element) => {
+        element.removeAttribute("readonly");
+        if (element.type == "textarea") setupSimpleMDE(element);
+      });
     });
+    document.getElementById("save").removeAttribute("hidden");
   });
 });
 
