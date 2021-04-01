@@ -37,13 +37,13 @@ class Evaluation extends Model
         return $this->belongsTo('App\Visit');
     }
 
-    public static function templates()
+    public static function scopeTemplates()
     {
-        return Evaluation::whereNotNull('template_name')->get();
+        return Evaluation::whereNotNull('template_name');
     }
 
     public static function current_template()
     {
-        return Evaluation::templates()->last();
+        return Evaluation::templates()->latest('id')->first();
     }
 }
