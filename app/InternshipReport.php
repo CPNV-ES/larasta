@@ -17,4 +17,9 @@ class InternshipReport extends Model
     {
         return $this->hasMany('App\ReportSection', 'report_id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(ReportStatus::class);
+    }
 }

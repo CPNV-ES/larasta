@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInternshipReportsTable extends Migration
+class AddForeignKeysToInternshipreports extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateInternshipReportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('internshipreports', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->timestamps();
-            $table->integer('internship_id')->unique();
-            $table->integer('status_id');
+        Schema::table('internshipreports', function (Blueprint $table) {
+            $table->foreign('status_id')->references('id')->on('reportstatus');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateInternshipReportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('internshipreports');
+        Schema::table('internshipreports', function (Blueprint $table) {
+            $table->dropForeign('status_id');
+        });
     }
 }

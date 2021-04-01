@@ -1,5 +1,6 @@
 <?php
 
+use App\ReportStatus;
 use Illuminate\Database\Seeder;
 use Database\Seeds\Essentials;
 
@@ -20,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LifecyclesTableSeeder::class);
         $this->call(ParamsTableSeeder::class);
         $this->call(VisitsstatesTableSeeder::class);
+        $this->call(ReportStatusSeeder::class);
     }
 }
