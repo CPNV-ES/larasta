@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="/css/logbook.css">
 @endpush
 
+@push ('page_specific_js')
+    <script src="/js/logbookFeedback.js"></script>
+@endpush
+
 @push('sidemenu')
     @include("logbook/_sideMenuInfos", ["modeBtnAction" => "normal", "internshipId" => $internship->id])
 @endpush
@@ -43,6 +47,7 @@
                 @foreach ($week->reverse() as $dayKey => $day)
                     <div class="reviewDay">
                     <p class="reviewDayTitle">{{ucfirst($day[0]->entryDate->formatLocalized("%A"))}}</p>
+                        <input type="checkbox" name=""/>
                         <div class="reviewDayActivitiesContainer">
                             <!--activities-->
                             @foreach ($day as $activityKey => $activity)
@@ -60,6 +65,7 @@
                                         </div>
                                         <div class="col-12">
                                             <button class="btn-success">Feedback</button>
+                                            <input type="text" name="{{$activity->id}}" value="" onkeyup="getFeedbacks(this)"/>
                                         </div>
                                     </div>
                                     
