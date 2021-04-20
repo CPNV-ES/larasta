@@ -1,13 +1,33 @@
 window.addEventListener("load", () => {
-  document.getElementById("edit").addEventListener("click", (event) => {
-    event.target.setAttribute("hidden", true);
+  editButton = document.getElementById("edit");
+  cancelButton = document.getElementById("cancel");
+  saveButton = document.getElementById("save");
+
+  editButton.addEventListener("click", () => {
+    editButton.setAttribute("hidden", true);
+
     document.getElementsByTagName("section").forEach((section) => {
       section.querySelectorAll("input, textarea").forEach((element) => {
         element.removeAttribute("readonly");
         if (element.type == "textarea") setupSimpleMDE(element);
       });
     });
-    document.getElementById("save").removeAttribute("hidden");
+
+    cancelButton.removeAttribute("hidden");
+    saveButton.removeAttribute("hidden");
+  });
+
+  cancelButton.addEventListener("click", () => {
+    cancelButton.setAttribute("hidden", true);
+    saveButton.setAttribute("hidden", true);
+
+    document.getElementsByTagName("section").forEach((section) => {
+      section.querySelectorAll("input, textarea").forEach((element) => {
+        element.setAttribute("readonly", true);
+      });
+    });
+
+    editButton.removeAttribute("Hidden");
   });
 });
 
