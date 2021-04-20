@@ -1,56 +1,68 @@
 @extends('layout')
 @section('content')
-    <h1>Nouvelle grille d'évaluation</h1>
-    <h2>Sections</h2>
-    @forelse ($evaluationSections as $evaluationSection)
-        <table class="larastable w-100 mb-3">
-            <tr>
-                <th colspan="5" class="text-success">{{ $evaluationSection->sectionName }}</th>
-            </tr>
-            <tr>
-                <th class="text-center w-25">Critères</th>
+    <script>
+        // Pass the list of already registered template names to javascript to be used by the front-side validation
+        // It would be cleaner to get this list with fetch, but this is good enough
+        let used_template_names = {!! \App\Evaluation::templates()->pluck('template_name')->toJson() !!}
+    </script>
+    <form>
+        <h1>Nouvelle grille d'évaluation</h1>
+        <div class="container">
+            <label for="name">Nom de la grille d'évaluation</label>
+            <input id="name" class="form-control" name="name" type="text" minlength="3" maxlength="45" required/>
+        </div>
+        <br/>
+        <button type="button" id="btn-new-section" data-toggle="modal" data-target="#newSectionModal">Nouvelle section</button>
 
-                @if ($evaluationSection->sectionType == 2)
-                    <th class="text-center">Tâches</th>
-                @endif
+        <div id="sections-container">
 
-                @if ($evaluationSection->sectionType == 1)
-                    <th class="text-center">Observations attendues</th>
-                    <th class="text-center">Points</th>
-                @endif
+        </div>
+        <br/>
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+    </form>
 
-                <th class="text-center">Remarques du responsable de stage</th>
-                <th class="text-center">Remarques du stagiaire</th>
-            </tr>
-            @forelse ($evaluationSection->criterias as $criteria)
-                <tr>
-                    <td>
-                        {{ $criteria->criteriaName }}
-                    </td>
+    <div class="modal fade" id="newSectionModal" tabindex="-1" role="dialog" aria-labelledby="newSectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newSectionModalLabel">Nouvelle section</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="new-section-name">Nom</label>
+                        <input id="new-section-name" class="form-control">
+                    </div>
 
-                    @switch ($evaluationSection->sectionType)
-                        @case (1)
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        @break
-                        @case (2)
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        @break
-                        @case (3)
-                        <td></td>
-                        <td></td>
-                        @break
-                    @endswitch
-                </tr>
-            @empty
-                <h2>Aucun critère.</h2>
-            @endforelse
-        </table>
-    @empty
-        <h2>Aucune section.</h2>
-    @endforelse
+                    <div class="form-group">
+                        <label for="new-section-type">Type</label>
+                        <select id="new-section-type" class="form-control">
+                            <option value="1">Type 1 (critères + observations attendues)</option>
+                            <option value="2">Type 2 (critères + tâches)</option>
+                            <option value="3">Type 3 (critères)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-section-is-graded">Notée ?</label>
+                        <input type="checkbox" id="new-section-is-graded" class="form-control" />
+                    </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="newSectionModalSaveBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('page_specific_js')
+    <script src="/js/evalgridcreate.js"></script>
+@endpush
+@push ('page_specific_css')
+    <link rel="stylesheet" href="/css/evalGrid.css">
+@endpush
