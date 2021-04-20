@@ -37,6 +37,19 @@ class Evaluation extends Model
         return $this->belongsTo('App\Visit');
     }
 
+    public function sections() {
+        $evaluationSections = [];
+        foreach(Evaluation::current_template()->criteriaValue as $criteriaValue) {
+            if (!in_array($criteriaValue->criteria->evaluationSection, $evaluationSections)) {
+                $evaluationSections[] = $criteriaValue->criteria->evaluationSection;
+            }
+        }
+
+        usort($evaluationSections, function($a, $b) { return $a->id > $b->id; });
+
+        return $evaluationSections;
+    }
+
     public static function scopeTemplates()
     {
         return Evaluation::whereNotNull('template_name');
