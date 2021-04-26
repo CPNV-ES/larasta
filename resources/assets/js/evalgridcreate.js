@@ -1,12 +1,30 @@
+let sectionIdCounter = 0;
+
 // Creates and inserts to the DOM a new table containing the headers
 // and necessary inputs for an editable section
 function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section") {
     let criteriasHeaders = getSectionColumns(type, hasGrade);
+    let sectionId = sectionIdCounter++;
 
     let table = document.createElement("table");
     table.setAttribute("data-section-type", type);
     table.setAttribute("data-section-has-grade", hasGrade);
+    table.setAttribute('data-section-clientside-id', sectionId);
     table.setAttribute("class", "larastable w-100 mb-3 evalgrid-edit");
+
+    let typeInput = document.createElement("input");
+    typeInput.setAttribute("name", `section[${sectionId}][sectionType]`)
+    typeInput.setAttribute("hidden", "true");
+    typeInput.setAttribute("type", "text");
+    typeInput.setAttribute("value", type);
+    table.appendChild(typeInput);
+
+    let hasGradeInput = document.createElement("input");
+    hasGradeInput.setAttribute("name", `section[${sectionId}][hasGrade]`)
+    hasGradeInput.setAttribute("hidden", "true");
+    hasGradeInput.setAttribute("type", "text");
+    hasGradeInput.setAttribute("value", hasGrade);
+    table.appendChild(hasGradeInput);
 
     let titleRow = document.createElement("tr");
     let titleHeader = document.createElement("th");
@@ -15,6 +33,7 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
     titleHeader.setAttribute("class", "text-success");
     titleHeader.setAttribute("colspan", "100%");
     titleInput.value = name;
+    titleInput.setAttribute("name", `section[${sectionId}][sectionName]`);
     titleInput.setAttribute("class", "form-control title-input");
     titleInput.setAttribute("required", "true");
     titleHeader.appendChild(titleInput);
@@ -73,8 +92,15 @@ function insertCriteriaRowToSectionTable(sectionTable, criteriaRow) {
 
 // Returns a <tr> containing different <td> with their inputs
 function getNewCriteriaRow(sectionTable) {
-    let criterias = getSectionColumns(sectionTable.getAttribute("data-section-type"), sectionTable.getAttribute("data-section-has-grade") === "true");
+    let criterias = getSectionColumns(
+        sectionTable.getAttribute("data-section-type"),
+        sectionTable.getAttribute("data-section-has-grade") === "true"
+    );
+    let sectionId = sectionTable.getAttribute("data-section-clientside-id");
+    let criteriaId = parseInt(sectionTable.getAttribute("data-section-clientside-criteria-id") ?? 0) + 1;
+    sectionTable.setAttribute("data-section-clientside-criteria-id", criteriaId);
     let criteriaRow = document.createElement("tr");
+
     criterias.forEach(function(criteria, index) {
         let td = document.createElement("td");
         if(criteria.editable) {
@@ -82,12 +108,14 @@ function getNewCriteriaRow(sectionTable) {
                 case "text":
                     let textarea = document.createElement("textarea");
                     textarea.setAttribute("required", "true");
+                    textarea.setAttribute("name", `section[${sectionId}][criteria][${criteriaId}][${criteria.name}]`);
                     td.appendChild(textarea);
                     break;
                 case "number":
                     let input = document.createElement("input");
                     input.setAttribute("type", "number");
                     input.setAttribute("required", "true");
+                    input.setAttribute("name", `section[${sectionId}][criteria][${criteriaId}][${criteria.name}]`);
                     td.appendChild(input);
                     td.setAttribute("class", "numberinput-col");
                     break;
@@ -117,18 +145,18 @@ function getNewCriteriaRow(sectionTable) {
 
 // Returns a collection of objects containing info about the different columns for the section type
 function getSectionColumns(type, hasGrade) {
-    let criterias = [{label: "Critères", editable: true, type: "text"}];
+    let criterias = [{label: "Critères", editable: true, type: "text", name: "criteriaName"}];
     if(type == 1) {
-        criterias.push({label: "Observations attendues", editable: true, type: "text"});
+        criterias.push({label: "Observations attendues", editable: true, type: "text", name: "criteriaValue"});
     }
     else if(type == 2) {
-        criterias.push({label: "Tâches", editable: true, type: "text"});
+        criterias.push({label: "Tâches", editable: true, type: "text", name: "criteriaValues.contextSpecifics"});
     }
     if(hasGrade) {
-        criterias.push({label: "Points", editable: true, type: "number"});
+        criterias.push({label: "Points", editable: true, type: "number", name: "maxPoints"});
     }
-    criterias.push({label: "Remarques resp. de stage", editable: false, type: undefined});
-    criterias.push({label: "Remarques du stagiaire", editable: false, type: undefined});
+    criterias.push({label: "Remarques resp. de stage", editable: false, type: undefined, name: ""});
+    criterias.push({label: "Remarques du stagiaire", editable: false, type: undefined, name: ""});
 
     return criterias;
 }
