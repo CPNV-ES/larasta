@@ -1,9 +1,9 @@
 @extends('layout')
 @section('content')
+
     <script>
-        // Pass the list of already registered template names to javascript to be used by the front-side validation
-        // It would be cleaner to get this list with fetch, but this is good enough
-        let used_template_names = {!! \App\Evaluation::templates()->pluck('template_name')->toJson() !!}
+        let usedTemplatesNames = {!! \App\Evaluation::templates()->pluck('template_name')->toJson() !!}
+        let currentTemplate = {!! json_encode($currentTemplate) !!}
     </script>
     <form>
         <h1>Nouvelle grille d'évaluation</h1>
@@ -12,7 +12,7 @@
             <input id="name" class="form-control" name="name" type="text" minlength="3" maxlength="45" required/>
         </div>
         <br/>
-        <button type="button" id="btn-new-section" data-toggle="modal" data-target="#newSectionModal">Nouvelle section</button>
+        <button type="button" id="btn-new-section" class="btn btn-info" data-toggle="modal" data-target="#newSectionModal">+ Nouvelle section</button>
 
         <div id="sections-container">
 

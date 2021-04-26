@@ -16,8 +16,21 @@ class EvaluationGridController extends Controller
     }
 
     public function create() {
-        $evaluationSections = Evaluation::current_template()->sections();
+        $sections = [];
+        // Aggregate data by evaluationSection
+        foreach(Evaluation::current_template()->sections() as $section) {
+            $sections[$section->id] = [
+                "hasGrade" => $section->hasGrade,
+                "sectionName" => $section->sectionName,
+                "sectionType" => $section->sectionType,
+                "criteria" => $section->criterias->load('criteriaValue')
+            ];
+        }
 
-        return view('evaluationgrid.create')->with(compact('evaluationSections'));
+        $currentTemplate = [
+            "evaluatuationSection" => $sections
+        ];
+
+        return view('evaluationgrid.create')->with(compact('currentTemplate'));
     }
 }

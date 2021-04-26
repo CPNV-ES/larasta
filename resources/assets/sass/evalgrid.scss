@@ -100,7 +100,7 @@
   white-space: nowrap;
 }
 
-.deleteButton {
+.btn-delete {
   background-color: red;
   min-width: 23px;
   min-height: 23px;
@@ -113,6 +113,10 @@
   &:hover {
     background-color: orangered;
   }
+}
+
+#btn-new-section {
+  margin-bottom: 10px;
 }
 
 .title-input {

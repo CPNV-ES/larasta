@@ -21,8 +21,11 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
 
     let deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("type", "button");
-    deleteBtn.setAttribute("class", "deleteButton");
-    deleteBtn.addEventListener("click", () => table.remove());
+    deleteBtn.setAttribute("class", "btn-delete");
+    deleteBtn.addEventListener(
+        "click",
+        () => table.remove()
+    );
     deleteBtn.innerText = "X";
     titleHeader.appendChild(deleteBtn);
 
@@ -47,10 +50,13 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
     btnNewCriteriaCell.setAttribute("colspan", "100%");
 
     let btnNewCriteria = document.createElement("button");
-    btnNewCriteria.innerText = "Nouveau critère";
+    btnNewCriteria.innerHTML = "+ Nouveau critère";
     btnNewCriteria.setAttribute("type", "button");
-    btnNewCriteria.setAttribute("class", "btn-new-criteria");
-    btnNewCriteria.addEventListener("click", () => table.insertBefore(getNewCriteriaRow(table), btnNewCriteriaRow));
+    btnNewCriteria.setAttribute("class", "btn-info btn-new-criteria");
+    btnNewCriteria.addEventListener(
+        "click",
+        () => insertCriteriaRowToSectionTable(table, getNewCriteriaRow(table))
+    );
 
     btnNewCriteriaCell.appendChild(btnNewCriteria);
     btnNewCriteriaRow.appendChild(btnNewCriteriaCell);
@@ -61,11 +67,14 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
     return table;
 }
 
+function insertCriteriaRowToSectionTable(sectionTable, criteriaRow) {
+    sectionTable.insertBefore(criteriaRow, sectionTable.getElementsByClassName("btn-new-criteria")[0].parentNode.parentNode);
+}
+
 // Returns a <tr> containing different <td> with their inputs
 function getNewCriteriaRow(sectionTable) {
     let criterias = getSectionColumns(sectionTable.getAttribute("data-section-type"), sectionTable.getAttribute("data-section-has-grade") === "true");
     let criteriaRow = document.createElement("tr");
-    console.log(criterias);
     criterias.forEach(function(criteria, index) {
         let td = document.createElement("td");
         if(criteria.editable) {
@@ -92,8 +101,11 @@ function getNewCriteriaRow(sectionTable) {
     td.setAttribute("class", "small-col");
     let deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("type", "button");
-    deleteBtn.setAttribute("class", "deleteButton");
-    deleteBtn.addEventListener("click", () => criteriaRow.remove());
+    deleteBtn.setAttribute("class", "btn-delete");
+    deleteBtn.addEventListener(
+        "click",
+        () => criteriaRow.remove()
+    );
     deleteBtn.innerText = "X";
 
     td.appendChild(deleteBtn);
@@ -121,6 +133,24 @@ function getSectionColumns(type, hasGrade) {
     return criterias;
 }
 
+function insertCriteriaData(criteriaRow, criteriaData) {
+    const sectionType = criteriaRow.parentNode.getAttribute('data-section-type');
+    const sectionIsGraded = criteriaRow.parentNode.getAttribute('data-section-has-grade') == "true";
+
+    criteriaRow.querySelector('td:nth-child(1) > textarea').textContent = criteriaData.criteriaName;
+
+    if(sectionType == 1) {
+        criteriaRow.querySelector('td:nth-child(2) > textarea').textContent = criteriaData.criteriaDetails;
+    }
+    else if(sectionType == 2) {
+        criteriaRow.querySelector('td:nth-child(2) > textarea').textContent = criteriaData.criteria_value.contextSpecifics;
+    }
+
+    if(sectionIsGraded) {
+        criteriaRow.querySelector('td:nth-child(3) > input').value = criteriaData.maxPoints;
+    }
+}
+
 $(document).ready(function () {
     $("#newSectionModalSaveBtn").click(function() {
         let newSectionModal = $("#newSectionModal");
@@ -142,10 +172,12 @@ $(document).ready(function () {
         newSectionModal.modal('hide')
     });
 
-    for(let i = 1; i <= 3; i++) {
-        createNewSection(i, false, "Has Grade: " + false + " - Type: " + i);
-        createNewSection(i, true, "Has Grade: " + true + " - Type: " + i);
+    for (const [sectionId, section] of Object.entries(currentTemplate.evaluatuationSection)) {
+        let sectionTable = createNewSection(section.sectionType, section["hasGrade"] == 1, section.sectionName);
+        for(let [_, criteria] of Object.entries(section.criteria)) {
+            let criteriaRow = getNewCriteriaRow(sectionTable);
+            insertCriteriaRowToSectionTable(sectionTable, criteriaRow);
+            insertCriteriaData(criteriaRow, criteria);
+        }
     }
-
-    //console.log(used_template_names);
 })
