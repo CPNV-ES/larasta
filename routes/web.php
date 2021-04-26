@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
         Route::get('/admin/evaluationgrid', 'EvaluationGridController@index');
         Route::get('/admin/evaluationgrid/create', 'EvaluationGridController@create')->name('evaluationgrid.create');
+        Route::post('/admin/evaluationgrid/storeTemplate', 'EvaluationGridController@storeTemplate')->name('evaluationgrid.storeTemplate');
         Route::get('/mailing','MailingController@mailling');
         Route::get('/flocks', 'FlocksController@index');
         Route::get('/params', 'ParamsController@index');

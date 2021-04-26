@@ -5,7 +5,8 @@
         let usedTemplatesNames = {!! \App\Evaluation::templates()->pluck('template_name')->toJson() !!}
         let currentTemplate = {!! json_encode($currentTemplate) !!}
     </script>
-    <form>
+    <form action="/admin/evaluationgrid/storeTemplate" method="post">
+        @csrf
         <h1>Nouvelle grille d'évaluation</h1>
         <div class="container">
             <label for="name">Nom de la grille d'évaluation</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Evaluation;
 use App\EvaluationSection;
+use Illuminate\Http\Request;
 
 class EvaluationGridController extends Controller
 {
@@ -32,5 +33,9 @@ class EvaluationGridController extends Controller
         ];
 
         return view('evaluationgrid.create')->with(compact('currentTemplate'));
+    }
+
+    public function storeTemplate(Request $request) {
+        dd($request);
     }
 }
