@@ -43,7 +43,7 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
     deleteBtn.setAttribute("class", "btn-delete");
     deleteBtn.addEventListener(
         "click",
-        () => table.remove()
+        () => { if(confirm("Supprimer la section ?")) table.remove() }
     );
     deleteBtn.innerText = "X";
     titleHeader.appendChild(deleteBtn);
@@ -132,7 +132,7 @@ function getNewCriteriaRow(sectionTable) {
     deleteBtn.setAttribute("class", "btn-delete");
     deleteBtn.addEventListener(
         "click",
-        () => criteriaRow.remove()
+        () => { if(confirm("Supprimer le critère ?")) criteriaRow.remove() }
     );
     deleteBtn.innerText = "X";
 
