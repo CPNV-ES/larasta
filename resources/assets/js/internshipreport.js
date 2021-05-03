@@ -1,40 +1,79 @@
-window.addEventListener("load", () => {
-  editButton = document.getElementById("edit");
-  cancelButton = document.getElementById("cancel");
-  saveButton = document.getElementById("save");
+var simpleMde = null;
 
-  editButton.addEventListener("click", () => {
-    editButton.setAttribute("hidden", true);
+$(function() {
+  // Edit
+  $("button[name='edit']").on("click", function() {
+    // Hide all edit buttons
+    $("button[name='edit']").attr("hidden", true);
 
-    document.getElementsByTagName("section").forEach((section) => {
-      section.querySelectorAll("input, textarea").forEach((element) => {
-        element.removeAttribute("readonly");
-        if (element.type == "textarea") setupSimpleMDE(element);
-      });
-    });
+    // Show save and cancel buttons
+    $(this)
+      .parent()
+      .find("button[name='cancel']")
+      .removeAttr("hidden");
+    $(this)
+      .parent()
+      .find("button[name='save']")
+      .removeAttr("hidden");
 
-    cancelButton.removeAttribute("hidden");
-    saveButton.removeAttribute("hidden");
+    // Remove readonly attributes from the text area and the input
+    $(this)
+      .parents("form")
+      .find("textarea")
+      .removeAttr("readonly");
+
+    $(this)
+      .parents("form")
+      .find("input")
+      .removeAttr("readonly");
+
+    // Get the closest textarea and make it wysiwyg editable
+    setupSimpleMde(
+      $(this)
+        .parents("form")
+        .find("textarea")
+        .get(0)
+    );
   });
 
-  cancelButton.addEventListener("click", () => {
-    cancelButton.setAttribute("hidden", true);
-    saveButton.setAttribute("hidden", true);
+  // Cancel edit
+  $("button[name='cancel']").on("click", function() {
+    // Show all edit buttons
+    $("button[name='edit']").removeAttr("hidden");
 
-    document.getElementsByTagName("section").forEach((section) => {
-      section.querySelectorAll("input, textarea").forEach((element) => {
-        element.setAttribute("readonly", true);
-      });
-    });
+    // Hide save and cancel buttons
+    $(this)
+      .parent()
+      .find("button[name='cancel']")
+      .attr("hidden", true);
+    $(this)
+      .parent()
+      .find("button[name='save']")
+      .attr("hidden", true);
 
-    editButton.removeAttribute("Hidden");
+    // Add readonly attributes from the text area and the input
+    $(this)
+      .parents("form")
+      .find("textarea")
+      .attr("readonly", true);
+
+    $(this)
+      .parents("form")
+      .find("input")
+      .attr("readonly", true);
+
+    closeSimpleMde();
   });
+  // Save
+  $("button[name='save']").on("click", function() {});
 });
 
-function changeButton() {}
-
-function setupSimpleMDE(element) {
-  var simplemde = new SimpleMDE({
+/**
+ * Wysiwyg editable
+ * @param {*} element
+ */
+function setupSimpleMde(element) {
+  simpleMde = new SimpleMDE({
     toolbar: [
       "heading",
       "heading-2",
@@ -56,7 +95,10 @@ function setupSimpleMDE(element) {
     ],
     element: element,
   });
-  simplemde.codemirror.on("change", function() {
-    description.value = simplemde.value();
-  });
+}
+
+// Change Wysiwyg to textarea
+function closeSimpleMde() {
+  simpleMde.toTextArea();
+  simpleMde = null;
 }
