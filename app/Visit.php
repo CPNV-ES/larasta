@@ -56,4 +56,8 @@ class Visit extends Model implements HasMedia
     {
         return $this->getMedia()->first()->getUrl();
     }
+
+    public function getGradeAttribute() {
+        return round($this->attributes['grade'], 1);
+    }
 }
