@@ -39,7 +39,7 @@ class EvaluationGridController extends Controller
 
     public function storeTemplate(Request $request) {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:App\Evaluation,template_name',
             'section.*.sectionType' => 'required',
             'section.*.hasGrade' => 'required|boolean',
             'section.*.sectionName' => 'required',

@@ -201,6 +201,16 @@ $(document).ready(function () {
         newSectionModal.modal('hide')
     });
 
+    const nameInput = document.getElementById("name");
+    nameInput.addEventListener("input", function(event) {
+        if(usedTemplatesNames.includes(nameInput.value)){
+            nameInput.setCustomValidity("Ce nom de template est déjà utilisé, merci d'en choisir un autre");
+        }
+        else {
+            nameInput.setCustomValidity("");
+        }
+    });
+
     for (const [sectionId, section] of Object.entries(currentTemplate.evaluatuationSection)) {
         let sectionTable = createNewSection(section.sectionType, section["hasGrade"] == 1, section.sectionName);
         for(let [_, criteria] of Object.entries(section.criteria)) {
