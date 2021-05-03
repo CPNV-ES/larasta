@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\InternshipReport;
 use App\Internship;
-use App\ReportSection;
-use SebastianBergmann\CodeCoverage\Report\Xml\Report;
+use App\ReportStatus;
 
 class InternshipReportController extends Controller
 {
     public function create($internshipId)
     {
         $report = Internship::findOrFail($internshipId)->report;
+        $reportStatus = ReportStatus::where('status', 'Brouillon')->first();
 
         if (!$report) {
             $newReport = new InternshipReport();
             $newReport->internship_id = $internshipId;
+            $newReport->status_id = $reportStatus->id;
             $newReport->save();
 
             $this->storeDefaultFields($newReport->id);
@@ -29,7 +31,8 @@ class InternshipReportController extends Controller
     public function show($id)
     {
         $report = InternshipReport::findOrFail($id);
-        return view('internshipreports.show', compact('report'));
+        $reportStatus = ReportStatus::all();
+        return view('internshipreports.show', compact('report', 'reportStatus'));
     }
 
     private function storeDefaultFields($reportId)

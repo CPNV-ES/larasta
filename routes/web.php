@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'InternshipsController@index')->name("index");
 
 // Route::get('/internships', function(){return redirect(route("index"));});
@@ -39,6 +41,9 @@ Route::group(['middleware' => ['auth']], function () {
     // Internship report
     Route::get('/internshipreport/{id}', 'InternshipReportController@show')->name('internshipReport.show');
     Route::post('/internshipreport/{id}', 'InternshipReportController@store')->name('internshipReport.store');
+
+    // Report section
+    Route::put('/reportsection/{id}', 'ReportSectionController@update')->name('reportSection.update');
 
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");

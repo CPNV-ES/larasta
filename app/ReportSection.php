@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReportSection extends Model
 {
     protected $table = 'reportsections';
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'text'];
 
     public function report()
     {
