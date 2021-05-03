@@ -8,7 +8,7 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
 
     let table = document.createElement("table");
     table.setAttribute("data-section-type", type);
-    table.setAttribute("data-section-has-grade", hasGrade);
+    table.setAttribute("data-section-has-grade", hasGrade ? '1' : '0');
     table.setAttribute('data-section-clientside-id', sectionId);
     table.setAttribute("class", "larastable w-100 mb-3 evalgrid-edit");
 
@@ -23,7 +23,7 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
     hasGradeInput.setAttribute("name", `section[${sectionId}][hasGrade]`)
     hasGradeInput.setAttribute("hidden", "true");
     hasGradeInput.setAttribute("type", "text");
-    hasGradeInput.setAttribute("value", hasGrade);
+    hasGradeInput.setAttribute("value", hasGrade ? '1' : '0');
     table.appendChild(hasGradeInput);
 
     let titleRow = document.createElement("tr");
@@ -94,7 +94,7 @@ function insertCriteriaRowToSectionTable(sectionTable, criteriaRow) {
 function getNewCriteriaRow(sectionTable) {
     let criterias = getSectionColumns(
         sectionTable.getAttribute("data-section-type"),
-        sectionTable.getAttribute("data-section-has-grade") === "true"
+        sectionTable.getAttribute("data-section-has-grade") === "1"
     );
     let sectionId = sectionTable.getAttribute("data-section-clientside-id");
     let criteriaId = parseInt(sectionTable.getAttribute("data-section-clientside-criteria-id") ?? 0) + 1;
@@ -163,7 +163,7 @@ function getSectionColumns(type, hasGrade) {
 
 function insertCriteriaData(criteriaRow, criteriaData) {
     const sectionType = criteriaRow.parentNode.getAttribute('data-section-type');
-    const sectionIsGraded = criteriaRow.parentNode.getAttribute('data-section-has-grade') == "true";
+    const sectionIsGraded = criteriaRow.parentNode.getAttribute('data-section-has-grade') == "1";
 
     criteriaRow.querySelector('td:nth-child(1) > textarea').textContent = criteriaData.criteriaName;
 
