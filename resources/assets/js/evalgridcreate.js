@@ -147,7 +147,7 @@ function getNewCriteriaRow(sectionTable) {
 function getSectionColumns(type, hasGrade) {
     let criterias = [{label: "Critères", editable: true, type: "text", name: "criteriaName"}];
     if(type == 1) {
-        criterias.push({label: "Observations attendues", editable: true, type: "text", name: "criteriaValue"});
+        criterias.push({label: "Observations attendues", editable: true, type: "text", name: "criteriaDetails"});
     }
     else if(type == 2) {
         criterias.push({label: "Tâches", editable: true, type: "text", name: "criteriaValues.contextSpecifics"});
