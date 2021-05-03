@@ -10,6 +10,7 @@ use \Illuminate\Database\Eloquent\Builder;
 use App\Activitytype;
 use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
+use Illuminate\Support\Facades\Auth;
 
 class LogbookController extends Controller
 {
@@ -103,12 +104,43 @@ class LogbookController extends Controller
         return ["state" => "success", "id" => $activityId];
     }
 
-    // save the feedbacks done on the review mode of the journal
-    public function saveFeedbacksAndAcknowlegements(Request $request){
-
+    // save the feedbacks and acknowlegements done on the review mode of the journal
+    public function saveFeedbacksAndAcknowledgements(Request $request, $internshipId){
+        $internship = Internship::find($internshipId);
         
+        if (Auth::user()->id == $internship->responsible->id){
+            $feedbacks = [];
+            $acknowledgements = [];
+            dd($data = $request->all());
+            
+            //filter feedbacks and acknowledgement
+            foreach($data as $key=>$value){
+                if(preg_match('/fdbk-/', $key)){
+                    $feedbacks[preg_replace('/fdbk-/', '', $key)] = $value;
+                }elseif(preg_match('/ack-/', $key)){
+                    $acknowledgements[preg_replace('/ack-/', '', $key)] = $value;
+                }
+            }
 
-        return redirect()->route('logbook.saveFeedbacksAndAcknowlegements', $request->internshipId);
+            //save feedbacks
+            foreach($feedbacks as $key=>$value){
+                $logbook = Logbook::find($key);
+                $logbook->feedback = $value;
+                $logbook->save();
+            }  
+            
+            //save acknowledgements
+            foreach($acknowledgements as $key=>$value){
+                Logbook::where('entryDate', $key)
+                ->update(['acknowledged' => $value]);
+            } 
+                
+            return redirect()->route('logbook.saveFeedbacksAndAcknowledgements', $request->internshipId);
+        
+        }else{
+            return redirect('/')->with('status', "You don't have the permission to access this function.");
+        }
+    
     }
 
     //util

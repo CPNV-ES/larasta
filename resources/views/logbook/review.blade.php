@@ -11,7 +11,7 @@
 @endpush
 
 @push ('page_specific_js')
-    <script src="/js/logbookFeedbacksAndAcknowleges.js"></script>
+    <script src="/js/logbookFeedbacksAndAcknowledges.js"></script>
 @endpush
 
 @push('sidemenu')
@@ -19,14 +19,19 @@
 @endpush
 
 @section('content')
-{{ Form::open(array('url' => '/internships/'.$internship->id.'/logbook/review')) }}
+
+@if(Auth::user()->id == $internship->responsible->id)
+    {{ Form::open(array('url' => '/internships/'.$internship->id.'/logbook/review')) }}
+@endif
 <h1>Stage de {{$student->fullName ?? "Non attribué"}}</h1>
 <h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
-        
-        <div class="col-12 text-center pt-2">
-            <button class="btn btn-warning" type="submit">Quittancer et sauvegarder les retours</button>
-        </div>
+
+        @if(Auth::user()->id == $internship->responsible->id)
+            <div class="col-12 text-center pt-2">
+                <button id="save" class="btn btn-warning" type="submit" hidden>Quittancer et sauvegarder les retours</button>
+            </div>
+        @endif
         
         <!--weeks-->
         @foreach ($activitiesByWeeks as $weekDate=>$week)
@@ -49,11 +54,24 @@
                 <!--days-->
                 @foreach ($week->reverse() as $dayKey => $day)
                     <div class="reviewDay">
-                    <p class="reviewDayTitle">{{ucfirst($day[0]->entryDate->formatLocalized("%A"))}}</p>
-                    
-                    {{Form::checkbox($day[0]->entryDate, false)}}
+                        <p class="reviewDayTitle pr-5">{{ucfirst($day[0]->entryDate->formatLocalized("%A"))}}</p>
+                        
+                           
+                            @if($day[0]->acknowledged)
+                                @if(Auth::user()->id == $internship->responsible->id)   
+                                    {{Form::hidden('ack-'.$day[0]->entryDate, '0')}}
+                                    {{Form::checkbox('ack-'.$day[0]->entryDate, null, 'checked' ,['class' => 'form-check-input', 'onclick' => "showSaveBtn()"])}}
+                                @endif
+                                <label class="form-check-label" for="flexCheckDefault">Lu</label>
+                            @else
+                                @if(Auth::user()->id == $internship->responsible->id)   
+                                    {{Form::checkbox('ack-'.$day[0]->entryDate, null, '' ,['onclick' => "showSaveBtn()"])}}
+                                @endif
+                                <label class="form-check-label" for="flexCheckDefault">Non lu</label>
+                            @endif
+                       
 
-                    <div class="reviewDayActivitiesContainer">
+                        <div class="reviewDayActivitiesContainer">
                             <!--activities-->
                             @foreach ($day as $activityKey => $activity)
                                 <div class="reviewActivity">
@@ -65,16 +83,27 @@
                                         <div class="col-12">
                                             <p class="reviewActivityDescription">{{$activity->activityDescription}}</p>   
                                         </div>
-                                        <div class="col-12">
-                                            <h5 style="color: green; font-style: italic;">Exemple d'un feedback fait par le responsable</h5>   
-                                        </div>
-                                        <div class="col-12">
-                                            <input type="button" class="btn-success" style="min-width: 10px !important; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})" value="+">
-                                            {{Form::text($activity->id, "", ['id' => $activity->id, 'hidden' ])}}
-                                        </div>
-                                    </div>
-                                    
-                                    
+                                        @if(!empty($activity->feedback))
+                                            <div class="col-12">
+                                                <h5 style="color: green; font-style: italic;">{{$activity->feedback}}</h5>   
+                                            </div>
+
+                                            @if(Auth::user()->id == $internship->responsible->id)
+                                                <div class="col-12">
+                                                    <input type="button" class="btn-success" style="min-width: 10px !important; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})" value="Editer">
+                                                    {{Form::textarea('fdbk-'.$activity->id, "$activity->feedback", ['id' => $activity->id, 'hidden', 'style' => 'width: 500px; height: 60px;'])}}
+                                                </div>
+                                            @endif
+                                        @else
+                                            @if(Auth::user()->id == $internship->responsible->id)
+                                            <div class="col-12">
+                                                <input type="button" class="btn-success" style="min-width: 10px !important; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})" value="+">
+                                                {{Form::textarea('fdbk-'.$activity->id, "", ['id' => $activity->id, 'hidden', 'style' => 'width: 500px; height: 60px;'])}}
+                                            </div>
+                                            @endif
+                                        @endIf
+
+                                    </div>                          
                                 </div>
                             @endforeach
                         </div>
