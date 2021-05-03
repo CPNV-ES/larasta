@@ -11,7 +11,7 @@
 @endpush
 
 @push ('page_specific_js')
-    <script src="/js/logbookFeedback.js"></script>
+    <script src="/js/logbookFeedbacksAndAcknowleges.js"></script>
 @endpush
 
 @push('sidemenu')
@@ -19,9 +19,15 @@
 @endpush
 
 @section('content')
+{{ Form::open(array('url' => '/internships/'.$internship->id.'/logbook/review')) }}
 <h1>Stage de {{$student->fullName ?? "Non attribué"}}</h1>
 <h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
+        
+        <div class="col-12 text-center pt-2">
+            <button class="btn btn-warning" type="submit">Quittancer et sauvegarder les retours</button>
+        </div>
+        
         <!--weeks-->
         @foreach ($activitiesByWeeks as $weekDate=>$week)
             @php
@@ -36,9 +42,6 @@
                     <div class="col-9">
                         <h3>Semaine du {{$weekStartDateStr}} au {{$weekEndDateStr}}</h3>
                     </div>
-                    <div class="col-3 text-right pr-5">
-                        <button class="btn-success">Sauvegarder</button>
-                    </div>
                 </div>
             </div>
             
@@ -47,8 +50,10 @@
                 @foreach ($week->reverse() as $dayKey => $day)
                     <div class="reviewDay">
                     <p class="reviewDayTitle">{{ucfirst($day[0]->entryDate->formatLocalized("%A"))}}</p>
-                        <input type="checkbox" name=""/>
-                        <div class="reviewDayActivitiesContainer">
+                    
+                    {{Form::checkbox($day[0]->entryDate, false)}}
+
+                    <div class="reviewDayActivitiesContainer">
                             <!--activities-->
                             @foreach ($day as $activityKey => $activity)
                                 <div class="reviewActivity">
@@ -64,8 +69,8 @@
                                             <h5 style="color: green; font-style: italic;">Exemple d'un feedback fait par le responsable</h5>   
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn-success">Feedback</button>
-                                            <input type="text" name="{{$activity->id}}" value="" onkeyup="getFeedbacks(this)"/>
+                                            <input type="button" class="btn-success" style="min-width: 10px !important; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})" value="+">
+                                            {{Form::text($activity->id, "", ['id' => $activity->id, 'hidden' ])}}
                                         </div>
                                     </div>
                                     
@@ -78,4 +83,6 @@
             </div>
         @endforeach
     </div>
+    
+{{ Form::close() }}
 @endsection
