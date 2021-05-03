@@ -175,7 +175,8 @@ function insertCriteriaData(criteriaRow, criteriaData) {
     }
 
     if(sectionIsGraded) {
-        criteriaRow.querySelector('td:nth-child(3) > input').value = criteriaData.maxPoints;
+        const maxPointsCol = sectionType == 3 ? 2 : 3;
+        criteriaRow.querySelector(`td:nth-child(${maxPointsCol}) > input`).value = criteriaData.maxPoints;
     }
 }
 
