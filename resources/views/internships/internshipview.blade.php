@@ -107,7 +107,7 @@
                 <div class="col-2">Etat</div>
                 <div class="col-1">Note</div>
             </div>
-            @foreach ($visits->toArray() as $visit)
+            @foreach ($visits as $visit)
                 <div class="row border" onclick="window.location='/visits/{{$visit->id}}/manage';">
                     <div class="col-1">
                         {{ $visit->number }}
@@ -116,7 +116,7 @@
                         {{ strftime("%e %b %g %R", strtotime($visit->moment)) }}
                     </div>
                     <div class="col-2">
-                        {{ $visit->confirmed ? "Confirmé" : "Non-confirmé" }}
+                        {{ $visit->visitsstate->stateName }}
                     </div>
                     <div class="col-1">
                         {{ $visit->grade == "" ? "Pas de note" : $visit->grade }}

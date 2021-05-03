@@ -202,15 +202,7 @@ class InternshipsController extends Controller
         $internship = Internship::find($id);
         $internship->internshipDescription = htmlentities($internship->internshipDescription);
         $medias = $internship->getMedia('documents');
-        $visits = DB::table('visits')
-            ->select(
-                'id',
-                'moment',
-                'confirmed',
-                'number',
-                'grade')
-            ->where('internships_id', '=', $id)
-            ->get();
+        $visits = $internship->visits()->get();
 
         $remarks = $internship->remarks->sortByDesc('remarkDate');
 
