@@ -14,9 +14,15 @@ class ReportSectionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, $reportId)
     {
-        //
+        $reportSection = new ReportSection;
+        $reportSection->name = $request->title;
+        $reportSection->text = $request->description;
+        $reportSection->report_id = $reportId;
+        $reportSection->save();
+
+        return redirect()->route('internshipReport.show', ['id' => $reportId]);
     }
 
     /**

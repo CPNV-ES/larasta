@@ -5,6 +5,8 @@ $(function() {
   $("button[name='edit']").on("click", function() {
     // Hide all edit buttons
     $("button[name='edit']").attr("hidden", true);
+    // Hide create button
+    $("button[name='create']").attr("hidden", true);
 
     // Show save and cancel buttons
     $(this)
@@ -40,6 +42,8 @@ $(function() {
   $("button[name='cancel']").on("click", function() {
     // Show all edit buttons
     $("button[name='edit']").removeAttr("hidden");
+    // Hide create button
+    $("button[name='create']").attr("hidden", true);
 
     // Hide save and cancel buttons
     $(this)
@@ -66,6 +70,20 @@ $(function() {
   });
   // Save
   $("button[name='save']").on("click", function() {});
+
+  // Create
+  $("button[name='create']").on("click", function() {
+    // Hide all edit buttons
+    $("button[name='edit']").attr("hidden", true);
+    // Hide create button
+    $("button[name='create']").attr("hidden", true);
+
+    $("#newSection").removeAttr("hidden");
+
+    $("#newSection")
+      .find("button[name='edit']")
+      .trigger("click");
+  });
 });
 
 /**

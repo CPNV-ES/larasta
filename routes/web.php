@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Report section
     Route::put('/reportsection/{id}', 'ReportSectionController@update')->name('reportSection.update');
+    Route::post('/reportsection/{id}', 'ReportSectionController@store')->name('reportSection.store');
 
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
