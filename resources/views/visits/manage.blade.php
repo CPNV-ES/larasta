@@ -88,8 +88,7 @@
                 
                 <div class="row">
             @if (Auth::user()->role >= 1)   
-                    <p id="info" class="edit" style="display: none;"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>  
-                    <div class="col-5"> 
+                    <div class="col-5">
                         <button id="editMode" type="button" class="ml-3 btn-warning show">Editer la visite</button>
                         <button id="up" class="btn-success ml-3 edit" style="display: none;" type="submit">Enregistrer</button>
                         <button id="cancel" name="cancel" type="reset" class="ml-3 btn-secondary edit" onClick="window.location.reload();" style="display: none;">Annuler</button>  
