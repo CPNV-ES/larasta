@@ -103,6 +103,14 @@ class LogbookController extends Controller
         return ["state" => "success", "id" => $activityId];
     }
 
+    // save the feedbacks done on the review mode of the journal
+    public function saveFeedbacksAndAcknowlegements(Request $request){
+
+        
+
+        return redirect()->route('logbook.saveFeedbacksAndAcknowlegements', $request->internshipId);
+    }
+
     //util
     private function patchRequestWithGetParams(Builder $eloqRequest, Request $routeRequest)
     {
