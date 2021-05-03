@@ -33,7 +33,7 @@ class Logbook extends Model
         $instance = new self();
 
         //test fields existence
-        if(!isset($internshipId, $request->activitytypes_id, $request->entryDate, $request->duration, $request->activityDescription)){
+        if(!isset($internshipId, $request->activitytypes_id, $request->entryDate, $request->duration, $request->activityDescription, $request->feedback, $request->acknowledged)){
             abort(400);
             return;
         }
@@ -44,7 +44,9 @@ class Logbook extends Model
         $instance->entryDate = $request->entryDate;
         $instance->duration = $request->duration;
         $instance->activityDescription = $request->activityDescription;
-
+        $instance->feedback = $request->feedback;
+        $instance->acknowledged = $request->acknowledged;
+        
         return $instance;
     }
 
@@ -58,6 +60,11 @@ class Logbook extends Model
             $this->duration = $data->duration;
         if(isset($data->activityDescription))
             $this->activityDescription = $data->activityDescription;
+        if(isset($data->feedback))
+            $this->feedback = $data->feedback;
+        if(isset($data->acknowledged))
+            $this->acknowledged = $data->acknowledged;
+        
 
         return $this;
     }
