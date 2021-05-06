@@ -19,7 +19,7 @@
                 @endif
 
                 @if ($evaluationSection->hasGrade)
-                    <th class="text-center">Points</th>
+                    <th class="text-center">Points Max</th>
                 @endif
 
                 <th class="text-center">Remarques du responsable de stage</th>
@@ -33,18 +33,26 @@
                     
                     @switch ($evaluationSection->sectionType)
                         @case (1)
-                            <td></td>
-                            <td></td>
+                            <td>{{ $criteria->criteriaDetails  }}</td>
+                            @if ($evaluationSection->hasGrade)
+                                <td>{{ $criteria->maxPoints  }}</td>
+                            @endif
                             <td></td>
                             <td></td>
                             @break
                         @case (2)
                             <td></td>
                             <td></td>
+                            @if ($evaluationSection->hasGrade)
+                                <td>{{ $criteria->maxPoints  }}</td>
+                            @endif
                             <td></td>                      
                             @break
                         @case (3)
                             <td></td>
+                            @if ($evaluationSection->hasGrade)
+                                <td>{{ $criteria->maxPoints  }}</td>
+                            @endif
                             <td></td>
                             @break
                     @endswitch
