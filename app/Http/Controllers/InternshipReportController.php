@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\InternshipReport;
 use App\Internship;
 use App\ReportStatus;
+use App\Remark;
 
 class InternshipReportController extends Controller
 {
@@ -21,6 +22,10 @@ class InternshipReportController extends Controller
             $newReport->save();
 
             $this->storeDefaultFields($newReport->id);
+            
+            // Add a remark
+            $remark = new Remark();
+            $remark->add(5, $internshipId, "Rapport créé");
 
             return redirect()->route('internshipReport.show', ['id' => $newReport->id]);
         } else {
