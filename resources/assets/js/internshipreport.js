@@ -69,7 +69,12 @@ $(function() {
     closeSimpleMde();
   });
   // Save
-  $("button[name='save']").on("click", function() {});
+  $("form").on("submit", function(event) {
+    if (!$.trim($(this).find("input[type=text]").val())) {
+      event.preventDefault();
+      alert("Le champ titre ne peut pas être vide.");
+    }
+  });
 
   // Create
   $("button[name='create']").on("click", function() {
