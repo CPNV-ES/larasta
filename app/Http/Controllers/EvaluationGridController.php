@@ -54,7 +54,7 @@ class EvaluationGridController extends Controller
         $evaluationTemplate = new Evaluation();
         $evaluationTemplate->template_name = $request->all()["name"];
         $evaluationTemplate->editable = true;
-        $evaluationTemplate->visit_id = 11; // TODO: MAKE THIS FIELD NULLABLE
+        $evaluationTemplate->visit_id = null;
         $evaluationTemplate->save();
 
         foreach($request->all()["section"] as $sec) {
