@@ -150,7 +150,7 @@ function getSectionColumns(type, hasGrade) {
         criterias.push({label: "Observations attendues", editable: true, type: "text", name: "criteriaDetails"});
     }
     else if(type == 2) {
-        criterias.push({label: "Tâches", editable: true, type: "text", name: "criteriaValues.contextSpecifics"});
+        criterias.push({label: "Tâches", editable: false, type: undefined, name: ""});
     }
     if(hasGrade) {
         criterias.push({label: "Points", editable: true, type: "number", name: "maxPoints"});
@@ -171,7 +171,7 @@ function insertCriteriaData(criteriaRow, criteriaData) {
         criteriaRow.querySelector('td:nth-child(2) > textarea').textContent = criteriaData.criteriaDetails;
     }
     else if(sectionType == 2) {
-        criteriaRow.querySelector('td:nth-child(2) > textarea').textContent = criteriaData.criteria_value.contextSpecifics;
+        // type 2 has "Tâches", but it is filled during the evaluation
     }
 
     if(sectionIsGraded) {
