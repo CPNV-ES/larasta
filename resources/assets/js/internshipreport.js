@@ -26,7 +26,7 @@ $(function() {
 
     $(this)
       .parents("form")
-      .find("input")
+      .find("input[type=text]")
       .removeAttr("readonly");
 
     // Get the closest textarea and make it wysiwyg editable
@@ -40,6 +40,8 @@ $(function() {
 
   // Cancel edit
   $("button[name='cancel']").on("click", function() {
+    closeSimpleMde();
+
     // Show all edit buttons
     $("button[name='edit']").removeAttr("hidden");
     // Hide create button
@@ -55,6 +57,26 @@ $(function() {
       .find("button[name='save']")
       .attr("hidden", true);
 
+    $(this)
+      .parents("form")
+      .find("input[type=text]")
+      .val(
+        $(this)
+          .parents("form")
+          .find("input[type=text]")
+          .attr("value")
+      );
+
+    $(this)
+      .parents("form")
+      .find("textarea")
+      .val(
+        $(this)
+          .parents("form")
+          .find("textarea")
+          .attr("value")
+      );
+
     // Add readonly attributes from the text area and the input
     $(this)
       .parents("form")
@@ -63,14 +85,19 @@ $(function() {
 
     $(this)
       .parents("form")
-      .find("input")
+      .find("input[type=text]")
       .attr("readonly", true);
-
-    closeSimpleMde();
   });
+  
   // Save
   $("form").on("submit", function(event) {
-    if (!$.trim($(this).find("input[type=text]").val())) {
+    if (
+      !$.trim(
+        $(this)
+          .find("input[type=text]")
+          .val()
+      )
+    ) {
       event.preventDefault();
       alert("Le champ titre ne peut pas être vide.");
     }
