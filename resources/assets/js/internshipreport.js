@@ -1,6 +1,9 @@
 var simpleMde = null;
+var selectedStatus;
 
 $(function() {
+  selectedStatus = $("#status option:selected").text();
+
   // Edit
   $("button[name='edit']").on("click", function() {
     // Hide all edit buttons
@@ -94,7 +97,7 @@ $(function() {
   });
 
   // Save
-  $("form").on("submit", function(event) {
+  $("section form").on("submit", function(event) {
     if (
       !$.trim(
         $(this)
@@ -138,6 +141,21 @@ $(function() {
         .parents("form")
         .trigger("submit");
     }
+  });
+
+  // Update report status
+  $("#status").on("change", function() {
+    let changeConfirmed = confirm(
+      "Etes-vous sûr de vouloir changer le status du rapport? Vos données non sauvegardées seront supprimées."
+    );
+
+    if (changeConfirmed) {
+      $(this)
+        .parent("form")
+        .trigger("submit");
+    }
+
+    $(this).val(selectedStatus);
   });
 });
 

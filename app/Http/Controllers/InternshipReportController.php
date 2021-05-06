@@ -44,4 +44,15 @@ class InternshipReportController extends Controller
             ["name" => "Description de mon équipe (mission, personnes, rôles, organisation, ...)"],
         ]);
     }
+
+    public function updateStatus(Request $request, $reportId)
+    {
+        $reportStatus = ReportStatus::where('status', $request->status)->first();
+        $report = InternshipReport::find($reportId);
+
+        $report->status_id = $reportStatus->id;
+        $report->save();
+
+        return redirect()->route('internshipReport.show', ['id' => $report->id]);
+    }
 }

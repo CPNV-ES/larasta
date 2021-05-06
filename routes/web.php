@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Internship report
     Route::get('/internshipreport/{id}', 'InternshipReportController@show')->name('internshipReport.show');
     Route::post('/internshipreport/{id}', 'InternshipReportController@store')->name('internshipReport.store');
+    Route::put('/internshipreport/{id}', 'InternshipReportController@updateStatus')->name('internshipReport.updateStatus');
 
     // Report section
     Route::put('/reportsection/{id}', 'ReportSectionController@update')->name('reportSection.update');
