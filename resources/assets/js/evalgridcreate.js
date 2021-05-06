@@ -203,8 +203,8 @@ $(document).ready(function () {
     });
 
     $("form").submit(function() {
-        // Check that we have at least 1 section and 1 criteria in that section
-        return $("#sections-container").length > 0 && $("#sections-container .criteria-row").length > 0;
+        // Check that we have at least 1 section and that there are no sections with no criteria
+        return $("#sections-container").length > 0 && $("#sections-container table:not(:has(.criteria-row))").length == 0;
     });
 
     const nameInput = document.getElementById("name");
