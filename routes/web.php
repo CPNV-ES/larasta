@@ -34,10 +34,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
     Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
+    
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
     Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
     Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
+    Route::post('/internships/{internshipId}/logbook/review', 'LogbookController@saveFeedbacksAndAcknowledgements')->name("logbook.saveFeedbacksAndAcknowledgements");
+
     //file manage
     Route::post('/internships/{id}/files',"InternshipsController@storeFile")->name("internship.storeFile");
     Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
