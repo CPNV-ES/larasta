@@ -12,8 +12,11 @@ class EvaluationGridController extends Controller
 {
     public function index() 
     {
-        $evaluationSections = Evaluation::current_template()->sections();
-        $templateName = Evaluation::current_template()->template_name;
+        $evaluationSections = [];
+        if(Evaluation::current_template() != null) {
+            $evaluationSections = Evaluation::current_template()->sections();
+        }
+        $templateName = Evaluation::current_template()->template_name ?? "";
 
         return view('evaluationgrid.index')->with(compact('evaluationSections', 'templateName'));
     }
@@ -21,15 +24,16 @@ class EvaluationGridController extends Controller
     public function create() {
         $sections = [];
         // Aggregate data by evaluationSection
-        foreach(Evaluation::current_template()->sections() as $section) {
-            $sections[$section->id] = [
-                "hasGrade" => $section->hasGrade,
-                "sectionName" => $section->sectionName,
-                "sectionType" => $section->sectionType,
-                "criteria" => $section->criterias->load('criteriaValue')
-            ];
+        if(Evaluation::current_template() != null) {
+            foreach(Evaluation::current_template()->sections() as $section) {
+                $sections[$section->id] = [
+                    "hasGrade" => $section->hasGrade,
+                    "sectionName" => $section->sectionName,
+                    "sectionType" => $section->sectionType,
+                    "criteria" => $section->criterias->load('criteriaValue')
+                ];
+            }
         }
-
         $currentTemplate = [
             "evaluatuationSection" => $sections
         ];
