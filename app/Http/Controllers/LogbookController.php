@@ -111,7 +111,7 @@ class LogbookController extends Controller
         if (Auth::user()->id == $internship->responsible->id){
             $feedbacks = [];
             $acknowledgements = [];
-            dd($data = $request->all());
+            $data = $request->all();
             
             //filter feedbacks and acknowledgement
             foreach($data as $key=>$value){

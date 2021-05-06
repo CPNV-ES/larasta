@@ -60,12 +60,12 @@
                             @if($day[0]->acknowledged)
                                 @if(Auth::user()->id == $internship->responsible->id)   
                                     {{Form::hidden('ack-'.$day[0]->entryDate, '0')}}
-                                    {{Form::checkbox('ack-'.$day[0]->entryDate, null, 'checked' ,['class' => 'form-check-input', 'onclick' => "showSaveBtn()"])}}
+                                    {{Form::checkbox('ack-'.$day[0]->entryDate, true, 'checked' ,['class' => 'form-check-input', 'onclick' => "showSaveBtn()"])}}
                                 @endif
                                 <label class="form-check-label" for="flexCheckDefault">Lu</label>
                             @else
                                 @if(Auth::user()->id == $internship->responsible->id)   
-                                    {{Form::checkbox('ack-'.$day[0]->entryDate, null, '' ,['onclick' => "showSaveBtn()"])}}
+                                    {{Form::checkbox('ack-'.$day[0]->entryDate, true, '' ,['onclick' => "showSaveBtn()"])}}
                                 @endif
                                 <label class="form-check-label" for="flexCheckDefault">Non lu</label>
                             @endif
@@ -90,14 +90,15 @@
 
                                             @if(Auth::user()->id == $internship->responsible->id)
                                                 <div class="col-12">
-                                                    <input type="button" class="btn-success" style="min-width: 10px !important; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})" value="Editer">
+                                                    <i class="fas fa-edit"></i>
+                                                    <button type="button" class="btn-success" style="min-width: 10px !important; height: 22px; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})"><img src="/images/edit.png" width="12px" height="12px"></button>
                                                     {{Form::textarea('fdbk-'.$activity->id, "$activity->feedback", ['id' => $activity->id, 'hidden', 'style' => 'width: 500px; height: 60px;'])}}
                                                 </div>
                                             @endif
                                         @else
                                             @if(Auth::user()->id == $internship->responsible->id)
                                             <div class="col-12">
-                                                <input type="button" class="btn-success" style="min-width: 10px !important; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})" value="+">
+                                                <button type="button" class="btn-success" style="min-width: 10px !important;  height: 20px; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})"><img src="/images/add.png" width="12px" height="12px"></button>
                                                 {{Form::textarea('fdbk-'.$activity->id, "", ['id' => $activity->id, 'hidden', 'style' => 'width: 500px; height: 60px;'])}}
                                             </div>
                                             @endif
