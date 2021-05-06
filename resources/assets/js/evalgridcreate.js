@@ -87,6 +87,7 @@ function createNewSection(type = 1, hasGrade = false, name = "Nouvelle Section")
 }
 
 function insertCriteriaRowToSectionTable(sectionTable, criteriaRow) {
+    criteriaRow.classList.add("criteria-row");
     sectionTable.insertBefore(criteriaRow, sectionTable.getElementsByClassName("btn-new-criteria")[0].parentNode.parentNode);
 }
 
@@ -199,6 +200,11 @@ $(document).ready(function () {
         isGradedInput.prop("checked", false);
 
         newSectionModal.modal('hide')
+    });
+
+    $("form").submit(function() {
+        // Check that we have at least 1 section and 1 criteria in that section
+        return $("#sections-container").length > 0 && $("#sections-container .criteria-row").length > 0;
     });
 
     const nameInput = document.getElementById("name");
