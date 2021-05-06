@@ -153,7 +153,7 @@ function getSectionColumns(type, hasGrade) {
         criterias.push({label: "Tâches", editable: false, type: undefined, name: ""});
     }
     if(hasGrade) {
-        criterias.push({label: "Points", editable: true, type: "number", name: "maxPoints"});
+        criterias.push({label: "Points Max", editable: true, type: "number", name: "maxPoints"});
     }
     criterias.push({label: "Remarques resp. de stage", editable: false, type: undefined, name: ""});
     criterias.push({label: "Remarques du stagiaire", editable: false, type: undefined, name: ""});
