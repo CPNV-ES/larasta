@@ -50,6 +50,9 @@ class ReportSectionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $reportSection = ReportSection::find($id);
+        $reportSection->delete();
+
+        return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
     }
 }

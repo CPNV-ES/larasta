@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Report section
     Route::put('/reportsection/{id}', 'ReportSectionController@update')->name('reportSection.update');
     Route::post('/reportsection/{id}', 'ReportSectionController@store')->name('reportSection.store');
+    Route::delete('/reportsection/{id}', 'ReportSectionController@destroy')->name('reportSection.delete');
 
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");

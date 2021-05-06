@@ -37,6 +37,7 @@
         </table>
         <div class="d-flex justify-content-end mb-3">
             <button name="edit" type="button" class="btn-warning">Editer</button>
+            <button name="delete" type="button" class="btn-danger">Supprimer</button>
             <button name="cancel" type="button" class="btn-danger" hidden>Annuler</button>
             <button name="save" type="submit" class="btn-success" hidden>Enregistrer</button>
         </div>
@@ -63,6 +64,7 @@
         </table>
         <div class="d-flex justify-content-end mb-3">
             <button name="edit" type="button" class="btn-warning">Editer</button>
+            <button name="delete" type="button" class="btn-danger">Supprimer</button>
             <button name="cancel" type="button" class="btn-danger" hidden>Annuler</button>
             <button name="save" type="submit" class="btn-success" hidden>Enregistrer</button>
         </div>

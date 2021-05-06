@@ -5,6 +5,8 @@ $(function() {
   $("button[name='edit']").on("click", function() {
     // Hide all edit buttons
     $("button[name='edit']").attr("hidden", true);
+    // Hide all delete buttons
+    $("button[name='delete']").attr("hidden", true);
     // Hide create button
     $("button[name='create']").attr("hidden", true);
 
@@ -44,6 +46,8 @@ $(function() {
 
     // Show all edit buttons
     $("button[name='edit']").removeAttr("hidden");
+    // Show all delete buttons
+    $("button[name='delete']").removeAttr("hidden");
     // Hide create button
     $("button[name='create']").attr("hidden", true);
 
@@ -88,7 +92,7 @@ $(function() {
       .find("input[type=text]")
       .attr("readonly", true);
   });
-  
+
   // Save
   $("form").on("submit", function(event) {
     if (
@@ -115,6 +119,25 @@ $(function() {
     $("#newSection")
       .find("button[name='edit']")
       .trigger("click");
+  });
+
+  // Delete
+  $("button[name='delete']").on("click", function() {
+    let deleteConfirmed = confirm(
+      "Etes-vous sûr de vouloir supprimer cette section?"
+    );
+
+    if (deleteConfirmed) {
+      // Change laravel input to DELETE instead of PUT
+      $(this)
+        .parents("form")
+        .find("input[name='_method']")
+        .attr("value", "DELETE");
+
+      $(this)
+        .parents("form")
+        .trigger("submit");
+    }
   });
 });
 
