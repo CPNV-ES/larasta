@@ -7,19 +7,29 @@
     {{$report->internship->company->companyName}}
 </h2>
 
-@if (Auth::user()->id == $report->internship->intern_id)
 <div class="d-flex justify-content-end mb-3">
-    <form method="POST" action="{{route("internshipReport.updateStatus", $report->id)}}">
-        @method('PUT')
-        @csrf
-        <select name="status" id="status">
-            @foreach ($reportStatus as $status)
-            <option value="{{$status->status}}" @if ($status->id == $report->status_id) selected @endif>{{$status->status}}</option>
-            @endforeach
-        </select>
-    </form>
+    <i>Dernière modification : {{ $report->updated_at }}</i>
 </div>
-@endif
+
+<div class="d-flex justify-content-end mb-3">
+    @if (Auth::user()->id == $report->internship->intern_id)
+        <form method="POST" action="{{route("internshipReport.updateStatus", $report->id)}}">
+            @method('PUT')
+            @csrf
+            <select name="status" id="status">
+                @foreach ($reportStatus as $status)
+                <option value="{{$status->status}}" @if ($status->id == $report->status_id) selected @endif>{{$status->status}}</option>
+                @endforeach
+            </select>
+        </form>
+    @else
+        @foreach ($reportStatus as $status)
+            @if ($status->id == $report->status_id) 
+                Statut : {{$status->status}}
+            @endif
+        @endforeach
+    @endif
+</div>
 
 @foreach ($report->sections as $section)
 <section>
