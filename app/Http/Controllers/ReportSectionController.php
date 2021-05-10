@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\InternshipReport;
+use Illuminate\Http\Request;
 use App\ReportSection;
+use Illuminate\Support\Facades\Auth;
 
 class ReportSectionController extends Controller
 {
@@ -16,13 +17,22 @@ class ReportSectionController extends Controller
      */
     public function store(Request $request, $reportId)
     {
-        $reportSection = new ReportSection;
-        $reportSection->name = $request->title;
-        $reportSection->text = $request->description;
-        $reportSection->report_id = $reportId;
-        $reportSection->save();
+        $report = InternshipReport::find($reportId);
 
-        return redirect()->route('internshipReport.show', ['id' => $reportId]);
+        if (Auth::user()->id == $report->internship->intern_id) 
+        {
+            $reportSection = new ReportSection;
+            $reportSection->name = $request->title;
+            $reportSection->text = $request->description;
+            $reportSection->report_id = $reportId;
+            $reportSection->save();
+    
+            return redirect()->route('internshipReport.show', ['id' => $reportId]);
+        }
+        else
+        {
+            abort(404);
+        }
     }
 
     /**
@@ -35,11 +45,19 @@ class ReportSectionController extends Controller
     public function update(Request $request, $id)
     {
         $reportSection = ReportSection::find($id);
-        $reportSection->name = $request->title;
-        $reportSection->text = $request->description;
-        $reportSection->save();
 
-        return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
+        if (Auth::user()->id == $reportSection->report->internship->intern_id) 
+        {
+            $reportSection->name = $request->title;
+            $reportSection->text = $request->description;
+            $reportSection->save();
+    
+            return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
+        }
+        else
+        {
+            abort(404);
+        }
     }
 
     /**
@@ -51,8 +69,16 @@ class ReportSectionController extends Controller
     public function destroy($id)
     {
         $reportSection = ReportSection::find($id);
-        $reportSection->delete();
 
-        return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
+        if (Auth::user()->id == $reportSection->report->internship->intern_id) 
+        {
+            $reportSection->delete();
+
+            return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
+        }
+        else
+        {
+            abort(404);
+        }
     }
 }

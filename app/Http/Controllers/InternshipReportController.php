@@ -7,28 +7,38 @@ use App\InternshipReport;
 use App\Internship;
 use App\ReportStatus;
 use App\Remark;
+use Illuminate\Support\Facades\Auth;
 
 class InternshipReportController extends Controller
 {
     public function create($internshipId)
     {
-        $report = Internship::findOrFail($internshipId)->report;
-        $reportStatus = ReportStatus::where('status', 'Brouillon')->first();
+        $intenship = Internship::find($internshipId);
 
-        if (!$report) {
-            $newReport = new InternshipReport();
-            $newReport->internship_id = $internshipId;
-            $newReport->status_id = $reportStatus->id;
-            $newReport->save();
-
-            $this->storeDefaultFields($newReport->id);
-            
-            // Add a remark
-            $remark = new Remark();
-            $remark->add(5, $internshipId, "Rapport créé");
-
-            return redirect()->route('internshipReport.show', ['id' => $newReport->id]);
-        } else {
+        if (Auth::user()->id == $intenship->intern_id)
+        {
+            $report = Internship::findOrFail($internshipId)->report;
+            $reportStatus = ReportStatus::where('status', 'Brouillon')->first();
+    
+            if (!$report) {
+                $newReport = new InternshipReport();
+                $newReport->internship_id = $internshipId;
+                $newReport->status_id = $reportStatus->id;
+                $newReport->save();
+    
+                $this->storeDefaultFields($newReport->id);
+                
+                // Add a remark
+                $remark = new Remark();
+                $remark->add(5, $internshipId, "Rapport créé");
+    
+                return redirect()->route('internshipReport.show', ['id' => $newReport->id]);
+            } else {
+                abort(404);
+            }
+        }
+        else 
+        {
             abort(404);
         }
     }
@@ -43,6 +53,7 @@ class InternshipReportController extends Controller
     private function storeDefaultFields($reportId)
     {
         $report = InternshipReport::find($reportId);
+
         $report->sections()->createMany([
             ["name" => "Description du contexte de mon stage (entreprise, domaine d'activité, rôles, etc...)"],
             ["name" => "Description de mon plan de carrière"],
@@ -52,12 +63,20 @@ class InternshipReportController extends Controller
 
     public function updateStatus(Request $request, $reportId)
     {
-        $reportStatus = ReportStatus::where('status', $request->status)->first();
         $report = InternshipReport::find($reportId);
 
-        $report->status_id = $reportStatus->id;
-        $report->save();
-
-        return redirect()->route('internshipReport.show', ['id' => $report->id]);
+        if (Auth::user()->id == $report->internship->intern_id) 
+        {
+            $reportStatus = ReportStatus::where('status', $request->status)->first();
+        
+            $report->status_id = $reportStatus->id;
+            $report->save();
+    
+            return redirect()->route('internshipReport.show', ['id' => $report->id]);
+        }
+        else
+        {
+            abort(404);
+        }    
     }
 }

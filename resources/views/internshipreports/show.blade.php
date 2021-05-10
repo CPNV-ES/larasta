@@ -7,6 +7,7 @@
     {{$report->internship->company->companyName}}
 </h2>
 
+@if (Auth::user()->id == $report->internship->intern_id)
 <div class="d-flex justify-content-end mb-3">
     <form method="POST" action="{{route("internshipReport.updateStatus", $report->id)}}">
         @method('PUT')
@@ -18,6 +19,7 @@
         </select>
     </form>
 </div>
+@endif
 
 @foreach ($report->sections as $section)
 <section>
@@ -41,12 +43,14 @@
                 </td>
             </tr>
         </table>
+        @if (Auth::user()->id == $report->internship->intern_id)
         <div class="d-flex justify-content-end mb-3">
             <button name="edit" type="button" class="btn-warning">Editer</button>
             <button name="delete" type="button" class="btn-danger">Supprimer</button>
             <button name="cancel" type="button" class="btn-danger" hidden>Annuler</button>
             <button name="save" type="submit" class="btn-success" hidden>Enregistrer</button>
         </div>
+        @endif
     </form>
 </section>
 @endforeach
@@ -77,9 +81,11 @@
     </form>
 </section>
 
+@if (Auth::user()->id == $report->internship->intern_id)
 <div class="d-flex justify-content-end mb-3">
     <button name="create" type="button" class="btn-success">Créer une section</button>
 </div>
+@endif
 
 @endsection
 

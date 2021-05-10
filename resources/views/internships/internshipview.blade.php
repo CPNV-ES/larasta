@@ -96,12 +96,14 @@
 
     {{-- Internship report --}}
     @if (!$internship->report)
-        <a href="{{route("internshipReport.create", $internship->id)}}">
-            <button>Créer le rapport de stage</button>
-        </a> 
-    @else 
+        @if (Auth::user()->id == $internship->intern_id)
+            <a href="{{route("internshipReport.create", $internship->id)}}">
+                <button>Créer le rapport de stage</button>
+            </a> 
+        @endif 
+    @else
         <a href="{{route("internshipReport.show", $internship->report->id)}}">
-            <button>Modifier le rapport de stage</button>
+            <button>Voir le rapport de stage</button>
         </a> 
     @endif
 
