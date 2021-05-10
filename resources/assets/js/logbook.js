@@ -694,7 +694,8 @@ async function onActivitySave() {
         return object.id == activitytypes_id;
     });
     var activityDescription = activityWindowDescriptionInput.value;
-    var activityData = { duration, activityDescription, activitytypes_id };
+
+    var activityData = { duration, activityDescription, activitytypes_id, feedback: "fdbk", acknowledged: 0};
     console.log({ activityData });
 
     var loader = Utils.addLoader(activityWindow, "dark");
@@ -702,6 +703,13 @@ async function onActivitySave() {
     //save data
     if (displayedActivity) {
         //edit
+        //Replace data feedback by the actual feedback
+        if(!displayedActivity.feedback){
+            activityData.feedback = "";
+        }else{
+            activityData.feedback = displayedActivity.feedback;
+        }
+
         //api call
         let result = await Utils.callApi(
             ROUTES.putActivity(displayedActivity.id),
