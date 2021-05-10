@@ -74,7 +74,6 @@ class LogbookController extends Controller
     {
         //create and save new activity
         $newActivity = Logbook::fromRequest($internshipId, $request);
-        $newActivity->feedback = "";
         $newActivity->save();
         return $newActivity;
     }
