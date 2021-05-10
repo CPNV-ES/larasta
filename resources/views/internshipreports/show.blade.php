@@ -28,14 +28,16 @@
             <tr scope="row">
                 <td scope="col-md-2">Titre</td>
                 <td>
-                    <input type="text" name="title" class="w-100" value="{{$section->name}}" readonly />
+                    <div class="input-rendering">{{$section->name}}</div>
+                    <input class="w-100" type="text" name="title" value="{{$section->name}}" hidden />
                 </td>
             </tr>
             <tr scope="row">
                 <td>Description</td>
-                <td class="Description">
-                    <textarea name="description" class="w-100" value="{{$section->text}}"
-                        readonly>{{$section->text}}</textarea>
+                <td class="w-100">
+                    <div class="raw-markdown" hidden>{!!$section->text!!}</div>
+                    <div class="description-rendering">{!!$section->text!!}</div>
+                    <textarea name="description" hidden>{!!$section->text!!}</textarea>
                 </td>
             </tr>
         </table>

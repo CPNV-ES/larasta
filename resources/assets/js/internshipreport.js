@@ -23,16 +23,27 @@ $(function() {
       .find("button[name='save']")
       .removeAttr("hidden");
 
-    // Remove readonly attributes from the text area and the input
+    // Show the text area and the input
     $(this)
       .parents("form")
       .find("textarea")
-      .removeAttr("readonly");
+      .removeAttr("hidden");
 
     $(this)
       .parents("form")
       .find("input[type=text]")
-      .removeAttr("readonly");
+      .removeAttr("hidden");
+
+    // Hide the rendered input and textarea
+    $(this)
+      .parents("form")
+      .find(".input-rendering")
+      .attr("hidden", true);
+
+    $(this)
+      .parents("form")
+      .find(".description-rendering")
+      .attr("hidden", true);
 
     // Get the closest textarea and make it wysiwyg editable
     setupSimpleMde(
@@ -52,7 +63,9 @@ $(function() {
     // Show all delete buttons
     $("button[name='delete']").removeAttr("hidden");
     // Hide create button
-    $("button[name='create']").attr("hidden", true);
+    $("button[name='create']").removeAttr("hidden", true);
+    // Hide the new section
+    $("#newSection").attr("hidden", true);
 
     // Hide save and cancel buttons
     $(this)
@@ -74,26 +87,38 @@ $(function() {
           .attr("value")
       );
 
+    // Set the textarea with its initial value
     $(this)
       .parents("form")
       .find("textarea")
       .val(
         $(this)
           .parents("form")
-          .find("textarea")
-          .attr("value")
+          .find(".raw-markdown")
+          .text()
       );
 
-    // Add readonly attributes from the text area and the input
+    // Hide the text area and the input
     $(this)
       .parents("form")
       .find("textarea")
-      .attr("readonly", true);
+      .attr("hidden", true);
 
     $(this)
       .parents("form")
       .find("input[type=text]")
-      .attr("readonly", true);
+      .attr("hidden", true);
+
+    // Show the rendered input and textarea
+    $(this)
+      .parents("form")
+      .find(".input-rendering")
+      .removeAttr("hidden");
+
+    $(this)
+      .parents("form")
+      .find(".description-rendering")
+      .removeAttr("hidden");
   });
 
   // Save
@@ -156,6 +181,15 @@ $(function() {
     }
 
     $(this).val(selectedStatus);
+  });
+
+  // Render the element markdown text to html
+  $(".description-rendering").each(function() {
+    let text = $(this).text(),
+      converter = new showdown.Converter(),
+      html = converter.makeHtml(text);
+
+    $(this).html(html);
   });
 });
 
