@@ -196,12 +196,7 @@ class VisitsController extends Controller
         $responsibleId = $visit->internship->responsible->id;
         
         if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->visitsstates_id == 2){
-    
             $evaluationSections = Evaluation::current_template()->sections();
-            $company = $visit->internship->company->companyName;
-            $classMaster = $visit->internship->student->flock->classMaster->fullname;
-            $responsible = $visit->internship->responsible->humanContactInfo();
-
 
             return view('visits/evaluationGrid')->with(
                 [   
@@ -212,7 +207,8 @@ class VisitsController extends Controller
                 ]
             );
 
-        }else{
+        }
+        else {
             return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
         }
     }
