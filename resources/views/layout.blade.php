@@ -62,7 +62,7 @@
                 <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
             </tr>
             <tr>
-                <td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td>
+                <td><a href="/internships"><img alt="Places" src="/images/internships.png">Stages</a></td>
             </tr>
             <tr>
                 <td><a href="/visits"><img alt="Places" src="/images/internships.png">Visites</a></td>

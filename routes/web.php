@@ -11,15 +11,12 @@
 |
 */
 
-Route::get('/', 'InternshipsController@index')->name("index");
-
+Route::get('/', 'DashboardController@index')->name("index");
+//Route::get('/', 'InternshipsController@index')->name("index");
 // Route::get('/internships', function(){return redirect(route("index"));});
 
-Route::post('/', 'InternshipsController@changeFilter');
-
 Route::group(['middleware' => ['auth']], function () {
-
-    
+   
     //TODO Refactor these routes by using Route::resource() ↓
     // Route::resource('internships','InternshipsController');
     Route::get('/internships','InternshipsController@index')->name('internships.index'); 
@@ -30,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/internships/{id}/edit','InternshipsController@edit')->name('internships.edit'); 
     Route::put('/internships/{id}','InternshipsController@update')->name('internships.update'); 
     Route::delete('/internships/{id}','InternshipsController@destroy')->name('internships.destroy'); 
+    Route::post('/internships', 'InternshipsController@changeFilter');
     
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
