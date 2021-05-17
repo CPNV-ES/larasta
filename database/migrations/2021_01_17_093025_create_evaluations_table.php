@@ -17,7 +17,7 @@ class CreateEvaluationsTable extends Migration {
 			$table->integer('id', true);
 			$table->boolean('editable')->default(1);
 			$table->integer('visit_id')->index('fk_evaluations_visits1_idx');
-			$table->string('template_name', 45)->nullable()->default('NULL')->unique('template_name_UNIQUE')->comment('The name that can be used to take this evaluation’s structure as a template for new evaluations.');
+			$table->string('template_name', 45)->nullable()->unique('template_name_UNIQUE')->comment('The name that can be used to take this evaluation’s structure as a template for new evaluations.');
 		});
 	}
 
