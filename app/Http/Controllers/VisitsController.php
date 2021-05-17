@@ -21,7 +21,7 @@ use App\Visit;
 use App\Remark;
 use App\Person;
 use App\Visitsstate;
-use App\EvaluationSection;
+use App\Evaluation;
 
 // Intranet env
 use CPNVEnvironment\Environment;
@@ -125,71 +125,63 @@ class VisitsController extends Controller
      *
      * */
     public function manage ($rid) {
+        $visit = Visit::find($rid);
 
-        $studentToVisit = Visit::find($rid)->internship->student->id;
+        if($visit === null) {
+            return redirect('/visits')->with('status', "Visite pas trouvée");
+        }
+
+        $studentToVisitId = $visit->internship->student->id;
+        $responsibleId = $visit->internship->responsible->id;
 
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Or the concerned student of the internship
         // Student = 0; Teacher = 1; Admin = 2
-        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisit){
+        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId){
+            $student = $visit->internship->student->humanContactInfo();
+            $classMaster = $visit->internship->student->flock->classMaster->fullname;
+            $responsible = $visit->internship->responsible->humanContactInfo();
+            $admin = $visit->internship->admin->humanContactInfo();
 
-            // Try to know if a visit exist
-            $visit = Visit::find($rid);
-            // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
-            // return the user to his/her of visit
-                if(isset($visit->id) == 1)
-                {
-                    $student = $visit->internship->student->humanContactInfo();
-                    $classMaster = $visit->internship->student->flock->classMaster->fullname;
-                    $responsible = $visit->internship->responsible->humanContactInfo();
-                    $admin = $visit->internship->admin->humanContactInfo();
- 
-                    /*
-                     * Get status name of visit for the select input.
-                     * It musts be under 3, which means that the visit has to be closed by an "Evaluation".
-                     * statusName
-                     * 1. En préparation
-                     * 2. Confirmée
-                     * 3. Effectuée
-                     *  */
-                    $visitstates = Visitsstate::get();
-                    $visitActualStateId = $visit->visitsstates_id;
+            /*
+             * Get status name of visit for the select input.
+             * It musts be under 3, which means that the visit has to be closed by an "Evaluation".
+             * statusName
+             * 1. En préparation
+             * 2. Confirmée
+             * 3. Effectuée
+             *  */
+            $visitstates = Visitsstate::get();
+            $visitActualStateId = $visit->visitsstates_id;
 
-                    /*
-                     * Gets remarks about the visit
-                     * It returns all remarks about the visit by its ID.
-                     * 1. Date
-                     * 2. Author
-                     * 3. remark(s)
-                     * */
-                    $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
+            /*
+             * Gets remarks about the visit
+             * It returns all remarks about the visit by its ID.
+             * 1. Date
+             * 2. Author
+             * 3. remark(s)
+             * */
+            $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
 
-                    /*
-                     * Gets media associate from the visit (ID).
-                     * */
-                    $medias = $visit->getMedia();
-                    return view('visits/manage')->with(
-                        [
-                            'visit' => $visit,
-                            'student' => $student,
-                            'classMaster' => $classMaster,
-                            'responsible' => $responsible,
-                            'admin' => $admin,
-                            'visitActualStateId' => $visitActualStateId,
-                            'visitstates' => $visitstates,
-                            'remarks' => $remarks,
-                            'medias' => $medias
-                        ]
-                    );
-                }
-            
-                //If it's not a teacher or superuser, we redirect him/her to visits' main page.
-                else
-                {
-                    return redirect('/visits')->with('status', "Visite pas trouvée");
-                }
+            /*
+             * Gets media associate from the visit (ID).
+             * */
+            $medias = $visit->getMedia();
+            return view('visits/manage')->with(
+                [
+                    'visit' => $visit,
+                    'student' => $student,
+                    'classMaster' => $classMaster,
+                    'responsible' => $responsible,
+                    'admin' => $admin,
+                    'visitActualStateId' => $visitActualStateId,
+                    'visitstates' => $visitstates,
+                    'remarks' => $remarks,
+                    'medias' => $medias,
+                    'showEvalButton' => (Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId) && $visit->visitsstates_id == 2
+                ]
+            );
         }
-
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
