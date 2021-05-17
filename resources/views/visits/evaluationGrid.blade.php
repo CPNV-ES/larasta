@@ -14,7 +14,7 @@
     <h2>Sections</h2>
     <form>
     @forelse ($evaluationSections as $evaluationSection)
-        <table class="larastable w-100 mb-3">
+        <table class="larastable w-100 mb-3 evalgrid-fill">
             <tr>
                 <th colspan="5" class="text-success">{{ $evaluationSection->sectionName }}</th>
             </tr>
@@ -56,7 +56,7 @@
                     @endswitch
 
                     @if($evaluationSection->hasGrade)
-                        <td>
+                        <td class="numberinput-col">
                             @if($isResponsible)
                                 <input type="number" min="0" max="{{ $criteria->maxPoints }}" />
                             @endif
@@ -82,3 +82,7 @@
     <button class="btn btn-primary" type="submit">Enregistrer</button>
     </form>
 @endsection
+
+@push ('page_specific_css')
+    <link rel="stylesheet" href="/css/evalGrid.css">
+@endpush
