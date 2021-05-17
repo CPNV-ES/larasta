@@ -47,7 +47,16 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td class="login"><p>{{Auth::user()->fullname}}</p><button type="submit">Logout</button></td>
+                    <td class="login"><p>{{Auth::user()->fullname}}</p>
+                        <div class="row">
+                            <div class="col-6">                               
+                                <button type="button" class="btn-info" onclick="window.location = '/';"><img src="/images/home.png"></button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn-danger" type="submit"><img src="/images/logout.png" style="padding-top: 1px;"></button>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </form>
             @else
