@@ -42,10 +42,10 @@
                             @break
                         @case (2)
                             <td></td>
-                            <td></td>
                             @if ($evaluationSection->hasGrade)
                                 <td>{{ $criteria->maxPoints  }}</td>
                             @endif
+                            <td></td>
                             <td></td>                      
                             @break
                         @case (3)
