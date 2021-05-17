@@ -39,7 +39,7 @@ class Evaluation extends Model
 
     public function sections() {
         $evaluationSections = [];
-        foreach(Evaluation::current_template()->criteriaValue as $criteriaValue) {
+        foreach($this->criteriaValue as $criteriaValue) {
             if (!in_array($criteriaValue->criteria->evaluationSection, $evaluationSections)) {
                 $evaluationSections[] = $criteriaValue->criteria->evaluationSection;
             }
