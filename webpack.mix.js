@@ -13,6 +13,7 @@ let mix = require('laravel-mix');
 
 mix .copy('resources/assets/js/utils.js', 'public/js')
     .copy('resources/assets/js/internship.js', 'public/js')
+    .js('resources/assets/js/internshipreport.js', 'public/js')
     .js('resources/assets/js/internshipsEdit.js', 'public/js')
     .js('resources/assets/js/wishesMatrix.js', 'public/js')
     .js('resources/assets/js/visits.js', 'public/js')

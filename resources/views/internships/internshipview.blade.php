@@ -94,6 +94,19 @@
         <button class="">Journal de travail</button>
     </a>
 
+    {{-- Internship report --}}
+    @if (!$internship->report)
+        @if (Auth::user()->id == $internship->intern_id)
+            <a href="{{route("internshipReport.create", $internship->id)}}">
+                <button>Créer le rapport de stage</button>
+            </a> 
+        @endif 
+    @else
+        <a href="{{route("internshipReport.show", $internship->report->id)}}">
+            <button>Voir le rapport de stage</button>
+        </a> 
+    @endif
+
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id , "medias" => $medias,"editable"=>false])
     
     {{-- Visits --}}
