@@ -12,6 +12,7 @@
     <br><br>
 
     <h2>Sections</h2>
+    <form>
     @forelse ($evaluationSections as $evaluationSection)
         <table class="larastable w-100 mb-3">
             <tr>
@@ -20,12 +21,15 @@
             <tr>
                 <th class="text-center w-25">Critères</th>
 
+                @if ($evaluationSection->sectionType == 1)
+                    <th class="text-center">Observations attendues</th>
+                @endif
+
                 @if ($evaluationSection->sectionType == 2)
                     <th class="text-center">Tâches</th>
                 @endif
 
-                @if ($evaluationSection->sectionType == 1)
-                    <th class="text-center">Observations attendues</th>
+                @if ($evaluationSection->hasGrade)
                     <th class="text-center">Points</th>
                 @endif
 
@@ -40,21 +44,33 @@
                     
                     @switch ($evaluationSection->sectionType)
                         @case (1)
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                <textarea maxlength="1000"></textarea>
+                            </td>
                             @break
                         @case (2)
-                            <td></td>
-                            <td></td>
-                            <td></td>                      
-                            @break
-                        @case (3)
-                            <td></td>
-                            <td></td>
+                        <td>
+                            <textarea maxlength="1000"></textarea>
+                        </td>
                             @break
                     @endswitch
+
+                    @if($evaluationSection->hasGrade)
+                        <td>
+                            @if($isResponsible)
+                                <input type="number" min="0" max="{{ $criteria->maxPoints }}" />
+                            @endif
+                        </td>
+                    @endif
+
+                    <td>
+                        @if($isResponsible)
+                            <textarea maxlength="1000"></textarea>
+                        @endif
+                    </td>
+                    <td>
+                        <textarea maxlength="1000"></textarea>
+                    </td>
                 </tr>    
             @empty
                 <h2>Aucun critère.</h2>
@@ -62,5 +78,7 @@
         </table>
     @empty
         <h2>Aucune section.</h2>
-    @endforelse 
+    @endforelse
+    <button class="btn btn-primary" type="submit">Enregistrer</button>
+    </form>
 @endsection

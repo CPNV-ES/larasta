@@ -192,19 +192,23 @@ class VisitsController extends Controller
 
     public function evaluation($visitId){  
         $visit = Visit::find($visitId);
-        $concernedStudent = $visit->internship->student->id;
+        $concernedStudentId = $visit->internship->student->id;
+        $responsibleId = $visit->internship->responsible->id;
         
-        if (Auth::user()->id == $concernedStudent && $visit ->visitsstates_id == 2){
+        if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->visitsstates_id == 2){
     
-            $evaluationSections = EvaluationSection::all();
+            $evaluationSections = Evaluation::current_template()->sections();
             $company = $visit->internship->company->companyName;
             $classMaster = $visit->internship->student->flock->classMaster->fullname;
             $responsible = $visit->internship->responsible->humanContactInfo();
 
+
             return view('visits/evaluationGrid')->with(
                 [   
                     'evaluationSections' => $evaluationSections,
-                    'visit' => $visit
+                    'visit' => $visit,
+                    'isIntern' => Auth::user()->id == $concernedStudentId,
+                    'isResponsible' => Auth::user()->id == $responsibleId
                 ]
             );
 
