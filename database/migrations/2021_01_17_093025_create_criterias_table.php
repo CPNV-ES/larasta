@@ -16,7 +16,7 @@ class CreateCriteriasTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('criteriaName', 45);
-			$table->string('criteriaDetails', 1000)->nullable()->default('NULL');
+			$table->string('criteriaDetails', 1000)->nullable();
 			$table->integer('maxPoints')->nullable();
 			$table->integer('evaluationSection_id')->index('FKCritSection_idx');
 		});

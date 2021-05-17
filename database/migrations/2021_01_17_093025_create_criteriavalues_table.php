@@ -18,9 +18,9 @@ class CreateCriteriavaluesTable extends Migration {
 			$table->integer('evaluation_id')->index('FKCritEval_idx');
 			$table->integer('criteria_id')->index('FKCritvalCrit_idx');
 			$table->integer('points');
-			$table->string('studentComments', 1000)->nullable()->default('NULL');
-			$table->string('managerComments', 1000)->nullable()->default('NULL');
-			$table->string('contextSpecifics', 1000)->nullable()->default('NULL')->comment('Allows to add details that are specific to this internship');
+			$table->string('studentComments', 1000)->nullable();
+			$table->string('managerComments', 1000)->nullable();
+			$table->string('contextSpecifics', 1000)->nullable()->comment('Allows to add details that are specific to this internship');
 		});
 	}
 
