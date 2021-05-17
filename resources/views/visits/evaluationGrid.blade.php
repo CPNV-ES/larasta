@@ -12,7 +12,8 @@
     <br><br>
 
     <h2>Sections</h2>
-    <form>
+    <form action="{{ route("visit.updateEvaluation", ["id" => $visit->id]) }}" method="post">
+    {{ csrf_field() }}
     @forelse ($evaluationSections as $evaluationSection)
         <table class="larastable w-100 mb-3 evalgrid-fill">
             <tr>

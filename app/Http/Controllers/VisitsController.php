@@ -241,7 +241,49 @@ class VisitsController extends Controller
         }
     }
 
+    /*
+     * Update a visit's evaluation
+     */
+    public function updateEvaluation(Request $request, $visitId) {
+        $visit = Visit::find($visitId);
+        $currUser = Auth::user();
+        $currUserIsResponsible = $currUser == $visit->internship->responsible;
 
+        $request->validate([
+            'cv.*.contextSpecifics' => 'max:1000',
+            'cv.*.studentComments' => 'max:1000',
+            'cv.*.managerComments' => 'max:1000',
+            'cv.*.points' => 'integer'
+        ]);
+
+        // Get this visit's eval criteriaValues' ids to check if the one we were send are valid
+        $thisEvalCriteriaValueIds = $visit->evaluation()->first()->criteriaValue()->pluck('id')->toArray();
+
+        foreach($request["cv"] as $cvId => $cvData) {
+            // We're trying to update a criteriaValue that's not part of this visit's evaluation!
+            if(!in_array($cvId, $thisEvalCriteriaValueIds))
+                return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
+
+            $criteriaValue = CriteriaValue::find($cvId);
+
+            $criteriaValue->studentComments = $cvData["studentComments"] ?? null;
+            $criteriaValue->contextSpecifics = $cvData["contextSpecifics"] ?? null;
+
+            // Only the internship responsible can edit the points and their comments
+            if($currUserIsResponsible) {
+                // Points must be between 0 and the criteria's max allowed points
+                if(isset($cvData["points"]) && ($cvData["points"] < 0 || $cvData["points"] > $criteriaValue->criteria->maxPoints))
+                    return redirect(route('visit.manage', $visitId))->with('status',  "Le champs points n'est pas dans les limites de valeurs acceptées");
+
+                $criteriaValue->points = $cvData["points"] ?? 0;
+                $criteriaValue->managerComments = $cvData["managerComments"] ?? null;
+            }
+
+            $criteriaValue->save();
+        }
+
+        return redirect(route('visit.manage', $visitId))->with('status',  "L'évaluation a bien été modifiée !");
+    }
 
     /*
      * -- mail --
