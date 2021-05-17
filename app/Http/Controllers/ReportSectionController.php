@@ -12,25 +12,19 @@ class ReportSectionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $reportId)
     {
-        $report = InternshipReport::find($reportId);
+        $report = InternshipReport::findOrFail($reportId);
 
-        if (Auth::user()->id == $report->internship->intern_id) 
-        {
+        if (Auth::user()->id == $report->internship->intern_id) {
             $reportSection = new ReportSection;
-            $reportSection->name = $request->title;
-            $reportSection->text = $request->description;
-            $reportSection->report_id = $reportId;
-            $reportSection->save();
-    
+            $reportSection->build($request->title, $request->description, $reportId);
+
             return redirect()->route('internshipReport.show', ['id' => $reportId]);
-        }
-        else
-        {
+        } else {
             abort(404);
         }
     }
@@ -38,24 +32,19 @@ class ReportSectionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $reportSection = ReportSection::find($id);
+        $reportSection = ReportSection::findOrFail($id);
 
-        if (Auth::user()->id == $reportSection->report->internship->intern_id) 
-        {
-            $reportSection->name = $request->title;
-            $reportSection->text = $request->description;
-            $reportSection->save();
-    
+        if (Auth::user()->id == $reportSection->report->internship->intern_id) {
+            $reportSection->modify($request->title, $request->description);
+
             return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
-        }
-        else
-        {
+        } else {
             abort(404);
         }
     }
@@ -63,21 +52,18 @@ class ReportSectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $reportSection = ReportSection::find($id);
+        $reportSection = ReportSection::findOrFail($id);
 
-        if (Auth::user()->id == $reportSection->report->internship->intern_id) 
-        {
+        if (Auth::user()->id == $reportSection->report->internship->intern_id) {
             $reportSection->delete();
 
             return redirect()->route('internshipReport.show', ['id' => $reportSection->report_id]);
-        }
-        else
-        {
+        } else {
             abort(404);
         }
     }

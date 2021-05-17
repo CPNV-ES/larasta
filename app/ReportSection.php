@@ -13,4 +13,30 @@ class ReportSection extends Model
     {
         return $this->belongsTo(InternshipReport::class);
     }
+
+    /**
+     * Create a new section
+     * @param $name
+     * @param $text
+     * @param $reportId
+     */
+    public function build($name, $text, $reportId)
+    {
+        $this->name = $name;
+        $this->text = $text;
+        $this->report_id = $reportId;
+        $this->save();
+    }
+
+    /**
+     * Update the section
+     * @param array $name
+     * @param array $text
+     */
+    public function modify($name, $text)
+    {
+        $this->name = $name;
+        $this->text = $text;
+        $this->save();
+    }
 }

@@ -6,35 +6,26 @@ use Illuminate\Http\Request;
 use App\InternshipReport;
 use App\Internship;
 use App\ReportStatus;
-use App\Remark;
 use Illuminate\Support\Facades\Auth;
 
 class InternshipReportController extends Controller
 {
     public function create($internshipId)
     {
-        $intenship = Internship::find($internshipId);
+        $internship = Internship::findOrFail($internshipId);
 
-        if (Auth::user()->id == $intenship->intern_id)
+        if (Auth::user()->id == $internship->intern_id)
         {
-            $report = Internship::findOrFail($internshipId)->report;
-            $reportStatus = ReportStatus::where('status', 'Brouillon')->first();
-    
-            if (!$report) {
-                $newReport = new InternshipReport();
-                $newReport->internship_id = $internshipId;
-                $newReport->status_id = $reportStatus->id;
-                $newReport->save();
-    
-                $this->storeDefaultFields($newReport->id);
-                
-                // Add a remark
-                $remark = new Remark();
-                $remark->add(5, $internshipId, "Rapport créé");
-    
-                return redirect()->route('internshipReport.show', ['id' => $newReport->id]);
-            } else {
+            if (Internship::find($internshipId)->report)
+            {
                 abort(404);
+            }
+            else
+            {
+                $report = new InternshipReport();
+                $report->build($internshipId);
+
+                return redirect()->route('internshipReport.show', ['id' => $report->id]);
             }
         }
         else 
@@ -47,30 +38,17 @@ class InternshipReportController extends Controller
     {
         $report = InternshipReport::findOrFail($id);
         $reportStatus = ReportStatus::all();
+
         return view('internshipreports.show', compact('report', 'reportStatus'));
     }
 
-    private function storeDefaultFields($reportId)
+    public function update(Request $request, $reportId)
     {
-        $report = InternshipReport::find($reportId);
-
-        $report->sections()->createMany([
-            ["name" => "Description du contexte de mon stage (entreprise, domaine d'activité, rôles, etc...)"],
-            ["name" => "Description de mon plan de carrière"],
-            ["name" => "Description de mon équipe (mission, personnes, rôles, organisation, ...)"],
-        ]);
-    }
-
-    public function updateStatus(Request $request, $reportId)
-    {
-        $report = InternshipReport::find($reportId);
+        $report = InternshipReport::findOrFail($reportId);
 
         if (Auth::user()->id == $report->internship->intern_id) 
         {
-            $reportStatus = ReportStatus::where('status', $request->status)->first();
-        
-            $report->status_id = $reportStatus->id;
-            $report->save();
+            $report->updateStatus($request->status);
     
             return redirect()->route('internshipReport.show', ['id' => $report->id]);
         }
