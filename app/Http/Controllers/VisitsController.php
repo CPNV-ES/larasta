@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 // Requests
+use App\CriteriaValue;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\VisitRequest;
@@ -189,7 +190,9 @@ class VisitsController extends Controller
         }
     }
 
-
+    /*
+     * Display evaluation grid for this visit
+     */
     public function evaluation($visitId){  
         $visit = Visit::find($visitId);
         $concernedStudentId = $visit->internship->student->id;
@@ -198,12 +201,37 @@ class VisitsController extends Controller
         if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->visitsstates_id == 2){
             $evaluationSections = Evaluation::current_template()->sections();
 
+            // If there isn't an evaluation for this visit already, create one (it will be empty but we still need one)
+            if(!$visit->evaluation()->exists()) {
+                $eval = new Evaluation();
+                $eval->editable = true;
+                $eval->visit()->associate($visit);
+                $eval->template_name = null;
+                $eval->save();
+
+                foreach(Evaluation::current_template()->sections() as $section) {
+                    foreach($section->criterias()->get() as $criteria) {
+                        $criteriaValue = new CriteriaValue();
+                        $criteriaValue->evaluation()->associate($eval);
+                        $criteriaValue->points = -1;
+                        $criteriaValue->criteria()->associate($criteria);
+                        $criteriaValue->save();
+                    }
+                }
+            }
+
+            $criteriaValuesBySection = [];
+            foreach($visit->evaluation()->first()->criteriaValue()->get() as $crit) {
+                $criteriaValuesBySection[$crit->criteria->evaluationSection->id][] = $crit;
+            }
+
             return view('visits/evaluationGrid')->with(
                 [   
                     'evaluationSections' => $evaluationSections,
                     'visit' => $visit,
                     'isIntern' => Auth::user()->id == $concernedStudentId,
-                    'isResponsible' => Auth::user()->id == $responsibleId
+                    'isResponsible' => Auth::user()->id == $responsibleId,
+                    'criteriaValueBySection' => $criteriaValuesBySection
                 ]
             );
 

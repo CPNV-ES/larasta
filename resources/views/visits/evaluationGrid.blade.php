@@ -36,40 +36,37 @@
                 <th class="text-center">Remarques du responsable de stage</th>
                 <th class="text-center">Remarques du stagiaire</th>
             </tr>
-            @forelse ($evaluationSection->criterias as $criteria)
+            @forelse ($criteriaValueBySection[$evaluationSection->id] as $criteriaValue)
                 <tr>
                     <td>
-                        {{ $criteria->criteriaName }}
+                        {{ $criteriaValue->criteria->criteriaName }}
                     </td>     
                     
-                    @switch ($evaluationSection->sectionType)
-                        @case (1)
-                            <td>
-                                <textarea maxlength="1000"></textarea>
-                            </td>
-                            @break
-                        @case (2)
+                    @if ($evaluationSection->sectionType == 1 || $evaluationSection->sectionType == 2)
                         <td>
-                            <textarea maxlength="1000"></textarea>
+                            <textarea name="cv[{{$criteriaValue->id}}][contextSpecifics]" maxlength="1000">{{ $criteriaValue->contextSpecifics }}</textarea>
                         </td>
-                            @break
-                    @endswitch
+                    @endif
 
                     @if($evaluationSection->hasGrade)
                         <td class="numberinput-col">
                             @if($isResponsible)
-                                <input type="number" min="0" max="{{ $criteria->maxPoints }}" />
+                                <input
+                                        name="cv[{{$criteriaValue->id}}][points]"
+                                        type="number"
+                                        min="0" max="{{ $criteriaValue->criteria->maxPoints }}"
+                                        value="{{ $criteriaValue->points }}"
+                                />
                             @endif
                         </td>
                     @endif
-
                     <td>
                         @if($isResponsible)
-                            <textarea maxlength="1000"></textarea>
+                            <textarea name="cv[{{$criteriaValue->id}}][managerComments]" maxlength="1000">{{ $criteriaValue->managerComments }}</textarea>
                         @endif
                     </td>
                     <td>
-                        <textarea maxlength="1000"></textarea>
+                        <textarea name="cv[{{$criteriaValue->id}}][studentComments]" maxlength="1000">{{ $criteriaValue->studentComments }}</textarea>
                     </td>
                 </tr>    
             @empty
