@@ -48,7 +48,6 @@ class InternshipReportController extends Controller
 
         if (Auth::user()->id == $report->internship->intern_id) 
         {
-            dd("ok");
             $report->updateStatus($request->status);
     
             return redirect()->route('internshipReport.show', ['id' => $report->id]);

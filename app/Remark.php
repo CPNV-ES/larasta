@@ -53,12 +53,15 @@ class Remark extends Model
      */
     public static function add($type, $on, $text)
     {
+        $firstname = Auth::user()->firstname;
+        $lastname = Auth::user()->lastname;
+
         $remark = new Remark();
         $remark->remarkType = $type;
         $remark->remarkOn_id = $on;
         $remark->remarkDate = date('Y-m-d H:i:s');
         $remark->remarkText = $text;
-        $remark->author = Auth::user()->initials;
+        $remark->author = "$firstname $lastname";
         $remark->save();
     }
 
