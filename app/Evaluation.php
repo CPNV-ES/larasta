@@ -38,16 +38,7 @@ class Evaluation extends Model
     }
 
     public function sections() {
-        $evaluationSections = [];
-        foreach($this->criteriaValue as $criteriaValue) {
-            if (!in_array($criteriaValue->criteria->evaluationSection, $evaluationSections)) {
-                $evaluationSections[] = $criteriaValue->criteria->evaluationSection;
-            }
-        }
-
-        usort($evaluationSections, function($a, $b) { return $a->id > $b->id; });
-
-        return $evaluationSections;
+        return $this->criteriaValue->unique('criteria.evaluationSection')->pluck('criteria.evaluationSection');
     }
 
     /**
