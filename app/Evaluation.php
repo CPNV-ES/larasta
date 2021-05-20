@@ -37,6 +37,11 @@ class Evaluation extends Model
         return $this->belongsTo('App\Visit');
     }
 
+    /**
+     * Returns a collection of this Evaluation's EvaluationSections
+     *
+     * @return EvaluationSection[] A collection of this Evaluation's EvaluationSections
+     */
     public function sections() {
         return $this->criteriaValue->unique('criteria.evaluationSection')->pluck('criteria.evaluationSection');
     }
@@ -57,11 +62,21 @@ class Evaluation extends Model
         return true;
     }
 
+    /**
+     * Returns all templates Evaluations
+     *
+     * @return Relation A collection of template Evaluations
+     */
     public static function scopeTemplates()
     {
         return Evaluation::whereNotNull('template_name');
     }
 
+    /**
+     * Returns the currently enabled template Evaluation
+     *
+     * @return Evaluation The currently enabled template Evaluation
+     */
     public static function current_template()
     {
         return Evaluation::templates()->latest('id')->first();
