@@ -54,7 +54,7 @@ class CriteriaValue extends Model
                 return false;
         }
 
-        if($sectionHasGrade && ($this->points == null || $this->points < 0))
+        if($sectionHasGrade && ($this->points === null || $this->points < 0))
             return false;
 
         return true;
