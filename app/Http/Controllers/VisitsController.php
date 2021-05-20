@@ -400,8 +400,10 @@ class VisitsController extends Controller
 
             $visit = Visit::find($id);
 
-            // Check if the evaluation is filled
-            if(!$visit->evaluation()->exists() || !$visit->evaluation()->first()->is_fully_filled()) {
+            // Check if the evaluation is filled when closing the visit
+            if($state == Visitsstate::where('slug', 'bou')->first()->id
+                && (!$visit->evaluation()->exists() || !$visit->evaluation()->first()->is_fully_filled()))
+            {
                 return redirect()->route('visit.manage', ['rid'=>$id])
                     ->with('status', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas remplie !");
             }
