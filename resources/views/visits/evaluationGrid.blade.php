@@ -56,7 +56,7 @@
                                         name="cv[{{$criteriaValue->id}}][points]"
                                         type="number"
                                         min="0" max="{{ $criteriaValue->criteria->maxPoints }}"
-                                        value="{{ $criteriaValue->points }}"
+                                        value="{{ $criteriaValue->points == '-1' ? '' : $criteriaValue->points }}"
                                 />
                             @endif
                         </td>

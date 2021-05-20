@@ -255,7 +255,7 @@ class VisitsController extends Controller
             'cv.*.contextSpecifics' => 'max:1000',
             'cv.*.studentComments' => 'max:1000',
             'cv.*.managerComments' => 'max:1000',
-            'cv.*.points' => 'integer'
+            'cv.*.points' => 'integer|nullable'
         ]);
 
         // Get this visit's eval criteriaValues' ids to check if the one we were send are valid
@@ -273,11 +273,13 @@ class VisitsController extends Controller
 
             // Only the internship responsible can edit the points and their comments
             if($currUserIsResponsible) {
-                // Points must be between 0 and the criteria's max allowed points
-                if(isset($cvData["points"]) && ($cvData["points"] < 0 || $cvData["points"] > $criteriaValue->criteria->maxPoints))
-                    return redirect(route('visit.manage', $visitId))->with('status',  "Le champs points n'est pas dans les limites de valeurs acceptées");
 
-                $criteriaValue->points = $cvData["points"] ?? 0;
+                // Points must be between 0 and the criteria's max allowed points
+                if(isset($cvData["points"]) && ($cvData["points"] < 0 || $cvData["points"] > $criteriaValue->criteria->maxPoints)) {
+                    return redirect(route('visit.manage', $visitId))->with('status',  "Le champs points n'est pas dans les limites de valeurs acceptées");
+                }
+
+                $criteriaValue->points = $cvData["points"] ?? -1;
                 $criteriaValue->managerComments = $cvData["managerComments"] ?? null;
             }
 
