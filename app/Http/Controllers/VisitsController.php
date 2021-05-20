@@ -179,7 +179,9 @@ class VisitsController extends Controller
                     'visitstates' => $visitstates,
                     'remarks' => $remarks,
                     'medias' => $medias,
-                    'showEvalButton' => (Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId) && $visit->visitsstates_id == 2
+                    'showEvalButton'
+                        => (Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId)    // intern or internship responsible
+                            && $visit->evaluation_open()
                 ]
             );
         }
@@ -198,7 +200,7 @@ class VisitsController extends Controller
         $concernedStudentId = $visit->internship->student->id;
         $responsibleId = $visit->internship->responsible->id;
         
-        if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->visitsstates_id == 2){
+        if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->evaluation_open() ){
             $evaluationSections = Evaluation::current_template()->sections();
 
             // If there isn't an evaluation for this visit already, create one (it will be empty but we still need one)
