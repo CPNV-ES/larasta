@@ -144,7 +144,6 @@
     {{-- Visits --}}
     <hr/>
     <h1>Visite(s)</h1>
-
     <div class="col-12 {{$internship->visits->isEmpty()?"none":""}}">
         <div class='error none'>
             Une erreur inconnue est survenue, veuillez raffraîchir la page...
@@ -152,6 +151,15 @@
         @if (isset($internship->visits) && count($internship->visits) > 0)
             @include('visits.visitsList', ['visits' => $internship->visits])
         @endif
+        <div class="d-flex justify-content-end">
+            <button id="newVisit" type="button" class="btn-success">Ajouter une visite</button>
+        </div>
+        <div id="showNewVisit" class="pointer none">
+            <div class="focus">
+                @include('visits.add',compact('internship'))
+            </div>
+            <div class="darken-background"></div>
+        </div>
     </div>
     
     {{-- Remarks --}}
