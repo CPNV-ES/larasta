@@ -58,6 +58,8 @@
                                         min="0" max="{{ $criteriaValue->criteria->maxPoints }}"
                                         value="{{ $criteriaValue->points == '-1' ? '' : $criteriaValue->points }}"
                                 />
+                                <br>
+                                <span>/{{ $criteriaValue->criteria->maxPoints }}</span>
                             @endif
                         </td>
                     @endif
