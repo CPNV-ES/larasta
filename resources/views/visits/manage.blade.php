@@ -65,11 +65,6 @@
                 </div>
 
                 <div class="form-group col-md-5">
-                    <label for="grade">Note</label>
-                    <input disabled id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" value="{{ $visit->grade }}">
-                </div>
-
-                <div class="form-group col-md-5">
                     <label for="sel">État</label>
                     <select disabled id='sel' name="state" class="form-control" class="hidden hidea">
                         @foreach($visitstates as $state)
@@ -85,6 +80,13 @@
                         @endforeach
                     </select>
                 </div>
+
+                @if($displayGrade)
+                    <div class="form-group col-md-5">
+                        <label for="grade">Note</label>
+                        <input disabled id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" value="{{ $visit->grade }}">
+                    </div>
+                @endif
                 
                 <div class="row">
             @if (Auth::user()->role >= 1)   

@@ -168,6 +168,14 @@ class VisitsController extends Controller
                      * Gets media associate from the visit (ID).
                      * */
                     $medias = $visit->getMedia();
+
+                    // Check if we have to display the grade or not
+                    $displayGrade = true;
+                    $actualVisitState = Visitsstate::find($visitActualStateId);
+
+                    if ($actualVisitState->slug == "pro" || $actualVisitState->slug == "acc")
+                        $displayGrade = false;
+
                     return view('visits/manage')->with(
                         [
                             'visit' => $visit,
@@ -178,7 +186,8 @@ class VisitsController extends Controller
                             'visitActualStateId' => $visitActualStateId,
                             'visitstates' => $visitstates,
                             'remarks' => $remarks,
-                            'medias' => $medias
+                            'medias' => $medias,
+                            'displayGrade' => $displayGrade
                         ]
                     );
                 }
