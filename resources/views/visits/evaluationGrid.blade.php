@@ -86,3 +86,12 @@
 @push ('page_specific_css')
     <link rel="stylesheet" href="/css/evalGrid.css">
 @endpush
+
+@push ('page_specific_js')
+<script>
+    document.querySelectorAll("textarea").forEach(x => {
+        // Resize vertically to fit content
+        x.style.height = `${x.scrollHeight + 3}px`;
+    });
+</script>
+@endpush
