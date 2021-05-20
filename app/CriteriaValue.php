@@ -41,6 +41,26 @@ class CriteriaValue extends Model
     }
 
     /**
+     * Checks whether or not the CriteriaValue's required fields are all fully filled
+     *
+     * @return boolean true if all of the required fields are filled, false otherwise
+     */
+    public function are_all_required_fields_filled() {
+        $sectionType = $this->criteria->evaluationSection->sectionType;
+        $sectionHasGrade = $this->criteria->evaluationSection->hasGrade;
+
+        if($sectionType == 1 || $sectionType == 2) { // critères + observations attendues
+            if(strlen($this->contextSpecifics) == 0)
+                return false;
+        }
+
+        if($sectionHasGrade && ($this->points == null || $this->points < 0))
+            return false;
+
+        return true;
+    }
+
+    /**
      * editCriteriasValues
      * 
      * Save the criterias values

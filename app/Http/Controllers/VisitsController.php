@@ -394,25 +394,25 @@ class VisitsController extends Controller
                 }
             }
 
-            /*
-             * Update visit from values above.
-             * */
-            Visit::where('visits.id', '=', $id)
-                ->update([
-                    'visitsstates_id' => $state,
-                    'moment' => $date,
-                    'grade' => $note
-                ]);
+            $visit = Visit::find($id);
 
-            /*
-             * capture datetime from input.
-             * */
+            // Check if the evaluation is filled
+            if(!$visit->evaluation()->exists() || !$visit->evaluation()->first()->is_fully_filled()) {
+                return redirect()->route('visit.manage', ['rid'=>$id])
+                    ->with('status', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas remplie !");
+            }
+
+            //Update visit from values above.
+            $visit->update([
+                'visitsstates_id' => $state,
+                'moment' => $date,
+                'grade' => $note
+            ]);
+
+            // capture datetime from input.
             $date = date('d M Y', strtotime($request->upddate));
             $hour = date('H:i:s', strtotime($request->updtime));
 
-            /*
-             * Finally it redirects user to his/her list.
-             * */
             return redirect(route('visit.manage', $id))->with('status', 'La visite a été modifiée !');
         }
 

@@ -50,6 +50,22 @@ class Evaluation extends Model
         return $evaluationSections;
     }
 
+    /**
+     * Checks whether or not the Evaluation is fully filled, that is
+     * if all of its required criterias are filled
+     *
+     * @see CriteriaValue::are_all_required_fields_filled()
+     * @return boolean true if the Evaluation is considered fully filled, false otherwise
+     */
+    public function is_fully_filled() {
+        foreach($this->criteriaValue()->get() as $cv) {
+            if(!$cv->are_all_required_fields_filled())
+                return false;
+        }
+
+        return true;
+    }
+
     public static function scopeTemplates()
     {
         return Evaluation::whereNotNull('template_name');
