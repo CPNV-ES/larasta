@@ -113,30 +113,7 @@
     @if (isset($visits) && count($visits) > 0)
         <hr/>
         <h4>Visites</h4>
-        <div class="container text-left">
-            <div class="row border bg-header">
-                <div class="col-1">N°</div>
-                <div class="col-2">Date et heure</div>
-                <div class="col-2">Etat</div>
-                <div class="col-1">Note</div>
-            </div>
-            @foreach ($visits as $visit)
-                <div class="row border" onclick="window.location='/visits/{{$visit->id}}/manage';">
-                    <div class="col-1">
-                        {{ $visit->number }}
-                    </div>
-                    <div class="col-2">
-                        {{ strftime("%e %b %g %R", strtotime($visit->moment)) }}
-                    </div>
-                    <div class="col-2">
-                        {{ $visit->visitsstate->stateName }}
-                    </div>
-                    <div class="col-1">
-                        {{ $visit->grade == "" ? "Pas de note" : $visit->grade }}
-                    </div>
-                </div>
-            @endforeach
-        </div>
+        @include('visits.visitsList', ['visits' => $visits])
     @endif
 
     <hr/>

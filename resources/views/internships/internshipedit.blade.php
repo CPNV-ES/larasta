@@ -143,49 +143,15 @@
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
     {{-- Visits --}}
     <hr/>
-    <h1>Visite(s) <span class="buttonNewVisit pointer">+</span></h1> 
-    <div id="showNewVisit" class="pointer none">
-        <div class="focus">
-            @include('visits.add',compact('internship','visitsStates'))
-        </div>
-        <div class="darken-background"></div>
-    </div>
+    <h1>Visite(s)</h1>
+
     <div class="col-12 {{$internship->visits->isEmpty()?"none":""}}">
         <div class='error none'>
             Une erreur inconnue est survenue, veuillez raffraîchir la page...
         </div>
-        <table id="visitsForm" class="table larastable">
-            <thead>
-                <th>N° visite</th>
-                <th>Jour</th>
-                <th>Heure</th>
-                <th>Mail envoyé?</th>
-                <th>Confirmé?</th>
-                <th>Note</th>
-                <th>État de la visite</th>
-            </thead>
-            <tbody>
-                @foreach ($internship->visits as $key => $visit)
-                    <tr>
-                        <input type="hidden" name="route" value="{{ route('visit.update', ['id' => $internship]) }}"/>
-                        <input type="hidden" name="id" value="{{$visit->id}}"/>
-                        <td><input type="number" min="1" name="number" value="{{$visit->number}}" required/></td>
-                        <td><input type="date" name="day" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
-                        <td><input type="time" name="hour" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
-                        <td><input type="checkbox" name="mailstate" {{ $visit->mailstate ? "checked" : "" }}/></td>
-                        <td><input type="checkbox" name="confirmed" {{ $visit->confirmed ? "checked" : "" }}/></td>
-                        <td><input type="number" min="1" max="6" step="0.5" name="grade" value="{{ $visit->grade }}" required/></td>
-                        <td>
-                            <select name="visitsstates_id" required>
-                                @foreach ($visitsStates as $visitstate)
-                                    <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
-                                @endforeach
-                            </select>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        @if (isset($internship->visits) && count($internship->visits) > 0)
+            @include('visits.visitsList', ['visits' => $internship->visits])
+        @endif
     </div>
     
     {{-- Remarks --}}
