@@ -226,7 +226,9 @@ class InternshipsController extends Controller
 
         $years = Flock::getYears();
 
-        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'years'));
+        $visitsNumber = $internship->visits->count();
+
+        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'years', 'visitsNumber'));
     }
 
     /**

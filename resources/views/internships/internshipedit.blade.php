@@ -156,7 +156,7 @@
         </div>
         <div id="showNewVisit" class="pointer none">
             <div class="focus">
-                @include('visits.add',compact('internship'))
+                @include('visits.add', ['internship' => $internship, 'visitsNumber' => $visitsNumber])
             </div>
             <div class="darken-background"></div>
         </div>

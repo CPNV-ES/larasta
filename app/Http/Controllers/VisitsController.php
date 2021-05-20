@@ -396,13 +396,12 @@ class VisitsController extends Controller
     public function store($id,VisitRequest $request)
     {
         $visit = new Visit;
-        $request->confirmed ? $confirmed = true : $confirmed = false;
-        $request->mailstate ? $mailstate = true : $mailstate = false;
+        $visit->number = $request->number;
+        $visit->grade = null;
+        $visit->visitsstates_id = 1;
         $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
-
-        $visit->fill($request->all());
-        $visit->confirmed = $confirmed;
-        $visit->mailstate = $mailstate;
+        $visit->confirmed = false;
+        $visit->mailstate = false;
         $visit->internships_id = $id;    
         $visit->save();
 

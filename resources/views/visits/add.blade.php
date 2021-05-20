@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="number" min="1" name="number" value="1" required/></td>
+                    <td><input type="number" name="number" value="{{$visitsNumber + 1}}" readonly/></td>
                     <td><input type="date" name="day"/></td>
                     <td><input type="time" name="hour"/></td>
                 </tr>
