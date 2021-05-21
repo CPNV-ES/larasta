@@ -50,10 +50,10 @@
                     <td class="login"><p>{{Auth::user()->fullname}}</p>
                         <div class="row">
                             <div class="col-6">                               
-                                <button type="button" class="btn-info" onclick="window.location = '/';"><img src="/images/home.png"></button>
+                                <button type="button" class="btn-info" onclick="window.location = '/';">Dashboard</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn-danger" type="submit"><img src="/images/logout.png" style="padding-top: 1px;"></button>
+                                <button class="btn-danger" type="submit">Logout</button>
                             </div>
                         </div>
                     </td>
