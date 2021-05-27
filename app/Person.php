@@ -226,20 +226,11 @@ class Person extends Model implements Authenticatable
     }
 
     /**
-     * Gets the initials or the full name
-     * @return mixed
-     */
-    public function initials()
-    {
-        return $this->getInitialsAttribute($this->initials);
-    }
-
-    /**
-     * Used for people who don't have initials
+     * Get the initials or the full name
      * @param $value
      * @return mixed
      */
-    private function getInitialsAttribute($value) {
+    public function getInitialsAttribute($value) {
         return empty($value) ? $this->fullName : $value;
     }
 }
