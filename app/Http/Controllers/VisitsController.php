@@ -175,14 +175,18 @@ class VisitsController extends Controller
                     $disableDate = false;
                     $actualVisitState = Visitsstate::find($visitActualStateId);
 
-                    if ($actualVisitState->slug == "pro" || $actualVisitState->slug == "acc")
-                        $displayGrade = false;
-                    elseif ($actualVisitState->slug == "bou")
-                        $visitClosed = true;
-
-                    // To disable date modification
-                    if ($actualVisitState->slug == "eff" || $actualVisitState->slug == "bou")
-                        $disableDate = true;
+                    switch ($actualVisitState->slug)
+                    {
+                        case "pro":
+                        case "acc":
+                            $displayGrade = false;
+                            break;
+                        case "bou":
+                            $visitClosed = true;
+                        case "eff":
+                            $disableDate = true;
+                            break;
+                    }
 
                     return view('visits/manage')->with(
                         [
