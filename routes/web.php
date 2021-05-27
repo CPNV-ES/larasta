@@ -119,6 +119,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/visits/{id}/files',"VisitsController@storeFile")->name("visit.storeFile");
     Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
     Route::get('/visits/{id}/evaluation','VisitsController@evaluation')->name("visit.evaluation");
+    Route::post('/visits/{id}/updateEvaluation','VisitsController@updateEvaluation')->name("visit.updateEvaluation");
+
 
     // WishesMatrix
     Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');

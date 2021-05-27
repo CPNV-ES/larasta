@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Visitsstate;
 
 class Visit extends Model implements HasMedia
 {
@@ -37,6 +38,10 @@ class Visit extends Model implements HasMedia
     public function internship()
     {
         return $this->belongsTo('App\Internship', 'internships_id');
+    }
+
+    public function evaluation_open() {
+        return $this->visitsstate->slug == 'acc' || $this->visitsstate->slug  == 'eff';
     }
 
     /**
