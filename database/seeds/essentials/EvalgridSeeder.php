@@ -191,6 +191,7 @@ class EvalgridSeeder extends Seeder
                 \DB::table('criterias')->insert([
                     'id' => $criteria["id"],
                     'criteriaName' => $criteria["criteriaName"],
+                    'maxPoints' => $criteria['maxPoints'] ?? null,
                     'evaluationSection_id' => $section["id"]
                 ]);
 
