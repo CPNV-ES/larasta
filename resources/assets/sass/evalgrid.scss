@@ -86,12 +86,15 @@
 }
 
 /* evaluationgrid/create.blade.php */
-.evalgrid-edit td textarea, .evalgrid-edit td input {
+/* visits/evaluationGrid.blade.php */
+.evalgrid-edit td textarea, .evalgrid-edit td input,
+.evalgrid-fill td textarea, .evalgrid-fill td input
+{
   width: 100%;
 }
 
 .numberinput-col {
-  max-width: 10em !important;
+  max-width: 5em !important;
   white-space: nowrap;
 }
 

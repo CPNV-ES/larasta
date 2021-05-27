@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 // Requests
+use App\CriteriaValue;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\VisitRequest;
@@ -21,7 +22,7 @@ use App\Visit;
 use App\Remark;
 use App\Person;
 use App\Visitsstate;
-use App\EvaluationSection;
+use App\Evaluation;
 
 // Intranet env
 use CPNVEnvironment\Environment;
@@ -125,94 +126,84 @@ class VisitsController extends Controller
      *
      * */
     public function manage ($rid) {
+        $visit = Visit::find($rid);
 
-        $studentToVisit = Visit::find($rid)->internship->student->id;
-
-        // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
-        // Or the concerned student of the internship
-        // Student = 0; Teacher = 1; Admin = 2
-        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisit){
-
-            // Try to know if a visit exist
-            $visit = Visit::find($rid);
-            // If the visit doesn't exist in the DB. by typing the ID the the URL bar.
-            // return the user to his/her of visit
-                if(isset($visit->id) == 1)
-                {
-                    $student = $visit->internship->student->humanContactInfo();
-                    $classMaster = $visit->internship->student->flock->classMaster->fullname;
-                    $responsible = $visit->internship->responsible->humanContactInfo();
-                    $admin = $visit->internship->admin->humanContactInfo();
- 
-                    /*
-                     * Get status name of visit for the select input.
-                     * It musts be under 3, which means that the visit has to be closed by an "Evaluation".
-                     * statusName
-                     * 1. En préparation
-                     * 2. Confirmée
-                     * 3. Effectuée
-                     *  */
-                    $visitstates = Visitsstate::get();
-                    $visitActualStateId = $visit->visitsstates_id;
-
-                    /*
-                     * Gets remarks about the visit
-                     * It returns all remarks about the visit by its ID.
-                     * 1. Date
-                     * 2. Author
-                     * 3. remark(s)
-                     * */
-                    $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
-
-                    /*
-                     * Gets media associate from the visit (ID).
-                     * */
-                    $medias = $visit->getMedia();
-
-                    // Check if we have to display the grade or not and if we can change it
-                    $displayGrade = true;
-                    $visitClosed = false;
-                    $disableDate = false;
-                    $actualVisitState = Visitsstate::find($visitActualStateId);
-
-                    switch ($actualVisitState->slug)
-                    {
-                        case "pro":
-                        case "acc":
-                            $displayGrade = false;
-                            break;
-                        case "bou":
-                            $visitClosed = true;
-                        case "eff":
-                            $disableDate = true;
-                            break;
-                    }
-
-                    return view('visits/manage')->with(
-                        [
-                            'visit' => $visit,
-                            'student' => $student,
-                            'classMaster' => $classMaster,
-                            'responsible' => $responsible,
-                            'admin' => $admin,
-                            'visitActualStateId' => $visitActualStateId,
-                            'visitstates' => $visitstates,
-                            'remarks' => $remarks,
-                            'medias' => $medias,
-                            'displayGrade' => $displayGrade,
-                            'visitClosed' => $visitClosed,
-                            'disableDate' => $disableDate,
-                        ]
-                    );
-                }
-            
-                //If it's not a teacher or superuser, we redirect him/her to visits' main page.
-                else
-                {
-                    return redirect('/visits')->with('status', "Visite pas trouvée");
-                }
+        if($visit === null) {
+            return redirect('/visits')->with('status', "Visite pas trouvée");
         }
 
+        $studentToVisitId = $visit->internship->student->id;
+        $responsibleId = $visit->internship->responsible->id;
+
+        if (Auth::user()->role >= 1 || Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId){
+            $student = $visit->internship->student->humanContactInfo();
+            $classMaster = $visit->internship->student->flock->classMaster->fullname;
+            $responsible = $visit->internship->responsible->humanContactInfo();
+            $admin = $visit->internship->admin->humanContactInfo();
+
+            /*
+             * Get status name of visit for the select input.
+             * It musts be under 3, which means that the visit has to be closed by an "Evaluation".
+             * statusName
+             * 1. En préparation
+             * 2. Confirmée
+             * 3. Effectuée
+             *  */
+            $visitstates = Visitsstate::get();
+            $visitActualStateId = $visit->visitsstates_id;
+
+            /*
+             * Gets remarks about the visit
+             * It returns all remarks about the visit by its ID.
+             * 1. Date
+             * 2. Author
+             * 3. remark(s)
+             * */
+            $remarks = Remark::where('remarkOn_id', $rid)->where('remarkType', 4)->orderby('remarkDate', "DESC")->get();
+
+            // Check if we have to display the grade or not and if we can change it
+            $displayGrade = true;
+            $visitClosed = false;
+            $disableDate = false;
+            $actualVisitState = Visitsstate::find($visitActualStateId);
+
+            switch ($actualVisitState->slug)
+            {
+                case "pro":
+                case "acc":
+                    $displayGrade = false;
+                    break;
+                case "bou":
+                    $visitClosed = true;
+                case "eff":
+                    $disableDate = true;
+                    break;
+            }
+
+            /*
+             * Gets media associate from the visit (ID).
+             * */
+            $medias = $visit->getMedia();
+            return view('visits/manage')->with(
+                [
+                    'visit' => $visit,
+                    'student' => $student,
+                    'classMaster' => $classMaster,
+                    'responsible' => $responsible,
+                    'admin' => $admin,
+                    'visitActualStateId' => $visitActualStateId,
+                    'visitstates' => $visitstates,
+                    'remarks' => $remarks,
+                    'medias' => $medias,
+                    'showEvalButton'
+                        => (Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId)    // intern or internship responsible
+                            && $visit->evaluation_open(),
+                    'displayGrade' => $displayGrade,
+                    'visitClosed' => $visitClosed,
+                    'disableDate' => $disableDate,
+                ]
+            );
+        }
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
@@ -220,31 +211,102 @@ class VisitsController extends Controller
         }
     }
 
-
+    /*
+     * Display evaluation grid for this visit
+     */
     public function evaluation($visitId){  
         $visit = Visit::find($visitId);
-        $concernedStudent = $visit->internship->student->id;
+        $concernedStudentId = $visit->internship->student->id;
+        $responsibleId = $visit->internship->responsible->id;
         
-        if (Auth::user()->id == $concernedStudent && $visit ->visitsstates_id == 2){
-    
-            $evaluationSections = EvaluationSection::all();
-            $company = $visit->internship->company->companyName;
-            $classMaster = $visit->internship->student->flock->classMaster->fullname;
-            $responsible = $visit->internship->responsible->humanContactInfo();
+        if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->evaluation_open() ){
+            $evaluationSections = Evaluation::current_template()->sections();
+
+            // If there isn't an evaluation for this visit already, create one (it will be empty but we still need one)
+            if(!$visit->evaluation()->exists()) {
+                $eval = new Evaluation();
+                $eval->editable = true;
+                $eval->visit()->associate($visit);
+                $eval->template_name = null;
+                $eval->save();
+
+                foreach(Evaluation::current_template()->sections() as $section) {
+                    foreach($section->criterias()->get() as $criteria) {
+                        $criteriaValue = new CriteriaValue();
+                        $criteriaValue->evaluation()->associate($eval);
+                        $criteriaValue->points = -1;
+                        $criteriaValue->criteria()->associate($criteria);
+                        $criteriaValue->save();
+                    }
+                }
+            }
+
+            $criteriaValuesBySection = [];
+            foreach($visit->evaluation()->first()->criteriaValue()->get() as $crit) {
+                $criteriaValuesBySection[$crit->criteria->evaluationSection->id][] = $crit;
+            }
 
             return view('visits/evaluationGrid')->with(
                 [   
                     'evaluationSections' => $evaluationSections,
-                    'visit' => $visit
+                    'visit' => $visit,
+                    'isIntern' => Auth::user()->id == $concernedStudentId,
+                    'isResponsible' => Auth::user()->id == $responsibleId,
+                    'criteriaValueBySection' => $criteriaValuesBySection
                 ]
             );
 
-        }else{
+        }
+        else {
             return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
         }
     }
 
+    /*
+     * Update a visit's evaluation
+     */
+    public function updateEvaluation(Request $request, $visitId) {
+        $visit = Visit::find($visitId);
+        $currUser = Auth::user();
+        $currUserIsResponsible = $currUser == $visit->internship->responsible;
 
+        $request->validate([
+            'cv.*.contextSpecifics' => 'max:1000',
+            'cv.*.studentComments' => 'max:1000',
+            'cv.*.managerComments' => 'max:1000',
+            'cv.*.points' => 'integer|nullable'
+        ]);
+
+        // Get this visit's eval criteriaValues' ids to check if the one we were send are valid
+        $thisEvalCriteriaValueIds = $visit->evaluation()->first()->criteriaValue()->pluck('id')->toArray();
+
+        foreach($request["cv"] as $cvId => $cvData) {
+            // We're trying to update a criteriaValue that's not part of this visit's evaluation!
+            if(!in_array($cvId, $thisEvalCriteriaValueIds))
+                return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
+
+            $criteriaValue = CriteriaValue::find($cvId);
+
+            $criteriaValue->studentComments = $cvData["studentComments"] ?? null;
+            $criteriaValue->contextSpecifics = $cvData["contextSpecifics"] ?? null;
+
+            // Only the internship responsible can edit the points and their comments
+            if($currUserIsResponsible) {
+
+                // Points must be between 0 and the criteria's max allowed points
+                if(isset($cvData["points"]) && ($cvData["points"] < 0 || $cvData["points"] > $criteriaValue->criteria->maxPoints)) {
+                    return redirect(route('visit.manage', $visitId))->with('status',  "Le champs points n'est pas dans les limites de valeurs acceptées");
+                }
+
+                $criteriaValue->points = $cvData["points"] ?? -1;
+                $criteriaValue->managerComments = $cvData["managerComments"] ?? null;
+            }
+
+            $criteriaValue->save();
+        }
+
+        return redirect(route('visit.manage', $visitId))->with('status',  "L'évaluation a bien été modifiée !");
+    }
 
     /*
      * -- mail --
@@ -355,25 +417,27 @@ class VisitsController extends Controller
                 }
             }
 
-            /*
-             * Update visit from values above.
-             * */
-            Visit::where('visits.id', '=', $id)
-                ->update([
-                    'visitsstates_id' => $state,
-                    'moment' => $date,
-                    'grade' => $note
-                ]);
+            $visit = Visit::find($id);
 
-            /*
-             * capture datetime from input.
-             * */
+            // Check if the evaluation is filled when closing the visit
+            if($state == Visitsstate::where('slug', 'bou')->first()->id
+                && (!$visit->evaluation()->exists() || !$visit->evaluation()->first()->is_fully_filled()))
+            {
+                return redirect()->route('visit.manage', ['rid'=>$id])
+                    ->with('status', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas remplie !");
+            }
+
+            //Update visit from values above.
+            $visit->update([
+                'visitsstates_id' => $state,
+                'moment' => $date,
+                'grade' => $note
+            ]);
+
+            // capture datetime from input.
             $date = date('d M Y', strtotime($request->upddate));
             $hour = date('H:i:s', strtotime($request->updtime));
 
-            /*
-             * Finally it redirects user to his/her list.
-             * */
             return redirect(route('visit.manage', $id))->with('status', 'La visite a été modifiée !');
         }
 

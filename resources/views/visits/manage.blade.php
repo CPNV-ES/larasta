@@ -28,10 +28,10 @@
     </div>
     <br>
 
-    <!-- Evaluation button for the student -->
+    <!-- Evaluation button for the student and responsible -->
     <div class="row">
         <div class="col-12 text-left ml-md-4">
-            @if (Auth::user()->role == 0 && $visit->visitsstates_id == 2)
+            @if ($showEvalButton)
                 <a href="{{route('visit.evaluation', $visit->id)}}">
                     <button type="button" class="btn btn-warning">Evaluation</button>
                 </a>
