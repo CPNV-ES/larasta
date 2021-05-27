@@ -225,9 +225,10 @@ class InternshipsController extends Controller
         $remarks = $internship->remarks->sortByDesc('remarkDate');
 
         $years = Flock::getYears();
-        
-        $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'visitsStates', 'years'));
+
+        $visitsNumber = $internship->visits->count();
+
+        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'years', 'visitsNumber'));
     }
 
     /**
