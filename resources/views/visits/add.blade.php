@@ -22,6 +22,6 @@
                 </tr>
             </tbody>
         </table>
-        <button type="submit">créer</button>
+        <button type="submit">Créer</button>
     </form>
 </div>
