@@ -55,12 +55,14 @@ class DashboardController extends Controller
 
     public function getMyVisits($id){
 
+        //Teacher
         if(Auth::user()->role == 1){
             //Eloquent query gets all the visits from teacher ID that are not in the state 'Bouclée'
             $visits = Visit::whereHas('internship.student.flock',function($query) use ($id){
                 $query->where('responsible_id',$id)->where('visitsstates_id','!=', '4'); 
             })->get();
 
+        //Student
         }elseif(Auth::user()->role == 0){
 
         }
