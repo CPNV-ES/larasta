@@ -169,12 +169,20 @@ class VisitsController extends Controller
                      * */
                     $medias = $visit->getMedia();
 
-                    // Check if we have to display the grade or not
+                    // Check if we have to display the grade or not and if we can change it
                     $displayGrade = true;
+                    $visitClosed = false;
+                    $disableDate = false;
                     $actualVisitState = Visitsstate::find($visitActualStateId);
 
                     if ($actualVisitState->slug == "pro" || $actualVisitState->slug == "acc")
                         $displayGrade = false;
+                    elseif ($actualVisitState->slug == "bou")
+                        $visitClosed = true;
+
+                    // To disable date modification
+                    if ($actualVisitState->slug == "eff" || $actualVisitState->slug == "bou")
+                        $disableDate = true;
 
                     return view('visits/manage')->with(
                         [
@@ -187,7 +195,9 @@ class VisitsController extends Controller
                             'visitstates' => $visitstates,
                             'remarks' => $remarks,
                             'medias' => $medias,
-                            'displayGrade' => $displayGrade
+                            'displayGrade' => $displayGrade,
+                            'visitClosed' => $visitClosed,
+                            'disableDate' => $disableDate,
                         ]
                     );
                 }

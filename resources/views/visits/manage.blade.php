@@ -56,12 +56,12 @@
                             $last = (new DateTime($visit->internship->endDate))->format('Y-m-d');
                         ?>
                         <label for="upddate">Date</label>
-                        <input disabled id="upddate" name="upddate" class="form-control" type="date" width="50%" min="{{$today}}" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}">
+                        <input disabled id="upddate" name="upddate" class="form-control" type="date" width="50%" value="{{ (new DateTime($visit->moment))->format('Y-m-d') }}" @if($disableDate) readonly @endif>
                 </div>
 
                 <div class="form-group col-md-5">
                     <label for="updtime">Heure</label>
-                    <input disabled id="updtime" name="updtime" class="form-control" type="time" value="{{ (new DateTime($visit->moment))->format('H:i') }}">
+                    <input disabled id="updtime" name="updtime" class="form-control" type="time" value="{{ (new DateTime($visit->moment))->format('H:i') }}" @if($disableDate) readonly @endif>
                 </div>
 
                 <div class="form-group col-md-5">
@@ -84,7 +84,7 @@
                 @if($displayGrade)
                     <div class="form-group col-md-5">
                         <label for="grade">Note</label>
-                        <input disabled id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" value="{{ $visit->grade }}">
+                        <input disabled id="grade" name="grade" class="form-control" type="number" step="0.5" max="6" min="1" @if($visit->grade)value="{{$visit->grade}}" @else value="1" @endif @if($visitClosed) readonly @endif>
                     </div>
                 @endif
                 
