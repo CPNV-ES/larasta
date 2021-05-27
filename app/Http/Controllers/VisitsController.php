@@ -168,6 +168,26 @@ class VisitsController extends Controller
                      * Gets media associate from the visit (ID).
                      * */
                     $medias = $visit->getMedia();
+
+                    // Check if we have to display the grade or not and if we can change it
+                    $displayGrade = true;
+                    $visitClosed = false;
+                    $disableDate = false;
+                    $actualVisitState = Visitsstate::find($visitActualStateId);
+
+                    switch ($actualVisitState->slug)
+                    {
+                        case "pro":
+                        case "acc":
+                            $displayGrade = false;
+                            break;
+                        case "bou":
+                            $visitClosed = true;
+                        case "eff":
+                            $disableDate = true;
+                            break;
+                    }
+
                     return view('visits/manage')->with(
                         [
                             'visit' => $visit,
@@ -178,7 +198,10 @@ class VisitsController extends Controller
                             'visitActualStateId' => $visitActualStateId,
                             'visitstates' => $visitstates,
                             'remarks' => $remarks,
-                            'medias' => $medias
+                            'medias' => $medias,
+                            'displayGrade' => $displayGrade,
+                            'visitClosed' => $visitClosed,
+                            'disableDate' => $disableDate,
                         ]
                     );
                 }
@@ -396,13 +419,12 @@ class VisitsController extends Controller
     public function store($id,VisitRequest $request)
     {
         $visit = new Visit;
-        $request->confirmed ? $confirmed = true : $confirmed = false;
-        $request->mailstate ? $mailstate = true : $mailstate = false;
+        $visit->number = $request->number;
+        $visit->grade = null;
+        $visit->visitsstates_id = 1;
         $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
-
-        $visit->fill($request->all());
-        $visit->confirmed = $confirmed;
-        $visit->mailstate = $mailstate;
+        $visit->confirmed = false;
+        $visit->mailstate = false;
         $visit->internships_id = $id;    
         $visit->save();
 

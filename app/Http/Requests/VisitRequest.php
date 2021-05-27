@@ -26,9 +26,6 @@ class VisitRequest extends FormRequest
         return [
             'day' => 'required|date',
             'hour' => 'required|date_format:H:i',
-            'number' => 'required|integer',
-            'grade' => 'required|numeric|min:1|max:6',
-            'visitsstates_id' => 'required|integer',
         ];
     }
 }
