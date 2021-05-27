@@ -117,9 +117,5 @@
     @endif
 
     <hr/>
-    <div class="container text-left" style="padding:0;">
-        <div class="table-responsive">
-            @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => false, 'remarkOnId' => $internship->id, 'remarkType' => 5])
-        </div>
-    </div>
+    @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => false, 'remarkOnId' => $internship->id, 'remarkType' => 5])
 @stop
