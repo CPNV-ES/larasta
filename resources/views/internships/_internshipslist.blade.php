@@ -1,6 +1,5 @@
 {{-- Subview that displays a list of internships --}}
 {{-- Usage:         @include ('internships._internshipslist',['iships' => $your_array_of_internships])  --}}
-<h5 class="titlebar">Stages</h5>
 @if (count($iships) > 0)
     <table class="larastable w-100">
         <thead>

@@ -105,6 +105,7 @@
 
         </div>
 
+        <h5 class="titlebar">Stages</h5>
         @include ('internships._internshipslist',['iships' => $iships])
 
         @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $person->id, 'remarkType' => 2])
