@@ -1,7 +1,9 @@
 @push ('page_specific_js')
     <script src="/js/visitsList.js"></script>
 @endpush
-<table class="table table-bordered col-md-12 larastable">
+<hr/>
+<h4>Visites</h4>
+<table class="larastable w-100">
     <tr>
         <th>N°</th>
         <th>Date et heure</th>

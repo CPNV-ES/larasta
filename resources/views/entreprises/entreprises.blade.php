@@ -6,7 +6,7 @@
 @extends ('layout')
 
 @section ('content')
-    <link rel="stylesheet" href="/css/entreprises.css" />
+    <link rel="stylesheet" href="/css/entreprises.css"/>
     @if(Auth::user()->role >= 2)
         <br>
         <div class="header container text-left">
@@ -19,7 +19,8 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="entrepriseName"> Nom de l'entreprise :</label>
-                    <input id="entrepriseName" required type="text" class="form-control" name="nameE" placeholder="Entreprise">
+                    <input id="entrepriseName" required type="text" class="form-control" name="nameE"
+                           placeholder="Entreprise">
                 </div>
                 <div class="text-right">
                     <button class="btn btn-primary" type="submit">Créer</button>
@@ -34,7 +35,8 @@
                 <select name="type" id="Ctype">
                     <option value="0">Tous</option>
                     @foreach($contracts as $contract)
-                        <option value="{{$contract->id}}" @if(isset($filtr) and $filtr==$contract->id) selected @endif>{{$contract->contractType}}</option>
+                        <option value="{{$contract->id}}"
+                                @if(isset($filtr) and $filtr==$contract->id) selected @endif>{{$contract->contractType}}</option>
                     @endforeach
                 </select>
             </form>
@@ -42,13 +44,13 @@
     </div>
     <div class="body">
         <div class="tab-content">
-            <table class="table table-bordered table-hover text-left larastable" >
+            <table class="larastable w-100">
                 <tr>
-                    <th class="text-center">Entreprises</th>
-                    <th class="text-center">Adresse 1</th>
-                    <th class="text-center">Adresse 2</th>
-                    <th class="text-center">NPA</th>
-                    <th class="text-center">Localité</th>
+                    <th>Entreprises</th>
+                    <th>Adresse 1</th>
+                    <th>Adresse 2</th>
+                    <th>NPA</th>
+                    <th>Localité</th>
                 </tr>
                 @foreach ($companies as $company)
                     <tr class="fake-link" data-href="/entreprise/{{$company->id}}">

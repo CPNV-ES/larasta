@@ -123,15 +123,13 @@
 
     <div class="col-6">
         <h2>Contacts</h2>
-        <table class="larastable table table-bordered col-md-12 mt-4">
-            <thead>
+        <table class="larastable w-100 my-4">
             <tr>
-                <td>Responsable</td>
-                <td>Email</td>
-                <td>Fixe</td>
-                <td>Portable</td>
+                <th>Responsable</th>
+                <th>Email</th>
+                <th>Fixe</th>
+                <th>Portable</th>
             </tr>
-            </thead>
             <tr>
                 <td>
                     Encadrement: {{$visit->internship->responsible->firstname}} {{$visit->internship->responsible->lastname}}</td>
@@ -145,7 +143,6 @@
                 <td><span>{{ $admin['phone'] }}</span></td>
                 <td><span>{{ $admin['mobilePhone'] }}</span></td>
             </tr>
-
         </table>
 
         @if (Auth::user()->role >= 1)

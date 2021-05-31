@@ -6,9 +6,13 @@
 @csrf
 <input type="hidden" name="remarkType" value="{{ $remarkType ?? ''  }}" />
 <input type="hidden" name="remarkOn_id" value="{{ $remarkOnId ?? '' }}" />
-<table class="table table-bordered col-md-12 larastable remarksTable">
+    <hr/>
+    <h4>Remarques</h4>
+<table class="larastable remarksTable w-100">
     <tr>
-        <th colspan="4">Remarques</th>
+        <th>Date</th>
+        <th>Auteur</th>
+        <th>Remarque</th>
     </tr>
     <tbody>
     @if(Auth::user()->role >= 1)
@@ -36,9 +40,9 @@
     @endif
 
     @foreach($remarks as $remark)
-            <td style="white-space: nowrap">{{ (new DateTime($remark->remarkDate))->format('d M y') }}</td>
-            <td style="white-space: nowrap">{{ $remark->author }}</td>
-            <td colspan="2">{{ $remark->remarkText }}</td>
+            <td>{{ (new DateTime($remark->remarkDate))->format('d M y') }}</td>
+            <td>{{ $remark->author }}</td>
+            <td class="w-75">{{ $remark->remarkText }}</td>
         </tr>
     @endforeach
     </tbody>
