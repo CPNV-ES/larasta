@@ -18,6 +18,7 @@
 
             </div>
         </div>
+        <br>
         <div class="row justify-content-md-center">
             @foreach($states as $state)
                 <span class="onefilter">
@@ -71,15 +72,11 @@
                 @endforeach
             </tbody>
         </table>
-        @if (count($visitsPast) != 0)
-            <button id="showpastbtn"> Voir les anciennes visites</button>
-        @else
-            
-        @endif
-        <div id="past" class="d-none">
+
+        <div id="past">
         <br>
         <br>
-        <h3>Anciennes Visits</h3>
+        <h3>Visites Passées</h3>
         <table class="larastable table table-striped">
                 <thead class="thead-inverse">
                     <tr class="d-flex fake-link">
