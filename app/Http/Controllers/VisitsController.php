@@ -14,7 +14,6 @@ namespace App\Http\Controllers;
 // Requests
 use App\CriteriaValue;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\VisitRequest;
 
 //Models
@@ -180,10 +179,6 @@ class VisitsController extends Controller
                     break;
             }
 
-            /*
-             * Gets media associate from the visit (ID).
-             * */
-            $medias = $visit->getMedia();
             return view('visits/manage')->with(
                 [
                     'visit' => $visit,
@@ -194,7 +189,6 @@ class VisitsController extends Controller
                     'visitActualStateId' => $visitActualStateId,
                     'visitstates' => $visitstates,
                     'remarks' => $remarks,
-                    'medias' => $medias,
                     'showEvalButton'
                         => (Auth::user()->id == $studentToVisitId || Auth::user()->id == $responsibleId)    // intern or internship responsible
                             && $visit->evaluation_open(),
@@ -467,17 +461,6 @@ class VisitsController extends Controller
         }else{
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
-    }
-
-    public function storeFile(StoreFileRequest $request, $id)
-    {
-        $visit = Visit::find($id);
-        $visit->addMediaFromRequest('file')->toMediaCollection();
-    }
-    public function deleteFile($id,$idMedia)
-    {
-        $visit = Visit::find($id);
-        $visit->getMedia()->find($idMedia)->delete();
     }
     
     public function store($id,VisitRequest $request)
