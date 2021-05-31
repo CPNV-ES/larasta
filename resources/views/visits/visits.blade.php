@@ -30,7 +30,7 @@
                             onchange="this.form.submit()"
                             {{ $selectedStateId == $state->id ? 'checked' : '' }}
                     />
-                    <label for="state-{{$state->slug}}">{{ $state->stateName }}</label>
+                    <label for="state-{{$state->slug}}">{{ ucfirst($state->stateName) }}</label>
                 </span>
             @endforeach
         </div>
