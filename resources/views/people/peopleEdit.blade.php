@@ -30,7 +30,7 @@
         <div id="people_Name" class="row">
             <span>{{ $person->fullName }}</span>
         @if ((Auth::user()->role >= 2))  <!-- View button only for teacher -->
-            <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn btn-success people-btn_desactive">Modifier</button>
+            <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn-warning people-btn_desactive">Modifier</button>
             @endif
         </div>
 
@@ -99,7 +99,7 @@
                         <label for="ctype{{ $contacttype->id }}">{{ $contacttype->contactTypeDescription }}</label>
                         <input id="ctype{{ $contacttype->id }}" type="radio" name="contacttype" value="{{ $contacttype->id }}">
                     @endforeach
-                    <button id="cmdAdd" class="btn-primary hidden" type="submit">Ajouter</button>
+                    <button id="cmdAdd" class="btn-success hidden" type="submit">Ajouter</button>
                 </fieldset>
             </form>
 

@@ -18,7 +18,7 @@
                 @if($edit ?? false)
                     <tr id="newRemarkBtnRow" hidden>
                         <td colspan="4">
-                            <button class="btn btn-primary" id="addRemarkBtn" type="button">Ajouter une remarque
+                            <button class="btn-success" id="addRemarkBtn" type="button">Ajouter une remarque
                             </button>
                         </td>
                     </tr>

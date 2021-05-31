@@ -134,10 +134,12 @@
         </table>
 
         {{-- Action buttons --}}
-        <a href="{{route("internships.show", $internship->id)}}">
-            <button class="btn btn-danger" type="button">Retour</button>
-        </a>
-        <button class="btn btn-success" type="submit">Valider</button>
+        <div class="w-100 d-flex justify-content-end mt-2">
+            <a href="{{route("internships.show", $internship->id)}}">
+                <button class="btn-danger mr-2" type="button">Retour</button>
+            </a>
+            <button class="btn-success" type="submit">Valider</button>
+        </div>
     </form>
 
     <hr/>

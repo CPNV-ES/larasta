@@ -106,7 +106,7 @@
                                 <button id="up" class="btn-success ml-3 edit" style="display: none;" type="submit">
                                     Enregistrer
                                 </button>
-                                <button id="cancel" name="cancel" type="reset" class="ml-3 btn-secondary edit"
+                                <button id="cancel" name="cancel" type="reset" class="ml-3 btn-warning edit"
                                         onClick="window.location.reload();" style="display: none;">Annuler
                                 </button>
                             </div>

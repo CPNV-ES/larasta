@@ -24,7 +24,7 @@
                            placeholder="Entreprise">
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-primary" type="submit">Créer</button>
+                    <button class="btn-success" type="submit">Créer</button>
                 </div>
             </form>
         </div>
