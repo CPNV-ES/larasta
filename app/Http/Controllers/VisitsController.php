@@ -50,35 +50,49 @@ class VisitsController extends Controller
      * - Return a list of visit from Teacher ID
      * - It just displays his/her visits.
      * */
-    public function index()
+    public function index($classmasterId = null, $selectedStateId = null)
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
-        $id = Auth::user()->id;
+        $id = $classmasterId ?? Auth::user()->id;
+        $selectedStateId = $selectedStateId ?? -1;
+
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Auth::user()->role >= 1){
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
+            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id, $selectedStateId)
             {
-                $query->where('classMaster_id',$id)->where('moment','>',now()->toDateTimeString()); 
+                $query->where('classMaster_id',$id)->where('moment','>',now()->toDateTimeString());
+                if($selectedStateId != -1)
+                    $query->where('visitsstates_id', $selectedStateId);
             })->get();
             //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
+            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id, $selectedStateId){
                 $query->where('classMaster_id',$id)->where('moment','<=', now()->toDateTimeString());
+                if($selectedStateId != -1)
+                    $query->where('visitsstates_id', $selectedStateId);
             })->get();
             $person = Person::whereHas('mcof')->get();
             // Returns all details to his/her in visits' main page
+
+            // "Fake" Visitstate which serves just to be displayed as an "all states" button
+            $vs = new Visitsstate();
+            $vs->id = -1;
+            $vs->stateName = 'tous';
+            $vs->slug = 'all';
+
             return view('visits/visits')->with(
                 [
                     'id' => $id,
                     'persons' => $person,
                     'visitsPast' => $visitsPast,
                     'visitsToCome' => $visitsToCome,
-                    'message' => $this->message
+                    'message' => $this->message,
+                    'states' => Visitsstate::all()->prepend($vs),
+                    'selectedStateId' => $selectedStateId
                 ]
             );
         }
-
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
@@ -87,35 +101,10 @@ class VisitsController extends Controller
     }
 
     public function filter(Request $request){
-    
         $id = $request->input('teacher');
-        if (Auth::user()->role >= 1){
+        $selectedStateId = $request->input('state');
 
-            //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','>',now()); })->get();
-                //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','<=',now());})->get();
-            //Eloquent query to gets all the teacher
-            $person = Person::whereHas('mcof')->get(); 
-            // Returns all details to his/her in visits' main page
-            return view('visits/visits')->with(
-                [
-                    'id' => $id,
-                    'persons' => $person,
-                    'visitsPast' => $visitsPast,
-                    'visitsToCome' => $visitsToCome,
-                    'message' => $this->message
-                ]
-            );
-        }
-
-        //If not teacher or superuser, we redirect him/her to home page
-        else
-        {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
-        }
+        return $this->index($id, $selectedStateId);
     }
 
     /*

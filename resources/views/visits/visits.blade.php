@@ -4,29 +4,39 @@
     <link rel="stylesheet" href="/css/visits.css">
 @endpush
 @section ('content')
-    <div class="container">
-        <div class="row">
-        <h1 class="float-left">Liste de visite</h1>
-        </div>
-        <div class="row">
-            <div class="col-12">
-            <form method="post" action="/visits">
+        <form method="post" action="/visits">
+        <div class="row justify-content-md-center">
+            <div class="col-3">
+
                 {{ csrf_field() }}
-                <select name="teacher" onchange="this.form.submit()">      
+                <h3 for="teacher">Résponsable</h3>
+                <select name="teacher" class="form-control form-control-sm" onchange="this.form.submit()">
                     @foreach ($persons as $person)
-                        @if ($person->id == $id)
-                            <option selected value="{{$person->id}}">{{$person->fullName}}</option>
-                        @else 
-                            <option value="{{$person->id}}">{{$person->fullName}}</option>
-                        @endif        
+                            <option {{ $person->id == $id ? 'selected' : '' }} value="{{$person->id}}">{{$person->fullName}}</option>
                     @endforeach
             </select>
-            </form>
+
             </div>
         </div>
+        <div class="row justify-content-md-center">
+            @foreach($states as $state)
+                <span class="onefilter">
+                    <input
+                            type="radio"
+                            name="state"
+                            id="state-{{$state->slug}}"
+                            value="{{ $state->id }}"
+                            onchange="this.form.submit()"
+                            {{ $selectedStateId == $state->id ? 'checked' : '' }}
+                    />
+                    <label for="state-{{$state->slug}}">{{ $state->stateName }}</label>
+                </span>
+            @endforeach
+        </div>
+        </form>
         <br>
         <br>
-        <h3>Visits à venir</h3>
+        <h3>Visites à Venir</h3>
         <table class="larastable table table-striped">
             <thead class="thead-inverse">
                 <tr class="d-flex fake-link">
@@ -105,7 +115,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
 @stop
 @push ('page_specific_js')
     <script src="js/visits.js"></script>
