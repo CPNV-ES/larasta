@@ -21,53 +21,49 @@ class DashboardController extends Controller
         if(Auth::check()){
             //User is a Teacher
             if (Auth::user()->role >= 1){
-                $internships = $this->getMyInternships(Auth::user()->id);
-                $visits = $this->getMyVisits(Auth::user()->id);
-                return view('dashboard/dashboard')->with(['internships' => $internships, 'visits' => $visits]);
+                $teachersInternships = $this->getMyInternships(Auth::user()->id);
+                $teachersVisits = $this->getMyVisits(Auth::user()->id);
+                return view('dashboard/dashboard')->with(['internships' => $teachersInternships, 'visits' => $teachersVisits]);
                 
             }
             //User is a student
-            elseif(Auth::user()->role = 0){
-                return view('dashboard/dashboard')->compact($this->getMyInternships(Auth::user()->id));
-            }
-                
-            else{
+            elseif(Auth::user()->role == '0'){
+                $studentInternships = $this->getMyInternships(Auth::user()->id);
+                return view('dashboard/dashboard')->with(['internships' => $studentInternships]);
+            }else{
                 
                 return redirect()->route('internships.index');
-            }
+            }              
         }else{
             return view('dashboard/dashboard');
         }
     }
 
     public function getMyInternships($id){
-        //Get Responsible's internships 
+        //Get Class Master's internships 
         if(Auth::user()->role == 1){
-            $internships = Internship::all()->where('responsible_id', $id);
+            $result = Internship::whereHas('student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id); 
+            })->orderBy('beginDate', 'DESC')->get();
 
         //Get Student's internships
         }elseif (Auth::user()->role == 0){
-            $internships = Internship::all()->where('intern_id', $id);
+            $result = Internship::where('intern_id', $id)->with('visits')->get();
         }
-
-        return $internships;
+    
+        return $result;
     }
 
     public function getMyVisits($id){
-
         //Teacher
         if(Auth::user()->role == 1){
             //Eloquent query gets all the visits from teacher ID that are not in the state 'Bouclée'
-            $visits = Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('responsible_id',$id)->where('visitsstates_id','!=', '4'); 
-            })->get();
-
-        //Student
-        }elseif(Auth::user()->role == 0){
-
+            $result = Visit::whereHas('internship.student.flock',function($query) use ($id){
+                $query->where('classMaster_id',$id)->where('visitsstates_id','!=', '4');
+            })->orderBy('moment', 'DESC')->get();
         }
         
-        return $visits;
+        return $result;
     }
 
 }
