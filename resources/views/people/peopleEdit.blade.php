@@ -105,12 +105,8 @@
 
         </div>
 
-        <h5 class="titlebar">Stages</h5>
-        <div>
-            @include ('internships._internshipslist',['iships' => $iships])
-        </div>
+        @include ('internships._internshipslist',['iships' => $iships])
 
-        <h5 class="titlebar mt-2">Remarques</h5>
         @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $person->id, 'remarkType' => 2])
 
     </div>
