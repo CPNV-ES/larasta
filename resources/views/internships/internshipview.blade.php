@@ -5,7 +5,7 @@
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
-    <h2 class="text-left">Stage
+    <h2>Stage
         @if (isset($internship->student))
             de {{ $internship->student->fullName }}
         @else
@@ -15,6 +15,7 @@
     </h2>
 
     {{-- Internship information --}}
+    <h5 class="titlebar">Détails</h5>
     <table class="larastable w-100">
         <tr>
             <th class="w-25">Du</th>

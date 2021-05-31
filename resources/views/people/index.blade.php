@@ -10,6 +10,7 @@
 
 @section ('content')
     <link rel="stylesheet" href="/css/people.css"/>
+    <h2>Personnes</h2>
 
     <!-------------------->
     <!-- Header Filters -->

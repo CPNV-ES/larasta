@@ -7,6 +7,7 @@
 
 @section ('content')
     <link rel="stylesheet" href="/css/entreprises.css"/>
+    <h2>Entreprises</h2>
     @if(Auth::user()->role >= 2)
         <br>
         <div class="header container text-left">
@@ -46,7 +47,7 @@
         <div class="tab-content">
             <table class="larastable w-100">
                 <tr>
-                    <th>Entreprises</th>
+                    <th>Entreprise</th>
                     <th>Adresse 1</th>
                     <th>Adresse 2</th>
                     <th>NPA</th>

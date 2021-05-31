@@ -16,7 +16,7 @@
             @endforeach
         </select>
     </form>
-    <h3 class="mt-4">Visites à venir</h3>
+    <h5 class="titlebar mt-2">Visites à venir</h5>
     <table class="larastable w-100">
         <tr>
             <th>Nom</th>
@@ -58,7 +58,7 @@
 
     @endif
     <div id="past" class="d-none">
-        <h3>Anciennes Visites</h3>
+        <h5 class="titlebar mt-2">Anciennes Visites</h5>
         <table class="larastable w-100">
             <tr class="fake-link">
                 <th>Nom</th>
