@@ -14,4 +14,10 @@ $(document).ready(function () {
         form = $(this).parents('form:first');
         document.forms[form.attr('name')].submit();
     });
+
+    // Accordion collapsing when clicked
+    $(".accordion-head-row").click(function() {
+        $(this).next().toggleClass('folded');
+        $(this).children().first().toggleClass('folded');
+    });
 });

@@ -14,13 +14,13 @@
     </thead>
     <tbody>
     @foreach($flocks as $flock)
-        <tr class="flock-head-row">
+        <tr class="accordion-head-row">
             <td class="caret"></td>
             <td>20{{ $flock->startYear }}-20{{  $flock->startYear+4 }}</td>
             <td>{{ $flock->flockName }}</td>
             <td>{{ $flock->classMaster->getFullNameAttribute() }}</td>
         </tr>
-        <tr class="flock-students-row folded">
+        <tr class="accordion-content-row folded">
             <td></td>
             <td colspan="3">
                 <table class="larastable">
@@ -48,7 +48,4 @@
 
 @push('page_specific_css')
     <link rel="stylesheet" href="/css/flocks.css">
-@endpush
-@push('page_specific_js')
-    <script src="/js/flocks.js"></script>
 @endpush

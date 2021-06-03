@@ -352,3 +352,25 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 .none {
   display: none !important;;
 }
+
+// Accordion
+.accordion-head-row:hover {
+  cursor: pointer;
+}
+
+td.caret {
+  width:1%;
+  white-space: nowrap;
+}
+
+td.caret:not(.folded)::before {
+  content: "▲";
+}
+
+td.caret.folded::before{
+  content: "▼";
+}
+
+.accordion-content-row.folded {
+  display: none !important;
+}
