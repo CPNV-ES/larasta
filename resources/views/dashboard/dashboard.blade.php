@@ -2,6 +2,9 @@
 
 @section ('content')
 
+@push ('page_specific_css')
+    <link rel="stylesheet" href="/css/dashboard.css">
+@endpush
 
 @if (Auth::check())
     
@@ -105,7 +108,7 @@
 
                 <div id="pastInternships" class="row ml-4 mt-4 mr-2 d-none">
                     <div class="col-12">
-                        <h2 class="titlebar mt-1 text-left">Les stages en passés</h2>
+                        <h2 class="titlebar mt-1 text-left">Les stages passés</h2>
                         <div class="row text-center mt-2"> 
                             <div class="col-12">
                                 <table class="larastable w-100">
@@ -162,70 +165,70 @@
             <hr/>
 
             @foreach ($internships as $data)
-                <div class="row text-left ml-5 mt-3">
-                    <div class="col-12">   
-                        <h3 class="titlebar text-left pl-3">{!! $data->company->companyName !!}</h3>
+                <div class="row text-left ml-3 mt-3">
+                    <div class="col-12">
+                        <a href="{{route("internships.show", $data->id)}}">
+                            <h3 class="text-left pl-3 internshipTitle">
+                                @ {!! $data->company->companyName !!}
+                            </h3>
+                        </a>
                     </div>
-
-                    <div class="col-12 pt-4">
+                </div>
+                
+                <div class="row justify-content-center">
+                    <div class="col-11 pt-2">
                         {{-- Internship information --}}
-                        <div class="container text-left border">
-                            <div class="row p-1 border">
-                                <div class="col-2">Du</div>
-                                <div class="col-10">{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</div>
-                            </div>
-                            <div class="row p-1 border">
-                                <div class="col-2">Au</div>
-                                <div class="col-10">{{ strftime("%e %b %g", strtotime($data->endDate)) }}</div>
-                            </div>
-                            <div class="row p-1 border">
-                                <div class="col-2">Description</div>
-                                <div class="col-10">
+                        <table class="larastable w-100">
+                            <tr>
+                                <th class="w-25">Du</th>
+                                <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Au</th>
+                                <td>{{ strftime("%e %b %g", strtotime($data->endDate)) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>
                                     <div id="description">{!! $data->internshipDescription !!}</div>
-                                </div>
-                            </div>
-                            <div class="row p-1 border fake-link" data-href="{{ route("person.show", $data->admin) }}">
-                                <div class="col-2">Responsable administratif</div>
-                                <div class="col-10">{{ $data->admin->fullName }}</div>
-                            </div>
-                            <div class="row p-1 border fake-link" data-href="{{route("person.show", $data->responsible) }}">
-                                <div class="col-2">Responsable</div>
-                                <div class="col-10">{{ $data->responsible->fullName }}</div>
-                            </div>
-                            <div class="row p-1 border">
-                                <div class="col-2">Maître de classe</div>
-                                <div class="col-10">
+                                </td>
+                            </tr>
+                    
+                            <tr>
+                                <th>Responsable administratif</th>
+                                <td><a href="{{ route("person.show", $data->admin) }}">{{ $data->admin->fullName }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Responsable</th>
+                                <td>
+                                    <a href="{{route("person.show", $data->responsible) }}">{{ $data->responsible->fullName }}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Maître de classe</th>
+                                <td>
                                     {{-- Display the teacher, if the internship is attributed --}}
                                     @if (isset($data->student))
                                         {{ $data->student->flock->classMaster->initials }}
                                     @endif
-                                </div>
-                            </div>
-                            <div class="row p-1 border">
-                                <div class="col-2">Etat</div>
-                                <div class="col-10">
-                                    {{ $data->contractState->stateDescription }}
-                                </div>
-                            </div>
-                            <div class="row p-1 border">
-                                <div class="col-2">Salaire</div>
-                                <div class="col-10">{{ $data->grossSalary }}</div>
-                            </div>
-                            @if (isset($data->previous_id))
-                                <div class="row p-1 border">
-                                    <div class="col-2">
-                                    <a href="{{route("internships.show", $data->previous_id)}}">Stage précédent</a>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Etat</th>
+                                <td>{{ $data->contractState->stateDescription }}</td>
+                            </tr>
+                            <tr>
+                                <th>Salaire</th>
+                                <td>{{ $data->grossSalary }}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 
-                <div class="row justify-content-center mt-4">
-                    <div class="col-10">
+                <div class="row justify-content-center mt-4 pb-1">
+                    <div class="col-11">
                         @if (isset($data->visits) && count($data->visits) > 0)
-                            <h5 class="titlebar mt-2">Visites</h5>
+                            <h4 class="titlebar mt-1 text-left">Visites</h4>
                             @include('visits.visitsList', ['visits' => $data->visits])
                         @endif
                     </div>
