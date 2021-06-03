@@ -5,7 +5,7 @@
 @section ('content')
     {{-- Title --}}
     {{-- Display the name of the student, if the internship is attributed --}}
-    <h2 class="text-left">Stage
+    <h2>Stage
         @if (isset($internship->student))
             de {{ $internship->student->fullName }}
         @else
@@ -15,56 +15,57 @@
     </h2>
 
     {{-- Internship information --}}
-    <div class="container text-left border">
-        <div class="row p-1 border">
-            <div class="col-2">Du</div>
-            <div class="col-10">{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</div>
-        </div>
-        <div class="row p-1 border">
-            <div class="col-2">Au</div>
-            <div class="col-10">{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</div>
-        </div>
-        <div class="row p-1 border">
-            <div class="col-2">Description</div>
-            <div class="col-10">
+    <h5 class="titlebar">Détails</h5>
+    <table class="larastable w-100">
+        <tr>
+            <th class="w-25">Du</th>
+            <td>{{ strftime("%e %b %g", strtotime($internship->beginDate)) }}</td>
+        </tr>
+        <tr>
+            <th>Au</th>
+            <td>{{ strftime("%e %b %g", strtotime($internship->endDate)) }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>
                 <div id="description">{!! $internship->internshipDescription !!}</div>
-            </div>
-        </div>
-        <div class="row p-1 border fake-link" data-href="{{ route("person.show", $internship->admin) }}">
-            <div class="col-2">Responsable administratif</div>
-            <div class="col-10">{{ $internship->admin->fullName }}</div>
-        </div>
-        <div class="row p-1 border fake-link" data-href="{{route("person.show", $internship->responsible) }}">
-            <div class="col-2">Responsable</div>
-            <div class="col-10">{{ $internship->responsible->fullName }}</div>
-        </div>
-        <div class="row p-1 border">
-            <div class="col-2">Maître de classe</div>
-            <div class="col-10">
+            </td>
+        </tr>
+
+        <tr>
+            <th>Responsable administratif</th>
+            <td><a href="{{ route("person.show", $internship->admin) }}">{{ $internship->admin->fullName }}</a></td>
+        </tr>
+        <tr>
+            <th>Responsable</th>
+            <td>
+                <a href="{{route("person.show", $internship->responsible) }}">{{ $internship->responsible->fullName }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th>Maître de classe</th>
+            <td>
                 {{-- Display the teacher, if the internship is attributed --}}
                 @if (isset($internship->student))
                     {{ $internship->student->flock->classMaster->initials }}
                 @endif
-            </div>
-        </div>
-        <div class="row p-1 border">
-            <div class="col-2">Etat</div>
-            <div class="col-10">
-                {{ $internship->contractState->stateDescription }}
-            </div>
-        </div>
-        <div class="row p-1 border">
-            <div class="col-2">Salaire</div>
-            <div class="col-10">{{ $internship->grossSalary }}</div>
-        </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Etat</th>
+            <td>{{ $internship->contractState->stateDescription }}</td>
+        </tr>
+        <tr>
+            <th>Salaire</th>
+            <td>{{ $internship->grossSalary }}</td>
+        </tr>
         @if (isset($internship->previous_id))
-            <div class="row p-1 border">
-                <div class="col-2">
-                <a href="{{route("internships.show", $internship->previous_id)}}">Stage précédent</a>
-                </div>
-            </div>
+            <tr>
+                <td class="col-2"><a href="{{route("internships.show", $internship->previous_id)}}">Stage précédent</a>
+                </td>
+            </tr>
         @endif
-    </div>
+    </table>
 
     {{-- Action buttons --}}
     {{-- Generate contract button --}}
@@ -86,7 +87,7 @@
     @if (Auth::user()->role > 1)
         <a href="{{route("internships.edit", $internship)}}">
             <button>Modifier</button>
-        </a>   
+        </a>
     @endif
 
     {{-- logbook button --}}
@@ -99,23 +100,20 @@
         @if (Auth::user()->id == $internship->intern_id)
             <a href="{{route("internshipReport.create", $internship->id)}}">
                 <button>Créer le rapport de stage</button>
-            </a> 
-        @endif 
+            </a>
+        @endif
     @else
         <a href="{{route("internshipReport.show", $internship->report->id)}}">
             <button>Voir le rapport de stage</button>
-        </a> 
+        </a>
     @endif
 
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship->id , "medias" => $medias,"editable"=>false])
-    
+
     {{-- Visits --}}
     @if (isset($visits) && count($visits) > 0)
-        <hr/>
-        <h4>Visites</h4>
         @include('visits.visitsList', ['visits' => $visits])
     @endif
 
-    <hr/>
     @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => false, 'remarkOnId' => $internship->id, 'remarkType' => 5])
 @stop

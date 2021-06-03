@@ -106,7 +106,7 @@
                                 <button id="up" class="btn-success ml-3 edit" style="display: none;" type="submit">
                                     Enregistrer
                                 </button>
-                                <button id="cancel" name="cancel" type="reset" class="ml-3 btn-secondary edit"
+                                <button id="cancel" name="cancel" type="reset" class="ml-3 btn-warning edit"
                                         onClick="window.location.reload();" style="display: none;">Annuler
                                 </button>
                             </div>
@@ -123,29 +123,30 @@
 
     <div class="col-6">
         <h2>Contacts</h2>
-        <table class="larastable table table-bordered col-md-12 mt-4">
-            <thead>
+        <table class="larastable w-100 my-4">
             <tr>
-                <td>Responsable</td>
-                <td>Email</td>
-                <td>Fixe</td>
-                <td>Portable</td>
+                <th>Responsable</th>
+                <th>Email</th>
+                <th>Fixe</th>
+                <th>Portable</th>
             </tr>
-            </thead>
             <tr>
                 <td>
-                    Encadrement: {{$visit->internship->responsible->firstname}} {{$visit->internship->responsible->lastname}}</td>
-                <td><span id="mailto">{{ $responsible['email'] }}</span></td>
-                <td><span>{{ $responsible['phone'] }}</span></td>
-                <td><span>{{ $responsible['mobilePhone'] }}</span></td>
+                    Encadrement: <a
+                            href="{{ route("person.edit", $visit->internship->responsible->id) }}">{{$visit->internship->responsible->fullname}}</a>
+                </td>
+                <td id="mailto">{{ $responsible['email'] }}</td>
+                <td>{{ $responsible['phone'] }}</td>
+                <td>{{ $responsible['mobilePhone'] }}</td>
             </tr>
             <tr>
-                <td>RH: {{$visit->internship->admin->firstname}} {{$visit->internship->admin->lastname}}</td>
-                <td><span id="mailto">{{ $admin['email'] }}</span></td>
+                <td>RH:
+                    <a href="{{ route("person.edit", $visit->internship->admin->id) }}">{{$visit->internship->admin->fullname}}</a>
+                </td>
+                <td id="mailto">{{ $admin['email'] }}</td>
                 <td><span>{{ $admin['phone'] }}</span></td>
                 <td><span>{{ $admin['mobilePhone'] }}</span></td>
             </tr>
-
         </table>
 
         @if (Auth::user()->role >= 1)
