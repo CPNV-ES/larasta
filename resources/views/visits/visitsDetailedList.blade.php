@@ -1,34 +1,44 @@
 @push ('page_specific_css')
     <link rel="stylesheet" href="/css/visits.css">
 @endpush
-<table class="larastable table table-striped">
+<table class="larastable w-100">
     <thead class="thead-inverse">
-    <tr class="d-flex fake-link">
-        <th class="col-3">Nom</th>
-        <th class="col-2">Prénom</th>
-        <th class="col-2">Entreprise</th>
-        <th class="col-1">Date</th>
-        <th class="col-1">Heure</th>
-        <th class="col-1">Etat de la visite</th>
-        <th class="col-1">Email</th>
-        <th class="col-1">Note</th>
+    <tr>
+        <th class="small-col"></th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Entreprise</th>
+        <th>Date</th>
+        <th>Heure</th>
+        @if($displayState)
+        <th>Etat de la visite</th>
+        @endif
+        <th>Email</th>
+        <th>Note</th>
     </tr>
     </thead>
     <tbody>
     @foreach($visits as $visit)
-        <tr class="d-flex fake-link text-left" data-href="/visits/{{$visit->id}}/manage">
-            <td class="col-3">{{ $visit->internship->student->firstname }}</td>
-            <td class="col-2">{{ $visit->internship->student->lastname }}</td>
-            <td class="col-2">{!! $visit->internship->company->companyName !!}</td>
-            <td class="col-1 text-center">{{ (new DateTime($visit->moment))->format('d M Y') }}</td>
-            <td class="col-1 text-center">{{ (new DateTime($visit->moment))->format('H:i:s') }}</td>
-            <td class="col-1">{{ $visit->visitsstate->stateName }}</td>
-            <td class="col-1 text-center">
+        <tr class="fake-link text-left {{ $visit->needs_attention ? 'attention_needed' : '' }}" title="{{$visit->needed_attention_reason}}" data-href="/visits/{{$visit->id}}/manage">
+            <td class="small-col">
+                @if($visit->needs_attention)
+                    <img class='icon' src='/images/alert.svg'/>
+                @endif
+            </td>
+            <td>{{ $visit->internship->student->firstname }}</td>
+            <td>{{ $visit->internship->student->lastname }}</td>
+            <td>{!! $visit->internship->company->companyName !!}</td>
+            <td>{{ (new DateTime($visit->moment))->format('d M Y') }}</td>
+            <td>{{ (new DateTime($visit->moment))->format('H:i:s') }}</td>
+            @if($displayState)
+            <td>{{ $visit->visitsstate->stateName }}</td>
+            @endif
+            <td >
                 @if($visit->mailstate == 1)
                     <span class="ok glyphicon glyphicon-ok tick"></span>
                 @endif
             </td>
-            <td class="col-1">
+            <td>
                 {{$visit->grade}}
             </td>
         </tr>

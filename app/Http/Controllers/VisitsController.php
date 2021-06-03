@@ -50,46 +50,42 @@ class VisitsController extends Controller
      * - Return a list of visit from Teacher ID
      * - It just displays his/her visits.
      * */
-    public function index($classmasterId = null, $selectedStateId = null)
+    public function index($classmasterId = null)
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = $classmasterId ?? Auth::user()->id;
-        $selectedStateId = $selectedStateId ?? -1;
 
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Auth::user()->role >= 1){
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id, $selectedStateId)
+            $visits = Visit::whereHas('internship.student.flock',function($query) use ($id)
             {
-                $query->where('classMaster_id',$id)->where('moment','>',now()->toDateTimeString());
-                if($selectedStateId != -1)
-                    $query->where('visitsstates_id', $selectedStateId);
+                $query->where('classMaster_id',$id);
             })->get();
-            //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id, $selectedStateId){
-                $query->where('classMaster_id',$id)->where('moment','<=', now()->toDateTimeString());
-                if($selectedStateId != -1)
-                    $query->where('visitsstates_id', $selectedStateId);
-            })->get();
-            $person = Person::whereHas('mcof')->get();
-            // Returns all details to his/her in visits' main page
 
-            // "Fake" Visitstate which serves just to be displayed as an "all states" button
-            $vs = new Visitsstate();
-            $vs->id = -1;
-            $vs->stateName = 'tous';
-            $vs->slug = 'all';
+            $visitsByState = [];
+            foreach($visits as $visit) {
+                $visitsByState[$visit->visitsstates_id]['state_name'] = $visit->visitsstate->stateName;
+                $visitsByState[$visit->visitsstates_id]['visits'][] = $visit;
+            }
+
+            foreach($visitsByState as $key => $state) {
+                // Compute the number of visits that need attention in for this visitstate
+                $visitsByState[$key]['needsAttentionCount'] = count(array_filter($state['visits'], function($v) { return $v->needs_attention; }));
+            }
+
+            $person = Person::whereHas('mcof')->get();
+
+            // Sort by key (ids are in "chronological" order, may needs to be modified when new state is added)
+            ksort($visitsByState);
 
             return view('visits/visits')->with(
                 [
                     'id' => $id,
                     'persons' => $person,
-                    'visitsPast' => $visitsPast,
-                    'visitsToCome' => $visitsToCome,
+                    'visitsByState' => $visitsByState,
                     'message' => $this->message,
-                    'states' => Visitsstate::all()->prepend($vs),
-                    'selectedStateId' => $selectedStateId
                 ]
             );
         }
@@ -102,9 +98,8 @@ class VisitsController extends Controller
 
     public function filter(Request $request){
         $id = $request->input('teacher');
-        $selectedStateId = $request->input('state');
 
-        return $this->index($id, $selectedStateId);
+        return $this->index($id);
     }
 
     /*
