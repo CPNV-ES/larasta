@@ -13,9 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'InternshipsController@index')->name("index");
-
-// Route::get('/internships', function(){return redirect(route("index"));});
+Route::get('/', 'DashboardController@index')->name("index");
 
 Route::group(['middleware' => ['auth']], function () {
    
@@ -30,7 +28,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/internships/{id}','InternshipsController@update')->name('internships.update'); 
     Route::delete('/internships/{id}','InternshipsController@destroy')->name('internships.destroy'); 
     Route::get('/internships/{id}/createinternshipreport', 'InternshipReportController@create')->name('internshipReport.create');
-    
+    Route::post('/internships', 'InternshipsController@changeFilter');
+
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
     Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
