@@ -73,6 +73,11 @@ class VisitsController extends Controller
             foreach($visitsByState as $key => $state) {
                 // Compute the number of visits that need attention in for this visitstate
                 $visitsByState[$key]['needsAttentionCount'] = count(array_filter($state['visits'], function($v) { return $v->needs_attention; }));
+
+                // Sort the visits by their date ascending
+                usort($visitsByState[$key]['visits'], function($a, $b) {
+                    return new DateTime($a->moment) > new DateTime($b->moment);
+                });
             }
 
             $person = Person::whereHas('mcof')->get();
