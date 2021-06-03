@@ -44,7 +44,9 @@ When the dependencies are installed you must duplicate the ``.env.example`` file
 
 Then open your ``.env`` file and complete the information four our specific development environment.
 
-This information can be found in the CPNV's private server : **N:\COMMUN\ELEVE\INFO\SI-T1a\LARASTA_ENV_DATA\ENV_DATA.xlsx**
+This information can be found in the CPNV's private server : 
+
+``N:\COMMUN\ELEVE\INFO\SI-T1a\LARASTA_ENV_DATA\ENV_DATA.xlsx``
 
 ### 4. Set up your application key
 Finally, for laravel to work properly, you must generate the application key.
