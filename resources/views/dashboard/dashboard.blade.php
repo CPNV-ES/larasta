@@ -7,12 +7,12 @@
     
     <div class="row text-left ml-2"> 
         <div class="col pt-4">
-            <h2>Bonjour {{Auth::user()->firstname}} !</h2>
+            <h1>Bonjour {{Auth::user()->firstname}} !</h1>
         </div>
     </div>
 
     
-    {{-- If user is a teacher --}}
+    {{-- If user is a TEACHER --}}
     @if (Auth::user()->role == 1)
         @if($internships == null || $visits == null)
             <div class="row text-left ml-2"> 
@@ -21,13 +21,14 @@
                 </div>
             </div>
         @else
+            {{-- Visits table --}}
             @if (!$visits->isEmpty())
                 <div class="row ml-4 mt-4 mr-2">
                     <div class="col-12">
-                        <h2 class="text-left">Vos visites</h2>
-                        <div class="row text-center mt-1"> 
+                        <h2 class="titlebar mt-1 text-left">Vos visites</h2>
+                        <div class="row text-center mt-2"> 
                             <div class="col-12">
-                                <table class="table">
+                                <table class="larastable w-100">
                                     <thead>
                                         <tr>
                                             <th scope="col">Date et heure</th>
@@ -55,13 +56,14 @@
                 </div>
             @endif
 
+            {{-- Internships table --}}
             @if (!$internships->isEmpty())
                 <div class="row ml-4 mt-4 mr-2">
                     <div class="col-12">
-                        <h2 class="text-left">Les stages en cours</h2>
-                        <div class="row text-center mt-1"> 
+                        <h2 class="titlebar mt-2 text-left">Les stages en cours</h2>
+                        <div class="row text-center mt-2"> 
                             <div class="col-12">
-                                <table class="table">
+                                <table class="larstable w-100">
                                     <thead>
                                         <tr>
                                             <th scope="col">Stagiaire</th>
@@ -103,10 +105,10 @@
 
                 <div id="pastInternships" class="row ml-4 mt-4 mr-2 d-none">
                     <div class="col-12">
-                        <h2 class="text-left">Les stages passés</h2>
-                        <div class="row text-center mt-1"> 
+                        <h2 class="titlebar mt-1 text-left">Les stages en passés</h2>
+                        <div class="row text-center mt-2"> 
                             <div class="col-12">
-                                <table class="table">
+                                <table class="larastable w-100">
                                     <thead>
                                         <tr>
                                             <th scope="col">Stagiaire</th>
@@ -141,25 +143,29 @@
         @endif
 
 
-    {{-- If user is a student --}}
+    {{-- If user is a STUDENT --}}
     @elseif (Auth::user()->role == 0)
         @if($internships == null)
             <div class="row text-left ml-2"> 
                 <div class="col pt-4">
-                    <h4 class="ml-4 pt-2">Vous n'avez pas encore effectuer de stage<h4>
+                    <h3 class="ml-4 pt-2">Vous n'avez pas encore effectué de stage<h3>
                 </div>
             </div>
 
         @else
 
-            <div class="row text-left ml-5 mt-3">
-                <h3 class="text-left">Vos stages chez :</h3>
-            </div>
+            <div class="row ml-4 mt-4 mr-2">  
+                <div class="col-12">             
+                    <h2 class="titlebar mt-2 text-left">Vos stages</h2>
+                </div> 
+            </div>            
+            <hr/>
 
             @foreach ($internships as $data)
                 <div class="row text-left ml-5 mt-3">
-                
-                    <h4 class="text-left">{!! $data->company->companyName !!}</h4>
+                    <div class="col-12">   
+                        <h3 class="titlebar text-left pl-3">{!! $data->company->companyName !!}</h3>
+                    </div>
 
                     <div class="col-12 pt-4">
                         {{-- Internship information --}}
@@ -217,34 +223,11 @@
                 </div>
                 
                 <div class="row justify-content-center mt-4">
-                    <div class="col-7">
-                        <div class="row">
-                            <h4>Visites</h4>
-                        </div>
-
-                        {{-- Visits --}}
+                    <div class="col-10">
                         @if (isset($data->visits) && count($data->visits) > 0)
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">N°</th>
-                                        <th scope="col">Date et heure</th>
-                                        <th scope="col">État de la visite</th>
-                                        <th scope="col">Note</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data->visits as $value)
-                                        <tr class="fake-link text-left" data-href="/visits/{{$value->id}}/manage">
-                                            <td class="text-center">{{ $value->number }}</td>
-                                            <td>{{ (new DateTime($value->moment))->format('d M Y') }} / {{ (new DateTime($value->moment))->format('H:i:s') }} </td>
-                                            <td class="text-center">{{ $value->visitsstate->stateName }}</td>
-                                            <td class="text-center">{{ $value->grade }}</td>
-                                        </tr>
-                                    @endforeach 
-                                </tbody>
-                            </table>
-                        @endif   
+                            <h5 class="titlebar mt-2">Visites</h5>
+                            @include('visits.visitsList', ['visits' => $data->visits])
+                        @endif
                     </div>
                 </div>
                 <hr/>
@@ -255,8 +238,8 @@
 @else
     <div class="row text-left"> 
         <div class="col-12 pt-4 ml-2">
-            <h2>Bienvenue !</h2>
-            <h4 class="ml-4 pt-2">Connectez-vous pour accèder à votre dashboard<h4>
+            <h1>Bienvenue !</h1>
+            <h3 class="ml-4 pt-2">Connectez-vous pour accèder à votre dashboard</h3>
         </div>   
     </div>
 @endif
