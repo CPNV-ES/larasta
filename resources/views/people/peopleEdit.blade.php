@@ -27,7 +27,7 @@
     <div class="body simple-box text-left" id="view">
         <!-- FirstName and LastName -->
 
-        <div id="people_Name" class="row">
+        <div id="people_Name">
             <span>{{ $person->fullName }}</span>
         @if ((Auth::user()->role >= 2))  <!-- View button only for teacher -->
             <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn-warning people-btn_desactive">Modifier</button>

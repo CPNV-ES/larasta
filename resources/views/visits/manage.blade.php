@@ -132,14 +132,18 @@
             </tr>
             <tr>
                 <td>
-                    Encadrement: {{$visit->internship->responsible->firstname}} {{$visit->internship->responsible->lastname}}</td>
-                <td><span id="mailto">{{ $responsible['email'] }}</span></td>
-                <td><span>{{ $responsible['phone'] }}</span></td>
-                <td><span>{{ $responsible['mobilePhone'] }}</span></td>
+                    Encadrement: <a
+                            href="{{ route("person.edit", $visit->internship->responsible->id) }}">{{$visit->internship->responsible->fullname}}</a>
+                </td>
+                <td id="mailto">{{ $responsible['email'] }}</td>
+                <td>{{ $responsible['phone'] }}</td>
+                <td>{{ $responsible['mobilePhone'] }}</td>
             </tr>
             <tr>
-                <td>RH: {{$visit->internship->admin->firstname}} {{$visit->internship->admin->lastname}}</td>
-                <td><span id="mailto">{{ $admin['email'] }}</span></td>
+                <td>RH:
+                    <a href="{{ route("person.edit", $visit->internship->admin->id) }}">{{$visit->internship->admin->fullname}}</a>
+                </td>
+                <td id="mailto">{{ $admin['email'] }}</td>
                 <td><span>{{ $admin['phone'] }}</span></td>
                 <td><span>{{ $admin['mobilePhone'] }}</span></td>
             </tr>
