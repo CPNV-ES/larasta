@@ -42,9 +42,7 @@
                     @endif
                 </td>
                 <td>
-                    @if($visit->getMedia()->isNotEmpty())
-                        <a href="{{$visit->getMedia()->first()->getUrl()}}">{{$visit->grade}}</a>
-                    @else
+                    @if($visit->grade)
                         {{$visit->grade}}
                     @endif
                 </td>
@@ -84,11 +82,7 @@
                         @endif
                     </td>
                     <td>
-                        @if($visit->hasMedias())
-                            <a href="{{$visit->getMediaUrl()}}">{{$visit->grade}}</a>
-                        @else
-                            {{$visit->grade}}
-                        @endif
+                        {{$visit->grade}}
                     </td>
                 </tr>
             @endforeach

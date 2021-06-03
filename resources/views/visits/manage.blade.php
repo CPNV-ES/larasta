@@ -169,15 +169,6 @@
                 </div>
             </div>
         @endif
-
-        @if (Auth::user()->role >= 1)
-            <div class="row mt-5">
-                <div class="col-12 text-left" id="fileUpload" hidden>
-                    @include('uploadFile',["route" => route("visit.storeFile", ["id" => $visit->id])])
-                    @include('showFile',["route" => "visit.deleteFile", "id" => $visit->id , "medias" => $medias])
-                </div>
-            </div>
-        @endif
     </div>
 
     <br><br>
