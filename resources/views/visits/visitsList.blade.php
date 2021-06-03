@@ -1,7 +1,6 @@
 @push ('page_specific_js')
     <script src="/js/visitsList.js"></script>
 @endpush
-<h5 class="titlebar mt-2">Visites</h5>
 <table class="larastable w-100">
     <tr>
         <th>N°</th>

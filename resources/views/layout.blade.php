@@ -47,7 +47,16 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td class="login"><p>{{Auth::user()->fullname}}</p><button type="submit">Logout</button></td>
+                    <td class="login"><p>{{Auth::user()->fullname}}</p>
+                        <div class="row">
+                            <div class="col-6">                               
+                                <button type="button" class="btn-info" onclick="window.location = '/';">Dashboard</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn-danger" type="submit">Logout</button>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </form>
             @else
@@ -62,7 +71,7 @@
                 <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
             </tr>
             <tr>
-                <td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td>
+                <td><a href="/internships"><img alt="Places" src="/images/internships.png">Stages</a></td>
             </tr>
             <tr>
                 <td><a href="/visits"><img alt="Places" src="/images/internships.png">Visites</a></td>

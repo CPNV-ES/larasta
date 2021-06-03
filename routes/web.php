@@ -17,11 +17,8 @@ Route::get('/', 'InternshipsController@index')->name("index");
 
 // Route::get('/internships', function(){return redirect(route("index"));});
 
-Route::post('/', 'InternshipsController@changeFilter');
-
 Route::group(['middleware' => ['auth']], function () {
-
-    
+   
     //TODO Refactor these routes by using Route::resource() ↓
     // Route::resource('internships','InternshipsController');
     Route::get('/internships','InternshipsController@index')->name('internships.index'); 
