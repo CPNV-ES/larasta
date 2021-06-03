@@ -54,7 +54,7 @@ class Visit extends Model
 
     public function getNeededAttentionReasonAttribute() {
         // "Effectuée" and no grade
-        if($this->visitsstate->slug === 'eff' && empty($visit->grade)) {
+        if($this->visitsstate->slug === 'eff' && empty($this->grade)) {
             return "La visite est 'Effectuée' mais n'a pas de note !";
         }
         // "Proposée" or "Acceptée" in the past
