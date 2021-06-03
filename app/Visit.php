@@ -51,4 +51,24 @@ class Visit extends Model
     public function getGradeAttribute() {
         return round($this->attributes['grade'], 1);
     }
+
+    public function getNeededAttentionReasonAttribute() {
+        // "Effectuée" and no grade
+        if($this->visitsstate->slug === 'eff' && empty($visit->grade)) {
+            return "La visite est 'Effectuée' mais n'a pas de note !";
+        }
+        // "Proposée" or "Acceptée" in the past
+        elseif(
+            ($this->visitsstate->slug === 'pro' || $this->visitsstate->slug === 'acc')
+            && !empty($this->moment) && new \DateTime($this->moment) < new \DateTime()
+        ) {
+          return "La visite est '" . $this->visitsstate->stateName . "' et ne devrait donc pas être dans le passé !";
+        }
+
+        return "";
+    }
+
+    public function getNeedsAttentionAttribute() {
+        return !empty($this->needed_attention_reason);
+    }
 }
