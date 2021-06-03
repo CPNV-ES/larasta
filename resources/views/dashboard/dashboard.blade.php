@@ -17,132 +17,137 @@
     
     {{-- If user is a TEACHER --}}
     @if (Auth::user()->role == 1)
-        @if($internships == null || $visits == null)
+        
+        {{-- Visits table --}}
+        @if($visits->isEmpty())    
             <div class="row text-left ml-2"> 
                 <div class="col pt-4">
                     <h4 class="ml-4 pt-2">Vous n'avez pas de stage ou de visite vous concernant<h4>
                 </div>
             </div>
         @else
-            {{-- Visits table --}}
-            @if (!$visits->isEmpty())
-                <div class="row ml-4 mt-4 mr-2">
-                    <div class="col-12">
-                        <h2 class="titlebar mt-1 text-left">Vos visites</h2>
-                        <div class="row text-center mt-2"> 
-                            <div class="col-12">
-                                <table class="larastable w-100">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Date et heure</th>
-                                            <th scope="col">Stagiaire</th>
-                                            <th scope="col">Entreprise</th>
-                                            <th scope="col">État de la visite</th>
-                                            <th scope="col">Note</th>
+            <div class="row ml-4 mt-4 mr-2">
+                <div class="col-12">
+                    <h2 class="titlebar mt-1 text-left">Vos visites</h2>
+                    <div class="row text-center mt-2"> 
+                        <div class="col-12">
+                            <table class="larastable w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Date et heure</th>
+                                        <th scope="col">Stagiaire</th>
+                                        <th scope="col">Entreprise</th>
+                                        <th scope="col">État de la visite</th>
+                                        <th scope="col">Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($visits as $data)
+                                        <tr class="fake-link text-left" data-href="/visits/{{$data->id}}/manage">
+                                            <td>{{ (new DateTime($data->moment))->format('d M Y') }} / {{ (new DateTime($data->moment))->format('H:i:s') }} </td>
+                                            <td>{{ $data->internship->student->firstname }} {{ $data->internship->student->lastname}}</td>
+                                            <td>{{ $data->internship->company->companyName }}</td>
+                                            <td class="text-center">{{ $data->visitsstate->stateName }}</td>
+                                            <td class="text-center">{{ $data->grade }}</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($visits as $data)
-                                            <tr class="fake-link text-left" data-href="/visits/{{$data->id}}/manage">
-                                                <td>{{ (new DateTime($data->moment))->format('d M Y') }} / {{ (new DateTime($data->moment))->format('H:i:s') }} </td>
-                                                <td>{{ $data->internship->student->firstname }} {{ $data->internship->student->lastname}}</td>
-                                                <td>{{ $data->internship->company->companyName }}</td>
-                                                <td class="text-center">{{ $data->visitsstate->stateName }}</td>
-                                                <td class="text-center">{{ $data->grade }}</td>
-                                            </tr>
-                                        @endforeach 
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> 
-                    </div>
+                                    @endforeach 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
                 </div>
-            @endif
+            </div>
+        @endif
 
+        @if($internships->isEmpty())
+            <div class="row text-left ml-2"> 
+                <div class="col pt-4">
+                    <h4 class="ml-4 pt-2">Vous n'avez pas de stage ou de visite vous concernant<h4>
+                </div>
+            </div>
+        @else
             {{-- Internships table --}}
-            @if (!$internships->isEmpty())
-                <div class="row ml-4 mt-4 mr-2">
-                    <div class="col-12">
-                        <h2 class="titlebar mt-2 text-left">Les stages en cours</h2>
-                        <div class="row text-center mt-2"> 
-                            <div class="col-12">
-                                <table class="larstable w-100">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Stagiaire</th>
-                                            <th scope="col">Début</th>
-                                            <th scope="col">Entreprise</th>
-                                            <th scope="col">Responsable administratif</th>
-                                            <th scope="col">MC</th>
-                                            <th scope="col">État</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($internships as $data)
-                                            {{-- If the internship state is not Effectué --}}
-                                            @if ($data->contractstate->id != 13)
-                                                <tr class="fake-link" data-href="{{route("internships.show", $data->id)}}">
-                                                    <td>{{ $data->student->fullName ?? '' }}</td>
-                                                    <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
-                                                    <td>{{ $data->company->companyName}}</td>   
-                                                    <td>{{ $data->admin->fullName ?? ''}}</td> 
-                                                    <td title="{{ $data->student->flock->classMaster->fullName ?? ''}}">{{ $data->student->flock->classMaster->initials ?? ''}}</td>
-                                                    <td>{{ $data->contractstate->stateDescription}}</td>
-                                                </tr>
-                                            @endif
-                                        @endforeach  
-                                    </tbody>
-                                </table> 
-                            </div>
+            <div class="row ml-4 mt-4 mr-2">
+                <div class="col-12">
+                    <h2 class="titlebar mt-2 text-left">Les stages en cours</h2>
+                    <div class="row text-center mt-2"> 
+                        <div class="col-12">
+                            <table class="larstable w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Stagiaire</th>
+                                        <th scope="col">Début</th>
+                                        <th scope="col">Entreprise</th>
+                                        <th scope="col">Responsable administratif</th>
+                                        <th scope="col">MC</th>
+                                        <th scope="col">État</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($internships as $data)
+                                        {{-- If the internship state is not Effectué --}}
+                                        @if ($data->contractstate->id != 13)
+                                            <tr class="fake-link" data-href="{{route("internships.show", $data->id)}}">
+                                                <td>{{ $data->student->fullName ?? '' }}</td>
+                                                <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
+                                                <td>{{ $data->company->companyName}}</td>   
+                                                <td>{{ $data->admin->fullName ?? ''}}</td> 
+                                                <td title="{{ $data->student->flock->classMaster->fullName ?? ''}}">{{ $data->student->flock->classMaster->initials ?? ''}}</td>
+                                                <td>{{ $data->contractstate->stateDescription}}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach  
+                                </tbody>
+                            </table> 
                         </div>
-                    </div>  
-                </div>
-
-                
-                {{-- Btn show passed internships --}}
-                <div class="row ml-4 mt-4 mr-2">
-                    <div class="col-12">
-                        <button id="showPastBtn"> Voir les stages passés</button>
                     </div>
-                </div>
+                </div>  
+            </div>
 
-                <div id="pastInternships" class="row ml-4 mt-4 mr-2 d-none">
-                    <div class="col-12">
-                        <h2 class="titlebar mt-1 text-left">Les stages passés</h2>
-                        <div class="row text-center mt-2"> 
-                            <div class="col-12">
-                                <table class="larastable w-100">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Stagiaire</th>
-                                            <th scope="col">Début</th>
-                                            <th scope="col">Entreprise</th>
-                                            <th scope="col">Responsable administratif</th>
-                                            <th scope="col">MC</th>
-                                            <th scope="col">État</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($internships as $data)
-                                            {{-- If the internship state is Effectué --}}
-                                            @if ($data->contractstate->id == 13)
-                                                <tr class="fake-link" data-href="{{route("internships.show", $data->id)}}">
-                                                    <td>{{ $data->student->fullName ?? '' }}</td>
-                                                    <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
-                                                    <td>{{ $data->company->companyName}}</td>   
-                                                    <td>{{ $data->admin->fullName ?? ''}}</td> 
-                                                    <td title="{{ $data->student->flock->classMaster->fullName ?? ''}}">{{ $data->student->flock->classMaster->initials ?? ''}}</td>
-                                                    <td>{{ $data->contractstate->stateDescription}}</td>
-                                                </tr>
-                                            @endif
-                                        @endforeach  
-                                    </tbody>
-                                </table> 
-                            </div>
-                        </div>
-                    </div>  
+            
+            {{-- Btn show passed internships --}}
+            <div class="row ml-4 mt-4 mr-2">
+                <div class="col-12">
+                    <button id="showPastBtn"> Voir les stages passés</button>
                 </div>
-            @endif
+            </div>
+
+            <div id="pastInternships" class="row ml-4 mt-4 mr-2 d-none">
+                <div class="col-12">
+                    <h2 class="titlebar mt-1 text-left">Les stages passés</h2>
+                    <div class="row text-center mt-2"> 
+                        <div class="col-12">
+                            <table class="larastable w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Stagiaire</th>
+                                        <th scope="col">Début</th>
+                                        <th scope="col">Entreprise</th>
+                                        <th scope="col">Responsable administratif</th>
+                                        <th scope="col">MC</th>
+                                        <th scope="col">État</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($internships as $data)
+                                        {{-- If the internship state is Effectué --}}
+                                        @if ($data->contractstate->id == 13)
+                                            <tr class="fake-link" data-href="{{route("internships.show", $data->id)}}">
+                                                <td>{{ $data->student->fullName ?? '' }}</td>
+                                                <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
+                                                <td>{{ $data->company->companyName}}</td>   
+                                                <td>{{ $data->admin->fullName ?? ''}}</td> 
+                                                <td title="{{ $data->student->flock->classMaster->fullName ?? ''}}">{{ $data->student->flock->classMaster->initials ?? ''}}</td>
+                                                <td>{{ $data->contractstate->stateDescription}}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach  
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>
+                </div>  
+            </div>
         @endif
 
 
@@ -216,7 +221,7 @@
                             <tr>
                                 <th>Etat</th>
                                 <td>{{ $data->contractState->stateDescription }}</td>
-                            </tr>
+                                 </tr>
                             <tr>
                                 <th>Salaire</th>
                                 <td>{{ $data->grossSalary }}</td>
