@@ -112,6 +112,7 @@
 
     {{-- Visits --}}
     @if (isset($visits) && count($visits) > 0)
+        <h5 class="titlebar mt-2">Visites</h5>
         @include('visits.visitsList', ['visits' => $visits])
     @endif
 

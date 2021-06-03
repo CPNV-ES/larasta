@@ -1,6 +1,7 @@
 @push ('page_specific_js')
     <script src="/js/visitsList.js"></script>
 @endpush
+
 <table class="larastable w-100">
     <tr>
         <th>N°</th>
