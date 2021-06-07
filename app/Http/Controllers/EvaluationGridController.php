@@ -81,6 +81,6 @@ class EvaluationGridController extends Controller
             }
         }
 
-        return redirect()->route('evaluationgrid.index')->with('message', 'Creation Réussie');
+        return redirect()->route('evaluationgrid.index')->with('success', 'Creation Réussie');
     }
 }
