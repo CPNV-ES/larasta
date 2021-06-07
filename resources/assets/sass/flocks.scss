@@ -1,25 +1,7 @@
 .larastable {
     width: 100%;
 }
-
-.flock-head-row:hover {
-    cursor: pointer;
-}
-
-td.caret {
-    width:1%;
-    white-space: nowrap;
-}
-
-td.caret:not(.folded)::before {
-    content: "▲";
-}
-
-td.caret.folded::before{
-    content: "▼";
-}
-
-.flock-students-row {
+.accordion-content-row {
     & > td {
         padding: 0;
         border-top: 0;
@@ -39,8 +21,4 @@ td.caret.folded::before{
             }
         }
     }
-}
-
-.flock-students-row.folded {
-    display: none !important;
 }

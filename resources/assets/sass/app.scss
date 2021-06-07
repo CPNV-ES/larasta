@@ -236,10 +236,12 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   -webkit-user-select: none;
   overflow: hidden;
 }
-.onefilter > input[type="checkbox"] {
+.onefilter > input[type="checkbox"],
+.onefilter > input[type="radio"] {
   display: none;
 }
-.onefilter > input[type="checkbox"] + label {
+.onefilter > input[type="checkbox"] + label,
+.onefilter > input[type="radio"] + label {
   /*label disabled*/
   display: block;
   width: 100%;
@@ -256,14 +258,16 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
   cursor: pointer;
   font-size: 13px;
 }
-.onefilter > input[type="checkbox"]:checked + label {
+.onefilter > input[type="checkbox"]:checked + label,
+.onefilter > input[type="radio"]:checked + label{
   /*label enabled*/
   background-color: #56aeff;
   border-color: #3f92df;
   color: white;
   border-bottom-width: 2px;
 }
-.onefilter:active > input[type="checkbox"] + label {
+.onefilter:active > input[type="checkbox"] + label,
+.onefilter:active > input[type="radio"] + label{
   /*label click*/
   border-bottom-width: 2px;
   border-top-width: 3px;
@@ -353,4 +357,26 @@ found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
 }
 .none {
   display: none !important;;
+}
+
+// Accordion
+.accordion-head-row:hover {
+  cursor: pointer;
+}
+
+td.caret {
+  width:1%;
+  white-space: nowrap;
+}
+
+td.caret:not(.folded)::before {
+  content: "▲";
+}
+
+td.caret.folded::before{
+  content: "▼";
+}
+
+.accordion-content-row.folded {
+  display: none !important;
 }
