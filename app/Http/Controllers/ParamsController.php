@@ -39,6 +39,6 @@ class ParamsController extends Controller
             }
         }
 
-        return redirect()->back()->with('status', 'Paramètres sauvés avec succès');
+        return redirect()->back()->with('success', 'Paramètres sauvés avec succès');
     }
 }
