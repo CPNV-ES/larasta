@@ -20,7 +20,7 @@ class DashboardController extends Controller
     {
         if(Auth::check()){
             //User is a Teacher
-            if (Auth::user()->role >= 1){
+            if (Auth::user()->role == 1){
                 $teachersInternships = $this->getMyInternships(Auth::user()->id);
                 $teachersPastInternships = $this->getPastInterships(Auth::user()->id);
                 $teachersVisits = $this->getClassMasterVisits(Auth::user()->id);
