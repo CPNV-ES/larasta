@@ -336,7 +336,7 @@ class InternshipsController extends Controller
         $newInternship->responsible_id = $request->input('responsible');
         $newInternship->admin_id = $request->input('admin');
         $newInternship->save();
-        return redirect()->route('internships.show',$newInternship->id)->with('message', 'Creation Réussie');
+        return redirect()->route('internships.show',$newInternship->id)->with('success', 'Creation Réussie');
     }
     public function storeLogbookFile(StoreFileRequest $request, $internshipId){
         $internship = Internship::findOrFail($internshipId);
