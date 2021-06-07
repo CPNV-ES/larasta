@@ -50,35 +50,50 @@ class VisitsController extends Controller
      * - Return a list of visit from Teacher ID
      * - It just displays his/her visits.
      * */
-    public function index()
+    public function index($classmasterId = null)
     {
         /* Initialize id to check user ID in "Query get visits"->line 77 */
-        $id = Auth::user()->id;
+        $id = $classmasterId ?? Auth::user()->id;
+
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Auth::user()->role >= 1){
             //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id)
+            $visits = Visit::whereHas('internship.student.flock',function($query) use ($id)
             {
-                $query->where('classMaster_id',$id)->where('moment','>',now()->toDateTimeString()); 
+                $query->where('classMaster_id',$id);
             })->get();
-            //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','<=', now()->toDateTimeString());
-            })->get();
+
+            $visitsByState = [];
+            foreach($visits as $visit) {
+                $visitsByState[$visit->visitsstates_id]['state_name'] = $visit->visitsstate->stateName;
+                $visitsByState[$visit->visitsstates_id]['visits'][] = $visit;
+            }
+
+            foreach($visitsByState as $key => $state) {
+                // Compute the number of visits that need attention in for this visitstate
+                $visitsByState[$key]['needsAttentionCount'] = count(array_filter($state['visits'], function($v) { return $v->needs_attention; }));
+
+                // Sort the visits by their date ascending
+                usort($visitsByState[$key]['visits'], function($a, $b) {
+                    return new DateTime($a->moment) > new DateTime($b->moment);
+                });
+            }
+
             $person = Person::whereHas('mcof')->get();
-            // Returns all details to his/her in visits' main page
+
+            // Sort by key (ids are in "chronological" order, may needs to be modified when new state is added)
+            ksort($visitsByState);
+
             return view('visits/visits')->with(
                 [
                     'id' => $id,
                     'persons' => $person,
-                    'visitsPast' => $visitsPast,
-                    'visitsToCome' => $visitsToCome,
-                    'message' => $this->message
+                    'visitsByState' => $visitsByState,
+                    'message' => $this->message,
                 ]
             );
         }
-
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
@@ -87,35 +102,9 @@ class VisitsController extends Controller
     }
 
     public function filter(Request $request){
-    
         $id = $request->input('teacher');
-        if (Auth::user()->role >= 1){
 
-            //Eloquent query gets all the visits from teacher ID that are in the past
-            $visitsToCome = Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','>',now()); })->get();
-                //Eloquent query gets all the visits from teacher ID that are in the future
-            $visitsPast = Visit::whereHas('internship.student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id)->where('moment','<=',now());})->get();
-            //Eloquent query to gets all the teacher
-            $person = Person::whereHas('mcof')->get(); 
-            // Returns all details to his/her in visits' main page
-            return view('visits/visits')->with(
-                [
-                    'id' => $id,
-                    'persons' => $person,
-                    'visitsPast' => $visitsPast,
-                    'visitsToCome' => $visitsToCome,
-                    'message' => $this->message
-                ]
-            );
-        }
-
-        //If not teacher or superuser, we redirect him/her to home page
-        else
-        {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
-        }
+        return $this->index($id);
     }
 
     /*
