@@ -59,17 +59,36 @@ php artisan key:generate
 
 ### 5. Create and seed the database
 
+#### 5.1 Minimal database
+
 In terminal, use the next command to create database with required data:
 ```
 php artisan mysql:createdb larasta
 php artisan migrate --seed
 ```
 
+#### 5.2 Test data 
+
 if you want add test data:
 ```
 php artisan db:seed --class="TestDataSeeder"
 ```
 
+#### 5.3 Using test data from the Legacy internships application
+
+If you want to test the app with real data, you can work with the legacy internship application's data
+
+First, create the larasta db and run the seeder for required data (the two commands specified above)
+
+Then, you need to import the legacy database on your SQL server. The snapshots are located at `database/seeds/testData/snapshot_*.sql`
+\
+The database needs to be named `app_internships`
+
+Finally, run the migration script located at `database/migrations/app_internships_to_larasta.sql`
+
+The database larasta should now be populated with data from the legacy internships application 
+
+Please note that the migration script may not be up to date if larasta's database table structure has changed in the meantime 
 ### 6. Login
 To get the information of the authentified user use this method `Auth::user()` in your code.
 
