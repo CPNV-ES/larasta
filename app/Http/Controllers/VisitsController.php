@@ -97,7 +97,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -190,7 +190,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -241,7 +241,7 @@ class VisitsController extends Controller
 
         }
         else {
-            return redirect(route('visit.manage', $visitId))->with('error',  "You don't have the permission to access this function.");
+            return redirect(route('visit.manage', $visitId))->with('error',  "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -266,7 +266,7 @@ class VisitsController extends Controller
         foreach($request["cv"] as $cvId => $cvData) {
             // We're trying to update a criteriaValue that's not part of this visit's evaluation!
             if(!in_array($cvId, $thisEvalCriteriaValueIds))
-                return redirect(route('visit.manage', $visitId))->with('error',  "You don't have the permission to access this function.");
+                return redirect(route('visit.manage', $visitId))->with('error',  "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
 
             $criteriaValue = CriteriaValue::find($cvId);
 
@@ -333,7 +333,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -361,7 +361,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -427,7 +427,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -448,7 +448,7 @@ class VisitsController extends Controller
             return redirect(route('visit.manage', $id));
 
         }else{
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
     

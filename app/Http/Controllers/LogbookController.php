@@ -138,7 +138,7 @@ class LogbookController extends Controller
             return redirect()->route('logbook.saveFeedbacksAndAcknowledgements', $request->internshipId);
         
         }else{
-            return redirect('/')->with('error', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     
     }
