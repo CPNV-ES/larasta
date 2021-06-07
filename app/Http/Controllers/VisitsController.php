@@ -97,7 +97,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -117,7 +117,7 @@ class VisitsController extends Controller
         $visit = Visit::find($rid);
 
         if($visit === null) {
-            return redirect('/visits')->with('status', "Visite pas trouvée");
+            return redirect('/visits')->with('error', "Visite pas trouvée");
         }
 
         $studentToVisitId = $visit->internship->student->id;
@@ -190,7 +190,7 @@ class VisitsController extends Controller
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -241,7 +241,7 @@ class VisitsController extends Controller
 
         }
         else {
-            return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
+            return redirect(route('visit.manage', $visitId))->with('error',  "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -266,7 +266,7 @@ class VisitsController extends Controller
         foreach($request["cv"] as $cvId => $cvData) {
             // We're trying to update a criteriaValue that's not part of this visit's evaluation!
             if(!in_array($cvId, $thisEvalCriteriaValueIds))
-                return redirect(route('visit.manage', $visitId))->with('status',  "You don't have the permission to access this function.");
+                return redirect(route('visit.manage', $visitId))->with('error',  "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
 
             $criteriaValue = CriteriaValue::find($cvId);
 
@@ -278,7 +278,7 @@ class VisitsController extends Controller
 
                 // Points must be between 0 and the criteria's max allowed points
                 if(isset($cvData["points"]) && ($cvData["points"] < 0 || $cvData["points"] > $criteriaValue->criteria->maxPoints)) {
-                    return redirect(route('visit.manage', $visitId))->with('status',  "Le champs points n'est pas dans les limites de valeurs acceptées");
+                    return redirect(route('visit.manage', $visitId))->with('error',  "Le champs points n'est pas dans les limites de valeurs acceptées");
                 }
 
                 $criteriaValue->points = $cvData["points"] ?? -1;
@@ -288,7 +288,7 @@ class VisitsController extends Controller
             $criteriaValue->save();
         }
 
-        return redirect(route('visit.manage', $visitId))->with('status',  "L'évaluation a bien été modifiée !");
+        return redirect(route('visit.manage', $visitId))->with('success',  "L'évaluation a bien été modifiée !");
     }
 
     /*
@@ -327,13 +327,13 @@ class VisitsController extends Controller
             /*
              * Redirect the user the his/her visits' list.
              * */
-            return redirect('/visits')->with('status', 'Etat de la visite a été modifié !');
+            return redirect('/visits')->with('success', 'Etat de la visite a été modifié !');
         }
 
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -355,13 +355,13 @@ class VisitsController extends Controller
             Visit::where('id', '=', $id)
                 ->delete();
 
-            return redirect('/visits')->with('status', 'Visite supprimée !');
+            return redirect('/visits')->with('success', 'Visite supprimée !');
         }
 
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -390,13 +390,13 @@ class VisitsController extends Controller
             if(empty($note)) {
                 if($state == Visitsstate::where('slug', 'bou')->first()->id) {
                     return redirect()->route('visit.manage', ['rid'=>$id])
-                        ->with('status', "Vous ne pouvez pas passer la visite en 'Bouclée' si aucune note n'est entrée !");
+                        ->with('error', "Vous ne pouvez pas passer la visite en 'Bouclée' si aucune note n'est entrée !");
                 }
             }
             else {
                 if($state == Visitsstate::where('slug', 'pro')->first()->id || $state == Visitsstate::where('slug', 'acc')->first()->id) {
                     return redirect()->route('visit.manage', ['rid'=>$id])
-                        ->with('status', "Vous ne pouvez pas passer la visite en 'Proposée' ou 'Acceptée' si une note est entrée !");
+                        ->with('error', "Vous ne pouvez pas passer la visite en 'Proposée' ou 'Acceptée' si une note est entrée !");
                 }
             }
 
@@ -407,7 +407,7 @@ class VisitsController extends Controller
                 && (!$visit->evaluation()->exists() || !$visit->evaluation()->first()->is_fully_filled()))
             {
                 return redirect()->route('visit.manage', ['rid'=>$id])
-                    ->with('status', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas remplie !");
+                    ->with('error', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas remplie !");
             }
 
             //Update visit from values above.
@@ -421,13 +421,13 @@ class VisitsController extends Controller
             $date = date('d M Y', strtotime($request->upddate));
             $hour = date('H:i:s', strtotime($request->updtime));
 
-            return redirect(route('visit.manage', $id))->with('status', 'La visite a été modifiée !');
+            return redirect(route('visit.manage', $id))->with('success', 'La visite a été modifiée !');
         }
 
         //If not teacher or superuser, we redirect him/her to home page
         else
         {
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
 
@@ -448,7 +448,7 @@ class VisitsController extends Controller
             return redirect(route('visit.manage', $id));
 
         }else{
-            return redirect('/')->with('status', "You don't have the permission to access this function.");
+            return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
     
