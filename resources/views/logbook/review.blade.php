@@ -20,14 +20,14 @@
 
 @section('content')
 
-@if(Auth::user()->id == $internship->responsible->id)
+@if(Auth::user()->id == $internship->student->flock->classMaster_id)
     {{ Form::open(array('url' => '/internships/'.$internship->id.'/logbook/review')) }}
 @endif
 <h1>Stage de {{$student->fullName ?? "Non attribué"}}</h1>
 <h2>{{$internship->company->companyName}}</h2>
     <div class="reviewerContainer">
 
-        @if(Auth::user()->id == $internship->responsible->id)
+        @if(Auth::user()->id == $internship->student->flock->classMaster_id)
             <div class="col-12 text-center pt-2">
                 <button id="save" class="btn btn-warning" type="submit" hidden>Quittancer et sauvegarder les retours</button>
             </div>
@@ -58,16 +58,18 @@
                         
                            
                             @if($day[0]->acknowledged)
-                                @if(Auth::user()->id == $internship->responsible->id)   
+                                @if(Auth::user()->id == $internship->student->flock->classMaster_id)   
                                     {{Form::hidden('ack-'.$day[0]->entryDate, '0')}}
                                     {{Form::checkbox('ack-'.$day[0]->entryDate, true, 'checked' ,['class' => 'form-check-input', 'onclick' => "showSaveBtn()"])}}
+                                @else
+                                    <label class="form-check-label" for="flexCheckDefault">Lu</label>
                                 @endif
-                                <label class="form-check-label" for="flexCheckDefault">Lu</label>
                             @else
-                                @if(Auth::user()->id == $internship->responsible->id)   
+                                @if(Auth::user()->id == $internship->student->flock->classMaster_id)   
                                     {{Form::checkbox('ack-'.$day[0]->entryDate, true, '' ,['onclick' => "showSaveBtn()"])}}
+                                @else
+                                    <label class="form-check-label" for="flexCheckDefault">Non lu</label>
                                 @endif
-                                <label class="form-check-label" for="flexCheckDefault">Non lu</label>
                             @endif
                        
 
@@ -88,7 +90,7 @@
                                                 <h5 style="color: green; font-style: italic;">{{$activity->feedback}}</h5>   
                                             </div>
 
-                                            @if(Auth::user()->id == $internship->responsible->id)
+                                            @if(Auth::user()->id == $internship->student->flock->classMaster_id)
                                                 <div class="col-12">
                                                     <i class="fas fa-edit"></i>
                                                     <button type="button" class="btn-success" style="min-width: 10px !important; height: 22px; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})"><img src="/images/edit.png" width="12px" height="12px"></button>
@@ -96,7 +98,7 @@
                                                 </div>
                                             @endif
                                         @else
-                                            @if(Auth::user()->id == $internship->responsible->id)
+                                            @if(Auth::user()->id == $internship->student->flock->classMaster_id)
                                             <div class="col-12">
                                                 <button type="button" class="btn-success" style="min-width: 10px !important;  height: 20px; border: none;" id="btnFdbk{{$activity->id}}" onclick="showFeedbackFields({{$activity->id}})"><img src="/images/add.png" width="12px" height="12px"></button>
                                                 {{Form::textarea('fdbk-'.$activity->id, "", ['id' => $activity->id, 'hidden', 'style' => 'width: 500px; height: 60px;'])}}
