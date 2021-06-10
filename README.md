@@ -19,7 +19,6 @@
 ### 1. Clone the repository
 Clone https://github.com/CPNV-ES/larasta.git on your local machine.
 
-### 2. Install dependencies
 Go to your project folder and run the installation of laravel dependencies.
 
 ```bash
@@ -32,12 +31,29 @@ composer i
 npm i
 ```
 
-To create all js and css files
+All the javascript and scss assets are in the ressource/assets folder.
 
+These assets need to be compiled in the public folder, laravel-mix provide an easy way to do the job.
+
+All the tasks are defined in the webpack.mix.js file. 
+\
+When you create new scss or js files, you need to declare them in the webpack.mix.js file or they won't be included during compilation.
+
+To compile the assets, use:
 ```bash
-# install the npm dependencies
+# development tasks: transpile, compile and generate maps in the public folder
 npm run dev
+
+# optimized for prod tasks: traspile, compile and minify output
+npm run prod
 ```
+
+Instead of running `npm run dev` everytime you make changes to asset files, you can automatically compile modified files with:
+```bash
+# watches for changes and compiles on the fly
+npm run watch
+```
+
 
 ### 3. Create .env file
 When the dependencies are installed you must duplicate the ``.env.example`` file and rename it to ``.env``.
