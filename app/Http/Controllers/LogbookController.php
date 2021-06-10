@@ -74,6 +74,7 @@ class LogbookController extends Controller
     {
         //create and save new activity
         $newActivity = Logbook::fromRequest($internshipId, $request);
+        $newActivity->feedback = "";
         $newActivity->save();
         return $newActivity;
     }
@@ -108,7 +109,7 @@ class LogbookController extends Controller
     public function saveFeedbacksAndAcknowledgements(Request $request, $internshipId){
         $internship = Internship::find($internshipId);
         
-        if (Auth::user()->id == $internship->responsible->id){
+        if (Auth::user()->id == $internship->student->flock->classMaster_id){
             $feedbacks = [];
             $acknowledgements = [];
             $data = $request->all();
