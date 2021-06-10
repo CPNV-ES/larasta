@@ -90,15 +90,21 @@ The database *larasta* should now be populated with data from the legacy interns
 
 Please note that the migration script may not be up to date if larasta's database table structure has changed in the meantime 
 
-### 6. Login
+### 6. A few more required steps
+
+The project needs a few directories to store files locally. 
+\
+To create these directories, run `php artisan make:tree`
+
+### 7. Login
 To get the information of the authentified user use this method `Auth::user()` in your code.
 
 The github authentication only work on the swisscenter server.
 
-### 7. PHP version
+### 8. PHP version
 There are some issues between the version of Laravel used in this project and the most recents PHP versions. The PHP version used with the project should be PHP 7.4.
 
-### Ready for development
+### 9. Ready for development
 ```
 php artisan serve
 ```
