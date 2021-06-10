@@ -78,17 +78,18 @@ php artisan db:seed --class="TestDataSeeder"
 
 If you want to test the app with real data, you can work with the legacy internship application's data
 
-First, create the larasta db and run the seeder for required data (the two commands specified above)
+First, create the larasta db with the minimal data required (the two commands specified above in point *5.1*)
 
-Then, you need to import the legacy database on your SQL server. The snapshots are located at `database/seeds/testData/snapshot_*.sql`
+Then, you need to import the legacy database on your SQL server. Get the latest snapshot at `database/seeds/testData/snapshot_*.sql` and run it
 \
-The database needs to be named `app_internships`
+The database that was just created should be named *app_internships*, rename it if it isn't the case
 
-Finally, run the migration script located at `database/migrations/app_internships_to_larasta.sql`
+Finally, run the migration script located at `database/migrations/app_internships_to_larasta.sql`. This will take the data from *app_internship* and insert it into *larasta*
 
-The database larasta should now be populated with data from the legacy internships application 
+The database *larasta* should now be populated with data from the legacy internships application 
 
 Please note that the migration script may not be up to date if larasta's database table structure has changed in the meantime 
+
 ### 6. Login
 To get the information of the authentified user use this method `Auth::user()` in your code.
 
