@@ -108,7 +108,7 @@ class LogbookController extends Controller
     public function saveFeedbacksAndAcknowledgements(Request $request, $internshipId){
         $internship = Internship::find($internshipId);
         
-        if (Auth::user()->id == $internship->responsible->id){
+        if (Auth::user()->id == $internship->student->flock->classMaster_id){
             $feedbacks = [];
             $acknowledgements = [];
             $data = $request->all();
