@@ -36,13 +36,13 @@
     <form method="POST" action="{{route("reportSection.update", $section->id)}}">
         @method('PUT')
         @csrf      
-        <table class="table text-left larastable">
+        <table class="larastable">
             <tr scope="row">
-                <td scope="col-md-2">Titre</td>
-                <td>
+                <th scope="col-md-2">Titre</th>
+                <th>
                     <div class="input-rendering">{{$section->name}}</div>
                     <input class="w-100" type="text" name="title" value="{{$section->name}}" hidden />
-                </td>
+                </th>
             </tr>
             <tr scope="row">
                 <td>Description</td>
@@ -54,7 +54,7 @@
             </tr>
         </table>
         @if (Auth::user()->id == $report->internship->intern_id)
-        <div class="d-flex justify-content-end mb-3">
+        <div class="d-flex justify-content-end mb-3 mt-1">
             <button name="edit" type="button" class="btn-warning">Editer</button>
             <button name="delete" type="button" class="btn-danger">Supprimer</button>
             <button name="cancel" type="button" class="btn-danger" hidden>Annuler</button>
