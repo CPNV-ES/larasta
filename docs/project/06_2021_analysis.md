@@ -119,7 +119,7 @@ Ainsi, une personne qui a des difficultés dans un certain domaine peut combler 
     - Exemple: je suis connecté en tant qu'élève mais je ne peux pas accéder au lien *Visites*, le lien devrait alors ne
       pas être affiché.
 
-### Problèmes connus
+## Problèmes connus
 
 - Le rôle d'utilisateur avec l'Id 2 est parfois interprété dans le code comme "Admin" et parfois comme "Membre d'une
   entreprise".
