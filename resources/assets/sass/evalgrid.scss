@@ -84,3 +84,53 @@
 .gridform.w50 {
   width: 50%;
 }
+
+/* evaluationgrid/create.blade.php */
+/* visits/evaluationGrid.blade.php */
+.evalgrid-edit td textarea, .evalgrid-edit td input,
+.evalgrid-fill td textarea, .evalgrid-fill td input
+{
+  width: 100%;
+}
+
+.numberinput-col {
+  max-width: 5em !important;
+  white-space: nowrap;
+}
+
+.small-col {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.btn-delete {
+  background-color: red;
+  min-width: 23px;
+  min-height: 23px;
+  border: none;
+  border-radius: 0;
+  color: white;
+  float: right;
+  padding: 0;
+
+  &:hover {
+    background-color: orangered;
+  }
+}
+
+#btn-new-section {
+  margin-bottom: 10px;
+}
+
+.title-input {
+  font-size: 14px;
+  height: 21px;
+  width: 50%;
+  display: inline;
+  background-color: rgba(255,255,255,0.25); /* Inactive bg */
+
+  /* Input selected */
+  &:active, &:target {
+    background-color: white !important;
+  }
+}

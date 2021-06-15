@@ -224,4 +224,13 @@ class Person extends Model implements Authenticatable
     {
         return $this->contactinfo->where("contacttypes_id", Contacttypes::EMAIL)->pluck("value");
     }
+
+    /**
+     * Get the initials or the full name
+     * @param $value
+     * @return mixed
+     */
+    public function getInitialsAttribute($value) {
+        return empty($value) ? $this->fullName : $value;
+    }
 }

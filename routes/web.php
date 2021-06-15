@@ -11,15 +11,12 @@
 |
 */
 
-Route::get('/', 'InternshipsController@index')->name("index");
+use Illuminate\Support\Facades\Route;
 
-// Route::get('/internships', function(){return redirect(route("index"));});
-
-Route::post('/', 'InternshipsController@changeFilter');
+Route::get('/', 'DashboardController@index')->name("index");
 
 Route::group(['middleware' => ['auth']], function () {
-
-    
+   
     //TODO Refactor these routes by using Route::resource() ↓
     // Route::resource('internships','InternshipsController');
     Route::get('/internships','InternshipsController@index')->name('internships.index'); 
@@ -30,14 +27,29 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/internships/{id}/edit','InternshipsController@edit')->name('internships.edit'); 
     Route::put('/internships/{id}','InternshipsController@update')->name('internships.update'); 
     Route::delete('/internships/{id}','InternshipsController@destroy')->name('internships.destroy'); 
-    
+    Route::get('/internships/{id}/createinternshipreport', 'InternshipReportController@create')->name('internshipReport.create');
+    Route::post('/internships', 'InternshipsController@changeFilter');
+
     Route::get('/internships/{iid}/addRemark','InternshipsController@newRemark');
     Route::post('/internships/{id}/addVisit','VisitsController@store')->name('visit.create');
     Route::put('/internships/{id}/updateVisit','VisitsController@updateVisit')->name('visit.update');
+
+    // Internship report
+    Route::get('/internshipreport/{id}', 'InternshipReportController@show')->name('internshipReport.show');
+    Route::post('/internshipreport/{id}', 'InternshipReportController@store')->name('internshipReport.store');
+    Route::put('/internshipreport/{id}', 'InternshipReportController@update')->name('internshipReport.update');
+
+    // Report section
+    Route::put('/reportsection/{id}', 'ReportSectionController@update')->name('reportSection.update');
+    Route::post('/reportsection/{id}', 'ReportSectionController@store')->name('reportSection.store');
+    Route::delete('/reportsection/{id}', 'ReportSectionController@destroy')->name('reportSection.delete');
+
     // Logbook
     Route::get('/internships/{internshipId}/logbook', 'LogbookController@index')->name("logbookIndex");
     Route::get('/internships/{internshipId}/logbook/review', 'LogbookController@reviewMode')->name("logbookReview");
     Route::put('/internships/{internshipId}/externalLogbook', "InternshipsController@storeLogbookFile")->name("externalLogbook.store");
+    Route::post('/internships/{internshipId}/logbook/review', 'LogbookController@saveFeedbacksAndAcknowledgements')->name("logbook.saveFeedbacksAndAcknowledgements");
+
     //file manage
     Route::post('/internships/{id}/files',"InternshipsController@storeFile")->name("internship.storeFile");
     Route::delete('/internships/{id}/files/{idMedia}',"InternshipsController@deleteFile")->name("internship.deleteFile");
@@ -48,7 +60,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/admin/snapshot/take', 'SnapshotController@takeDbSnapshot')->name('snapshot.take');
         Route::post('/admin/snapshot/upload', 'SnapshotController@upload')->name('snapshot.upload');
         Route::post('/admin/snapshot/reload', 'SnapshotController@reload')->name('snapshot.reload');
-        Route::get('/admin/evaluationgrid', 'EvaluationGridController@index');
+        Route::get('/admin/evaluationgrid', 'EvaluationGridController@index')->name("evaluationgrid.index");
+        Route::get('/admin/evaluationgrid/create', 'EvaluationGridController@create')->name('evaluationgrid.create');
+        Route::post('/admin/evaluationgrid/storeTemplate', 'EvaluationGridController@storeTemplate')->name('evaluationgrid.storeTemplate');
         Route::get('/mailing','MailingController@mailling');
         Route::get('/flocks', 'FlocksController@index');
         Route::get('/params', 'ParamsController@index');
@@ -98,9 +112,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/visits/{id}/mail','VisitsController@mail');
     Route::post('/visits/{id}/delete', 'VisitsController@delete')->name("visit.delete");
     Route::post('/visits/{id}/update', 'VisitsController@update');
-    Route::post('/visits/{id}/files',"VisitsController@storeFile")->name("visit.storeFile");
-    Route::delete('/visits/{id}/files/{idMedia}',"VisitsController@deleteFile")->name("visit.deleteFile");
     Route::get('/visits/{id}/evaluation','VisitsController@evaluation')->name("visit.evaluation");
+    Route::post('/visits/{id}/updateEvaluation','VisitsController@updateEvaluation')->name("visit.updateEvaluation");
+
 
     // WishesMatrix
     Route::get('/wishesMatrix', 'WishesMatrixController@index')->name('wishesMatrix');

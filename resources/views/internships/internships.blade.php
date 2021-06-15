@@ -9,6 +9,7 @@
 @endpush
 
 @section ('content')
+    <h2>Stages</h2>
     <div id="filtersBoxButton">
         Filtres <i class="arrow {{$isOneFilterActive?"up":"down"}}"></i>
     </div>

@@ -27,10 +27,10 @@
     <div class="body simple-box text-left" id="view">
         <!-- FirstName and LastName -->
 
-        <div id="people_Name" class="row">
+        <div id="people_Name">
             <span>{{ $person->fullName }}</span>
         @if ((Auth::user()->role >= 2))  <!-- View button only for teacher -->
-            <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn btn-success people-btn_desactive">Modifier</button>
+            <button id="btn-add-section" name="btn-add-section" data-toggle="modal" data-target="#peopleModal" class="btn-warning people-btn_desactive">Modifier</button>
             @endif
         </div>
 
@@ -99,21 +99,16 @@
                         <label for="ctype{{ $contacttype->id }}">{{ $contacttype->contactTypeDescription }}</label>
                         <input id="ctype{{ $contacttype->id }}" type="radio" name="contacttype" value="{{ $contacttype->id }}">
                     @endforeach
-                    <button id="cmdAdd" class="btn-primary hidden" type="submit">Ajouter</button>
+                    <button id="cmdAdd" class="btn-success hidden" type="submit">Ajouter</button>
                 </fieldset>
             </form>
 
         </div>
 
         <h5 class="titlebar">Stages</h5>
-        <div>
-            @include ('internships._internshipslist',['iships' => $iships])
-        </div>
+        @include ('internships._internshipslist',['iships' => $iships])
 
-        <h5 class="titlebar">Remarques</h5>
-        <div class="table-responsive">
-            @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $person->id, 'remarkType' => 2])
-        </div>
+        @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $person->id, 'remarkType' => 2])
 
     </div>
 @stop

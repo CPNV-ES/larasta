@@ -22,24 +22,65 @@
     <script src="/js/showdown.min.js"></script>
     @stack('page_specific_css')
 </head>
+
 <body class="{{(isset($_COOKIE['sidemenu_state']) && $_COOKIE['sidemenu_state'] == 'open')?'sidemenu-open':''}}">
     @if (!empty($message))
-        <div class="alert-info willvanish">{{ $message }}</div>
-    @endif
-    <!-- Verifie si un message flash est present dans la session -->
-    @if (session('status'))
-        <div class="alert-info willvanish">
-            {{ session('status') }}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info alert-dismissible fade show pl-3 ml-3 mr-2 " role="alert">
+                <p class="font-weight-bold mb-n1">{{ $message }}</p>
+                <button type="btn" class="close" data-dismiss="alert" aria-label="Close" style="padding-bottom: 8px; padding-top: 8px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         </div>
+    </div>
     @endif
+    
+    <!-- Verifie si un message flash success est present dans la session -->
+    @if (session('success'))
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-success alert-dismissible fade show pl-3 ml-3 mr-2 " role="alert">
+                <p class="font-weight-bold mb-n1">{{ session('success') }}</p>
+                <button type="btn" class="close" data-dismiss="alert" aria-label="Close" style="padding-bottom: 8px; padding-top: 8px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- Verifie si un message flash error est present dans la session -->
+    @if (session('error'))
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-danger alert-dismissible fade show pl-3 ml-3 mr-2 " role="alert">
+                <p class="font-weight-bold mb-n1">{{ session('error') }}</p>
+                <button type="btn" class="close" data-dismiss="alert" aria-label="Close" style="padding-bottom: 8px; padding-top: 8px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Affiche les erreurs de validation de Laravel -->
     @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <div class="alert-danger willvanish">
-                {{ $error }}
+        <div class="row">
+            <div class="col-12">   
+                @foreach ($errors->all() as $error)
+                <div class="alert alert-danger alert-dismissible fade show pl-3 ml-3 mr-2 " role="alert">
+                    <p class="font-weight-bold mb-n1">{{ $error }}</p>
+                    <button type="btn" class="close" data-dismiss="alert" aria-label="Close" style="padding-bottom: 8px; padding-top: 8px;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endforeach 
             </div>
-        @endforeach
+        </div>
     @endif
+
     <button id="sidemenuToggler" title="toggle menu"></button>
     <div id="sidemenu" class="simple-box container-fluid text-center">
         <table class="table table-striped text-left larastable">
@@ -47,7 +88,16 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td class="login"><p>{{Auth::user()->fullname}}</p><button type="submit">Logout</button></td>
+                    <td class="login"><p>{{Auth::user()->fullname}}</p>
+                        <div class="row">
+                            <div class="col-6">                               
+                                <button type="button" class="btn-info" onclick="window.location = '/';">Dashboard</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn-danger" type="submit">Logout</button>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </form>
             @else
@@ -62,7 +112,7 @@
                 <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
             </tr>
             <tr>
-                <td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td>
+                <td><a href="/internships"><img alt="Places" src="/images/internships.png">Stages</a></td>
             </tr>
             <tr>
                 <td><a href="/visits"><img alt="Places" src="/images/internships.png">Visites</a></td>

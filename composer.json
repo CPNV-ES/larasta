@@ -28,6 +28,7 @@
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "laravelcollective/html": "^6.2",
         "nimbly/activeresource": "^1.1",
         "orangehill/iseed": "^2.6",
         "phurni/phpactiveresource": "1.0.0",

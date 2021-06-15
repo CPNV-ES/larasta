@@ -23,7 +23,7 @@ class VisitsTableSeeder extends Seeder
                 'grade' => 6.0,
                 'id' => 3,
                 'internships_id' => 25,
-                'mailstate' => 1,
+                'mailstate' => 0,
                 'moment' => '2004-05-23 14:25:10',
                 'number' => 1,
                 'visitsstates_id' => 1,

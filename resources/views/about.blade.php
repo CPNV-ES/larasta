@@ -9,6 +9,10 @@
     <div class="version">Version: {{ config('app.version') }}</div>
     <div class="col-md-4 col-md-offset-4 text-left">
         <h2>Contributeurs</h2>
+        <h3>2021</h3>
+        <p>Dimitri Imfeld</p>
+        <p>Dylan Oliveira-Ramos</p>
+        <p>Yvann Butticaz</p>
         <h3>2020</h3>
         <p>Diogo VIEIRA-FERREIRA</p>
         <p onclick="alert('salut :)')">Nicolas MAITRE</p>

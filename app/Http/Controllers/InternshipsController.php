@@ -202,15 +202,7 @@ class InternshipsController extends Controller
         $internship = Internship::find($id);
         $internship->internshipDescription = htmlentities($internship->internshipDescription);
         $medias = $internship->getMedia('documents');
-        $visits = DB::table('visits')
-            ->select(
-                'id',
-                'moment',
-                'confirmed',
-                'number',
-                'grade')
-            ->where('internships_id', '=', $id)
-            ->get();
+        $visits = $internship->visits()->get();
 
         $remarks = $internship->remarks->sortByDesc('remarkDate');
 
@@ -233,9 +225,10 @@ class InternshipsController extends Controller
         $remarks = $internship->remarks->sortByDesc('remarkDate');
 
         $years = Flock::getYears();
-        
-        $visitsStates = Visitsstate::all(); 
-        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'visitsStates', 'years'));
+
+        $visitsNumber = $internship->visits->count();
+
+        return view('internships/internshipedit')->with(compact('responsibles','remarks','internship','contractStates','medias', 'years', 'visitsNumber'));
     }
 
     /**
@@ -343,7 +336,7 @@ class InternshipsController extends Controller
         $newInternship->responsible_id = $request->input('responsible');
         $newInternship->admin_id = $request->input('admin');
         $newInternship->save();
-        return redirect()->route('internships.show',$newInternship->id)->with('message', 'Creation Réussie');
+        return redirect()->route('internships.show',$newInternship->id)->with('success', 'Creation Réussie');
     }
     public function storeLogbookFile(StoreFileRequest $request, $internshipId){
         $internship = Internship::findOrFail($internshipId);

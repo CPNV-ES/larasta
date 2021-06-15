@@ -20,6 +20,8 @@ class CreateLogbooksTable extends Migration {
 			$table->float('duration', 10, 0)->nullable()->comment('Hours spent on the task');
 			$table->string('activityDescription', 2000)->nullable();
 			$table->integer('activitytypes_id')->index('fk_journal_typeactivite1_idx');
+			$table->string('feedback', 500)->nullable();
+			$table->boolean('acknowledged')->default(false)->comment('Indicates if the day of the logbook is acknowleged by the teacher');
 		});
 	}
 

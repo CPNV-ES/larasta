@@ -1,4 +1,4 @@
-@push('page_specific_css')    
+@push('page_specific_css')
     <link rel="stylesheet" href="/css/internships.css">
 @endpush
 @extends ('layout')
@@ -14,7 +14,7 @@
         @csrf
         <h2 class="text-left internshipTitle">Stage
             @if(in_array($internship->contractstate->stateDescription, ["Reconduit", "Confirmé"]))
-            de
+                de
                 @php
                     if(isset($internship->student)){
                         $selectedYear = $internship->student->flock->startYear;
@@ -29,7 +29,8 @@
                         <option {{($year == $selectedYear)?"selected":""}} value="{{$year}}">20{{$year}}</option>
                     @endforeach
                 </select>
-                <select id="internSelector" name="internId" autocomplete="off" value={{$internship->student->id??"0"}}></select>
+                <select id="internSelector" name="internId" autocomplete="off"
+                        value={{$internship->student->id??"0"}}></select>
                 <input id="internRemark" class="none" data-name="remark_internId" placeholder="Pourquoi?"/>
             @elseif (isset($internship->student))
                 de {{ $internship->student->fullName}}
@@ -39,33 +40,34 @@
             chez {{ $internship->company->companyName }}
         </h2>
 
-    {{-- Internship information --}}
+        {{-- Internship information --}}
         <input type="hidden" name="id" value="{{ $internship->id }}">
-        <table class="table text-left larastable">
-            <tr scope="row">
-                <td scope="col-md-2">Du</td>
+        <table class="larastable">
+            <tr>
+                <th>Du</th>
                 <td>
                     <input type="date" name="beginDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->beginDate)) }}"
                            required/>
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Au</td>
+            <tr>
+                <th>Au</th>
                 <td>
                     <input type="date" name="endDate" class="remark"
                            value="{{ strftime("%G-%m-%d", strtotime($internship->endDate)) }}"
                            required/>
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Description</td>
+            <tr>
+                <th>Description</th>
                 <td class="Description">
-                    <textarea name="internshipDescription" id="description" class="remark">{!! $internship->internshipDescription !!}</textarea>
+                    <textarea name="internshipDescription" id="description"
+                              class="remark">{!! $internship->internshipDescription !!}</textarea>
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Responsable administratif</td>
+            <tr>
+                <th>Responsable administratif</th>
                 <td>
                     <select name="admin_id" class="remark">
                         @foreach($responsibles as $admin)
@@ -76,20 +78,21 @@
                     </select>
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Responsable</td>
+            <tr>
+                <th>Responsable</th>
                 <td>
                     <select name="responsible_id" class="remark">
                         @foreach($responsibles as $responsible)
-                            <option value="{{ $responsible->id }}" @if ($internship->responsible->id == $responsible->id) selected @endif>
+                            <option value="{{ $responsible->id }}"
+                                    @if ($internship->responsible->id == $responsible->id) selected @endif>
                                 {{$responsible->fullName}}
                             </option>
                         @endforeach
                     </select>
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Maître de classe</td>
+            <tr>
+                <th>Maître de classe</th>
                 <td>
                     {{-- Display the teacher, if the internship is attributed --}}
                     @if (isset($internship->student))
@@ -97,8 +100,8 @@
                     @endif
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Etat</td>
+            <tr>
+                <th>Etat</th>
                 <td>
                     <select name="contractstate_id" class="remark">
                         <option selected="selected" value="{{ $internship->contractstate->id }}">
@@ -112,87 +115,59 @@
                     </select>
                 </td>
             </tr>
-            <tr scope="row">
-                <td>Salaire</td>
+            <tr>
+                <th>Salaire</th>
                 <td><input type="number" name="grossSalary" class="remark" value="{{$internship->grossSalary}}"/></td>
             </tr>
-            <tr scope="row">
-                <td><label for="externalLogbookCheckbox">Journal de bord externe<label></td>
-                <td><input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" class="remark" autocomplete="off" {{$internship->externalLogbook ? "checked":""}} /></td>
+            <tr>
+                <th><label for="externalLogbookCheckbox">Journal de bord externe<label></th>
+                <td><input id="externalLogbookCheckbox" type="checkbox" name="externalLogbook" class="remark"
+                           autocomplete="off" {{$internship->externalLogbook ? "checked":""}} /></td>
             </tr>
             @if (isset($internship->previous_id))
                 <tr>
                     <td>
-                    <a href="{{route("internships.edit", $internship->previous_id)}}">Stage précédent</a>
+                        <a href="{{route("internships.edit", $internship->previous_id)}}">Stage précédent</a>
                     </td>
                 </tr>
             @endif
         </table>
 
         {{-- Action buttons --}}
-        <a href="{{route("internships.show", $internship->id)}}">
-            <button class="btn btn-danger" type="button">Retour</button>
-        </a>
-        <button class="btn btn-success" type="submit">Valider</button>
+        <div class="w-100 d-flex justify-content-end mt-2">
+            <a href="{{route("internships.show", $internship->id)}}">
+                <button class="btn-danger mr-2" type="button">Retour</button>
+            </a>
+            <button class="btn-success" type="submit">Valider</button>
+        </div>
     </form>
-    
+
     <hr/>
     @if (Auth::user()->role > 1)
         @include('uploadFile',["route" => route("internship.storeFile", ["id" => $internship])])
     @endif
     @include('showFile',["route" => "internship.deleteFile", "id" => $internship , "medias" => $medias])
     {{-- Visits --}}
-    <hr/>
-    <h1>Visite(s) <span class="buttonNewVisit pointer">+</span></h1> 
+    <div {{$internship->visits->isEmpty()?"none":""}}">
+    <div class='error none'>
+        Une erreur inconnue est survenue, veuillez raffraîchir la page...
+    </div>
+    @if (isset($internship->visits) && count($internship->visits) > 0)
+        @include('visits.visitsList', ['visits' => $internship->visits])
+    @endif
+    <div class="d-flex justify-content-end">
+        <button id="newVisit" type="button" class="btn-success mt-2">Ajouter une visite</button>
+    </div>
     <div id="showNewVisit" class="pointer none">
         <div class="focus">
-            @include('visits.add',compact('internship','visitsStates'))
+            @include('visits.add', ['internship' => $internship, 'visitsNumber' => $visitsNumber])
         </div>
         <div class="darken-background"></div>
     </div>
-    <div class="col-12 {{$internship->visits->isEmpty()?"none":""}}">
-        <div class='error none'>
-            Une erreur inconnue est survenue, veuillez raffraîchir la page...
-        </div>
-        <table id="visitsForm" class="table larastable">
-            <thead>
-                <th>N° visite</th>
-                <th>Jour</th>
-                <th>Heure</th>
-                <th>Mail envoyé?</th>
-                <th>Confirmé?</th>
-                <th>Note</th>
-                <th>État de la visite</th>
-            </thead>
-            <tbody>
-                @foreach ($internship->visits as $key => $visit)
-                    <tr>
-                        <input type="hidden" name="route" value="{{ route('visit.update', ['id' => $internship]) }}"/>
-                        <input type="hidden" name="id" value="{{$visit->id}}"/>
-                        <td><input type="number" min="1" name="number" value="{{$visit->number}}" required/></td>
-                        <td><input type="date" name="day" value="{{ strftime("%G-%m-%d", strtotime($visit->moment)) }}"/></td>
-                        <td><input type="time" name="hour" value="{{ strftime("%H:%M", strtotime($visit->moment)) }}" /></td>
-                        <td><input type="checkbox" name="mailstate" {{ $visit->mailstate ? "checked" : "" }}/></td>
-                        <td><input type="checkbox" name="confirmed" {{ $visit->confirmed ? "checked" : "" }}/></td>
-                        <td><input type="number" min="1" max="6" step="0.5" name="grade" value="{{ $visit->grade }}" required/></td>
-                        <td>
-                            <select name="visitsstates_id" required>
-                                @foreach ($visitsStates as $visitstate)
-                                    <option value="{{$visitstate->id}}" {{ $visit->visitsstates_id == $visitstate->id ? "selected" : "" }}>{{ $visitstate->stateName }}</option>                                    
-                                @endforeach
-                            </select>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
     </div>
-    
+
     {{-- Remarks --}}
-    <hr/>
-    <div class="col-12">
-        @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $internship->id, 'remarkType' => 5])
-    </div>
+    @include ('remarks.remarkslist',['remarks' => $remarks, 'edit' => true, 'remarkOnId' => $internship->id, 'remarkType' => 5])
 @endsection
 @push ('page_specific_js')
     <script src="/js/internshipsEdit.js"></script>
