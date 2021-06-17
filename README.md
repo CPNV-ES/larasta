@@ -1,5 +1,6 @@
 # LARASTA
 
+![](https://github.com/CPNV-ES/larasta/blob/master/docs/logos/LarastaLogo.png)
 "Stage" application with laravel.
 
 ## Requirement
