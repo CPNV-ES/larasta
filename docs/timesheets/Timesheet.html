@@ -120,9 +120,8 @@
                             storyStarts[task.parentStory.id] = task.inProgressDate
                         }
                     }
-
-                    // If the task is complete, it goes to the pivot
-                    if (task.doneDate)
+                    // If the task is started, it goes to the pivot
+                    if (task.spent > 0)
                     {
                         tasks.push(...prepareTaskForPivot(task, stories)) // must spread before pushing, otherwise we build an array of array of objects (try it if you don't believe it)
                     }
@@ -184,9 +183,9 @@
             type_story: task.parentStory ? stories[task.parentStory.id].type : 'rec/urg',
             effort_estimé_story: task.parentStory ? task.parentStory.effort : 0,
             value: task.parentStory ? stories[task.parentStory.id].value : 0,
-            date_de_fin: task.doneDate.substring(0, 10),
+            date_de_fin: task.doneDate ? task.doneDate.substring(0, 10) : '?',
             date_created: task.dateCreated,
-            semaine: getNumberOfWeek(task.doneDate.substring(0, 10))
+            semaine: task.doneDate ? getNumberOfWeek(task.doneDate.substring(0, 10)) : '?'
         }
 
         // let's work on those tags now
