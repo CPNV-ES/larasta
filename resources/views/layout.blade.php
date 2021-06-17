@@ -88,14 +88,10 @@
             <form action="/auth/logout" method="POST">
             @csrf
                 <tr>
-                    <td class="login"><p>{{Auth::user()->fullname}}</p>
-                        <div class="row">
-                            <div class="col-6">                               
-                                <button type="button" class="btn-info" onclick="window.location = '/';">Dashboard</button>
-                            </div>
-                            <div class="col-6">
+                    <td class="login"><p class="font-weight-bold">{{Auth::user()->fullname}}</p>
+                        <div class="row justify-content-center">
+                                <button type="button" class="btn-success mb-2" onclick="window.location = '/';">Dashboard</button>
                                 <button class="btn-danger" type="submit">Logout</button>
-                            </div>
                         </div>
                     </td>
                 </tr>
