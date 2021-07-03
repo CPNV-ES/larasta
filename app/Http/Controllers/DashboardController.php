@@ -19,24 +19,15 @@ class DashboardController extends Controller
     public function index()
     {
         if(Auth::check()){
-            //User is a Teacher
-            if (Auth::user()->role == 1){
+            if (Auth::user()->role > 0){ //User is a Teacher
                 $teachersInternships = $this->getMyInternships(Auth::user()->id);
                 $teachersPastInternships = $this->getPastInterships(Auth::user()->id);
                 $teachersVisits = $this->getClassMasterVisits(Auth::user()->id);
-
                 return view('dashboard/dashboard')->with(['internships' => $teachersInternships, 'pastInternships' => $teachersPastInternships, 'visits' => $teachersVisits]);
-                
-            //User is a student
-            }elseif(Auth::user()->role == '0'){
+            }else{ //User is a student
                 $studentInternships = $this->getMyInternships(Auth::user()->id);
-                
                 return view('dashboard/dashboard')->with(['internships' => $studentInternships]);
-
-            }else{
-                return redirect()->route('internships.index');
-            }   
-
+            }
         }else{
             return view('dashboard/dashboard');
         }
@@ -44,25 +35,25 @@ class DashboardController extends Controller
 
     //Get user Interships
     public function getMyInternships($id){
-        //Get Class Master's internships 
+        //Get Class Master's internships
         if(Auth::user()->role == 1){
             $result = Internship::whereHas('student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id); 
+                $query->where('classMaster_id',$id);
             })->orderBy('beginDate', 'DESC')->get();
 
         //Get Student's internships with the concerned visits
         }elseif (Auth::user()->role == 0){
             $result = Internship::where('intern_id', $id)->with('visits')->get();
         }
-    
+
         return $result;
     }
 
 
-    //Get Class Master's internships that are in contract state 'Effectué' 
+    //Get Class Master's internships that are in contract state 'Effectué'
     public function getPastInterships($id){
         $result = Internship::whereHas('student.flock',function($query) use ($id){
-            $query->where('classMaster_id',$id)->where('contractstate_id', '13'); 
+            $query->where('classMaster_id',$id)->where('contractstate_id', '13');
         })->orderBy('beginDate', 'DESC')->get();
 
         return $result;
@@ -74,7 +65,7 @@ class DashboardController extends Controller
         $result = Visit::whereHas('internship.student.flock',function($query) use ($id){
             $query->where('classMaster_id',$id)->where('visitsstates_id','!=', '4');
         })->orderBy('moment', 'DESC')->get();
-        
+
         return $result;
     }
 
