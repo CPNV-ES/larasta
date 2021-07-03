@@ -1,0 +1,48 @@
+.selected {
+  background-color: lightgreen;
+}
+
+.titleTable {
+  transform: rotate(-45deg);
+  position: relative;
+  bottom: 20px;
+  border-bottom: solid 1px lightgray;
+}
+
+table {
+  margin-top: 50px;
+}
+
+th {
+  height: 30px;
+  width: 100px;
+  border-style: none;
+  background-color: white;
+}
+
+td {
+  white-space: nowrap;
+}
+
+th,
+td {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.minus {
+  width: 10px;
+  border: none;
+}
+
+.minusbutton {
+  background-color: red;
+}
+
+input {
+  border: none;
+  height: 30px;
+}
+

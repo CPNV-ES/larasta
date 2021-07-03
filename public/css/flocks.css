@@ -1,0 +1,24 @@
+.larastable {
+  width: 100%;
+}
+
+.accordion-content-row > td {
+  padding: 0;
+  border-top: 0;
+  background-color: darkgrey;
+}
+
+.accordion-content-row > td > table {
+  margin: 0;
+}
+
+.accordion-content-row > td > table th {
+  background-color: darkgrey;
+  color: white;
+  border-color: white;
+}
+
+.accordion-content-row > td > table th:first-of-type {
+  width: 22%;
+}
+

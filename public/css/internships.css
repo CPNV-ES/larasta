@@ -1,0 +1,37 @@
+.internshipsFilterText {
+  text-align: center;
+  width: 100%;
+}
+
+.larastable {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.none {
+  display: none !important;
+}
+
+.error {
+  font-size: 18px;
+}
+
+.Description *[contentEditable="true"]:focus,
+.Description *[contentEditable="true"]:hover {
+  outline: 2px solid #2276d2;
+}
+
+.Description {
+  max-width: 400px;
+}
+
+.FieldDescription {
+  width: 80%;
+  background-color: white;
+  border: 1px solid grey;
+}
+
+#internSelector {
+  min-width: 450px;
+}
+

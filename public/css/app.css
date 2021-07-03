@@ -1,0 +1,394 @@
+@charset "UTF-8";
+
+body {
+  font-family: "Raleway", sans-serif;
+  color: #484b4d;
+}
+
+h1,
+h3,
+h4,
+h5,
+h6 {
+  color: #1e262c;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h2 * {
+  font-size: inherit !important;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  font-size: 14px;
+}
+
+.lead-text {
+  font-size: 30px;
+  color: #6f7274;
+}
+
+.description-text {
+  font-size: 14px;
+  color: #1e262c;
+}
+
+button {
+  min-width: 120px;
+  font-size: 14pt;
+  padding-left: 30pt;
+  padding-right: 30pt;
+  background-color: #009cde;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  background-color: #1e262c;
+}
+
+button:disabled {
+  background-color: #d1d5d8;
+  color: #d1d5d8;
+}
+
+.primaryCall {
+  background-color: #19ab20;
+}
+
+.secondary {
+  color: #1e262c;
+  background-color: white;
+  outline-color: #c1c5c7;
+}
+
+.secondary:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.secondary:active {
+  color: white;
+}
+
+.large-button {
+  height: 40px;
+  font-size: 16pt;
+}
+
+.version {
+  font-size: 10px;
+  color: #cccccc;
+}
+
+#imgwip {
+  width: 100px;
+}
+
+.larastable {
+  border: 2px solid darkgrey;
+}
+
+.larastable td,
+.larastable th {
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: left;
+}
+
+.bg-header {
+  background-color: #999;
+}
+
+.btn-tile {
+  border: solid 1px #fab;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  overflow: hidden;
+  background-color: #aaa;
+  text-align: center;
+  cursor: pointer;
+  white-space: normal;
+  font-size: large;
+  font-weight: 200;
+}
+
+#intranet_logo {
+  margin-left: 30px;
+  float: left;
+}
+
+#intranet_logo a {
+  background: url(/images/layout/layout.png) no-repeat 0px;
+  width: 165px;
+  height: 90px;
+  display: block;
+}
+
+.fake-link {
+  cursor: pointer;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.smallpadding {
+  padding: 4px;
+}
+
+.titlebar {
+  background-color: #1e4f67;
+  color: white;
+  padding: 8px;
+}
+
+/*arrows
+found on w3shools https://www.w3schools.com/howto/howto_css_arrows.asp*/
+
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.arrow.right {
+  transform: rotate(-45deg);
+}
+
+.arrow.left {
+  transform: rotate(135deg);
+}
+
+.arrow.up {
+  transform: rotate(-135deg);
+}
+
+.arrow.down {
+  transform: rotate(45deg);
+}
+
+.filters {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+#filtersBoxButton {
+  border: 2px solid #ccc;
+  background-color: white;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 3px 10px 3px 10px;
+  margin-right: 15px;
+  font-size: 15px;
+  border-radius: 4px;
+  float: right;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+#filtersBoxButton > .arrow {
+  margin-left: 5px;
+}
+
+#filtersBoxButton > .arrow.down {
+  margin-bottom: 3px;
+}
+
+#expandedfilters {
+  box-shadow: 0 0 5px #bbb;
+  margin-top: 10px;
+}
+
+/*checkbox filters*/
+
+.onefilter {
+  display: inline-block;
+  width: 170px;
+  text-align: left;
+  padding-right: 10px;
+  padding-left: 10px;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+.onefilter > input[type="checkbox"],
+.onefilter > input[type="radio"] {
+  display: none;
+}
+
+.onefilter > input[type="checkbox"] + label,
+.onefilter > input[type="radio"] + label {
+  /*label disabled*/
+  display: block;
+  width: 100%;
+  height: 29px;
+  line-height: 25px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: 2px solid #ccc;
+  background-color: white;
+  color: #666;
+  border-radius: 5px;
+  border-bottom-width: 3px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.onefilter > input[type="checkbox"]:checked + label,
+.onefilter > input[type="radio"]:checked + label {
+  /*label enabled*/
+  background-color: #56aeff;
+  border-color: #3f92df;
+  color: white;
+  border-bottom-width: 2px;
+}
+
+.onefilter:active > input[type="checkbox"] + label,
+.onefilter:active > input[type="radio"] + label {
+  /*label click*/
+  border-bottom-width: 2px;
+  border-top-width: 3px;
+}
+
+/*windows*/
+
+.windowBackground {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  text-align: center;
+  overflow-y: scroll;
+  z-index: 100;
+}
+
+.windowBackground.darken {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.windowContainer {
+  background-color: white;
+  display: inline-block;
+  margin-top: 100px;
+}
+
+/*info box*/
+
+.infoMessageBox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  transition: opacity 0.5s;
+  opacity: 0;
+  z-index: 20;
+  font-size: 16px;
+}
+
+.darken-background {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  text-align: center;
+  overflow-y: scroll;
+  z-index: 21;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.focus {
+  cursor: context-menu;
+  position: relative;
+  z-index: 22;
+  padding-bottom: 10px;
+  box-shadow: 0 0 10px black;
+  background: #ebebeb;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+}
+
+.login button {
+  width: auto;
+  margin-left: 20%;
+  margin-right: 20%;
+  min-width: 10px !important;
+  height: 35px;
+  border: none;
+}
+
+.login img {
+  height: 27px;
+}
+
+.login p {
+  font-size: 100%;
+  color: green;
+  margin: auto;
+  padding-bottom: 5%;
+}
+
+.none {
+  display: none !important;
+}
+
+.accordion-head-row:hover {
+  cursor: pointer;
+}
+
+td.caret {
+  width: 1%;
+  white-space: nowrap;
+}
+
+td.caret:not(.folded)::before {
+  content: "\25B2";
+}
+
+td.caret.folded::before {
+  content: "\25BC";
+}
+
+.accordion-content-row.folded {
+  display: none !important;
+}
+

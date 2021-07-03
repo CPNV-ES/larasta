@@ -1,0 +1,50 @@
+.arrow {
+  color: white !important;
+}
+
+.tick {
+  color: green !important;
+}
+
+.cross {
+  color: red !important;
+}
+
+.underline-none {
+  text-decoration: none !important;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.larastable {
+  width: 100%;
+}
+
+td.small-col {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.attention_needed > td {
+  background-color: #fae3e3;
+}
+
+.accordion-table {
+  margin-bottom: 15px;
+}
+
+.accordion-content-row > td {
+  padding: 0;
+}
+
+.accordion-content-row > td > table {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
