@@ -1,7 +1,7 @@
 <?php
 /**
  * CriteriaValue Model
- * 
+ *
  * Bastien Nicoud
  * v0.0.1
  */
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class CriteriaValue extends Model
 {
     // Define a custom table name (this table dont use the laravel naming conventions)
-    protected $table = 'criteriaValues';
+    protected $table = 'criteriavalues';
 
     public $timestamps = false;
 
@@ -62,9 +62,9 @@ class CriteriaValue extends Model
 
     /**
      * editCriteriasValues
-     * 
+     *
      * Save the criterias values
-     * 
+     *
      * @param int $id The id of the criteria to edit
      * @param array $colums An array of key values for all the columns to edit
      */
