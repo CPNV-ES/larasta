@@ -1,7 +1,7 @@
 <?php
 /**
  * EvaluationSection Model
- * 
+ *
  * Bastien Nicoud
  * v0.0.1
  */
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class EvaluationSection extends Model
 {
     // Define a custom table name (this table dont use the laravel naming conventions)
-    protected $table = 'evaluationSections';
+    protected $table = 'evaluationsections';
 
     public $timestamps = false;
 
