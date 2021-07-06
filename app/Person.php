@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use CPNVEnvironment\Environment;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -70,7 +71,7 @@ class Person extends Model implements Authenticatable
     {
         return Internship::whereHas('student.flock', function ($query) {
             $query->where('classMaster_id', $this->id);
-        })->where('endDate','>','2021-01-01')->orderBy('beginDate', 'DESC')->get();
+        })->where('endDate','>',Carbon::now())->orderBy('beginDate', 'DESC')->get();
     }
 
     /**
