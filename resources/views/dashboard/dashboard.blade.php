@@ -7,20 +7,20 @@
 @endpush
 
 @if (Auth::check())
-    
-    <div class="row text-left ml-2"> 
+
+    <div class="row text-left ml-2">
         <div class="col pt-4">
             <h1>Bonjour {{Auth::user()->firstname}} !</h1>
         </div>
     </div>
 
-    
+
     {{-- If user is a TEACHER --}}
-    @if (Auth::user()->role == 1)
-        
+    @if (Auth::user()->role > 0)
+
         {{-- Visits table --}}
-        @if($visits->isEmpty())    
-            <div class="row text-left ml-2"> 
+        @if($visits->isEmpty())
+            <div class="row text-left ml-2">
                 <div class="col pt-4">
                     <h4 class="ml-4 pt-2">Vous n'avez pas de visite vous concernant<h4>
                 </div>
@@ -29,7 +29,7 @@
             <div class="row ml-4 mt-4 mr-2">
                 <div class="col-12">
                     <h2 class="titlebar mt-1 text-left">Vos visites</h2>
-                    <div class="row text-center mt-2"> 
+                    <div class="row text-center mt-2">
                         <div class="col-12">
                             <table class="larastable w-100">
                                 <thead>
@@ -50,17 +50,17 @@
                                             <td class="text-center">{{ $data->visitsstate->stateName }}</td>
                                             <td class="text-center">{{ $data->grade }}</td>
                                         </tr>
-                                    @endforeach 
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         @endif
 
         @if($internships->isEmpty())
-            <div class="row text-left ml-2"> 
+            <div class="row text-left ml-2">
                 <div class="col pt-4">
                     <h4 class="ml-4 pt-2">Vous n'avez pas de stage vous concernant<h4>
                 </div>
@@ -70,7 +70,7 @@
             <div class="row ml-4 mt-4 mr-2">
                 <div class="col-12">
                     <h2 class="titlebar mt-2 text-left">Les stages en cours</h2>
-                    <div class="row mt-2"> 
+                    <div class="row mt-2">
                         <div class="col-12">
                             <table class="larastable w-100">
                                 <thead>
@@ -90,18 +90,18 @@
                                             <tr class="fake-link" data-href="{{route("internships.show", $data->id)}}">
                                                 <td>{{ $data->student->fullName ?? '' }}</td>
                                                 <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
-                                                <td>{{ $data->company->companyName}}</td>   
-                                                <td>{{ $data->admin->fullName ?? ''}}</td> 
+                                                <td>{{ $data->company->companyName}}</td>
+                                                <td>{{ $data->admin->fullName ?? ''}}</td>
                                                 <td title="{{ $data->student->flock->classMaster->fullName ?? ''}}">{{ $data->student->flock->classMaster->initials ?? ''}}</td>
                                                 <td>{{ $data->contractstate->stateDescription}}</td>
                                             </tr>
                                         @endif
-                                    @endforeach  
+                                    @endforeach
                                 </tbody>
-                            </table> 
+                            </table>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
 
             @if(!$pastInternships->isEmpty())
@@ -116,7 +116,7 @@
                 <div id="pastInternships" class="row ml-4 mt-4 mr-2 d-none">
                     <div class="col-12">
                         <h2 class="titlebar mt-1 text-left">Les stages passés</h2>
-                        <div class="row mt-2"> 
+                        <div class="row mt-2">
                             <div class="col-12">
                                 <table class="larastable w-100">
                                     <thead>
@@ -136,19 +136,19 @@
                                                 <tr class="fake-link" data-href="{{route("internships.show", $data->id)}}">
                                                     <td>{{ $data->student->fullName ?? '' }}</td>
                                                     <td>{{ strftime("%e %b %g", strtotime($data->beginDate)) }}</td>
-                                                    <td>{{ $data->company->companyName}}</td>   
-                                                    <td>{{ $data->admin->fullName ?? ''}}</td> 
+                                                    <td>{{ $data->company->companyName}}</td>
+                                                    <td>{{ $data->admin->fullName ?? ''}}</td>
                                                     <td title="{{ $data->student->flock->classMaster->fullName ?? ''}}">{{ $data->student->flock->classMaster->initials ?? ''}}</td>
                                                     <td>{{ $data->contractstate->stateDescription}}</td>
                                                 </tr>
                                             @endif
-                                        @endforeach  
+                                        @endforeach
                                     </tbody>
-                                </table> 
+                                </table>
                             </div>
                         </div>
-                    </div>  
-                </div>   
+                    </div>
+                </div>
             @endif
         @endif
 
@@ -156,7 +156,7 @@
     {{-- If user is a STUDENT --}}
     @elseif (Auth::user()->role == 0)
         @if($internships->isEmpty())
-            <div class="row text-left ml-2"> 
+            <div class="row text-left ml-2">
                 <div class="col pt-4">
                     <h3 class="ml-4 pt-2">Vous n'avez pas encore effectué de stage<h3>
                 </div>
@@ -164,11 +164,11 @@
 
         @else
 
-            <div class="row ml-4 mt-4 mr-2">  
-                <div class="col-12">             
+            <div class="row ml-4 mt-4 mr-2">
+                <div class="col-12">
                     <h2 class="titlebar mt-2 text-left">Vos stages</h2>
-                </div> 
-            </div>            
+                </div>
+            </div>
             <hr/>
 
             @foreach ($internships as $data)
@@ -181,7 +181,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="row justify-content-center">
                     <div class="col-11 pt-2">
                         {{-- Internship information --}}
@@ -200,7 +200,7 @@
                                     <div id="description">{!! $data->internshipDescription !!}</div>
                                 </td>
                             </tr>
-                    
+
                             <tr>
                                 <th>Responsable administratif</th>
                                 <td><a href="{{ route("person.show", $data->admin) }}">{{ $data->admin->fullName }}</a></td>
@@ -231,7 +231,7 @@
                         </table>
                     </div>
                 </div>
-                
+
                 <div class="row justify-content-center mt-4 pb-1">
                     <div class="col-11">
                         @if (isset($data->visits) && count($data->visits) > 0)
@@ -246,11 +246,11 @@
     @endif
 
 @else
-    <div class="row text-left"> 
+    <div class="row text-left">
         <div class="col-12 pt-4 ml-2">
             <h1>Bienvenue !</h1>
             <h3 class="ml-4 pt-2">Connectez-vous pour accèder à votre dashboard</h3>
-        </div>   
+        </div>
     </div>
 @endif
 
