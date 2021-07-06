@@ -35,17 +35,12 @@ class DashboardController extends Controller
 
     //Get user Interships
     public function getMyInternships($id){
-        //Get Class Master's internships
-        if(Auth::user()->role > 0){
-            $result = Internship::whereHas('student.flock',function($query) use ($id){
-                $query->where('classMaster_id',$id);
-            })->orderBy('beginDate', 'DESC')->get();
 
-        //Get Student's internships with the concerned visits
-        }else{
-            $result = Internship::where('intern_id', $id)->with('visits')->get();
+        if(Auth::user()->role > 0){ //Get Class Master's internships
+            $result = Auth::user()->currentInternshipsAsTeacher();
+        }else{ //Get Student's internships with the concerned visits
+            $result = Auth::user()->InternshipsAsStudent();
         }
-
         return $result;
     }
 
