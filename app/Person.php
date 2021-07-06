@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use CPNVEnvironment\Environment;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * TODO
@@ -45,25 +46,37 @@ class Person extends Model implements Authenticatable
     }
 
     /**
-     * Relation to the internship of the student
+     * Returns the internships in which the person is the intern
      */
-    public function internships()
-    {
-        return $this->hasMany('App\Internship', 'responsible_id');
-    }
-
-    /**
-     * Relation to the internship of the student
-     */
-    public function student()
+    public function internshipsAsStudent()
     {
         return $this->hasMany('App\Internship', "intern_id");
     }
 
     /**
-     * Relation to the internship of the responsible
+     * Returns all internships in which the person is the teacher
      */
-    public function responsible()
+    public function internshipsAsTeacher()
+    {
+        return Internship::whereHas('student.flock', function ($query) {
+            $query->where('classMaster_id', $this->id);
+        })->orderBy('beginDate', 'DESC')->get();
+    }
+
+    /**
+     * Returns the internships that are in the futer and in which the person is the teacher
+     */
+    public function currentInternshipsAsTeacher()
+    {
+        return Internship::whereHas('student.flock', function ($query) {
+            $query->where('classMaster_id', $this->id);
+        })->where('endDate','>','2021-01-01')->orderBy('beginDate', 'DESC')->get();
+    }
+
+    /**
+     * Returns the internships in which the person is the manager
+     */
+    public function internshipsAsResponsible()
     {
         return $this->hasMany('App\Internship', "responsible_id");
     }
@@ -71,7 +84,7 @@ class Person extends Model implements Authenticatable
     /**
      * Relation to the internship of the admin
      */
-    public function admin()
+    public function internshipsAsAdmin()
     {
         return $this->hasMany('App\Internship', "admin_id");
     }
@@ -230,7 +243,8 @@ class Person extends Model implements Authenticatable
      * @param $value
      * @return mixed
      */
-    public function getInitialsAttribute($value) {
+    public function getInitialsAttribute($value)
+    {
         return empty($value) ? $this->fullName : $value;
     }
 }
