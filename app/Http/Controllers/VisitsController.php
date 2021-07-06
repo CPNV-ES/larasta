@@ -197,11 +197,11 @@ class VisitsController extends Controller
     /*
      * Display evaluation grid for this visit
      */
-    public function evaluation($visitId){  
+    public function evaluation($visitId){
         $visit = Visit::find($visitId);
         $concernedStudentId = $visit->internship->student->id;
         $responsibleId = $visit->internship->responsible->id;
-        
+
         if ((Auth::user()->id == $concernedStudentId || Auth::user()->id == $responsibleId) && $visit->evaluation_open() ){
             $evaluationSections = Evaluation::current_template()->sections();
 
@@ -230,7 +230,7 @@ class VisitsController extends Controller
             }
 
             return view('visits/evaluationGrid')->with(
-                [   
+                [
                     'evaluationSections' => $evaluationSections,
                     'visit' => $visit,
                     'isIntern' => Auth::user()->id == $concernedStudentId,
@@ -402,12 +402,10 @@ class VisitsController extends Controller
 
             $visit = Visit::find($id);
 
-            // Check if the evaluation is filled when closing the visit
-            if($state == Visitsstate::where('slug', 'bou')->first()->id
-                && (!$visit->evaluation()->exists() || !$visit->evaluation()->first()->is_fully_filled()))
+            if($state == Visitsstate::where('slug', 'bou')->first()->id && (!$visit->canBeClosed()))
             {
                 return redirect()->route('visit.manage', ['rid'=>$id])
-                    ->with('error', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas remplie !");
+                    ->with('error', "Vous ne pouvez pas passer la visite en 'Bouclée' si l'évaluation n'est pas terminée !");
             }
 
             //Update visit from values above.
@@ -443,7 +441,7 @@ class VisitsController extends Controller
                 'mailstate' => "1",
                 'maildate' => $maildate
             ]);
-            
+
 
             return redirect(route('visit.manage', $id));
 
@@ -451,7 +449,7 @@ class VisitsController extends Controller
             return redirect('/')->with('error', "Vous n'avez pas l'autorisation d'accéder à cette fonction.");
         }
     }
-    
+
     public function store($id,VisitRequest $request)
     {
         $visit = new Visit;
@@ -461,27 +459,27 @@ class VisitsController extends Controller
         $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
         $visit->confirmed = false;
         $visit->mailstate = false;
-        $visit->internships_id = $id;    
+        $visit->internships_id = $id;
         $visit->save();
 
         return redirect()->back();
     }
-    
+
     public function updateVisit($id, VisitRequest $request)
     {
-        if (Auth::user()->role < 2) 
+        if (Auth::user()->role < 2)
             abort(404);
-            
+
         $visit = Visit::findOrFail($request->id);
 
         $request->confirmed ? $confirmed = true : $confirmed = false;
         $request->mailstate ? $mailstate = true : $mailstate = false;
         $visit->moment = date('Y-m-d H:i:s', strtotime("$request->day $request->hour"));
-        
+
         $visit->fill($request->all());
         $visit->confirmed = $confirmed;
         $visit->mailstate = $mailstate;
-        $visit->internships_id = $id;   
+        $visit->internships_id = $id;
 
         $visit->save();
     }

@@ -71,4 +71,9 @@ class Visit extends Model
     public function getNeedsAttentionAttribute() {
         return !empty($this->needed_attention_reason);
     }
+
+    public function canBeClosed()
+    {
+        return $this->grade > 0; // TODO Replace this with the built-in evaluation grid result when ready
+    }
 }
